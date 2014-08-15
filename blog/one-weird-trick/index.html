@@ -1,0 +1,621 @@
+<!doctype html>
+<html itemscope itemtype="http://schema.org/Article">
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="author" content="Paul Lewis" />
+  <meta name="viewport" content="width=device-width">
+
+  
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="//aerotwist.com/blog/feed/">
+  
+
+  
+  <meta itemprop="name" content="Images Slowing Down Your Site? Try This One Weird Trick!">
+  <meta itemprop="description" content="Where I decide to go offroading with image decoding.">
+
+    
+
+  
+
+  <style>
+    
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 400;
+      src: local('Lato Regular'), local('Lato-Regular'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qIIYRU-oROkIk8vfvxw6QvesZW2xOQ-xsNqO47m55DA.woff) format('woff');
+    }
+    
+
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 700;
+      src: local('Lato Bold'), local('Lato-Bold'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qdgUG4U09HnJwhYI-uK18wLUuEpTyoUstqEm5AMlJo4.woff) format('woff');
+    }
+  </style>
+
+  <link rel="stylesheet" media="screen" href="/css/aerotwist.css" />
+  <title>Aerotwist - Images Slowing Down Your Site? Try This One Weird Trick!</title>
+  
+</head>
+
+
+<!--
+                              __          .__          __
+  _____    ___________  _____/  |___  _  _|__| _______/  |_
+  \__  \ _/ __ \_  __ \/  _ \   __\ \/ \/ /  |/  ___/\   __\
+   / __ \\  ___/|  | \(  <_> )  |  \     /|  |\___ \  |  |
+  (____  /\___  >__|   \____/|__|   \/\_/ |__/____  > |__|
+       \/     \/                                  \/
+
+  Giant ascii art embedded in every page of your site is how you
+  show other people that YOU CARE. Mainly I care about developers,
+  which is what I presume you are if you're all about viewing
+  the source. Clearly you're my kind of person.
+
+  This is v3, it's run through Jekyll, it's been fun to build,
+  there's always more to do, and you may notice that aside from
+  Google Analytics there is no JavaScript. None.
+
+  That's one way of many you keep your pages fast. I care about
+  keeping this site fast because your time is precious and I need
+  to get out of your way.
+
+  <3'z
+
+  Paul
+-->
+
+
+  <body class="blog">
+
+    <header>
+      <div class="container">
+        <div id="logo">
+  <a href="/">
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="100%" height="100%">
+    <g>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#6EBAD3" points="30.6,47.73 64.92,47.73 19.97,76.52"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ED95C0" points="48.198,0 53.008,14.06 39.31,24.76"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#880043" points="39.31,24.76 64.92,48 30.6,48"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#DA0A7A" points="39.31,24.76 64.92,48 53.008,14.06"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#0B7DAD" points="30.6,48 64.92,48 48,58.69"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#BDDEE8" points="47.76,58.69 64.92,47.73 75.14,76.73"></polygon>
+    </g>
+    </svg>
+  </a>
+</div>
+
+        <nav>
+  <ul>
+    
+      
+        <li><a href="/">Home</a></li>
+      
+    
+      
+        <li class="active"><a href="/blog/"> Blog</a></li>
+      
+    
+      
+        <li><a href="/tutorials/">Tutorials</a></li>
+      
+    
+      
+        <li><a href="/lab/">Lab</a></li>
+      
+    
+  </ul>
+
+  <svg id="left-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#AAAAAA" stroke-width="1" />
+    </svg>
+
+  <svg id="right-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#6EBAD3" stroke-opacity="0.3" stroke-width="1" />
+    </svg>
+</nav>
+
+      </div>
+    </header>
+    <section>
+
+      <div class="content">
+
+  
+  <svg version="1.1" class="shape-reference" xmlns="http://www.w3.org/2000/svg" width="798" height="349">
+  <defs>
+    <filter id="blur-8">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="8" />
+    </filter>
+    <filter id="blur-6">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="6" />
+    </filter>
+    <filter id="blur-4">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="4" />
+    </filter>
+  </defs>
+
+  <g id="color-block">
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#6078ad" stroke="#6078ad" stroke-width="0.6" points="40,161 109,136 137,193"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#7d98bf" stroke="#7d98bf" stroke-width="0.6" points="40,161 102,114 109,136"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#938ebc" stroke="#938ebc" stroke-width="0.6" points="102,114 183,157 109,136"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#b9a5cb" stroke="#b9a5cb" stroke-width="0.6" points="209,61 183,157 102,114"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#be93c3" stroke="#be93c3" stroke-width="0.6" points="209,61 217,136 183,157"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#d19ac8" stroke="#d19ac8" stroke-width="0.6" points="217,136 209,61 291,127"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#c765ad" stroke="#c765ad" stroke-width="0.6" points="290,156 217,136 291,127"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#b34198" stroke="#b34198" stroke-width="0.6" points="258,204 217,136 290,156"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#9f4c9d" stroke="#9f4c9d" stroke-width="0.6" points="183,157 217,136 258,204"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#7a377b" stroke="#7a377b" stroke-width="0.6" points="192,237 183,157 258,204"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#6b4584" stroke="#6b4584" stroke-width="0.6" points="137,193 183,157 192,237"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#7b6aa8" stroke="#7b6aa8" stroke-width="0.6" points="137,193 109,136 183,157"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#561f4f" stroke="#561f4f" stroke-width="0.6" points="254,272 192,237 258,204"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#61164a" stroke="#61164a" stroke-width="0.6" points="254,272 258,204 327,241"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#370a27" stroke="#370a27" stroke-width="0.6" points="314,301 254,272 327,241"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#2b0319" stroke="#2b0319" stroke-width="0.6" points="314,301 327,241 406,309"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#490126" stroke="#490126" stroke-width="0.6" points="406,309 327,241 420,257"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#270216" stroke="#270216" stroke-width="0.6" points="406,309 420,257 488,293"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#45092c" stroke="#45092c" stroke-width="0.6" points="488,293 420,257 512,247"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#330d28" stroke="#330d28" stroke-width="0.6" points="488,293 512,247 591,274"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#471b42" stroke="#471b42" stroke-width="0.6" points="591,274 512,247 595,228"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#3a2546" stroke="#3a2546" stroke-width="0.6" points="591,274 595,228 684,244"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#513464" stroke="#513464" stroke-width="0.6" points="684,244 595,228 594,197"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#483f6b" stroke="#483f6b" stroke-width="0.6" points="700,216 684,244 594,197"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#2f4566" stroke="#2f4566" stroke-width="0.6" points="684,244 700,216 758,221"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#7c2f73" stroke="#7c2f73" stroke-width="0.6" points="595,228 512,192 594,197"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#72205e" stroke="#72205e" stroke-width="0.6" points="595,228 512,247 512,192"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#971967" stroke="#971967" stroke-width="0.6" points="446,189 512,192 512,247"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#d61a88" stroke="#d61a88" stroke-width="0.6" points="446,189 453,146 512,192"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f23398" stroke="#f23398" stroke-width="0.6" points="446,189 382,119 453,146"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#fe0681" stroke="#fe0681" stroke-width="0.6" points="364,205 382,119 446,189"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ee2c93" stroke="#ee2c93" stroke-width="0.6" points="364,205 347,146 382,119"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#db208b" stroke="#db208b" stroke-width="0.6" points="364,205 290,156 347,146"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ae156e" stroke="#ae156e" stroke-width="0.6" points="364,205 327,241 290,156"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#850649" stroke="#850649" stroke-width="0.6" points="420,257 327,241 364,205"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#a90357" stroke="#a90357" stroke-width="0.6" points="420,257 364,205 446,189"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#800d4e" stroke="#800d4e" stroke-width="0.6" points="420,257 446,189 512,247"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#9d2072" stroke="#9d2072" stroke-width="0.6" points="258,204 290,156 327,241"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#d853a5" stroke="#d853a5" stroke-width="0.6" points="290,156 291,127 347,146"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#e961ad" stroke="#e961ad" stroke-width="0.6" points="347,146 291,127 382,119"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f38cc4" stroke="#f38cc4" stroke-width="0.6" points="382,119 291,127 392,67"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#fc8cc5" stroke="#fc8cc5" stroke-width="0.6" points="382,119 392,67 459,117"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f360ae" stroke="#f360ae" stroke-width="0.6" points="453,146 382,119 459,117"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#e05fac" stroke="#e05fac" stroke-width="0.6" points="453,146 459,117 519,139"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#cf3a98" stroke="#cf3a98" stroke-width="0.6" points="512,192 453,146 519,139"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ac328f" stroke="#ac328f" stroke-width="0.6" points="512,192 519,139 594,197"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f3bddd" stroke="#f3bddd" stroke-width="0.6" points="392,67 291,127 283,40"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#eac7e1" stroke="#eac7e1" stroke-width="0.6" points="209,61 283,40 291,127"/>
+  </g>
+</svg>
+
+  
+
+  <div class="masthead hatched">
+
+    
+      <svg class="behind-meta" width="798" height="349">
+        <use xlink:href="#color-block" />
+      </svg>
+
+      <svg class="left-meta" width="798" height="349">
+        <use xlink:href="#color-block" filter="url(#blur-6)" transform="translate(399 349/2) scale(-0.5 0.5) translate(-399 -349/2)" />
+      </svg>
+    
+
+    <div class="container">
+      <h2>Images Slowing Down Your Site? Try This One Weird Trick!</h2>
+      <p>Sometimes you have crazy ideas. This one was to take over image decoding from the browser through Web Workers and the canvas element. By doing so we regain total control of when images are decoded and rendered in the page, but, as we shall also see, we also lose all the benefits of having the browser handle it for us.</p>
+    </div>
+
+  </div>
+
+  <div class="container">
+    <div class="meta">
+
+      <ul>
+        <li class="last-updated">
+          <span class="name">Last updated:</span>
+          <span class="value">5 Aug 2013</span>
+        </li>
+
+        <li>
+          <span class="name">Est. Read Time:</span>
+          <span class="value">10 mins</span>
+        </li>
+
+        <li class="share">
+          <span class="name">Share this:</span>
+          <span class="value"><a href="http://www.twitter.com/share?url=http://aerotwist.com/blog/one-weird-trick/">Twitter</a></span>
+          <span class="value"><a href="https://plus.google.com/share?url=http://aerotwist.com/blog/one-weird-trick/">Google+</a></span>
+        </li>
+        <li class="tags">
+          <span class="name">Tagged:</span>
+          <span class="value">
+          
+            #perfmatters, 
+          
+            #badidea, 
+          
+            #notforproduction
+          
+          </span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="container"><div class="left column"><aside class="boxout">
+<p>## A big fat warning</p>
+
+<p>Please bear in mind that what follows is a <em>terrible</em> idea for production code
+unless you have serious image handling problems. Even then, you probably
+shouldn’t do it; this is really a proof-of-concept.
+</aside></p>
+
+<h2 id="when-paint-meets-image">When paint meets image</h2>
+
+<p>When Chrome has been through the process of style calculations and layout, it
+must then rasterize the pixels for your page. In Chrome the rasterizer that
+does all the work is called Skia, and it takes a list of draw calls. Those
+draw calls are created by looking at the styles of the visible elements in
+your page, some of which will be images (or will use images as backgrounds.)</p>
+
+<p>Whenever Skia hits one of the draw calls that deals with an image it has to go
+off and get the encoded image (it came down the wire as a JPEG, PNG, WebP or
+GIF most likely) and decode it to a bitmap. It’s also probably going to have
+to resize it. This happens inline to all the other draw calls that need to
+take place, so if the decoding or resizing takes a long time you will see
+periods of unresponsiveness or checkerboarding in your sites and applications,
+which is undesirable to say the least.</p>
+
+<aside class="boxout">
+<p>## Checkerboarding? What’s that?!</p>
+
+<p>If you’re not familiar with checkerboarding as a term, think about what
+happens when you scroll quickly on your mobile or tablet, and you see blocks
+of the page missing. It’s kind of like the Photoshop transparency grid.</p>
+
+<p>See, you <strong>did</strong> know what checkerboarding was!
+</aside></p>
+
+<p>So I had the idea of seeing if I could beat the browser at its own game. The
+question I was asking myself was: is there any way I as the developer can be
+in control of image decoding and resizing? What are the trade-offs if I go
+offroad and try and do something that the browser already does for me
+automatically?</p>
+
+<blockquote>
+  <p>The question I was asking myself was: is there any way I as the developer can be in control of image decoding and resizing?</p>
+</blockquote>
+
+<p>But let’s take a proper look at the problem we’re facing.</p>
+
+<h2 id="decoding-and-resizing">Decoding and Resizing</h2>
+
+<p>Whenever we scroll or interact with the page a whole series of complex action
+takes place under the hood, and the thing we care about the most is that
+Chrome may end up deciding that it has to paint a new area of the page.</p>
+
+<figure>
+  <img src="/static/blog/one-weird-trick/expensiveimages.png" />
+</figure>
+
+<p>When this happens and painting involves an image, Chrome retrieves the encoded
+contents of the image file and decodes it from its original JPEG, GIF, PNG or
+WebP format to a bitmap in memory. Interestingly you can decode at a non-
+natural size for most algorithms, i.e. bigger or smaller than the size at
+which the image was saved. But many times resizing is necessary, especially
+when an image is used in responsive design and set to a percentage of its
+container element, or when the user pinches and zooms.</p>
+
+<p>Decoding and resizing are both expensive operations. If rasterization requires
+several images to be decoded or resized you may well see huge spikes in the
+time it takes for a frame to complete.</p>
+
+<p>Chrome, of course, tries to reduce the work by caching the decoded and resized
+versions of images. The specifics of what gets cached – the decoded image,
+resized forms of the image – and how big the cache is get complicated as it
+varies by the internal architecture (let’s call those single-threaded or
+multi-threaded painting) that Chrome is using.</p>
+
+<p>Whether or not you see jank or checkerboarding while a large image is being
+decoded depends on the architecture Chrome is running in (and that’s not
+something that you choose as a developer), so let’s take a brief look at them
+and see how it affects things.</p>
+
+<aside class="boxout">
+<p>## What’s Jank?!</p>
+
+<p>You should watch Nat Duca and Tom Wiltzius’s <a href="https://www.youtube.com/watch?v=n8ep4leoN9A">Google I/O Talk on
+Jank</a> and how to bust it.
+</aside></p>
+
+<h2 id="single-threaded-painting">Single-threaded painting</h2>
+
+<p>In this mode painting is handled by the main thread of the page, and is the
+approach primarily used on today’s desktop version of Chrome.</p>
+
+<p>Since rasterization and, by extension, image decoding and resizing, takes
+place on the main thread, all other activity on the main thread is blocked.
+All of this ends up feeling to your users like the page judders a lot, or
+worse, that it locked up for a long period of time.</p>
+
+<p>If you’re making something image heavy like a gallery, or just something with
+a lot of images appearing on screen at once you may well feel the problem more
+acutely.</p>
+
+<h2 id="multi-threaded-painting">Multi-threaded painting</h2>
+
+<p>In this mode painting is handled in a different thread entirely, which means
+that the main thread is free to carry on running JavaScript, handling layout
+and style calculations. This is the mode used on Android. The upside of this
+approach is that scrolling, JavaScript and the like can all happen while
+painting takes place.</p>
+
+<p>The downside is that the rasterization calls are still executed as a
+sequential list, even if they <em>are</em> handled by a separate thread, and if we
+have to pause to decode and resize an image then no other painting – like for
+non-image elements – is going to take place. Image handling is still one
+rasterization job in the list and if an image takes a long time to decode or
+resize you will end up seeing checkerboards until Chrome reaches the end of
+the list and rasterization is complete.</p>
+
+<h2 id="so-that-one-weird-trick-you-mentioned">So that one weird trick you mentioned…</h2>
+
+<p>Have you ever browsed the web with images switched off? Sure everything looks
+worse because you don’t have images on, but you will quickly see how much of
+an effect images have on the runtime performance of your pages.</p>
+
+<blockquote>
+  <p>Have you ever browsed the web with images switched off? Sure everything looks worse because you don’t have images on, but you will quickly see how much of an effect images have on the runtime performance of your pages.</p>
+</blockquote>
+
+<p>What if, instead of letting the browser handle decoding, we did it ourselves,
+in JavaScript and outside of the normal rasterization flow? Perhaps if we do
+that we can isolate the image decodes and resizes, leaving Chrome to rasterize
+the rest of the elements and not be blocked on handling images. That should
+mean that we can interact with the page and scroll, and hopefully maintain a
+silky smooth 60fps at all times.</p>
+
+<p>On the downside we’re about to start handling images ourselves, which is
+something that Chrome normally does for us automatically, and that should be a
+huge red flag to us. On the upside, if Chrome isn’t blocked on image handling,
+we may well be able to avoid that unsightly checkerboarding and jank.</p>
+
+<p>Going with JavaScript for image decoding, our approach should look like this:</p>
+
+<ol>
+  <li>Create a pool of Web Workers.</li>
+  <li>Take the images that we’re interested in having painted and put placeholders into the DOM.</li>
+  <li>Pass the url of the images to a worker from the pool for decoding.</li>
+  <li>Have the worker download the image as a binary file using an XHR and then decode it using a JavaScript-based decoder.</li>
+  <li>Pass the decoded bitmap image data back to the main thread. (With <a href="http://updates.html5rocks.com/2011/12/Transferable-Objects-Lightning-Fast">transferables</a> this is nice and fast.)</li>
+  <li>Use the bitmap image data to fill in a <code>&lt;canvas&gt;</code> element at the correct dimensions.</li>
+  <li>Replace the placeholders with the <code>&lt;canvas&gt;</code> elements.</li>
+</ol>
+
+<p>Of course nothing sells the idea better than a demo:</p>
+
+<p class="livedemo"><a href="https://dl.dropboxusercontent.com/u/2272348/codez/resizes/index.html">See it
+running</a></p>
+
+<p>The thing to notice is that when <strong>you’re scrolling or interacting</strong> you’ll
+see that the page remains smooth when you’re using workers, even when the
+images are very large. In fact, depending on the number of workers you have,
+you can often maintain 60fps!</p>
+
+<p>You may well be wondering how many workers you should use, but it really
+depends on the platform you’re running on and how much CPU time is available.
+This is one risk amongst many of doing something like this: a lot of the
+heuristics that Chrome has available for figuring out the amount of resources
+to put to something like this are not going to be surfaced through JavaScript
+to you, so at best you’re going to be guessing.</p>
+
+<p>Finally, in my demo I’m making use of the excellent <a href="https://github.com/notmasteryet/jpgjs">jpgjs
+library</a>, but you would need to have
+the right decoder for the images you’re working with.</p>
+
+<h2 id="the-benefits-and-costs">The benefits and costs</h2>
+
+<p>With this approach we get a few immediate benefits:</p>
+
+<ul>
+  <li>We get to decide how many workers are used for decoding.</li>
+  <li>We get to decide if and when the images are decoded and painted.</li>
+  <li>We know when an image has decoded and are able to fade it in smoothly.</li>
+</ul>
+
+<p>On the downside we now have a few headaches:</p>
+
+<ul>
+  <li>This works today, but if image handling changes and improves significantly you’re locked into your homegrown solution which may well be suboptimal.</li>
+  <li>We have to manually decide the number of workers in our pool. That was, of course, a benefit, but as I mentioned earlier, the lack of heuristics means that you have control, yes, but you are operating blind.</li>
+  <li>We are now keeping the image data in the JavaScript heap, so we have to decide if and when we might want to purge that information. The last thing you want is to keep adding image data without ever releasing it!</li>
+  <li>We need to have a process for deciding when an image should be decoded.</li>
+</ul>
+
+<aside class="boxout">
+<p>## Should I even do this?</p>
+
+<p>I’ve already said it, but to be super clear, when you take the liberty of
+“going offroad” and doing something on behalf of the browser, you have to take
+extra care to handle things properly!</p>
+
+<p>Often there can be edge and corner cases that can bite you, so always profile
+to make sure you’re doing the right thing.
+</aside></p>
+
+<h2 id="right-but-isnt-using-javascript-to-decode-images-slower">Right, but isn’t using JavaScript to decode images slower?</h2>
+
+<p>Yes, no doubt it is. But it’s not clear by how much, as that will depend on a
+number of factors such as the platform in question and what else is being done
+in the browser at the same time.</p>
+
+<p>In any case, the <em>real trade-off</em> we’re making is to have more control over
+<em>when and how</em> images are handled, rather than relying on Chrome to do it for
+us. That, of course, comes with costs and risks, and certainly anything
+executed in JavaScript (even with V8’s function recompilation) is going to be
+slower than hand-tuned C++!</p>
+
+<blockquote>
+  <p>In any case, the real trade-off we’re making is to have more control over when and how images are handled, rather than relying on Chrome to do it for us.</p>
+</blockquote>
+
+<p>With that said, we’re seeing exciting improvements through
+<a href="http://asmjs.org/">asm.js</a> and
+<a href="http://www.chromium.org/nativeclient/pnacl">PNaCl</a> where it’s possible to
+ship exceptionally fast JS, so who knows, maybe one day it’ll be less of an
+issue.</p>
+
+<h2 id="what-about-parser-lookahead">What about parser lookahead?</h2>
+
+<p>Typically when the browser receives HTML it does a lookahead and starts
+requesting images and other assets it sees that its going to need. Any
+approach like that that relies entirely on JavaScript is going to sacrifice
+that lookahead because we’re adding in elements after the fact. Again, that
+doesn’t mean it’s to be avoided, but it’s important to know the trade-offs
+you’re making.</p>
+
+<p>This method of injecting images with JavaScript is likely to be more suitable
+for anyone who is already constructing portions of the DOM dynamically, and
+it’s far less suitable when you’re simply serving static content on the first
+request to the server.</p>
+
+<h2 id="hey-the-images-looks-a-bit-jaggy-when-the-worker-decodes-them">Hey, the images looks a bit jaggy when the worker decodes them!</h2>
+
+<p>Yes, they do in the demo. This is because the decoding and resizing is less
+sophisticated than in Chrome. Chrome uses <a href="http://en.wikipedia.org/wiki/Lanczos_resampling">Lanczos
+resampling</a> to make sure that
+images displayed at non-natural sizes, i.e. bigger or smaller than the
+original, look as awesome as possible. In my demo I’m simply decoding to the
+final display size, which isn’t as good.</p>
+
+<p>You can see in the side-by-side comparison image below particularly around the
+white advert on the side of the track. You will need to click on the image to
+see the full size version showing all the decoding warts!</p>
+
+<figure>
+  <img src="/static/blog/one-weird-trick/chromevsworker.jpg" />
+</figure>
+
+<p>There are things one could look to do: implement resampling in the worker, or
+decoding at a larger size then scale the canvas down using CSS. In both cases
+there is an additional computational cost, so you be sure there’s a
+significant improvement before committing to it.</p>
+
+<blockquote>
+  <p>Every worker requires CPU time, and on a constrained device like mobiles or tablets that is a precious resource you don’t want to exhaust.</p>
+</blockquote>
+
+<h2 id="performance-tuning">Performance tuning</h2>
+
+<p>As I mentioned before you need to manually control the number of workers you
+have on the go at once. Every worker requires CPU time, and on a constrained
+device like mobiles or tablets that is a precious resource you don’t want to
+exhaust.</p>
+
+<p>Beyond the number of workers you also want to have a tactic for when you even
+request the image decode work to take place. In Chrome decoding and resizing
+happen lazily and as a dependency for the paint, but since we’ve just gone
+offroad we have to handle things ourselves. What you choose to do is down to
+the application you’re building, but much as you don’t want to just blindly
+keep the image data around forever, so you will also want to be sure you’re
+only having the workers process images when absolutely necessary.</p>
+
+<h2 id="why-doesnt-the-browser-do-this-for-me-automatically">Why doesn’t the browser do this for me automatically?</h2>
+
+<p>Interestingly there has been a <a href="http://lists.w3.org/Archives/Public/www-style/2013May/0080.html">discussion on www-style on the W3C mailing
+lists</a> about
+a <code>display: optional</code> CSS property that would allow the browser to
+deprioritize the painting of certain elements and deal with them separately as
+time allows. That would mean, for an image-heavy application like a gallery,
+that the rest of the page can be rasterized (hopefully quickly), and that the
+images will be handled separately and show up whenever they’ve decoded and
+resized. Essentially it would make native to the browser the behavior I’ve
+hacked together in my demo.</p>
+
+<p>So far there hasn’t been any conclusion reached, but if you’re interested in
+contributing and giving the idea some support you totally should!</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>Taking control of image handling from the browser is without doubt an extreme
+move. As always you should regard performance as a feature, and one as
+advanced as this should be weighed against all the additional code that will
+need to be written and then, more importantly, maintained.</p>
+
+<p>Decoding images in JavaScript is undoubtedly slower than decoding in C++, but
+we gain control, and since the image handling is outside of the normal
+rasterization path, we can proceed with rasterizing anything that <em>isn’t</em> an
+image. Handling images yourself may be the difference between having a janky,
+juddery app and a super slick, high performance one, but it comes with risks,
+so take care!</p>
+</div></div>
+
+  <div class="footer-share container">
+    Share this on: <span class="value"><a href="http://www.twitter.com/share?url=http://aerotwist.com/blog/one-weird-trick/">Twitter</a></span>
+    <span class="value"><a href="https://plus.google.com/share?url=http://aerotwist.com/blog/one-weird-trick/">Google+</a></span>
+  </div>
+
+  <div class="clear"></div>
+
+  
+    <svg class="left-shape" style="margin-left: -331.55px" width="488.6" height="1117.2">
+      <use xlink:href="#color-block" filter="url(#blur-4)" transform="scale(-1.4 1.4) rotate(90)"/>
+    </svg>
+
+    <svg class="right-shape" width="174.5" height="718.2">
+      <use xlink:href="#color-block" filter="url(#blur-8)" transform="scale(-0.9 0.9) rotate(90)"/>
+    </svg>
+  
+
+</div>
+
+
+    </section>
+
+    <footer>
+
+      <div class="container">
+        <div class="bio panel">
+          <h2>Hello!</h2>
+          <p>My name is Paul. I work at <a href="http://www.google.com/" title="Some cloud company in the USA, I think.">Google</a> on the Chrome Developer Relations team as an advocate. I help developers improve the performance of their sites and apps.</p>
+
+          <p>You can find me on <a href="http://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a></p>
+        </div>
+
+        <div class="get-in-touch panel">
+          <h2>Get in touch</h2>
+          <p>I don’t bite. Honestly. You can find me on <a href="http://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a>, and I like hearing from people (pretty handy given my job, really) so say hi.</p>
+        </div>
+
+        <div class="subscribe panel">
+          <h2>Subscribe</h2>
+          <p>You should totally get the <a href="/blog/feed/">RSS feed</a>, or whatever it is you kids are using these days (I miss Reader.)</p>
+        </div>
+
+        <p class="disclaimer">Except as otherwise noted, the content of this page is licensed under the Creative Commons Attribution 3.0 License, and code samples are licensed under the Apache 2.0 License.</p>
+      </div>
+    </footer>
+
+    <script type="text/javascript" async="true">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-13024693-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+  </body>
+</html>

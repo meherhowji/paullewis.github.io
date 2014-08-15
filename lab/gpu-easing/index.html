@@ -1,0 +1,256 @@
+<!doctype html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="author" content="Paul Lewis" />
+  <meta name="viewport" content="width=device-width">
+
+  
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="//aerotwist.com/lab/feed/">
+  
+
+  
+
+  <style>
+    
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 400;
+      src: local('Lato Regular'), local('Lato-Regular'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qIIYRU-oROkIk8vfvxw6QvesZW2xOQ-xsNqO47m55DA.woff) format('woff');
+    }
+    
+
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 700;
+      src: local('Lato Bold'), local('Lato-Bold'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qdgUG4U09HnJwhYI-uK18wLUuEpTyoUstqEm5AMlJo4.woff) format('woff');
+    }
+  </style>
+
+  <link rel="stylesheet" media="screen" href="/css/aerotwist.css" />
+  <title>Aerotwist - GPU Easing</title>
+  
+  <style>
+    .masthead h2 {
+      display: none;
+    }
+
+    .masthead {
+      background-image: url(/static/lab/headers/header-easing-small.jpg);
+      
+      background-color: #222;
+      
+      
+    }
+
+    .meta {
+      background-color: #222 !important;
+    }
+
+    @media (min-width: 600px) {
+      .masthead {
+        background-image: url(/static/lab/headers/header-easing.jpg);
+      }
+    }
+  </style>
+  
+</head>
+
+
+<!--
+                              __          .__          __
+  _____    ___________  _____/  |___  _  _|__| _______/  |_
+  \__  \ _/ __ \_  __ \/  _ \   __\ \/ \/ /  |/  ___/\   __\
+   / __ \\  ___/|  | \(  <_> )  |  \     /|  |\___ \  |  |
+  (____  /\___  >__|   \____/|__|   \/\_/ |__/____  > |__|
+       \/     \/                                  \/
+
+  Giant ascii art embedded in every page of your site is how you
+  show other people that YOU CARE. Mainly I care about developers,
+  which is what I presume you are if you're all about viewing
+  the source. Clearly you're my kind of person.
+
+  This is v3, it's run through Jekyll, it's been fun to build,
+  there's always more to do, and you may notice that aside from
+  Google Analytics there is no JavaScript. None.
+
+  That's one way of many you keep your pages fast. I care about
+  keeping this site fast because your time is precious and I need
+  to get out of your way.
+
+  <3'z
+
+  Paul
+-->
+
+
+  <body class="lab">
+
+    <header>
+      <div class="container">
+        <div id="logo">
+  <a href="/">
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="100%" height="100%">
+    <g>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#CCDBD4" points="30.6,47.73 64.92,47.73 19.97,76.52"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#FFF194" points="48.198,0 53.008,14.06 39.31,24.76"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#89C13D" points="39.31,24.76 64.92,48 30.6,48"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#EADF3E" points="39.31,24.76 64.92,48 53.008,14.06"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#004C26" points="30.6,48 64.92,48 48,58.69"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#7FA592" points="47.76,58.69 64.92,47.73 75.14,76.73"></polygon>
+    </g>
+    </svg>
+  </a>
+</div>
+
+        <nav>
+  <ul>
+    
+      
+        <li><a href="/">Home</a></li>
+      
+    
+      
+        <li><a href="/blog/">Blog</a></li>
+      
+    
+      
+        <li><a href="/tutorials/">Tutorials</a></li>
+      
+    
+      
+        <li class="active"><a href="/lab/"> Lab</a></li>
+      
+    
+  </ul>
+
+  <svg id="left-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#AAAAAA" stroke-width="1" />
+    </svg>
+
+  <svg id="right-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#CCDBD4" stroke-opacity="0.3" stroke-width="1" />
+    </svg>
+</nav>
+
+      </div>
+    </header>
+    <section>
+
+      <div class="content">
+
+  <div class="masthead">
+
+    
+
+    <div class="container">
+      <h2>GPU Easing</h2>
+      <p></p>
+    </div>
+
+  </div>
+
+  <div class="container"><div class="left column"><p class="livedemo"><a href="http://lab.aerotwist.com/webgl/easing/">See the experiment</a></p>
+
+<h2 id="synopsis">Synopsis</h2>
+
+<p>Easing equations have been around for a long time. In fact pretty much any
+site with any animation on it is probably using them. They were made by
+<a href="http://www.robertpenner.com">Robert Penner</a> for use in Flash, but since
+they’re open source you’ll find them everywhere. Anyway I decided it’d be
+interesting to get them running in a WebGL vertex shader and to see what I
+could get away with.</p>
+
+<h2 id="ease-ily-does-it">Ease-ily Does It</h2>
+
+<p>If you’ve never come across easing equations, here’s a short breakdown of what
+they do. Each equation takes a start value, and end value, a duration and a
+time. As you increase the time value the equation will return a number between
+the start to the end values, and the way it gets from one to the other gives
+you different feels. The simplest one just runs linearly from start to end,
+more complex ones provide elasticity and bouncing.</p>
+
+<p>It occurred to me that all the operations could be done in a vertex shader and
+that all the JavaScript would need to do would be to send through an updated
+time value. Actually it needs to do a bit more than that otherwise it wouldn’t
+be all that flexible, but the principle’s there. The maths could be moved away
+from the JavaScript, which is the important thing.</p>
+
+<h2 id="getting-in-a-mesh">Getting in a Mesh</h2>
+
+<p><a href="https://github.com/mrdoob/Three.js">Three.js</a> supports the loading of 3D
+models in JSON format, and there’s an exporter for
+<a href="http://www.blender.org">Blender</a> which will do just that. I started with the
+helix, which is a cylinder that I subdivided down its length so that I
+actually had vertices to mess around with.</p>
+
+<p>Then for a bit of a laugh I tried exporting and using the monkey mesh from
+Blender. It ended up being mildly creepy but oddly entertaining to watch it
+ease back and forth from a mesh to a mess.</p>
+
+<h2 id="from-bug-to-feature">From Bug To Feature</h2>
+
+<p>If you tick the ‘extra crazy’ option in the experiment you see an additional
+effect, which is something I stumbled upon. I was busy integrating the monkey
+mesh so you could switch between the two and totally screwed something up and
+ended up with that effect. Once I resolved the bug that was causing it I
+decided to bring it back as an option. One of the many reasons I love to
+experiment is that you end up with cool stuff happening when you least expect
+it.</p>
+
+<p>You can find <a href="http://github.com/paullewis/WebGLEasing">the source code for
+this</a> and my other experiments on
+<a href="http://github.com/paullewis">GitHub</a>. Oooh, how exciting!</p>
+</div></div>
+
+</div>
+
+
+    </section>
+
+    <footer>
+
+      <div class="container">
+        <div class="bio panel">
+          <h2>Hello!</h2>
+          <p>My name is Paul. I work at <a href="http://www.google.com/" title="Some cloud company in the USA, I think.">Google</a> on the Chrome Developer Relations team as an advocate. I help developers improve the performance of their sites and apps.</p>
+
+          <p>You can find me on <a href="http://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a></p>
+        </div>
+
+        <div class="get-in-touch panel">
+          <h2>Get in touch</h2>
+          <p>I don’t bite. Honestly. You can find me on <a href="http://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a>, and I like hearing from people (pretty handy given my job, really) so say hi.</p>
+        </div>
+
+        <div class="subscribe panel">
+          <h2>Subscribe</h2>
+          <p>You should totally get the <a href="/blog/feed/">RSS feed</a>, or whatever it is you kids are using these days (I miss Reader.)</p>
+        </div>
+
+        <p class="disclaimer">Except as otherwise noted, the content of this page is licensed under the Creative Commons Attribution 3.0 License, and code samples are licensed under the Apache 2.0 License.</p>
+      </div>
+    </footer>
+
+    <script type="text/javascript" async="true">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-13024693-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+  </body>
+</html>

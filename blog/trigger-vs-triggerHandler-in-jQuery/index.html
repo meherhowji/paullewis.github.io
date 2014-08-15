@@ -1,0 +1,354 @@
+<!doctype html>
+<html itemscope itemtype="http://schema.org/Article">
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="author" content="Paul Lewis" />
+  <meta name="viewport" content="width=device-width">
+
+  
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="//aerotwist.com/blog/feed/">
+  
+
+  
+  <meta itemprop="name" content="trigger vs triggerHandler in jQuery">
+  <meta itemprop="description" content="It&#39;s never nice to see bugs crop up because libraries and browsers aren&#39;t interacting as expected. In this case jQuery can cause a bit of funk with newer versions of Chrome.">
+
+    
+
+  
+
+  <style>
+    
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 400;
+      src: local('Lato Regular'), local('Lato-Regular'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qIIYRU-oROkIk8vfvxw6QvesZW2xOQ-xsNqO47m55DA.woff) format('woff');
+    }
+    
+
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 700;
+      src: local('Lato Bold'), local('Lato-Bold'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qdgUG4U09HnJwhYI-uK18wLUuEpTyoUstqEm5AMlJo4.woff) format('woff');
+    }
+  </style>
+
+  <link rel="stylesheet" media="screen" href="/css/aerotwist.css" />
+  <title>Aerotwist - trigger vs triggerHandler in jQuery</title>
+  
+</head>
+
+
+<!--
+                              __          .__          __
+  _____    ___________  _____/  |___  _  _|__| _______/  |_
+  \__  \ _/ __ \_  __ \/  _ \   __\ \/ \/ /  |/  ___/\   __\
+   / __ \\  ___/|  | \(  <_> )  |  \     /|  |\___ \  |  |
+  (____  /\___  >__|   \____/|__|   \/\_/ |__/____  > |__|
+       \/     \/                                  \/
+
+  Giant ascii art embedded in every page of your site is how you
+  show other people that YOU CARE. Mainly I care about developers,
+  which is what I presume you are if you're all about viewing
+  the source. Clearly you're my kind of person.
+
+  This is v3, it's run through Jekyll, it's been fun to build,
+  there's always more to do, and you may notice that aside from
+  Google Analytics there is no JavaScript. None.
+
+  That's one way of many you keep your pages fast. I care about
+  keeping this site fast because your time is precious and I need
+  to get out of your way.
+
+  <3'z
+
+  Paul
+-->
+
+
+  <body class="blog">
+
+    <header>
+      <div class="container">
+        <div id="logo">
+  <a href="/">
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="100%" height="100%">
+    <g>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#6EBAD3" points="30.6,47.73 64.92,47.73 19.97,76.52"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ED95C0" points="48.198,0 53.008,14.06 39.31,24.76"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#880043" points="39.31,24.76 64.92,48 30.6,48"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#DA0A7A" points="39.31,24.76 64.92,48 53.008,14.06"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#0B7DAD" points="30.6,48 64.92,48 48,58.69"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#BDDEE8" points="47.76,58.69 64.92,47.73 75.14,76.73"></polygon>
+    </g>
+    </svg>
+  </a>
+</div>
+
+        <nav>
+  <ul>
+    
+      
+        <li><a href="/">Home</a></li>
+      
+    
+      
+        <li class="active"><a href="/blog/"> Blog</a></li>
+      
+    
+      
+        <li><a href="/tutorials/">Tutorials</a></li>
+      
+    
+      
+        <li><a href="/lab/">Lab</a></li>
+      
+    
+  </ul>
+
+  <svg id="left-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#AAAAAA" stroke-width="1" />
+    </svg>
+
+  <svg id="right-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#6EBAD3" stroke-opacity="0.3" stroke-width="1" />
+    </svg>
+</nav>
+
+      </div>
+    </header>
+    <section>
+
+      <div class="content">
+
+  
+  <svg version="1.1" class="shape-reference" xmlns="http://www.w3.org/2000/svg" width="666" height="333">
+  <defs>
+    <filter id="blur-8">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="8" />
+    </filter>
+    <filter id="blur-6">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="6" />
+    </filter>
+    <filter id="blur-4">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="4" />
+    </filter>
+  </defs>
+
+  <g id="color-block">
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#90a9c9" stroke="#90a9c9" stroke-width="0.6" points="40,99 78,117 96,135"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#bdcde0" stroke="#bdcde0" stroke-width="0.6" points="78,117 40,99 94,40"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#d3d5e6" stroke="#d3d5e6" stroke-width="0.6" points="78,117 94,40 132,65"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#bfb9d6" stroke="#bfb9d6" stroke-width="0.6" points="78,117 132,65 145,101"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#9ea0c6" stroke="#9ea0c6" stroke-width="0.6" points="96,135 78,117 145,101"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#a08cbc" stroke="#a08cbc" stroke-width="0.6" points="96,135 145,101 156,142"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#857bb2" stroke="#857bb2" stroke-width="0.6" points="103,154 96,135 156,142"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#656ba6" stroke="#656ba6" stroke-width="0.6" points="96,135 103,154 106,196"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#625694" stroke="#625694" stroke-width="0.6" points="106,196 103,154 149,181"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#524477" stroke="#524477" stroke-width="0.6" points="116,222 106,196 149,181"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#513667" stroke="#513667" stroke-width="0.6" points="116,222 149,181 168,228"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#342544" stroke="#342544" stroke-width="0.6" points="129,265 116,222 168,228"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#251227" stroke="#251227" stroke-width="0.6" points="129,265 168,228 218,287"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#35122f" stroke="#35122f" stroke-width="0.6" points="218,287 168,228 223,241"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#1e0616" stroke="#1e0616" stroke-width="0.6" points="218,287 223,241 289,293"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#4b0c33" stroke="#4b0c33" stroke-width="0.6" points="223,241 260,204 289,293"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#791d5e" stroke="#791d5e" stroke-width="0.6" points="223,241 214,186 260,204"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#612258" stroke="#612258" stroke-width="0.6" points="168,228 214,186 223,241"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#6e3371" stroke="#6e3371" stroke-width="0.6" points="168,228 149,181 214,186"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#8d4595" stroke="#8d4595" stroke-width="0.6" points="149,181 156,142 214,186"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#7e60a3" stroke="#7e60a3" stroke-width="0.6" points="149,181 103,154 156,142"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#a84d9e" stroke="#a84d9e" stroke-width="0.6" points="214,186 156,142 215,139"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#a92b84" stroke="#a92b84" stroke-width="0.6" points="214,186 215,139 260,204"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ce2e92" stroke="#ce2e92" stroke-width="0.6" points="260,204 215,139 299,131"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#e01081" stroke="#e01081" stroke-width="0.6" points="260,204 299,131 330,175"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#980855" stroke="#980855" stroke-width="0.6" points="320,254 260,204 330,175"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#4c062d" stroke="#4c062d" stroke-width="0.6" points="289,293 260,204 320,254"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#250013" stroke="#250013" stroke-width="0.6" points="289,293 320,254 399,275"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#3e0525" stroke="#3e0525" stroke-width="0.6" points="399,275 320,254 405,247"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#2c0a21" stroke="#2c0a21" stroke-width="0.6" points="399,275 405,247 493,269"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#3d1536" stroke="#3d1536" stroke-width="0.6" points="405,247 490,223 493,269"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#69184f" stroke="#69184f" stroke-width="0.6" points="405,247 397,197 490,223"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#6d0940" stroke="#6d0940" stroke-width="0.6" points="320,254 397,197 405,247"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#a40557" stroke="#a40557" stroke-width="0.6" points="320,254 330,175 397,197"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#e7097d" stroke="#e7097d" stroke-width="0.6" points="330,175 337,143 397,197"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f92692" stroke="#f92692" stroke-width="0.6" points="330,175 299,131 337,143"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f854a9" stroke="#f854a9" stroke-width="0.6" points="299,131 320,106 337,143"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ec7bbb" stroke="#ec7bbb" stroke-width="0.6" points="299,131 232,97 320,106"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#d870b4" stroke="#d870b4" stroke-width="0.6" points="215,139 232,97 299,131"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ce84bc" stroke="#ce84bc" stroke-width="0.6" points="215,139 199,114 232,97"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#b774b2" stroke="#b774b2" stroke-width="0.6" points="156,142 199,114 215,139"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#b68cbf" stroke="#b68cbf" stroke-width="0.6" points="156,142 145,101 199,114"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#d9bbd9" stroke="#d9bbd9" stroke-width="0.6" points="199,114 145,101 205,40"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#e2b9d9" stroke="#e2b9d9" stroke-width="0.6" points="232,97 199,114 205,40"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f4dced" stroke="#f4dced" stroke-width="0.6" points="232,97 205,40 274,43"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f2b1d7" stroke="#f2b1d7" stroke-width="0.6" points="232,97 274,43 320,106"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#e4d7e8" stroke="#e4d7e8" stroke-width="0.6" points="145,101 132,65 205,40"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#2f2541" stroke="#2f2541" stroke-width="0.6" points="493,269 490,223 626,231"/>
+  </g>
+</svg>
+
+  
+
+  <div class="masthead hatched">
+
+    
+      <svg class="behind-meta" width="666" height="333">
+        <use xlink:href="#color-block" />
+      </svg>
+
+      <svg class="left-meta" width="666" height="333">
+        <use xlink:href="#color-block" filter="url(#blur-6)" transform="translate(333 333/2) scale(-0.5 0.5) translate(-333 -333/2)" />
+      </svg>
+    
+
+    <div class="container">
+      <h2>trigger vs triggerHandler in jQuery</h2>
+      <p>It's never nice to see bugs crop up because libraries and browsers aren't interacting as expected. In this case jQuery can cause a bit of funk with newer versions of Chrome.</p>
+    </div>
+
+  </div>
+
+  <div class="container">
+    <div class="meta">
+
+      <ul>
+        <li class="last-updated">
+          <span class="name">Last updated:</span>
+          <span class="value">23 Apr 2014</span>
+        </li>
+
+        <li>
+          <span class="name">Est. Read Time:</span>
+          <span class="value">2 mins</span>
+        </li>
+
+        <li class="share">
+          <span class="name">Share this:</span>
+          <span class="value"><a href="http://www.twitter.com/share?url=http://aerotwist.com/blog/trigger-vs-triggerHandler-in-jQuery/">Twitter</a></span>
+          <span class="value"><a href="https://plus.google.com/share?url=http://aerotwist.com/blog/trigger-vs-triggerHandler-in-jQuery/">Google+</a></span>
+        </li>
+        <li class="tags">
+          <span class="name">Tagged:</span>
+          <span class="value">
+          
+            #jquery, 
+          
+            #sideeffects
+          
+          </span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="container"><div class="left column">
+<p>Here’s <a href="https://code.google.com/p/chromium/issues/detail?id=364664">a Chrome bug</a> that flags some code on <a href="http://change.org">change.org</a> that’s stopped working in newer versions of Chrome. The TL;DR is that <strong>using jQuery’s <code>trigger</code> instead of <code>triggerHandler</code> can cause problems when a browser provides a function with the same name as the event</strong>.</p>
+
+<p>The jQuery docs explain it (emphasis added by yours truly):</p>
+
+<blockquote class="quote">
+  <p>Note: For both plain objects and DOM objects other than window, if a triggered event name matches the name of a property on the object, <strong>jQuery will attempt to invoke the property as a method</strong> if no event handler calls <code>event.preventDefault()</code>. If this behavior is not desired, use <code>.triggerHandler()</code> instead.</p>
+</blockquote>
+
+<p>I think it’s pretty easy to get this wrong, because the jQuery API isn’t clear on the distinction between <code>trigger</code> and <code>triggerHandler</code> through its function naming, and because – at least in my view – it does something unexpected in <code>trigger</code> by calling functions on objects. It overreaches from jQuery events and into actual host-provided functions. I’m told it’s down to perennial favourites <code>submit</code> and <code>click</code>, which have jQuery events and equivalent browser functions of the same name.</p>
+
+<p>If you’re curious, this is the offending code:</p>
+
+</div></div>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="c1">// This will break in newer versions of Chrome.</span>
+<span class="nx">$</span><span class="p">(</span><span class="nx">element</span><span class="p">).</span><span class="nx">trigger</span><span class="p">(</span><span class="s1">&#39;animate&#39;</span><span class="p">);</span></code></pre></div>
+
+<div class="container"><div class="left column">
+
+<p>jQuery fires its own event handlers for <code>animate</code> but then it also calls the <em>browser’s</em> <code>animate</code> function on <code>HTMLElement</code> as well.</p>
+
+<p>Before <a href="http://dev.w3.org/fxtf/web-animations/">Web Animations</a> started shipping, trying to call an <code>animate</code> function on elements would’ve been just fine here (because no <code>animate</code> function actually existed), but <a href="http://dev.w3.org/fxtf/web-animations/#extensions-to-the-element-interface">now we have one</a> there’s a problem. The <code>animate</code> function from Web Animations expects a parameter containing properties to animate, a parameter which jQuery doesn’t provide. Oops.</p>
+
+<p>Incidentally, the same would happen if you called:</p>
+
+</div></div>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">$</span><span class="p">(</span><span class="nx">element</span><span class="p">).</span><span class="nx">trigger</span><span class="p">(</span><span class="s1">&#39;appendChild&#39;</span><span class="p">);</span></code></pre></div>
+
+<div class="container"><div class="left column">
+
+<p>You actually want <code>triggerHandler</code>, which is just like <code>trigger</code> but without the “call the browser’s function” bit.</p>
+
+<h2 id="read-the-manual-probably">Read The Manual, Probably…</h2>
+
+<p>It may seem obvious once you understand jQuery’s distinction, but the combination of jQuery’s function naming and assumption that properties are functions to call is something of a footgun.</p>
+
+<p>At least there’s an safety catch via <code>triggerHandler</code>; just be sure to use it!</p>
+
+</div></div>
+
+
+  <div class="footer-share container">
+    Share this on: <span class="value"><a href="http://www.twitter.com/share?url=http://aerotwist.com/blog/trigger-vs-triggerHandler-in-jQuery/">Twitter</a></span>
+    <span class="value"><a href="https://plus.google.com/share?url=http://aerotwist.com/blog/trigger-vs-triggerHandler-in-jQuery/">Google+</a></span>
+  </div>
+
+  <div class="clear"></div>
+
+  
+    <svg class="left-shape" style="margin-left: -316.35px" width="466.2" height="932.4">
+      <use xlink:href="#color-block" filter="url(#blur-4)" transform="scale(-1.4 1.4) rotate(90)"/>
+    </svg>
+
+    <svg class="right-shape" width="166.5" height="599.4">
+      <use xlink:href="#color-block" filter="url(#blur-8)" transform="scale(-0.9 0.9) rotate(90)"/>
+    </svg>
+  
+
+</div>
+
+
+    </section>
+
+    <footer>
+
+      <div class="container">
+        <div class="bio panel">
+          <h2>Hello!</h2>
+          <p>My name is Paul. I work at <a href="http://www.google.com/" title="Some cloud company in the USA, I think.">Google</a> on the Chrome Developer Relations team as an advocate. I help developers improve the performance of their sites and apps.</p>
+
+          <p>You can find me on <a href="http://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a></p>
+        </div>
+
+        <div class="get-in-touch panel">
+          <h2>Get in touch</h2>
+          <p>I don’t bite. Honestly. You can find me on <a href="http://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a>, and I like hearing from people (pretty handy given my job, really) so say hi.</p>
+        </div>
+
+        <div class="subscribe panel">
+          <h2>Subscribe</h2>
+          <p>You should totally get the <a href="/blog/feed/">RSS feed</a>, or whatever it is you kids are using these days (I miss Reader.)</p>
+        </div>
+
+        <p class="disclaimer">Except as otherwise noted, the content of this page is licensed under the Creative Commons Attribution 3.0 License, and code samples are licensed under the Apache 2.0 License.</p>
+      </div>
+    </footer>
+
+    <script type="text/javascript" async="true">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-13024693-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+  </body>
+</html>

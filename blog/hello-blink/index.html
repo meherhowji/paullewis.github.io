@@ -1,0 +1,438 @@
+<!doctype html>
+<html itemscope itemtype="http://schema.org/Article">
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="author" content="Paul Lewis" />
+  <meta name="viewport" content="width=device-width">
+
+  
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="//aerotwist.com/blog/feed/">
+  
+
+  
+  <meta itemprop="name" content="Hello, Blink!">
+  <meta itemprop="description" content="The browser is a black box, yet we often have to optimize for implementation specifics. Is that fair?">
+
+    
+
+  
+
+  <style>
+    
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 400;
+      src: local('Lato Regular'), local('Lato-Regular'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qIIYRU-oROkIk8vfvxw6QvesZW2xOQ-xsNqO47m55DA.woff) format('woff');
+    }
+    
+
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 700;
+      src: local('Lato Bold'), local('Lato-Bold'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qdgUG4U09HnJwhYI-uK18wLUuEpTyoUstqEm5AMlJo4.woff) format('woff');
+    }
+  </style>
+
+  <link rel="stylesheet" media="screen" href="/css/aerotwist.css" />
+  <title>Aerotwist - Hello, Blink!</title>
+  
+</head>
+
+
+<!--
+                              __          .__          __
+  _____    ___________  _____/  |___  _  _|__| _______/  |_
+  \__  \ _/ __ \_  __ \/  _ \   __\ \/ \/ /  |/  ___/\   __\
+   / __ \\  ___/|  | \(  <_> )  |  \     /|  |\___ \  |  |
+  (____  /\___  >__|   \____/|__|   \/\_/ |__/____  > |__|
+       \/     \/                                  \/
+
+  Giant ascii art embedded in every page of your site is how you
+  show other people that YOU CARE. Mainly I care about developers,
+  which is what I presume you are if you're all about viewing
+  the source. Clearly you're my kind of person.
+
+  This is v3, it's run through Jekyll, it's been fun to build,
+  there's always more to do, and you may notice that aside from
+  Google Analytics there is no JavaScript. None.
+
+  That's one way of many you keep your pages fast. I care about
+  keeping this site fast because your time is precious and I need
+  to get out of your way.
+
+  <3'z
+
+  Paul
+-->
+
+
+  <body class="blog">
+
+    <header>
+      <div class="container">
+        <div id="logo">
+  <a href="/">
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="100%" height="100%">
+    <g>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#6EBAD3" points="30.6,47.73 64.92,47.73 19.97,76.52"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ED95C0" points="48.198,0 53.008,14.06 39.31,24.76"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#880043" points="39.31,24.76 64.92,48 30.6,48"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#DA0A7A" points="39.31,24.76 64.92,48 53.008,14.06"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#0B7DAD" points="30.6,48 64.92,48 48,58.69"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#BDDEE8" points="47.76,58.69 64.92,47.73 75.14,76.73"></polygon>
+    </g>
+    </svg>
+  </a>
+</div>
+
+        <nav>
+  <ul>
+    
+      
+        <li><a href="/">Home</a></li>
+      
+    
+      
+        <li class="active"><a href="/blog/"> Blog</a></li>
+      
+    
+      
+        <li><a href="/tutorials/">Tutorials</a></li>
+      
+    
+      
+        <li><a href="/lab/">Lab</a></li>
+      
+    
+  </ul>
+
+  <svg id="left-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#AAAAAA" stroke-width="1" />
+    </svg>
+
+  <svg id="right-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#6EBAD3" stroke-opacity="0.3" stroke-width="1" />
+    </svg>
+</nav>
+
+      </div>
+    </header>
+    <section>
+
+      <div class="content">
+
+  
+  <svg version="1.1" class="shape-reference" xmlns="http://www.w3.org/2000/svg" width="425" height="321">
+  <defs>
+    <filter id="blur-8">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="8" />
+    </filter>
+    <filter id="blur-6">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="6" />
+    </filter>
+    <filter id="blur-4">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="4" />
+    </filter>
+  </defs>
+
+  <g id="color-block">
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#181726" stroke="#181726" stroke-width="0.6" points="40,249 87,230 123,278"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#303d5d" stroke="#303d5d" stroke-width="0.6" points="40,249 77,162 87,230"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#5f3a71" stroke="#5f3a71" stroke-width="0.6" points="154,188 87,230 77,162"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#5d2154" stroke="#5d2154" stroke-width="0.6" points="87,230 154,188 163,218"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#301530" stroke="#301530" stroke-width="0.6" points="123,278 87,230 163,218"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#25081c" stroke="#25081c" stroke-width="0.6" points="123,278 163,218 189,276"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#4e062e" stroke="#4e062e" stroke-width="0.6" points="189,276 163,218 214,223"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#2b0116" stroke="#2b0116" stroke-width="0.6" points="249,281 189,276 214,223"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#340620" stroke="#340620" stroke-width="0.6" points="269,252 249,281 214,223"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#160511" stroke="#160511" stroke-width="0.6" points="249,281 269,252 289,267"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#34132f" stroke="#34132f" stroke-width="0.6" points="289,267 269,252 314,209"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#2c1933" stroke="#2c1933" stroke-width="0.6" points="340,249 289,267 314,209"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#3f3056" stroke="#3f3056" stroke-width="0.6" points="314,209 337,187 340,249"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#6d3c7b" stroke="#6d3c7b" stroke-width="0.6" points="337,187 314,209 285,160"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#7d4e97" stroke="#7d4e97" stroke-width="0.6" points="285,160 337,147 337,187"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#936aaa" stroke="#936aaa" stroke-width="0.6" points="337,147 285,160 336,119"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#7d87b7" stroke="#7d87b7" stroke-width="0.6" points="337,147 336,119 381,140"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#5d6aa5" stroke="#5d6aa5" stroke-width="0.6" points="337,187 337,147 381,140"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#8f9fc5" stroke="#8f9fc5" stroke-width="0.6" points="336,119 356,97 381,140"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#b1aecf" stroke="#b1aecf" stroke-width="0.6" points="336,119 336,88 356,97"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#c5aacf" stroke="#c5aacf" stroke-width="0.6" points="336,119 276,84 336,88"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#c788be" stroke="#c788be" stroke-width="0.6" points="258,133 276,84 336,119"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#e383be" stroke="#e383be" stroke-width="0.6" points="258,133 231,102 276,84"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f550a6" stroke="#f550a6" stroke-width="0.6" points="258,133 185,141 231,102"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#fb1c8d" stroke="#fb1c8d" stroke-width="0.6" points="185,141 258,133 184,167"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ca1b84" stroke="#ca1b84" stroke-width="0.6" points="184,167 154,188 185,141"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#971968" stroke="#971968" stroke-width="0.6" points="163,218 154,188 184,167"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#940c58" stroke="#940c58" stroke-width="0.6" points="163,218 184,167 214,223"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#aa065c" stroke="#aa065c" stroke-width="0.6" points="273,200 214,223 184,167"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#600e40" stroke="#600e40" stroke-width="0.6" points="269,252 214,223 273,200"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#551c4a" stroke="#551c4a" stroke-width="0.6" points="269,252 273,200 314,209"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#7c2c71" stroke="#7c2c71" stroke-width="0.6" points="314,209 273,200 285,160"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#b32c8b" stroke="#b32c8b" stroke-width="0.6" points="273,200 258,133 285,160"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#d61280" stroke="#d61280" stroke-width="0.6" points="273,200 184,167 258,133"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#b261a9" stroke="#b261a9" stroke-width="0.6" points="285,160 258,133 336,119"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#b63492" stroke="#b63492" stroke-width="0.6" points="185,141 154,188 107,143"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#d376b6" stroke="#d376b6" stroke-width="0.6" points="107,143 172,68 185,141"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f57ebd" stroke="#f57ebd" stroke-width="0.6" points="185,141 172,68 231,102"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#fcc0df" stroke="#fcc0df" stroke-width="0.6" points="172,68 203,40 231,102"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f9cde5" stroke="#f9cde5" stroke-width="0.6" points="231,102 203,40 276,55"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ebb5d8" stroke="#ebb5d8" stroke-width="0.6" points="276,84 231,102 276,55"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#efd5e9" stroke="#efd5e9" stroke-width="0.6" points="276,84 276,55 284,55"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ead0e5" stroke="#ead0e5" stroke-width="0.6" points="276,84 284,55 302,65"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#dbc2dd" stroke="#dbc2dd" stroke-width="0.6" points="276,84 302,65 336,88"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#854995" stroke="#854995" stroke-width="0.6" points="154,188 77,162 107,143"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#cbcce1" stroke="#cbcce1" stroke-width="0.6" points="356,97 336,88 348,53"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#c1cee1" stroke="#c1cee1" stroke-width="0.6" points="385,93 356,97 348,53"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#8fb0cd" stroke="#8fb0cd" stroke-width="0.6" points="381,140 356,97 385,93"/>
+  </g>
+</svg>
+
+  
+
+  <div class="masthead hatched">
+
+    
+      <svg class="behind-meta" width="425" height="321">
+        <use xlink:href="#color-block" />
+      </svg>
+
+      <svg class="left-meta" width="425" height="321">
+        <use xlink:href="#color-block" filter="url(#blur-6)" transform="translate(425/2 321/2) scale(-0.5 0.5) translate(-425/2 -321/2)" />
+      </svg>
+    
+
+    <div class="container">
+      <h2>Hello, Blink!</h2>
+      <p>Well, as you probably know by now, there's a new open source rendering engine based on WebKit, and it's called <a href='http://chromium.org/blink'>Blink</a>. Going forward it will be powering all variants of Chrome.</p>
+    </div>
+
+  </div>
+
+  <div class="container">
+    <div class="meta">
+
+      <ul>
+        <li class="last-updated">
+          <span class="name">Last updated:</span>
+          <span class="value">3 Apr 2013</span>
+        </li>
+
+        <li>
+          <span class="name">Est. Read Time:</span>
+          <span class="value">5 mins</span>
+        </li>
+
+        <li class="share">
+          <span class="name">Share this:</span>
+          <span class="value"><a href="http://www.twitter.com/share?url=http://aerotwist.com/blog/hello-blink/">Twitter</a></span>
+          <span class="value"><a href="https://plus.google.com/share?url=http://aerotwist.com/blog/hello-blink/">Google+</a></span>
+        </li>
+        <li class="tags">
+          <span class="name">Tagged:</span>
+          <span class="value">
+          
+            #blink, 
+          
+            #webkit, 
+          
+            #opinion
+          
+          </span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="container"><div class="left column"><h2 id="waaaaaaa">Waaaaaaa?!</h2>
+
+<p>That’s pretty much what my first sentiment was as well. Well actually it
+wasn’t. I work on the basis that I’m the dumb guy in the room (which works out
+to be true more often than I’d like) and my first thought was more like “What
+am I missing? Why such a big change?”</p>
+
+<p>When it comes to web stuff I am entirely self-taught, like most developers,
+and for most of my career I cared very little for browser internals. After
+all, I’m giving browsers a bunch of stuff to deal with (HTML, CSS, JS), why
+should I start caring <em>how</em> they do it? I don’t sit there musing over my car’s
+ability to combust petrol whenever I take a drive.</p>
+
+<blockquote>
+  <p>I don’t sit there musing over my car’s ability to combust petrol whenever I take a drive.</p>
+</blockquote>
+
+<p>I was dimly aware of WebKit, Trident and Gecko, but I was happy to consider
+them some abstract notion, much as I do with my car. Sometimes they were
+awesome, sometimes they sucked, but whatever the case I honestly didn’t care
+much for them. They just took my code and made it work. Job done.</p>
+
+<h2 id="browser-internals">Browser Internals</h2>
+
+<p>A while ago I figured that I was going to have to understand things a little
+better and so I set about trying to understand more about browser internals. I
+recall the moment that I realised that there’s a ton of stuff outside of the
+engine that actually makes a browser a browser. In short, I realised that
+WebKit <em>isn’t</em> the browser and that it’s not the right mental model to
+consider Chrome and Safari as “pretty much the same thing”. In hindsight I
+feel a bit silly that I hadn’t thought about it in those terms before, but
+there we go, we all learn somehow.</p>
+
+<p>Anyway, in my case understanding more about the browser internals helped me be
+a better developer because I was less reliant on the “magic” under the hood
+and I could code more tactically. I’d say if you have the time and inclination
+it’s well worth your effort to do the same. In the interests of not
+reinventing the wheel, I’ll just suggest that you read <a href="http://paulirish.com/2013/webkit-for-developers/">Paul Irish’s post
+about WebKit for Developers</a>
+if you haven’t already. It covers the WebKit internals stuff I wish I’d known
+a few years ago. Obviously that’s only one part of the puzzle, though, because
+there are a bunch of different engines out there. But it’s a start! Actually,
+aside from Paul’s excellent summary, the HTML5 Rocks article that explains
+<a href="http://www.html5rocks.com/en/tutorials/internals/howbrowserswork/">how browsers
+work</a> is
+something of a must-read, too, so give that a whirl as well.</p>
+
+<h2 id="the-browserscape">The Browserscape</h2>
+
+<p>Today we have five major browsers: <strong>Chrome</strong>, <strong>Firefox</strong>, <strong>Safari</strong>,
+<strong>Opera</strong> and <strong>Internet Explorer</strong>. Opera is switching to use the Chromium
+project for their next version, and of the three remaining only one other is a
+WebKit port: <strong>Safari</strong>. It’s worth keeping in mind, then, that as developers
+if we <em>do</em> assume a certain amount of consistency between WebKit ports, there
+are still <strong>Firefox</strong> and <strong>Internet Explorer</strong> out there with a large market
+share that are not WebKit-based. But you know all this, so why do I mention
+it?</p>
+
+<p>Well if two of the major browser vendors are not WebKit-based then we still
+have a situation where several completely different implementations need to
+interoperate and behave consistently. It’s actually far more important that we
+have <strong>standards</strong> around which compliant implementations can be built than it
+is that we have some “common base”. That way we can have a clearly documented
+set of APIs and behaviours that we can reference, no matter which browser
+we’re discussing. We need to be able to ask the question “Is this thing acting
+the way we all agreed it should?”</p>
+
+<blockquote>
+  <p>It’s actually far more important that we have <strong>standards</strong> around which compliant implementations can be built than it is that we have some “common base”.</p>
+</blockquote>
+
+<p>A pretty solid example of this in action is V8 and SpiderMonkey. V8 was a
+break from WebKit’s default JavaScript parsing and execution engine (JSC), and
+it fast became the leader for JavaScript performance. Today Mozilla ship
+SpiderMonkey in Firefox, which is also blazingly fast. The teams behind V8 and
+SpiderMonkey (or any other JavaScript engine, I’m just picking these two)
+ensure your JavaScript is executed according to ECMA standards, but when was
+the last time you sat there pondering how much code is shared between
+JavaScript engines, or if there should be some combined effort? Before writing
+that sentence my own honest answer was “umm, never” and I’ve got a hunch yours
+might be similar. So adhering to the standards, to me at least, makes more
+sense than any shared code.</p>
+
+<p>It turns out that “big change” I didn’t understand initially is about
+improving the platform, much like V8 did for JavaScript. Blink is a new
+engine, yes, but it’s being built to conform to open web standards, which is
+what we need as developers, much more than we need any given engine. My hope
+is that we’re also going to see innovation across the platform as a whole in
+terms of performance and stability, and if that means we can all build better
+apps, then I’m excited.</p>
+
+<h2 id="ok-a-new-engine-now-what">OK, a new engine. Now what?</h2>
+
+<p>Well there’s a pretty fine <a href="http://chromium.org/blink
+/developer-faq">Blink FAQ document</a> that will hopefully answer the majority of your questions, but
+from my perspective there are a few final thoughts I have on all this.</p>
+
+<p>We are building sites and apps for our users, and their expectations of what
+can be done in the browser grows year on year. Many of us are also building
+for businesses that choose between web and native as their primary delivery
+platform. I for one am really grateful when any browser vendor takes that need
+seriously, whether that’s Google or anyone else. I believe we are going to
+need an engine that will allow us to build the next generation of web apps. I
+think Blink is the start of that, and that’s something I’m really excited
+about.</p>
+
+<p>Secondly there’s a <a href="http://chromestatus.com">new Chrome Status page</a>, which
+gives <em>way</em> more insight into Chrome’s implementation of standards, as well as
+the known position of other vendors on a per-spec basis. It’s great to be able
+to get insight into the current status of whichever upcoming features your
+apps rely on, so that you can plan accordingly.</p>
+
+<p>Finally there are now very clearly defined policies around <a href="http://www.chromium.org/blink#new-features">how Chrome changes
+going forward</a>. That means it
+should be clearer what we can expect from Blink and Chromium as a whole.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>There’s no doubt in my mind that Blink is going to be a huge change for a web,
+but I also think it’s a very positive one. I desperately want the web to be
+the best delivery platform for our apps and sites. I am hopeful that in the
+same way we saw V8 change our expectations of JavaScript performance, that we
+will now see the broader browser landscape challenged as well.</p>
+</div></div>
+
+  <div class="footer-share container">
+    Share this on: <span class="value"><a href="http://www.twitter.com/share?url=http://aerotwist.com/blog/hello-blink/">Twitter</a></span>
+    <span class="value"><a href="https://plus.google.com/share?url=http://aerotwist.com/blog/hello-blink/">Google+</a></span>
+  </div>
+
+  <div class="clear"></div>
+
+  
+    <svg class="left-shape" style="margin-left: -304.95px" width="449.4" height="595.0">
+      <use xlink:href="#color-block" filter="url(#blur-4)" transform="scale(-1.4 1.4) rotate(90)"/>
+    </svg>
+
+    <svg class="right-shape" width="160.5" height="382.5">
+      <use xlink:href="#color-block" filter="url(#blur-8)" transform="scale(-0.9 0.9) rotate(90)"/>
+    </svg>
+  
+
+</div>
+
+
+    </section>
+
+    <footer>
+
+      <div class="container">
+        <div class="bio panel">
+          <h2>Hello!</h2>
+          <p>My name is Paul. I work at <a href="http://www.google.com/" title="Some cloud company in the USA, I think.">Google</a> on the Chrome Developer Relations team as an advocate. I help developers improve the performance of their sites and apps.</p>
+
+          <p>You can find me on <a href="http://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a></p>
+        </div>
+
+        <div class="get-in-touch panel">
+          <h2>Get in touch</h2>
+          <p>I don’t bite. Honestly. You can find me on <a href="http://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a>, and I like hearing from people (pretty handy given my job, really) so say hi.</p>
+        </div>
+
+        <div class="subscribe panel">
+          <h2>Subscribe</h2>
+          <p>You should totally get the <a href="/blog/feed/">RSS feed</a>, or whatever it is you kids are using these days (I miss Reader.)</p>
+        </div>
+
+        <p class="disclaimer">Except as otherwise noted, the content of this page is licensed under the Creative Commons Attribution 3.0 License, and code samples are licensed under the Apache 2.0 License.</p>
+      </div>
+    </footer>
+
+    <script type="text/javascript" async="true">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-13024693-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+  </body>
+</html>

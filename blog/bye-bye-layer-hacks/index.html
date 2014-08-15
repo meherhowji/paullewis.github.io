@@ -1,0 +1,356 @@
+<!doctype html>
+<html itemscope itemtype="http://schema.org/Article">
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="author" content="Paul Lewis" />
+  <meta name="viewport" content="width=device-width">
+
+  
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="//aerotwist.com/blog/feed/">
+  
+
+  
+  <meta itemprop="name" content="Bye Bye Layer Hacks, Hello will-change">
+  <meta itemprop="description" content="Have you ever used the translateZ hack to create a new compositor layer? Most developers have. Now there is an incoming property that&#39;s going to change how we tell the browser what we&#39;re trying to achieve. And that, in my opinion, is almost invariably a good thing.">
+
+    
+
+  
+
+  <style>
+    
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 400;
+      src: local('Lato Regular'), local('Lato-Regular'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qIIYRU-oROkIk8vfvxw6QvesZW2xOQ-xsNqO47m55DA.woff) format('woff');
+    }
+    
+
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 700;
+      src: local('Lato Bold'), local('Lato-Bold'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qdgUG4U09HnJwhYI-uK18wLUuEpTyoUstqEm5AMlJo4.woff) format('woff');
+    }
+  </style>
+
+  <link rel="stylesheet" media="screen" href="/css/aerotwist.css" />
+  <title>Aerotwist - Bye Bye Layer Hacks, Hello will-change</title>
+  
+</head>
+
+
+<!--
+                              __          .__          __
+  _____    ___________  _____/  |___  _  _|__| _______/  |_
+  \__  \ _/ __ \_  __ \/  _ \   __\ \/ \/ /  |/  ___/\   __\
+   / __ \\  ___/|  | \(  <_> )  |  \     /|  |\___ \  |  |
+  (____  /\___  >__|   \____/|__|   \/\_/ |__/____  > |__|
+       \/     \/                                  \/
+
+  Giant ascii art embedded in every page of your site is how you
+  show other people that YOU CARE. Mainly I care about developers,
+  which is what I presume you are if you're all about viewing
+  the source. Clearly you're my kind of person.
+
+  This is v3, it's run through Jekyll, it's been fun to build,
+  there's always more to do, and you may notice that aside from
+  Google Analytics there is no JavaScript. None.
+
+  That's one way of many you keep your pages fast. I care about
+  keeping this site fast because your time is precious and I need
+  to get out of your way.
+
+  <3'z
+
+  Paul
+-->
+
+
+  <body class="blog">
+
+    <header>
+      <div class="container">
+        <div id="logo">
+  <a href="/">
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="100%" height="100%">
+    <g>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#6EBAD3" points="30.6,47.73 64.92,47.73 19.97,76.52"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ED95C0" points="48.198,0 53.008,14.06 39.31,24.76"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#880043" points="39.31,24.76 64.92,48 30.6,48"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#DA0A7A" points="39.31,24.76 64.92,48 53.008,14.06"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#0B7DAD" points="30.6,48 64.92,48 48,58.69"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#BDDEE8" points="47.76,58.69 64.92,47.73 75.14,76.73"></polygon>
+    </g>
+    </svg>
+  </a>
+</div>
+
+        <nav>
+  <ul>
+    
+      
+        <li><a href="/">Home</a></li>
+      
+    
+      
+        <li class="active"><a href="/blog/"> Blog</a></li>
+      
+    
+      
+        <li><a href="/tutorials/">Tutorials</a></li>
+      
+    
+      
+        <li><a href="/lab/">Lab</a></li>
+      
+    
+  </ul>
+
+  <svg id="left-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#AAAAAA" stroke-width="1" />
+    </svg>
+
+  <svg id="right-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#6EBAD3" stroke-opacity="0.3" stroke-width="1" />
+    </svg>
+</nav>
+
+      </div>
+    </header>
+    <section>
+
+      <div class="content">
+
+  
+  <svg version="1.1" class="shape-reference" xmlns="http://www.w3.org/2000/svg" width="514" height="311">
+  <defs>
+    <filter id="blur-8">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="8" />
+    </filter>
+    <filter id="blur-6">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="6" />
+    </filter>
+    <filter id="blur-4">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="4" />
+    </filter>
+  </defs>
+
+  <g id="color-block">
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#92a1c6" stroke="#92a1c6" stroke-width="0.6" points="92,161 40,91 93,88"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#8077af" stroke="#8077af" stroke-width="0.6" points="92,161 93,88 105,163"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#997bb4" stroke="#997bb4" stroke-width="0.6" points="147,134 105,163 93,88"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#8e4899" stroke="#8e4899" stroke-width="0.6" points="105,163 147,134 156,169"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#6b3c7a" stroke="#6b3c7a" stroke-width="0.6" points="123,206 105,163 156,169"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#712a68" stroke="#712a68" stroke-width="0.6" points="191,197 123,206 156,169"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#4d1d48" stroke="#4d1d48" stroke-width="0.6" points="191,197 148,244 123,206"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#3e1031" stroke="#3e1031" stroke-width="0.6" points="189,253 148,244 191,197"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#5f0f40" stroke="#5f0f40" stroke-width="0.6" points="189,253 191,197 231,201"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#4e0730" stroke="#4e0730" stroke-width="0.6" points="189,253 231,201 244,237"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#6e033a" stroke="#6e033a" stroke-width="0.6" points="244,237 231,201 264,219"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#3c0220" stroke="#3c0220" stroke-width="0.6" points="244,237 264,219 303,271"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#4d0830" stroke="#4d0830" stroke-width="0.6" points="303,271 264,219 317,201"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#34102c" stroke="#34102c" stroke-width="0.6" points="413,236 303,271 317,201"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#562757" stroke="#562757" stroke-width="0.6" points="413,236 317,201 384,175"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#3f3f67" stroke="#3f3f67" stroke-width="0.6" points="413,236 384,175 474,182"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#615592" stroke="#615592" stroke-width="0.6" points="384,175 387,141 474,182"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#994095" stroke="#994095" stroke-width="0.6" points="384,175 321,153 387,141"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#912977" stroke="#912977" stroke-width="0.6" points="317,201 321,153 384,175"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#b5207f" stroke="#b5207f" stroke-width="0.6" points="317,201 311,144 321,153"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#9c1162" stroke="#9c1162" stroke-width="0.6" points="264,219 311,144 317,201"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#cc066d" stroke="#cc066d" stroke-width="0.6" points="311,144 264,219 233,159"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f52692" stroke="#f52692" stroke-width="0.6" points="265,117 311,144 233,159"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#e348a1" stroke="#e348a1" stroke-width="0.6" points="311,144 265,117 309,131"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#d14fa3" stroke="#d14fa3" stroke-width="0.6" points="311,144 309,131 331,122"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#cb439c" stroke="#cb439c" stroke-width="0.6" points="321,153 311,144 331,122"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#b752a2" stroke="#b752a2" stroke-width="0.6" points="321,153 331,122 387,141"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ea75b8" stroke="#ea75b8" stroke-width="0.6" points="309,131 265,117 312,77"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f6a4d0" stroke="#f6a4d0" stroke-width="0.6" points="265,117 271,55 312,77"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#fea8d3" stroke="#fea8d3" stroke-width="0.6" points="265,117 246,67 271,55"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#fc79bb" stroke="#fc79bb" stroke-width="0.6" points="240,121 246,67 265,117"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f4a3d0" stroke="#f4a3d0" stroke-width="0.6" points="240,121 196,66 246,67"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#e682be" stroke="#e682be" stroke-width="0.6" points="187,124 196,66 240,121"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#dca1cc" stroke="#dca1cc" stroke-width="0.6" points="187,124 141,88 196,66"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#c37eb9" stroke="#c37eb9" stroke-width="0.6" points="147,134 141,88 187,124"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#bc9dc7" stroke="#bc9dc7" stroke-width="0.6" points="147,134 93,88 141,88"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#d2c9df" stroke="#d2c9df" stroke-width="0.6" points="93,88 95,55 141,88"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#c6cde1" stroke="#c6cde1" stroke-width="0.6" points="93,88 40,91 95,55"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#eadcec" stroke="#eadcec" stroke-width="0.6" points="141,88 95,55 178,40"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#eed4e8" stroke="#eed4e8" stroke-width="0.6" points="141,88 178,40 196,66"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f8e6f2" stroke="#f8e6f2" stroke-width="0.6" points="196,66 178,40 212,54"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f8d2e8" stroke="#f8d2e8" stroke-width="0.6" points="246,67 196,66 212,54"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#fdd7eb" stroke="#fdd7eb" stroke-width="0.6" points="246,67 212,54 271,55"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#b14e9f" stroke="#b14e9f" stroke-width="0.6" points="156,169 147,134 187,124"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#bc3493" stroke="#bc3493" stroke-width="0.6" points="156,169 187,124 205,159"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#9b2476" stroke="#9b2476" stroke-width="0.6" points="191,197 156,169 205,159"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#9d1566" stroke="#9d1566" stroke-width="0.6" points="191,197 205,159 231,201"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#be1172" stroke="#be1172" stroke-width="0.6" points="231,201 205,159 233,159"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#a20658" stroke="#a20658" stroke-width="0.6" points="231,201 233,159 264,219"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#e4248e" stroke="#e4248e" stroke-width="0.6" points="233,159 205,159 240,121"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f7379a" stroke="#f7379a" stroke-width="0.6" points="265,117 233,159 240,121"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#db459e" stroke="#db459e" stroke-width="0.6" points="205,159 187,124 240,121"/>
+  </g>
+</svg>
+
+  
+
+  <div class="masthead hatched">
+
+    
+      <svg class="behind-meta" width="514" height="311">
+        <use xlink:href="#color-block" />
+      </svg>
+
+      <svg class="left-meta" width="514" height="311">
+        <use xlink:href="#color-block" filter="url(#blur-6)" transform="translate(257 311/2) scale(-0.5 0.5) translate(-257 -311/2)" />
+      </svg>
+    
+
+    <div class="container">
+      <h2>Bye Bye Layer Hacks, Hello will-change</h2>
+      <p>Have you ever used the translateZ hack to create a new compositor layer? Most developers have. Now there is an incoming property that's going to change how we tell the browser what we're trying to achieve. And that, in my opinion, is almost invariably a good thing.</p>
+    </div>
+
+  </div>
+
+  <div class="container">
+    <div class="meta">
+
+      <ul>
+        <li class="last-updated">
+          <span class="name">Last updated:</span>
+          <span class="value">30 Jan 2014</span>
+        </li>
+
+        <li>
+          <span class="name">Est. Read Time:</span>
+          <span class="value">3 mins</span>
+        </li>
+
+        <li class="share">
+          <span class="name">Share this:</span>
+          <span class="value"><a href="http://www.twitter.com/share?url=http://aerotwist.com/blog/bye-bye-layer-hacks/">Twitter</a></span>
+          <span class="value"><a href="https://plus.google.com/share?url=http://aerotwist.com/blog/bye-bye-layer-hacks/">Google+</a></span>
+        </li>
+        <li class="tags">
+          <span class="name">Tagged:</span>
+          <span class="value">
+          
+            #perfmatters, 
+          
+            #apps
+          
+          </span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="container"><div class="left column"><h2 id="hackery-thuggery">Hackery Thuggery</h2>
+
+<p>Developers have long used <code>translateZ</code> to promote elements to their own layers. It’s a great way to isolate elements so painting has less impact, but it doesn’t come <a href="//aerotwist.com/blog/on-translate3d-and-layer-creation-hacks/">without costs</a>.</p>
+
+<p>What you <em>really</em> want to do instead is to say to the browser “Hey, this element is going to change, so kind of bear that in mind when you paint it.”</p>
+
+<p>Just as well, then, that a new property is incoming: <code>will-change</code>.</p>
+
+<h2 id="heyaaaaa-declarative-wonderment">Heyaaaaa declarative wonderment</h2>
+
+<p>With <code>will-change</code>, you get to declare your intention to the browser, letting it know what you plan to change about an element: its position, dimensions or scroll position to name just three. Instead of inferring things through other styles (ohai 3D transform), the browser can explicitly make provision for whatever it is you’re planning to do.</p>
+
+<p>There is relatively fine-grain control for detailing <em>what exactly</em> will be changing, and this is important. In the same way as with <code>transition</code>s, where in all likelihood you don’t want to use a value of <code>all</code>, so here you will probably want to hint very clearly what is going to change. That way the browser gets to choose the correct optimizations under the hood beyond simply “make a layer for this element”.</p>
+
+<h2 id="the-web-needs-containment">The web needs containment</h2>
+
+<p>I recently wrote a post on how <a href="//aerotwist.com/blog/the-web-needs-containment/">the web needs to provide a couple of things</a> to enable the next generation of web apps and this property (it was called <code>will-animate</code> at that point) was one of them.</p>
+
+<p>I’m super excited to see that this is landing in <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=940842">Firefox Nightly</a>, and of course I’ve starred the <a href="http://crbug.com/313532">Chromium bug</a> for it (you might want to, too). If you want more detail on <code>will-change</code> you should read <a href="http://tabatkins.github.io/specs/css-will-change/">the spec</a>.</p>
+
+<p>Game on.</p>
+
+<h2 id="update-2014-02-21">Update (2014-02-21)</h2>
+
+<p>There’s been a bit of chatter on Twitter. What caught my eye was Lea Verou saying that this is something that the browser should handle automatically:</p>
+
+<figure>
+  <a href="https://twitter.com/LeaVerou/status/436612125826744320"><img src="/static/blog/bye-bye-layer-hacks/lea-verou-tweet.png" /></a>
+</figure>
+
+<p>Let me say up-front that I’m entirely sympathetic to this view, and historically browser vendors have handled everything automatically very well. But here’s why I don’t think this is adequate today:</p>
+
+<ul>
+  <li><strong>A browser can only infer what you intend to change visually by proxy.</strong> If you make a class to apply a transition on an element’s – say – width, height, top and left that’s all well and good, but then the browser doesn’t know <em>for sure</em> that you’re going to change any of those things until you add the class to an element. And even then adding a transition property does not equate to actually changing a transitional property’s value. This applies equally to styles toggled through JavaScript or states, e.g. hover. You can’t actively preempt it because then <em>all</em> candidate elements should by rights be optimized for that eventuality and it would kill performance.</li>
+  <li><strong>Many developers require the ability to make changes imperatively via JavaScript, not declaratively through CSS.</strong> For those who don’t like JavaScript animation, the use-case is when you have dynamically- or user-generated content about which you can’t reason, and therefore bake into CSS, ahead of time. As such the browser has no idea JavaScipt-based changes are coming until they are executed. It would be akin to <a href="http://en.wikipedia.org/wiki/Halting_problem">the Halting Problem</a> for the browser to try and figure out if you’re <em>definitely</em> going to execute a particular piece code.</li>
+  <li><strong>Setting up graphics to render pages is not free</strong>. We get to author our stuff in CSS, and the browser has to do all the heavy lifting to accurately present the page to a user. Creating all the structures, handling painting and compositing (all the while ensuring everything remains correct) is not free. In fact it’s computationally expensive and an engineering task, for sure, but it’s a constraint of operating with graphics that is not unique to the web. We can either do that work <em>on demand</em> and hamstring runtime performance, or we can do it <em>ahead of time</em> and hopefully give our users the best possible experience.</li>
+</ul>
+
+<p>Ultimately web apps are getting more complex and complicated, a point I made when I posted about how <a href="//aerotwist.com/blog/algowhatnow/">developers can benefit from learning Computer Science</a>. More complicated and complex applications put a burden on authors, of course, but also on browsers. The best things happen when people work <em>with</em> technology, and, given the above points, I’d rather we had the finer-grain control to express to browsers what we really intend to do rather than leave them guessing.</p>
+</div></div>
+
+  <div class="footer-share container">
+    Share this on: <span class="value"><a href="http://www.twitter.com/share?url=http://aerotwist.com/blog/bye-bye-layer-hacks/">Twitter</a></span>
+    <span class="value"><a href="https://plus.google.com/share?url=http://aerotwist.com/blog/bye-bye-layer-hacks/">Google+</a></span>
+  </div>
+
+  <div class="clear"></div>
+
+  
+    <svg class="left-shape" style="margin-left: -295.45px" width="435.4" height="719.6">
+      <use xlink:href="#color-block" filter="url(#blur-4)" transform="scale(-1.4 1.4) rotate(90)"/>
+    </svg>
+
+    <svg class="right-shape" width="155.5" height="462.6">
+      <use xlink:href="#color-block" filter="url(#blur-8)" transform="scale(-0.9 0.9) rotate(90)"/>
+    </svg>
+  
+
+</div>
+
+
+    </section>
+
+    <footer>
+
+      <div class="container">
+        <div class="bio panel">
+          <h2>Hello!</h2>
+          <p>My name is Paul. I work at <a href="http://www.google.com/" title="Some cloud company in the USA, I think.">Google</a> on the Chrome Developer Relations team as an advocate. I help developers improve the performance of their sites and apps.</p>
+
+          <p>You can find me on <a href="http://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a></p>
+        </div>
+
+        <div class="get-in-touch panel">
+          <h2>Get in touch</h2>
+          <p>I don’t bite. Honestly. You can find me on <a href="http://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a>, and I like hearing from people (pretty handy given my job, really) so say hi.</p>
+        </div>
+
+        <div class="subscribe panel">
+          <h2>Subscribe</h2>
+          <p>You should totally get the <a href="/blog/feed/">RSS feed</a>, or whatever it is you kids are using these days (I miss Reader.)</p>
+        </div>
+
+        <p class="disclaimer">Except as otherwise noted, the content of this page is licensed under the Creative Commons Attribution 3.0 License, and code samples are licensed under the Apache 2.0 License.</p>
+      </div>
+    </footer>
+
+    <script type="text/javascript" async="true">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-13024693-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+  </body>
+</html>

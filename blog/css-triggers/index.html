@@ -1,0 +1,418 @@
+<!doctype html>
+<html itemscope itemtype="http://schema.org/Article">
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="author" content="Paul Lewis" />
+  <meta name="viewport" content="width=device-width">
+
+  
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="//aerotwist.com/blog/feed/">
+  
+
+  
+  <meta itemprop="name" content="CSS Triggers">
+  <meta itemprop="description" content="I figure we needed a definitive reference for what work is triggered by changing various CSS properties. It&#39;s something I get asked about often enough by developers, and while we can do tests with DevTools, I have both the time and inclination to shortcut that for everyone. I&#39;m nice like that.">
+
+    
+
+  
+
+  <style>
+    
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 400;
+      src: local('Lato Regular'), local('Lato-Regular'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qIIYRU-oROkIk8vfvxw6QvesZW2xOQ-xsNqO47m55DA.woff) format('woff');
+    }
+    
+
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 700;
+      src: local('Lato Bold'), local('Lato-Bold'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qdgUG4U09HnJwhYI-uK18wLUuEpTyoUstqEm5AMlJo4.woff) format('woff');
+    }
+  </style>
+
+  <link rel="stylesheet" media="screen" href="/css/aerotwist.css" />
+  <title>Aerotwist - CSS Triggers</title>
+  
+</head>
+
+
+<!--
+                              __          .__          __
+  _____    ___________  _____/  |___  _  _|__| _______/  |_
+  \__  \ _/ __ \_  __ \/  _ \   __\ \/ \/ /  |/  ___/\   __\
+   / __ \\  ___/|  | \(  <_> )  |  \     /|  |\___ \  |  |
+  (____  /\___  >__|   \____/|__|   \/\_/ |__/____  > |__|
+       \/     \/                                  \/
+
+  Giant ascii art embedded in every page of your site is how you
+  show other people that YOU CARE. Mainly I care about developers,
+  which is what I presume you are if you're all about viewing
+  the source. Clearly you're my kind of person.
+
+  This is v3, it's run through Jekyll, it's been fun to build,
+  there's always more to do, and you may notice that aside from
+  Google Analytics there is no JavaScript. None.
+
+  That's one way of many you keep your pages fast. I care about
+  keeping this site fast because your time is precious and I need
+  to get out of your way.
+
+  <3'z
+
+  Paul
+-->
+
+
+  <body class="blog">
+
+    <header>
+      <div class="container">
+        <div id="logo">
+  <a href="/">
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="100%" height="100%">
+    <g>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#6EBAD3" points="30.6,47.73 64.92,47.73 19.97,76.52"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ED95C0" points="48.198,0 53.008,14.06 39.31,24.76"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#880043" points="39.31,24.76 64.92,48 30.6,48"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#DA0A7A" points="39.31,24.76 64.92,48 53.008,14.06"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#0B7DAD" points="30.6,48 64.92,48 48,58.69"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#BDDEE8" points="47.76,58.69 64.92,47.73 75.14,76.73"></polygon>
+    </g>
+    </svg>
+  </a>
+</div>
+
+        <nav>
+  <ul>
+    
+      
+        <li><a href="/">Home</a></li>
+      
+    
+      
+        <li class="active"><a href="/blog/"> Blog</a></li>
+      
+    
+      
+        <li><a href="/tutorials/">Tutorials</a></li>
+      
+    
+      
+        <li><a href="/lab/">Lab</a></li>
+      
+    
+  </ul>
+
+  <svg id="left-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#AAAAAA" stroke-width="1" />
+    </svg>
+
+  <svg id="right-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#6EBAD3" stroke-opacity="0.3" stroke-width="1" />
+    </svg>
+</nav>
+
+      </div>
+    </header>
+    <section>
+
+      <div class="content">
+
+  
+  <svg version="1.1" class="shape-reference" xmlns="http://www.w3.org/2000/svg" width="425" height="321">
+  <defs>
+    <filter id="blur-8">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="8" />
+    </filter>
+    <filter id="blur-6">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="6" />
+    </filter>
+    <filter id="blur-4">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="4" />
+    </filter>
+  </defs>
+
+  <g id="color-block">
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#181726" stroke="#181726" stroke-width="0.6" points="40,249 87,230 123,278"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#303d5d" stroke="#303d5d" stroke-width="0.6" points="40,249 77,162 87,230"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#5f3a71" stroke="#5f3a71" stroke-width="0.6" points="154,188 87,230 77,162"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#5d2154" stroke="#5d2154" stroke-width="0.6" points="87,230 154,188 163,218"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#301530" stroke="#301530" stroke-width="0.6" points="123,278 87,230 163,218"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#25081c" stroke="#25081c" stroke-width="0.6" points="123,278 163,218 189,276"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#4e062e" stroke="#4e062e" stroke-width="0.6" points="189,276 163,218 214,223"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#2b0116" stroke="#2b0116" stroke-width="0.6" points="249,281 189,276 214,223"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#340620" stroke="#340620" stroke-width="0.6" points="269,252 249,281 214,223"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#160511" stroke="#160511" stroke-width="0.6" points="249,281 269,252 289,267"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#34132f" stroke="#34132f" stroke-width="0.6" points="289,267 269,252 314,209"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#2c1933" stroke="#2c1933" stroke-width="0.6" points="340,249 289,267 314,209"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#3f3056" stroke="#3f3056" stroke-width="0.6" points="314,209 337,187 340,249"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#6d3c7b" stroke="#6d3c7b" stroke-width="0.6" points="337,187 314,209 285,160"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#7d4e97" stroke="#7d4e97" stroke-width="0.6" points="285,160 337,147 337,187"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#936aaa" stroke="#936aaa" stroke-width="0.6" points="337,147 285,160 336,119"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#7d87b7" stroke="#7d87b7" stroke-width="0.6" points="337,147 336,119 381,140"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#5d6aa5" stroke="#5d6aa5" stroke-width="0.6" points="337,187 337,147 381,140"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#8f9fc5" stroke="#8f9fc5" stroke-width="0.6" points="336,119 356,97 381,140"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#b1aecf" stroke="#b1aecf" stroke-width="0.6" points="336,119 336,88 356,97"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#c5aacf" stroke="#c5aacf" stroke-width="0.6" points="336,119 276,84 336,88"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#c788be" stroke="#c788be" stroke-width="0.6" points="258,133 276,84 336,119"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#e383be" stroke="#e383be" stroke-width="0.6" points="258,133 231,102 276,84"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f550a6" stroke="#f550a6" stroke-width="0.6" points="258,133 185,141 231,102"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#fb1c8d" stroke="#fb1c8d" stroke-width="0.6" points="185,141 258,133 184,167"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ca1b84" stroke="#ca1b84" stroke-width="0.6" points="184,167 154,188 185,141"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#971968" stroke="#971968" stroke-width="0.6" points="163,218 154,188 184,167"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#940c58" stroke="#940c58" stroke-width="0.6" points="163,218 184,167 214,223"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#aa065c" stroke="#aa065c" stroke-width="0.6" points="273,200 214,223 184,167"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#600e40" stroke="#600e40" stroke-width="0.6" points="269,252 214,223 273,200"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#551c4a" stroke="#551c4a" stroke-width="0.6" points="269,252 273,200 314,209"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#7c2c71" stroke="#7c2c71" stroke-width="0.6" points="314,209 273,200 285,160"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#b32c8b" stroke="#b32c8b" stroke-width="0.6" points="273,200 258,133 285,160"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#d61280" stroke="#d61280" stroke-width="0.6" points="273,200 184,167 258,133"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#b261a9" stroke="#b261a9" stroke-width="0.6" points="285,160 258,133 336,119"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#b63492" stroke="#b63492" stroke-width="0.6" points="185,141 154,188 107,143"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#d376b6" stroke="#d376b6" stroke-width="0.6" points="107,143 172,68 185,141"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f57ebd" stroke="#f57ebd" stroke-width="0.6" points="185,141 172,68 231,102"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#fcc0df" stroke="#fcc0df" stroke-width="0.6" points="172,68 203,40 231,102"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f9cde5" stroke="#f9cde5" stroke-width="0.6" points="231,102 203,40 276,55"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ebb5d8" stroke="#ebb5d8" stroke-width="0.6" points="276,84 231,102 276,55"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#efd5e9" stroke="#efd5e9" stroke-width="0.6" points="276,84 276,55 284,55"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ead0e5" stroke="#ead0e5" stroke-width="0.6" points="276,84 284,55 302,65"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#dbc2dd" stroke="#dbc2dd" stroke-width="0.6" points="276,84 302,65 336,88"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#854995" stroke="#854995" stroke-width="0.6" points="154,188 77,162 107,143"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#cbcce1" stroke="#cbcce1" stroke-width="0.6" points="356,97 336,88 348,53"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#c1cee1" stroke="#c1cee1" stroke-width="0.6" points="385,93 356,97 348,53"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#8fb0cd" stroke="#8fb0cd" stroke-width="0.6" points="381,140 356,97 385,93"/>
+  </g>
+</svg>
+
+  
+
+  <div class="masthead hatched">
+
+    
+      <svg class="behind-meta" width="425" height="321">
+        <use xlink:href="#color-block" />
+      </svg>
+
+      <svg class="left-meta" width="425" height="321">
+        <use xlink:href="#color-block" filter="url(#blur-6)" transform="translate(425/2 321/2) scale(-0.5 0.5) translate(-425/2 -321/2)" />
+      </svg>
+    
+
+    <div class="container">
+      <h2>CSS Triggers</h2>
+      <p>I figure we needed a definitive reference for what work is triggered by changing various CSS properties. It's something I get asked about often enough by developers, and while we can do tests with DevTools, I have both the time and inclination to shortcut that for everyone. I'm nice like that.</p>
+    </div>
+
+  </div>
+
+  <div class="container">
+    <div class="meta">
+
+      <ul>
+        <li class="last-updated">
+          <span class="name">Last updated:</span>
+          <span class="value">26 Jul 2014</span>
+        </li>
+
+        <li>
+          <span class="name">Est. Read Time:</span>
+          <span class="value">3 mins</span>
+        </li>
+
+        <li class="share">
+          <span class="name">Share this:</span>
+          <span class="value"><a href="http://www.twitter.com/share?url=http://aerotwist.com/blog/css-triggers/">Twitter</a></span>
+          <span class="value"><a href="https://plus.google.com/share?url=http://aerotwist.com/blog/css-triggers/">Google+</a></span>
+        </li>
+        <li class="tags">
+          <span class="name">Tagged:</span>
+          <span class="value">
+          
+            #perfmatters, 
+          
+            #reference
+          
+          </span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="container"><div class="left column">
+<p class="livedemo"><a href="http://csstriggers.com/">Visit CSS Triggers</a></p>
+
+<p>A while ago, <a href="https://twitter.com/paul_irish">Paul Irish</a> and I were doing an event in San Francisco about performance. In Paul’s deck there was a grab of a doc we’d collaborated on that showed the <a href="https://docs.google.com/a/google.com/spreadsheet/pub?key=0ArK1Uipy0SbDdHVLc1ozTFlja1dhb25QNGhJMXN5MXc&amp;single=true&amp;gid=0&amp;output=html">top CSS properties by usage, along with their impact to browser workload</a>. The ‘impact’ part was incomplete, and manually created, but I guess in many ways that was the starting point for making CSS Triggers. Except this time I wanted it to be complete and automated…</p>
+
+<h2 id="building-the-data-set">Building the data set</h2>
+
+<p>The first thing I knew I would want was a set of test pages that would allow me to check each CSS property individually and see what it triggered. But wait, I’m getting ahead of myself, how do I get all the CSS properties? After a bit of googling I found <a href="http://acuriousanimal.com/blog/2012/07/09/look-mom-no-jquery-getting-all-css-properties-of-a-dom-element-in-pure-javascript/">someone had tried something similar</a>. Their code was a bit much for my needs so I rewrote it and simplified things, and it turned out the final code to get the properties was actually not too tricky at all:
+</div></div></p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">docEl</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">documentElement</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">properties</span> <span class="o">=</span> <span class="nb">window</span><span class="p">.</span><span class="nx">getComputedStyle</span><span class="p">(</span><span class="nx">docEl</span><span class="p">,</span> <span class="kc">null</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">prefix</span> <span class="o">=</span> <span class="sr">/\-webkit\-/</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">allCSSProperties</span> <span class="o">=</span> <span class="p">[];</span>
+
+<span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">s</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">s</span> <span class="o">&lt;</span> <span class="nx">properties</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">s</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">property</span> <span class="o">=</span> <span class="nx">properties</span><span class="p">[</span><span class="nx">s</span><span class="p">];</span>
+
+  <span class="c1">// Ignore prefixed properties.</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">prefix</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="nx">property</span><span class="p">))</span>
+    <span class="k">continue</span><span class="p">;</span>
+
+  <span class="c1">// Check we don&#39;t duplicate.</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">allCSSProperties</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="nx">property</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="nx">allCSSProperties</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">property</span><span class="p">);</span>
+<span class="p">}</span></code></pre></div>
+
+<div class="container"><div class="left column">
+
+<p>And now I had a list of properties…</p>
+
+<h2 id="test-files">Test files</h2>
+
+<p>Next I created a node.js file that would output <a href="https://github.com/paullewis/CSS-Triggers/tree/master/suite">a suite of test files</a>, one for each property. Each file in the suite is pretty much the same, save for the property it manipulates. And. They. Look. Gorgeous.</p>
+
+<figure>
+  <img src="/static/blog/css-triggers/test.png" />
+  <figcaption>My gorgeous test files. DON'T JUDGE ME.</figcaption>
+</figure>
+
+<blockquote>
+  <p>For each property I made sure that <code>will-change</code> was set (even if there’s no corresponding browser optimization to match, because whatevs) and that the value changes actually did trigger something.</p>
+</blockquote>
+
+<p>For each property I made sure that <a href="http://dev.opera.com/articles/css-will-change-property/"><code>will-change</code></a> was set (even if there’s no corresponding browser optimization to match, because whatevs) and that the value changes actually <em>did trigger something</em>. By that I mean there’s no point changing a property intended for tables if you have no tables, that kind of thing. I also tried to make sure there was a test of changing the value from its default to something else, and then another test changing it between two user-defined values, if that made sense for the property in question.</p>
+
+<h2 id="you-have-tests-you-run-them">You have tests, you run them…</h2>
+
+<p>OK, suite of tests all ready and working, I set about cloning <a href="http://www.chromium.org/developers/telemetry">Chrome’s Telemetry</a> and making a benchmark to run through all the files. Sounds simple, but Telemetry is a large codebase and I don’t pretend to understand Python super well. Anyways, I got there.</p>
+
+<p>The key with Telemetry, though, is that you can ask it to record a DevTools timeline of the page and then see which records it received. The way I built the test was that the CSS property change would be triggered by a specific <code>go()</code> function (rad naming, I know) so for each page in the set I essentially said:</p>
+
+<ul>
+  <li>Load it.</li>
+  <li>Switch on DevTools’ Timeline.</li>
+  <li><code>go()</code></li>
+  <li>Stop DevTools’ Timeline.</li>
+  <li>Tell me if you have Layout, Paint or Composite Records.</li>
+</ul>
+
+<p>With that, and a bit more data jiggery pokery, I ended up with <a href="http://csstriggers.com/data/data.json">a big ol’ data set</a>.</p>
+
+<h2 id="go-static-or--go-home">Go static or … go home?</h2>
+
+<p>Building the site was a relatively clear once I had the data: a big table with some details on what it means. But to generate it I wanted to use Jekyll, so I found myself writing more node.js stuff to transform the JSON I had over to its funky YAML front matter:</p>
+
+</div></div>
+
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">properties</span><span class="p">:</span>
+ <span class="o">-</span> <span class="n">name</span><span class="p">:</span> <span class="s">&quot;align-content&quot;</span>
+   <span class="n">chrome</span><span class="p">:</span>
+      <span class="n">initial</span><span class="p">:</span>
+         <span class="n">layout</span><span class="p">:</span> <span class="s">&quot;true&quot;</span>
+         <span class="n">paint</span><span class="p">:</span> <span class="s">&quot;true&quot;</span>
+         <span class="n">composite</span><span class="p">:</span> <span class="s">&quot;true&quot;</span>
+      <span class="n">change</span><span class="p">:</span>
+         <span class="n">layout</span><span class="p">:</span> <span class="s">&quot;null&quot;</span>
+         <span class="n">paint</span><span class="p">:</span> <span class="s">&quot;null&quot;</span>
+         <span class="n">composite</span><span class="p">:</span> <span class="s">&quot;null&quot;</span>
+ <span class="o">-</span> <span class="n">name</span><span class="p">:</span> <span class="s">&quot;align-items&quot;</span>
+   <span class="n">chrome</span><span class="p">:</span>
+      <span class="n">initial</span><span class="p">:</span>
+         <span class="n">layout</span><span class="p">:</span> <span class="s">&quot;true&quot;</span>
+         <span class="n">paint</span><span class="p">:</span> <span class="s">&quot;true&quot;</span>
+         <span class="n">composite</span><span class="p">:</span> <span class="s">&quot;true&quot;</span>
+      <span class="n">change</span><span class="p">:</span>
+         <span class="n">layout</span><span class="p">:</span> <span class="s">&quot;null&quot;</span>
+         <span class="n">paint</span><span class="p">:</span> <span class="s">&quot;null&quot;</span>
+         <span class="n">composite</span><span class="p">:</span> <span class="s">&quot;null&quot;</span>
+
+  <span class="c"># etc, etc....</span></code></pre></div>
+
+<div class="container"><div class="left column">
+<p>You may well notice a “chrome” key there in the data. That’s right. I’d like to expand this to other browser vendors, and I am more than happy to include more data and give developers a better overview. Sadly the tools don’t exist yet for many browsers, so here’s a request: <strong>if you’re a vendor, or you know what’s going on inside browsers besides Chrome, please <a href="https://github.com/paullewis/CSS-Triggers/issues">file a Pull Request</a></strong>. As I get data I will update the site.</p>
+
+<blockquote>
+  <p>I’d like to expand this to other browser vendors, and I am more than happy to include more data and give developers a better overview.</p>
+</blockquote>
+
+<h2 id="have-data-will-travel">Have data, will travel</h2>
+
+<p>I wanted to create a tool that would allow developers to more readily understand the ramifications of changing their styles. I’m pleased with the first release of <a href="http://csstriggers.com/">CSS Triggers</a>, and I hope many folks get good use out of it. I have plans to expand the site a bit more so that the reference has context, not just a load of data, but I’m not sure exactly when that will be.</p>
+
+<p>Putting together the site was fun, and involved a heck of a lot of tool and data wrangling, but in the end I like to think it was worth it. But then I <em>would</em> say that…
+</div></div></p>
+
+
+  <div class="footer-share container">
+    Share this on: <span class="value"><a href="http://www.twitter.com/share?url=http://aerotwist.com/blog/css-triggers/">Twitter</a></span>
+    <span class="value"><a href="https://plus.google.com/share?url=http://aerotwist.com/blog/css-triggers/">Google+</a></span>
+  </div>
+
+  <div class="clear"></div>
+
+  
+    <svg class="left-shape" style="margin-left: -304.95px" width="449.4" height="595.0">
+      <use xlink:href="#color-block" filter="url(#blur-4)" transform="scale(-1.4 1.4) rotate(90)"/>
+    </svg>
+
+    <svg class="right-shape" width="160.5" height="382.5">
+      <use xlink:href="#color-block" filter="url(#blur-8)" transform="scale(-0.9 0.9) rotate(90)"/>
+    </svg>
+  
+
+</div>
+
+
+    </section>
+
+    <footer>
+
+      <div class="container">
+        <div class="bio panel">
+          <h2>Hello!</h2>
+          <p>My name is Paul. I work at <a href="http://www.google.com/" title="Some cloud company in the USA, I think.">Google</a> on the Chrome Developer Relations team as an advocate. I help developers improve the performance of their sites and apps.</p>
+
+          <p>You can find me on <a href="http://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a></p>
+        </div>
+
+        <div class="get-in-touch panel">
+          <h2>Get in touch</h2>
+          <p>I don’t bite. Honestly. You can find me on <a href="http://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a>, and I like hearing from people (pretty handy given my job, really) so say hi.</p>
+        </div>
+
+        <div class="subscribe panel">
+          <h2>Subscribe</h2>
+          <p>You should totally get the <a href="/blog/feed/">RSS feed</a>, or whatever it is you kids are using these days (I miss Reader.)</p>
+        </div>
+
+        <p class="disclaimer">Except as otherwise noted, the content of this page is licensed under the Creative Commons Attribution 3.0 License, and code samples are licensed under the Apache 2.0 License.</p>
+      </div>
+    </footer>
+
+    <script type="text/javascript" async="true">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-13024693-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+  </body>
+</html>

@@ -1,0 +1,420 @@
+<!doctype html>
+<html itemscope itemtype="http://schema.org/Article">
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="author" content="Paul Lewis" />
+  <meta name="viewport" content="width=device-width">
+
+  
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="//aerotwist.com/blog/feed/">
+  
+
+  
+  <meta itemprop="name" content="My Performance Audit Workflow">
+  <meta itemprop="description" content="Sometimes I get asked to do performance audits on web projects and to make some recommendations. So what I thought I’d do is run through what my process is, what I’m looking for, and what I typically suggest. It’s not exactly perfect, but hopefully it’ll give you an idea of what you might want to do.">
+
+    
+
+  
+
+  <style>
+    
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 400;
+      src: local('Lato Regular'), local('Lato-Regular'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qIIYRU-oROkIk8vfvxw6QvesZW2xOQ-xsNqO47m55DA.woff) format('woff');
+    }
+    
+
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 700;
+      src: local('Lato Bold'), local('Lato-Bold'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qdgUG4U09HnJwhYI-uK18wLUuEpTyoUstqEm5AMlJo4.woff) format('woff');
+    }
+  </style>
+
+  <link rel="stylesheet" media="screen" href="/css/aerotwist.css" />
+  <title>Aerotwist - My Performance Audit Workflow</title>
+  
+</head>
+
+
+<!--
+                              __          .__          __
+  _____    ___________  _____/  |___  _  _|__| _______/  |_
+  \__  \ _/ __ \_  __ \/  _ \   __\ \/ \/ /  |/  ___/\   __\
+   / __ \\  ___/|  | \(  <_> )  |  \     /|  |\___ \  |  |
+  (____  /\___  >__|   \____/|__|   \/\_/ |__/____  > |__|
+       \/     \/                                  \/
+
+  Giant ascii art embedded in every page of your site is how you
+  show other people that YOU CARE. Mainly I care about developers,
+  which is what I presume you are if you're all about viewing
+  the source. Clearly you're my kind of person.
+
+  This is v3, it's run through Jekyll, it's been fun to build,
+  there's always more to do, and you may notice that aside from
+  Google Analytics there is no JavaScript. None.
+
+  That's one way of many you keep your pages fast. I care about
+  keeping this site fast because your time is precious and I need
+  to get out of your way.
+
+  <3'z
+
+  Paul
+-->
+
+
+  <body class="blog">
+
+    <header>
+      <div class="container">
+        <div id="logo">
+  <a href="/">
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="100%" height="100%">
+    <g>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#6EBAD3" points="30.6,47.73 64.92,47.73 19.97,76.52"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ED95C0" points="48.198,0 53.008,14.06 39.31,24.76"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#880043" points="39.31,24.76 64.92,48 30.6,48"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#DA0A7A" points="39.31,24.76 64.92,48 53.008,14.06"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#0B7DAD" points="30.6,48 64.92,48 48,58.69"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#BDDEE8" points="47.76,58.69 64.92,47.73 75.14,76.73"></polygon>
+    </g>
+    </svg>
+  </a>
+</div>
+
+        <nav>
+  <ul>
+    
+      
+        <li><a href="/">Home</a></li>
+      
+    
+      
+        <li class="active"><a href="/blog/"> Blog</a></li>
+      
+    
+      
+        <li><a href="/tutorials/">Tutorials</a></li>
+      
+    
+      
+        <li><a href="/lab/">Lab</a></li>
+      
+    
+  </ul>
+
+  <svg id="left-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#AAAAAA" stroke-width="1" />
+    </svg>
+
+  <svg id="right-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#6EBAD3" stroke-opacity="0.3" stroke-width="1" />
+    </svg>
+</nav>
+
+      </div>
+    </header>
+    <section>
+
+      <div class="content">
+
+  
+  <svg version="1.1" class="shape-reference" xmlns="http://www.w3.org/2000/svg" width="666" height="333">
+  <defs>
+    <filter id="blur-8">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="8" />
+    </filter>
+    <filter id="blur-6">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="6" />
+    </filter>
+    <filter id="blur-4">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="4" />
+    </filter>
+  </defs>
+
+  <g id="color-block">
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#90a9c9" stroke="#90a9c9" stroke-width="0.6" points="40,99 78,117 96,135"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#bdcde0" stroke="#bdcde0" stroke-width="0.6" points="78,117 40,99 94,40"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#d3d5e6" stroke="#d3d5e6" stroke-width="0.6" points="78,117 94,40 132,65"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#bfb9d6" stroke="#bfb9d6" stroke-width="0.6" points="78,117 132,65 145,101"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#9ea0c6" stroke="#9ea0c6" stroke-width="0.6" points="96,135 78,117 145,101"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#a08cbc" stroke="#a08cbc" stroke-width="0.6" points="96,135 145,101 156,142"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#857bb2" stroke="#857bb2" stroke-width="0.6" points="103,154 96,135 156,142"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#656ba6" stroke="#656ba6" stroke-width="0.6" points="96,135 103,154 106,196"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#625694" stroke="#625694" stroke-width="0.6" points="106,196 103,154 149,181"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#524477" stroke="#524477" stroke-width="0.6" points="116,222 106,196 149,181"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#513667" stroke="#513667" stroke-width="0.6" points="116,222 149,181 168,228"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#342544" stroke="#342544" stroke-width="0.6" points="129,265 116,222 168,228"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#251227" stroke="#251227" stroke-width="0.6" points="129,265 168,228 218,287"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#35122f" stroke="#35122f" stroke-width="0.6" points="218,287 168,228 223,241"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#1e0616" stroke="#1e0616" stroke-width="0.6" points="218,287 223,241 289,293"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#4b0c33" stroke="#4b0c33" stroke-width="0.6" points="223,241 260,204 289,293"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#791d5e" stroke="#791d5e" stroke-width="0.6" points="223,241 214,186 260,204"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#612258" stroke="#612258" stroke-width="0.6" points="168,228 214,186 223,241"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#6e3371" stroke="#6e3371" stroke-width="0.6" points="168,228 149,181 214,186"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#8d4595" stroke="#8d4595" stroke-width="0.6" points="149,181 156,142 214,186"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#7e60a3" stroke="#7e60a3" stroke-width="0.6" points="149,181 103,154 156,142"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#a84d9e" stroke="#a84d9e" stroke-width="0.6" points="214,186 156,142 215,139"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#a92b84" stroke="#a92b84" stroke-width="0.6" points="214,186 215,139 260,204"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ce2e92" stroke="#ce2e92" stroke-width="0.6" points="260,204 215,139 299,131"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#e01081" stroke="#e01081" stroke-width="0.6" points="260,204 299,131 330,175"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#980855" stroke="#980855" stroke-width="0.6" points="320,254 260,204 330,175"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#4c062d" stroke="#4c062d" stroke-width="0.6" points="289,293 260,204 320,254"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#250013" stroke="#250013" stroke-width="0.6" points="289,293 320,254 399,275"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#3e0525" stroke="#3e0525" stroke-width="0.6" points="399,275 320,254 405,247"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#2c0a21" stroke="#2c0a21" stroke-width="0.6" points="399,275 405,247 493,269"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#3d1536" stroke="#3d1536" stroke-width="0.6" points="405,247 490,223 493,269"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#69184f" stroke="#69184f" stroke-width="0.6" points="405,247 397,197 490,223"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#6d0940" stroke="#6d0940" stroke-width="0.6" points="320,254 397,197 405,247"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#a40557" stroke="#a40557" stroke-width="0.6" points="320,254 330,175 397,197"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#e7097d" stroke="#e7097d" stroke-width="0.6" points="330,175 337,143 397,197"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f92692" stroke="#f92692" stroke-width="0.6" points="330,175 299,131 337,143"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f854a9" stroke="#f854a9" stroke-width="0.6" points="299,131 320,106 337,143"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ec7bbb" stroke="#ec7bbb" stroke-width="0.6" points="299,131 232,97 320,106"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#d870b4" stroke="#d870b4" stroke-width="0.6" points="215,139 232,97 299,131"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ce84bc" stroke="#ce84bc" stroke-width="0.6" points="215,139 199,114 232,97"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#b774b2" stroke="#b774b2" stroke-width="0.6" points="156,142 199,114 215,139"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#b68cbf" stroke="#b68cbf" stroke-width="0.6" points="156,142 145,101 199,114"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#d9bbd9" stroke="#d9bbd9" stroke-width="0.6" points="199,114 145,101 205,40"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#e2b9d9" stroke="#e2b9d9" stroke-width="0.6" points="232,97 199,114 205,40"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f4dced" stroke="#f4dced" stroke-width="0.6" points="232,97 205,40 274,43"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f2b1d7" stroke="#f2b1d7" stroke-width="0.6" points="232,97 274,43 320,106"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#e4d7e8" stroke="#e4d7e8" stroke-width="0.6" points="145,101 132,65 205,40"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#2f2541" stroke="#2f2541" stroke-width="0.6" points="493,269 490,223 626,231"/>
+  </g>
+</svg>
+
+  
+
+  <div class="masthead hatched">
+
+    
+      <svg class="behind-meta" width="666" height="333">
+        <use xlink:href="#color-block" />
+      </svg>
+
+      <svg class="left-meta" width="666" height="333">
+        <use xlink:href="#color-block" filter="url(#blur-6)" transform="translate(333 333/2) scale(-0.5 0.5) translate(-333 -333/2)" />
+      </svg>
+    
+
+    <div class="container">
+      <h2>My Performance Audit Workflow</h2>
+      <p>Sometimes I get asked to do performance audits on web projects and to make some recommendations. So what I thought I’d do is run through what my process is, what I’m looking for, and what I typically suggest. It’s not exactly perfect, but hopefully it’ll give you an idea of what you might want to do.</p>
+    </div>
+
+  </div>
+
+  <div class="container">
+    <div class="meta">
+
+      <ul>
+        <li class="last-updated">
+          <span class="name">Last updated:</span>
+          <span class="value">3 Mar 2014</span>
+        </li>
+
+        <li>
+          <span class="name">Est. Read Time:</span>
+          <span class="value">7 mins</span>
+        </li>
+
+        <li class="share">
+          <span class="name">Share this:</span>
+          <span class="value"><a href="http://www.twitter.com/share?url=http://aerotwist.com/blog/my-performance-audit-workflow/">Twitter</a></span>
+          <span class="value"><a href="https://plus.google.com/share?url=http://aerotwist.com/blog/my-performance-audit-workflow/">Google+</a></span>
+        </li>
+        <li class="tags">
+          <span class="name">Tagged:</span>
+          <span class="value">
+          
+            #perfmatters, 
+          
+            #loading, 
+          
+            #runtime
+          
+          </span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="container"><div class="left column"><p>Let’s dive in with page load performance. It’s all the rage, loading stuff…</p>
+
+<h2 id="page-load-performance">Page Load Performance</h2>
+
+<p>Clearly loading stuff quickly is a fine idea, what with everyone being on a cellular connection nowadays. (They’re not, but it’s actually a good assumption if you want to encourage yourself to make things fast.)</p>
+
+<p>Our first port of call in our mission to go faster is <a href="https://developers.google.com/speed/pagespeed/insights/">PageSpeed Insights</a> (PSI), and the process is dizgustingly simple: enter your URL and look at what it tells you do:</p>
+
+<figure>
+  <img src="/static/blog/my-performance-audit-workflow/psi.png" alt="PageSpeed Insights" />
+  <figcaption>PageSpeed Insights... so complex</figcaption>
+</figure>
+
+<p>Now the thing to bear in mind about PSI is that it’s distilling down a collection of very good (and broad) set of rules and seeing how your site measures up. It doesn’t really care about context or what you chose to do or not do as a team. As such I just tend to see PSI as a checklist of things that are somewhere between “a good idea” and “crucial”, and I don’t aim for a score of 100 across the board.</p>
+
+<p>The reason I’m not going to pin all my hopes on a PSI score of 100 is that it may make my development more difficult. Inlining CSS and JavaScript to pages is one recommendation that it makes, but I think more context is required here. What about caching? What about the actual CSS and JS that it wants inlined? There may be some reasons I have for not doing that like, perhaps, 3rd party, dynamic resources that I just want to link in. It requires a judgement call sometimes.</p>
+
+<figure>
+  <img src="/static/blog/my-performance-audit-workflow/psi-speed.png" alt="PageSpeed Insights" />
+  <figcaption>PageSpeed Insights, sometimes we disgree, my friend.</figcaption>
+</figure>
+
+<p>With that said, it still makes <em>very solid recommendations</em> and if it tells you to do something I would say either do it or have a pretty solid reason for not.</p>
+
+<p>In terms of scores I aim for over <strong>85</strong> for mobile and over <strong>90</strong> on desktop.</p>
+
+<h3 id="ux">UX</h3>
+
+<p>PSI also includes some new checks on UX issues, like legibility, viewports and touch targets. Screwing up UX I am less forgiving of, and so if anything is picked up I’d say the advice should be heeded. Not pure performance, no, but arguably a form of performance is getting out of the person’s way so they can actually do the thing they came to your site to do. Having terrible interactions is unacceptable.</p>
+
+<figure>
+  <img src="/static/blog/my-performance-audit-workflow/psi-ux.png" alt="PageSpeed Insights UX testing" />
+  <figcaption>I am feeling a distinct lack of issues, and therefore win.</figcaption>
+</figure>
+
+<h3 id="moar-page-load">Moar Page Load</h3>
+
+<p>What you actually need is two tools for page performance, not one! If you’ve never visited <a href="http://www.webpagetest.org/">WebPageTest</a> (WPT) then you’re really missing out. Much as with PSI you can simply drop in your URL thusly:</p>
+
+<figure>
+  <img src="/static/blog/my-performance-audit-workflow/wpt-form.png" alt="WebPageTest" />
+  <figcaption>WebPageTest. Configure, fix, repeat.</figcaption>
+</figure>
+
+<p>You should also note, however, that there are a bunch of other numbers and settings, like where in the world you want your site tested from, how many runs you want it to do, and whether you care about initial load or repeat views. For a first pass I typically roll with the defaults (Dulles, Chrome, 1 run, initial + repeat) and see how I’m doing. If I am nearing the end of a project and I fancy getting much more reliable data than a single run can provide I’ll go for 5 or 10 runs, and WPT will give me median values.</p>
+
+<aside class="boxout">
+<p># Outliers</p>
+
+<p>Why the median? I’ll be completely honest and say before spending more time with performance stuff I’d totally forgotten my school maths and would’ve been quite happy to use an average. But that would be misleading, which we can discover by way of an example.</p>
+
+<p>Let’s assume we have a bunch of numbers like so: <strong>1, 2, 3, 3, 4, 5, 2000</strong> and we now want to gain a sense of what a “typical” value is. If you take the average you will get <strong>just over 288</strong>, which is clearly skewed by that outlier of 2,000. The median – essentially the value in the middle of the ordered set of numbers – is <strong>3</strong>, which we intuit as much more representative. That’s a good thing when you’re looking at performance numbers; you normally want to know the “typical” values.
+</aside></p>
+
+<p>The WPT results are badass. You get a waterfall showing all assets, along with the connectivity data (DNS resolution, transfer time, etc), which can be super useful as you try and get a handle of what the heck is going on with your site.</p>
+
+<figure>
+  <img src="/static/blog/my-performance-audit-workflow/wpt-waterfall.png" alt="WebPageTest Waterfall" />
+  <figcaption>WebPageTest's waterfall. Loading less is normally good.</figcaption>
+</figure>
+
+<p>Now, there are things I’m particularly interested in when I look at the results. For one the grading in the top right corner:</p>
+
+<figure>
+  <img src="/static/blog/my-performance-audit-workflow/wpt-grading.png" alt="WebPageTest Grading" />
+  <figcaption>WebPageTest's gradings. Does not correlate to self esteem.</figcaption>
+</figure>
+
+<p>If you’re not getting A’s across the board then there may be something there you want to fix.</p>
+
+<p>Next I take a look at the table, and note how long the page is taking to load (document complete vs. actual load). Obviously you want those numbers to be as low as possible, but there’s something we can check that should give us an idea of <em>perceived</em> performance. Since browsers progressively render web pages, we should care about not just when everything was “done” but how quickly we got the majority of the content to screen. That’s where <a href="https://sites.google.com/a/webpagetest.org/docs/using-webpagetest/metrics/speed-index">Speed Index</a> comes in. To quote the docs:</p>
+
+<blockquote class="quote">
+  <p>The Speed Index is the average time at which visible parts of the page are displayed.  It is expressed in milliseconds and dependent on size of the view port.</p>
+</blockquote>
+
+<p>In short it indicates, in milliseconds, how long a real person would have to wait to have a meaningful form of your page on their screen by measuring not just the end point but how complete the rendering was along the way.</p>
+
+<p><a href="https://twitter.com/paul_irish">Paul Irish</a> has, in the past, recommended a goal of less than 1,000, and you will not hear <em>this</em> Paul disagree.</p>
+
+<h2 id="runtime-performance">Runtime Performance</h2>
+
+<p>This is going to fall into two categories: memory and everything else. I’m actually not going to dive into the dirty details of either, largely because I’ve written up a very handy <a href="http://calendar.perfplanet.com/2013/the-runtime-performance-checklist/">Runtime Performance Checklist</a>, which summarizes all the common culprits and how you should diagnose and fix them. Mostly this step involves Chrome DevTools, because it has all the gear you need to succeed… it rhymes, it must be true!</p>
+
+<p>But here’s in a nutshell what I’m on the hunt for:</p>
+
+<ul>
+  <li><strong>Large invalidations of element styles (recalculate styles) and geometry (layout).</strong> It’s expensive to mess with the DOM and render trees, especially as they get larger, so if you can avoid it (heyo class changes on the body element) then do.</li>
+  <li><strong>Repeated layout and style changes inside a single frame</strong> aka Layout Thrashing. Doing the above repeatedly inside a single frame is bonkers, but people do it. They do. Honest.</li>
+  <li><strong>Animation of layout properties.</strong> Browsers can’t typically recalculate geometry, repaint and composite inside a single frame, so if you animate – say – the width of elements, prepare for your runtime performance to suffer.</li>
+  <li><strong>Large paint areas aka Paint Storms.</strong> These are typically triggered per frame of an interaction like scrolling or touch / click and, most of the time you will want to promote an element with a <a href="//aerotwist.com/blog/on-translate3d-and-layer-creation-hacks/">dirty transform hack</a>, or wait until <a href="//aerotwist.com/blog/bye-bye-layer-hacks/">will-change</a> has landed.</li>
+  <li><strong>Expensive painting.</strong> Most people have heard that box shadows are expensive, and yeah that’s kind of true (today anyway, who knows about tomorrow), but actually a single shadow is kind of neither here nor there normally. The key is actually the size of the area (see above) and how much expensive painting that triggers. Not all styles are created equal, so if you have to paint it’s better to make it cheap.</li>
+  <li><strong>Badly written touch and scroll handlers.</strong> If you don’t have to handle scrolls and touch input, don’t. I know it might be nice to mimic the OS with your scrolly touch physics, but chances are the overhead will kill the fps. Some day I hope to say this one is irrelevant, but today it can be a big deal. In any case, if you have to: debounce, bind late and as close to the target as possible, then unbind ASAP.</li>
+  <li><strong>Memory churn.</strong> You should expect a sawtooth memory graph on a normal day, but the rate at which memory grows and how often it triggers GC should be warning bells.</li>
+</ul>
+
+<p>So that’s my checklist. I go through and see what I can figure out about each one of them, and then prescribe some fixes if there are any. There normally are, although sometimes it’s a case of not doing a particular thing or, if it must be done, at least it’s done in the full knowledge that performance will be taking a hit.</p>
+
+<p>My goal here: <strong>60fps, all the time, everywhere</strong>. It’s possible on desktop if you design and build in the right way. For mobile it’s a lot more difficult, but not impossible (depending on what you do. In any case things are getting better (<a href="https://groups.google.com/a/chromium.org/forum/#!topic/blink-dev/bxIPxpzLprQ">in Chrome land</a> anyway) so hopefully in the medium- to long-term this will be less of a thing.</p>
+
+<h2 id="go-forth-and-optimize">Go forth and optimize</h2>
+
+<p>Looking at this workflow the most obvious thing I’d say is that it’s very manual work, and it’s crying out for automation. You have to bear in mind that I normally do this stuff in response to direct requests (normally colleagues, it’s not something I can scale to the web at large!) for auditing and so were this my own project I might well invest time to automate.</p>
+
+<p>Even if I did, though, I don’t really think the tooling is there yet, but that’s a topic for another day…</p>
+</div></div>
+
+  <div class="footer-share container">
+    Share this on: <span class="value"><a href="http://www.twitter.com/share?url=http://aerotwist.com/blog/my-performance-audit-workflow/">Twitter</a></span>
+    <span class="value"><a href="https://plus.google.com/share?url=http://aerotwist.com/blog/my-performance-audit-workflow/">Google+</a></span>
+  </div>
+
+  <div class="clear"></div>
+
+  
+    <svg class="left-shape" style="margin-left: -316.35px" width="466.2" height="932.4">
+      <use xlink:href="#color-block" filter="url(#blur-4)" transform="scale(-1.4 1.4) rotate(90)"/>
+    </svg>
+
+    <svg class="right-shape" width="166.5" height="599.4">
+      <use xlink:href="#color-block" filter="url(#blur-8)" transform="scale(-0.9 0.9) rotate(90)"/>
+    </svg>
+  
+
+</div>
+
+
+    </section>
+
+    <footer>
+
+      <div class="container">
+        <div class="bio panel">
+          <h2>Hello!</h2>
+          <p>My name is Paul. I work at <a href="http://www.google.com/" title="Some cloud company in the USA, I think.">Google</a> on the Chrome Developer Relations team as an advocate. I help developers improve the performance of their sites and apps.</p>
+
+          <p>You can find me on <a href="http://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a></p>
+        </div>
+
+        <div class="get-in-touch panel">
+          <h2>Get in touch</h2>
+          <p>I don’t bite. Honestly. You can find me on <a href="http://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a>, and I like hearing from people (pretty handy given my job, really) so say hi.</p>
+        </div>
+
+        <div class="subscribe panel">
+          <h2>Subscribe</h2>
+          <p>You should totally get the <a href="/blog/feed/">RSS feed</a>, or whatever it is you kids are using these days (I miss Reader.)</p>
+        </div>
+
+        <p class="disclaimer">Except as otherwise noted, the content of this page is licensed under the Creative Commons Attribution 3.0 License, and code samples are licensed under the Apache 2.0 License.</p>
+      </div>
+    </footer>
+
+    <script type="text/javascript" async="true">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-13024693-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+  </body>
+</html>

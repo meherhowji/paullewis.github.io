@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+
+    <title>Aerotwist Lab</title>
+    <description>Stuff I built.</description>
+    <lastBuildDate>2014-08-04 15:16:47 +0100</lastBuildDate>
+    <language>en</language>
+    <generator>Aerotwist Lab</generator>
+    <atom:link href="http://aerotwist.com/feed/" rel="self" type="application/rss+xml" />
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+      <item>
+        <title>Music DNA</title>
+        <description>
+          <![CDATA[]]>
+        </description>
+        <pubDate>Mon, 31 Mar 2014 00:00:00 +0000</pubDate>
+        <link>http://aerotwist.com/lab/music-dna</link>
+        <guid isPermaLink="true">/lab/music-dna</guid>
+        
+        <category>canvas</category>
+        
+        <category>audio</category>
+        
+        <category>visualize</category>
+        
+      </item>
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+      <item>
+        <title>Poly Maker</title>
+        <description>
+          <![CDATA[]]>
+        </description>
+        <pubDate>Mon, 02 Dec 2013 00:00:00 +0000</pubDate>
+        <link>http://aerotwist.com/lab/poly-maker</link>
+        <guid isPermaLink="true">/lab/poly-maker</guid>
+        
+        <category>canvas</category>
+        
+        <category>svg</category>
+        
+        <category>polygons</category>
+        
+      </item>
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+      <item>
+        <title>Undulating Monkey</title>
+        <description>
+          <![CDATA[]]>
+        </description>
+        <pubDate>Sun, 11 Sep 2011 00:00:00 +0000</pubDate>
+        <link>http://aerotwist.com/lab/undulating-monkey</link>
+        <guid isPermaLink="true">/lab/undulating-monkey</guid>
+        
+        <category>webgl</category>
+        
+        <category>wibble</category>
+        
+        <category>wobble</category>
+        
+        <category>monkey</category>
+        
+      </item>
+      
+    
+      
+      <item>
+        <title>Strange Attractor</title>
+        <description>
+          <![CDATA[]]>
+        </description>
+        <pubDate>Wed, 10 Aug 2011 00:00:00 +0000</pubDate>
+        <link>http://aerotwist.com/lab/strange-attractor</link>
+        <guid isPermaLink="true">/lab/strange-attractor</guid>
+        
+        <category>webgl</category>
+        
+        <category>lorenz</category>
+        
+      </item>
+      
+    
+      
+      <item>
+        <title>Surface</title>
+        <description>
+          <![CDATA[]]>
+        </description>
+        <pubDate>Tue, 19 Jul 2011 00:00:00 +0000</pubDate>
+        <link>http://aerotwist.com/lab/surface</link>
+        <guid isPermaLink="true">/lab/surface</guid>
+        
+        <category>three.js</category>
+        
+        <category>webgl</category>
+        
+        <category>water</category>
+        
+      </item>
+      
+    
+      
+      <item>
+        <title>GPU Easing</title>
+        <description>
+          <![CDATA[]]>
+        </description>
+        <pubDate>Sat, 18 Jun 2011 00:00:00 +0000</pubDate>
+        <link>http://aerotwist.com/lab/gpu-easing</link>
+        <guid isPermaLink="true">/lab/gpu-easing</guid>
+        
+        <category>three.js</category>
+        
+        <category>webgl</category>
+        
+        <category>shaders</category>
+        
+      </item>
+      
+    
+      
+      <item>
+        <title>Spikes</title>
+        <description>
+          <![CDATA[]]>
+        </description>
+        <pubDate>Tue, 05 Apr 2011 00:00:00 +0000</pubDate>
+        <link>http://aerotwist.com/lab/spikes</link>
+        <guid isPermaLink="true">/lab/spikes</guid>
+        
+        <category>css3d</category>
+        
+      </item>
+      
+    
+      
+      <item>
+        <title>Photo Particles</title>
+        <description>
+          <![CDATA[]]>
+        </description>
+        <pubDate>Tue, 22 Mar 2011 00:00:00 +0000</pubDate>
+        <link>http://aerotwist.com/lab/photoparticles</link>
+        <guid isPermaLink="true">/lab/photoparticles</guid>
+        
+        <category>three.js</category>
+        
+        <category>webgl</category>
+        
+        <category>photos</category>
+        
+      </item>
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </channel>
+</rss>

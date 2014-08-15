@@ -1,0 +1,434 @@
+<!doctype html>
+<html itemscope itemtype="http://schema.org/Article">
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="author" content="Paul Lewis" />
+  <meta name="viewport" content="width=device-width">
+
+  
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="//aerotwist.com/blog/feed/">
+  
+
+  
+  <meta itemprop="name" content="Making a 60fps Mobile App">
+  <meta itemprop="description" content="Mobile apps are difficult to make. To stay relevant I decided to give it a crack. And I tried to make it run at 60fps...">
+
+    
+
+  
+
+  <style>
+    
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 400;
+      src: local('Lato Regular'), local('Lato-Regular'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qIIYRU-oROkIk8vfvxw6QvesZW2xOQ-xsNqO47m55DA.woff) format('woff');
+    }
+    
+
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 700;
+      src: local('Lato Bold'), local('Lato-Bold'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qdgUG4U09HnJwhYI-uK18wLUuEpTyoUstqEm5AMlJo4.woff) format('woff');
+    }
+  </style>
+
+  <link rel="stylesheet" media="screen" href="/css/aerotwist.css" />
+  <title>Aerotwist - Making a 60fps Mobile App</title>
+  
+</head>
+
+
+<!--
+                              __          .__          __
+  _____    ___________  _____/  |___  _  _|__| _______/  |_
+  \__  \ _/ __ \_  __ \/  _ \   __\ \/ \/ /  |/  ___/\   __\
+   / __ \\  ___/|  | \(  <_> )  |  \     /|  |\___ \  |  |
+  (____  /\___  >__|   \____/|__|   \/\_/ |__/____  > |__|
+       \/     \/                                  \/
+
+  Giant ascii art embedded in every page of your site is how you
+  show other people that YOU CARE. Mainly I care about developers,
+  which is what I presume you are if you're all about viewing
+  the source. Clearly you're my kind of person.
+
+  This is v3, it's run through Jekyll, it's been fun to build,
+  there's always more to do, and you may notice that aside from
+  Google Analytics there is no JavaScript. None.
+
+  That's one way of many you keep your pages fast. I care about
+  keeping this site fast because your time is precious and I need
+  to get out of your way.
+
+  <3'z
+
+  Paul
+-->
+
+
+  <body class="blog">
+
+    <header>
+      <div class="container">
+        <div id="logo">
+  <a href="/">
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="100%" height="100%">
+    <g>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#6EBAD3" points="30.6,47.73 64.92,47.73 19.97,76.52"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ED95C0" points="48.198,0 53.008,14.06 39.31,24.76"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#880043" points="39.31,24.76 64.92,48 30.6,48"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#DA0A7A" points="39.31,24.76 64.92,48 53.008,14.06"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#0B7DAD" points="30.6,48 64.92,48 48,58.69"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#BDDEE8" points="47.76,58.69 64.92,47.73 75.14,76.73"></polygon>
+    </g>
+    </svg>
+  </a>
+</div>
+
+        <nav>
+  <ul>
+    
+      
+        <li><a href="/">Home</a></li>
+      
+    
+      
+        <li class="active"><a href="/blog/"> Blog</a></li>
+      
+    
+      
+        <li><a href="/tutorials/">Tutorials</a></li>
+      
+    
+      
+        <li><a href="/lab/">Lab</a></li>
+      
+    
+  </ul>
+
+  <svg id="left-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#AAAAAA" stroke-width="1" />
+    </svg>
+
+  <svg id="right-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#6EBAD3" stroke-opacity="0.3" stroke-width="1" />
+    </svg>
+</nav>
+
+      </div>
+    </header>
+    <section>
+
+      <div class="content">
+
+  
+  <svg version="1.1" class="shape-reference" xmlns="http://www.w3.org/2000/svg" width="861" height="291">
+  <defs>
+    <filter id="blur-8">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="8" />
+    </filter>
+    <filter id="blur-6">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="6" />
+    </filter>
+    <filter id="blur-4">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="4" />
+    </filter>
+  </defs>
+
+  <g id="color-block">
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#5071a7" stroke="#5071a7" stroke-width="0.6" points="40,155 112,99 125,180"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#6b6ea9" stroke="#6b6ea9" stroke-width="0.6" points="125,180 112,99 145,135"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#654885" stroke="#654885" stroke-width="0.6" points="240,171 125,180 145,135"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#4b2c58" stroke="#4b2c58" stroke-width="0.6" points="222,223 125,180 240,171"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#531c49" stroke="#531c49" stroke-width="0.6" points="222,223 240,171 321,200"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#421033" stroke="#421033" stroke-width="0.6" points="222,223 321,200 341,216"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#8e155f" stroke="#8e155f" stroke-width="0.6" points="341,216 321,200 344,118"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ce157f" stroke="#ce157f" stroke-width="0.6" points="341,216 344,118 405,122"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#b30963" stroke="#b30963" stroke-width="0.6" points="341,216 405,122 433,175"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#5e0434" stroke="#5e0434" stroke-width="0.6" points="426,237 341,216 433,175"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#7a0341" stroke="#7a0341" stroke-width="0.6" points="499,182 426,237 433,175"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#3d0423" stroke="#3d0423" stroke-width="0.6" points="490,251 426,237 499,182"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#400b2c" stroke="#400b2c" stroke-width="0.6" points="499,182 612,218 490,251"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#7d195b" stroke="#7d195b" stroke-width="0.6" points="532,150 612,218 499,182"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#87256d" stroke="#87256d" stroke-width="0.6" points="587,145 612,218 532,150"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#692b66" stroke="#692b66" stroke-width="0.6" points="612,218 587,145 668,176"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#a04398" stroke="#a04398" stroke-width="0.6" points="668,176 587,145 596,107"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#8d4899" stroke="#8d4899" stroke-width="0.6" points="685,152 668,176 596,107"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#5f4b84" stroke="#5f4b84" stroke-width="0.6" points="668,176 685,152 751,163"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#5f64a2" stroke="#5f64a2" stroke-width="0.6" points="751,163 685,152 771,123"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#4d77aa" stroke="#4d77aa" stroke-width="0.6" points="751,163 771,123 821,140"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#9182b6" stroke="#9182b6" stroke-width="0.6" points="685,152 667,87 771,123"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ad7cb6" stroke="#ad7cb6" stroke-width="0.6" points="596,107 667,87 685,152"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#cfa3cc" stroke="#cfa3cc" stroke-width="0.6" points="596,107 601,76 667,87"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#e6bbdb" stroke="#e6bbdb" stroke-width="0.6" points="596,107 526,40 601,76"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ebb3d7" stroke="#ebb3d7" stroke-width="0.6" points="499,81 526,40 596,107"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f8c5e2" stroke="#f8c5e2" stroke-width="0.6" points="499,81 435,74 526,40"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#fb82c0" stroke="#fb82c0" stroke-width="0.6" points="499,81 405,122 435,74"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f83197" stroke="#f83197" stroke-width="0.6" points="499,81 433,175 405,122"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#e61084" stroke="#e61084" stroke-width="0.6" points="499,182 433,175 499,81"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#d82b91" stroke="#d82b91" stroke-width="0.6" points="532,150 499,182 499,81"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#d769b0" stroke="#d769b0" stroke-width="0.6" points="596,107 532,150 499,81"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#bd449b" stroke="#bd449b" stroke-width="0.6" points="587,145 532,150 596,107"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#fda1cf" stroke="#fda1cf" stroke-width="0.6" points="416,43 435,74 405,122"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#fde3f1" stroke="#fde3f1" stroke-width="0.6" points="435,74 416,43 526,40"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f590c6" stroke="#f590c6" stroke-width="0.6" points="405,122 340,101 416,43"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#e75cab" stroke="#e75cab" stroke-width="0.6" points="405,122 344,118 340,101"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#d678b7" stroke="#d678b7" stroke-width="0.6" points="344,118 238,99 340,101"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ba52a1" stroke="#ba52a1" stroke-width="0.6" points="344,118 240,171 238,99"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#9d2476" stroke="#9d2476" stroke-width="0.6" points="321,200 240,171 344,118"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#965ba2" stroke="#965ba2" stroke-width="0.6" points="145,135 238,99 240,171"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#c0a3cb" stroke="#c0a3cb" stroke-width="0.6" points="145,135 213,50 238,99"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#b5aacd" stroke="#b5aacd" stroke-width="0.6" points="145,135 112,99 213,50"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ecd2e7" stroke="#ecd2e7" stroke-width="0.6" points="238,99 213,50 339,42"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#e6add3" stroke="#e6add3" stroke-width="0.6" points="238,99 339,42 340,101"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f8cde5" stroke="#f8cde5" stroke-width="0.6" points="340,101 339,42 416,43"/>
+  </g>
+</svg>
+
+  
+
+  <div class="masthead hatched">
+
+    
+      <svg class="behind-meta" width="861" height="291">
+        <use xlink:href="#color-block" />
+      </svg>
+
+      <svg class="left-meta" width="861" height="291">
+        <use xlink:href="#color-block" filter="url(#blur-6)" transform="translate(861/2 291/2) scale(-0.5 0.5) translate(-861/2 -291/2)" />
+      </svg>
+    
+
+    <div class="container">
+      <h2>Making a 60fps Mobile App</h2>
+      <p>One of the challenging parts of being in Developer Relations is staying relevant. You can track the bleeding edge of browsers, write all manner of blog posts and articles, you can go ahead and talk at conferences. The important thing is to <i>actually try out your own advice before you give it</i>. That's exactly what I did.</p>
+    </div>
+
+  </div>
+
+  <div class="container">
+    <div class="meta">
+
+      <ul>
+        <li class="last-updated">
+          <span class="name">Last updated:</span>
+          <span class="value">2 Jul 2013</span>
+        </li>
+
+        <li>
+          <span class="name">Est. Read Time:</span>
+          <span class="value">6 mins</span>
+        </li>
+
+        <li class="share">
+          <span class="name">Share this:</span>
+          <span class="value"><a href="http://www.twitter.com/share?url=http://aerotwist.com/blog/making-a-60fps-mobile-app/">Twitter</a></span>
+          <span class="value"><a href="https://plus.google.com/share?url=http://aerotwist.com/blog/making-a-60fps-mobile-app/">Google+</a></span>
+        </li>
+        <li class="tags">
+          <span class="name">Tagged:</span>
+          <span class="value">
+          
+            #perfmatters, 
+          
+            #mobile
+          
+          </span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="container"><div class="left column"><p><strong>Update:</strong> some folks are saying the link to the app isn’t obvious. The app is at <a href="http://weight.aerotwist.com">http://weight.aerotwist.com</a> and if you can’t check on your mobile device, here are some screen grabs:</p>
+
+<figure>
+  <img src="/static/blog/making-a-60fps-mobile-app/screens.jpg" />
+</figure>
+
+<p>So with that out of the way…</p>
+
+<h2 id="the-plan">The Plan</h2>
+
+<p>The plan to keep me nice and relevant was very simple: create a mobile web
+app. As someone who trains regularly I decided to create an app to track my
+weight. There are many examples of native apps that do this, so I thought I’d
+give it a go! I also had a few additional goals in mind:</p>
+
+<ul>
+  <li><strong>60fps at all times</strong>. I wanted to prove that the web doesn’t have to be juddery, janky and slow. At least on a modern smartphone.</li>
+  <li><strong>Do one thing really well</strong>. In this case allow someone to track their weight. There are some similar apps on Google Play and the Apple App Store and they do this one thing.</li>
+  <li><strong>Offline support</strong>. I don’t see why an app like this should require a connection beyond the initial download.</li>
+  <li><strong>Flat UI</strong>. It’s all the rage and I wanted to give it a whirl.</li>
+</ul>
+
+<p>So with that all laid out, here are the things I thought went well, things
+that didn’t and what I learned through the whole experience.</p>
+
+<h2 id="getting-to-60fps">Getting to 60fps</h2>
+
+<p><strong>Getting the app to run at 60fps was extremely important to me</strong>. Despite some difficulties I achieved it for the newest phones. (I got very close depending for older handsets.) I actually developed it against a Galaxy Nexus, on which it ran just fine, though I don’t think it quite hit 60fps.</p>
+
+<p>Interestingly the problem you’re going to have if you measure it in DevTools
+(which is exactly what I did) is that the act of observing <em>changes</em> the
+observed. More crucially, because I’m often right up to the 60fps limit,
+adding the overhead of DevTools busts my frame budget. If you simply look at
+the app when DevTools is capturing and when it isn’t you can actually see the
+performance difference. Without DevTools capturing things are far smoother.</p>
+
+<blockquote>
+  <p>Getting the app to run at 60fps was extremely important to me.</p>
+</blockquote>
+
+<p>The slightly lower overhead method I used to verify that I was getting 60fps
+was <a href="https://github.com/johnmccutchan/adb_trace">adb_trace</a>, which is
+maintained by my colleague John Mccutchan. It lets you grab a trace in a very
+similar much as you would with about:tracing in desktop Chrome.</p>
+
+<p>In any case there is rarely any perceptible lag and, while that’s not a
+scientific measurement, it’s a pretty fine empirical measurement while you’re
+adding features.</p>
+
+<h1 id="try-the-app">Try the app</h1>
+
+<p>Feel free to try out <a href="http://weight.aerotwist.com">the app</a>. It works on Nexus
+devices running Chrome, and on iPhones.</p>
+
+<p>Sadly there seems to be a bug with the Samsung and HTC handsets, which I hope
+to work around soon, that causes the <code>&lt;canvas&gt;</code> to go crazy :(</p>
+
+<p>It’s also not styled for desktop or tablet, so bear that in mind!</p>
+
+<p>So how to get to 60fps? Here are some of the tactics I employed, most of which
+you will recognise if you’ve read my other blog posts or articles on HTML5
+Rocks:</p>
+
+<ol>
+  <li>I made my <code>&lt;canvas&gt;</code> elements larger than 256px. This triggers the hardware path for Chrome. Some people are <a href="//aerotwist.com/blog/it-should-just-work">frustrated by that</a>, but remember that just because something is using the GPU doesn’t <em>magically make it faster</em>. Some things are faster on the CPU. In this case my app wasn’t, so I bumped my <code>&lt;canvas&gt;</code> elements’ dimensions up.</li>
+  <li>I promoted each “view” of my app to their own layer with <code>-webkit-transform: translateZ(0)</code>. I knew that I didn’t want them grouped to a single bitmap under the hood and that I would be using <code>opacity</code> to fade them in. I could’ve probably avoided the belt-and-braces of the <code>transform</code> because a transition on <code>opacity</code> should trigger a layer creation, but if nothing else it’ll remind me when I come back to the code.</li>
+  <li>I initially placed my canvas elements on semi-transparent layers so you could see the underlying views. That caused my composite times to go through the roof. They’re still extremely high as-is anyway, but by placing them on fully opaque backgrounds it seemed to reduce them somewhat.</li>
+  <li>I only transitioned views on opacity to avoid paint.</li>
+  <li>I used the <code>&lt;canvas&gt;</code> for visually updating items. As it happened I designed the app so that a <code>&lt;canvas&gt;</code> would make the most sense, but generally in my experience updating DOM elements such that a paint is required slows things down enormously. This appears to be due to the paint workload and limited texture bandwidth available for updating bitmaps on the GPU. It’s a shame, but doubtless over time this will get better.</li>
+  <li>I didn’t use any MVC libraries. (For what it’s worth I used <a href="http://www.paulirish.com/2011/requestanimationframe-for-smart-animating/">Paul Irish’s rAF polyfill</a> and a <a href="https://github.com/typekit/webfontloader">font loader lib</a>.) The reason is pretty simple: most libraries would’ve been a hammer to crack a nut for such a small app, and, crucially, I wanted to be absolutely certain that if there was a performance issue it was <em>me</em> and not <em>them</em>.</li>
+</ol>
+
+<h2 id="other-stuff-that-worked-out-fine">Other stuff that worked out fine</h2>
+
+<p>AppCache turned out to be no major issue to work with, because a) I was
+briefed by <a href="https://twitter.com/jaffathecake">Jake Archibald</a> and b) it was a
+single page app. With that said I <em>still</em> managed to get myself locked in,
+especially so on iOS, and no amount of pleading would get the cache to purge.</p>
+
+<p>I ended up removing the app from my home screen, killing both the app and
+Mobile Safari and purging its cache <em>all</em> in an attempt to force the issue. I
+dread to think what a normal user would have to do to make an AppCached app to
+play out well.</p>
+
+<blockquote>
+  <p>I dread to think what a normal user would have to do to make an AppCached app to play out well.</p>
+</blockquote>
+
+<p>The flat UI stuff seems to have gone down well with most people. I’ve had a
+lot of nice remarks (thanks!) so that’s a nice outcome.</p>
+
+<h2 id="things-that-didnt-play-out-well">Things that didn’t play out well</h2>
+
+<p>In no particular order:</p>
+
+<ol>
+  <li>I hate that we don’t have any orientation lock for the web. If you make a native app it’s the easiest thing in the world to specify supported orientations. Try doing that for the web. I think we need that ability.</li>
+  <li>Despite building for Chrome on Android differences in GPU drivers appear to cause issues on some Samsung and HTC devices. Run that sucker on a Nexus device and it’s fine. Same goes for iPhones 4S and 5. (As an aside I didn’t realise how insanely cheap the Nexus 4 is, having never been much of an Android guy. Thinking my next smartphone might not be iPhone 5 now.)</li>
+  <li>It felt like a real shame that I had to change my design. especially dropping some of the semi-transparent stuff, but when push came to shove, better performance won.</li>
+</ol>
+
+<h2 id="things-i-learned">Things I Learned</h2>
+
+<p>Overall then here’s what I thought. (I know this post is list heavy, but stuff
+it let’s have one more!)</p>
+
+<ol>
+  <li>DevTools Overrides are super useful as a first step for rapid prototyping of features and styling.</li>
+  <li>You simply can’t build a meaningful mobile experience without frequently testing and profiling on the <em>actual</em> devices you support. That is challenging for most people as they can’t buy every device under the sun. I have no good answer here!</li>
+  <li>You don’t always need a ton of libraries for a small app.</li>
+  <li>It’s remarkably difficult to build a 60fps app; you can shoot yourself in the foot very easily. I had to wrangle the app a lot to get there.</li>
+  <li>No matter how many features you include or exclude there will always be someone who wants one other “small feature” to be added. Fact.</li>
+</ol>
+
+<h2 id="a-final-thought">A final thought</h2>
+
+<p>Once I’d finished I noticed that I was comparing my app to the native ones on
+my iPhone. In fact I’ve started using it as my primary weight tracker, not
+because I built it, but because it’s genuinely useful to me.</p>
+
+<p>So really, when performance issues disappear you are left not with lingering
+thoughts on <em>how the app was built</em>, but rather the <em>user’s experience</em>, and
+that’s ultimately what matters.</p>
+</div></div>
+
+  <div class="footer-share container">
+    Share this on: <span class="value"><a href="http://www.twitter.com/share?url=http://aerotwist.com/blog/making-a-60fps-mobile-app/">Twitter</a></span>
+    <span class="value"><a href="https://plus.google.com/share?url=http://aerotwist.com/blog/making-a-60fps-mobile-app/">Google+</a></span>
+  </div>
+
+  <div class="clear"></div>
+
+  
+    <svg class="left-shape" style="margin-left: -276.45px" width="407.4" height="1205.4">
+      <use xlink:href="#color-block" filter="url(#blur-4)" transform="scale(-1.4 1.4) rotate(90)"/>
+    </svg>
+
+    <svg class="right-shape" width="145.5" height="774.9">
+      <use xlink:href="#color-block" filter="url(#blur-8)" transform="scale(-0.9 0.9) rotate(90)"/>
+    </svg>
+  
+
+</div>
+
+
+    </section>
+
+    <footer>
+
+      <div class="container">
+        <div class="bio panel">
+          <h2>Hello!</h2>
+          <p>My name is Paul. I work at <a href="http://www.google.com/" title="Some cloud company in the USA, I think.">Google</a> on the Chrome Developer Relations team as an advocate. I help developers improve the performance of their sites and apps.</p>
+
+          <p>You can find me on <a href="http://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a></p>
+        </div>
+
+        <div class="get-in-touch panel">
+          <h2>Get in touch</h2>
+          <p>I don’t bite. Honestly. You can find me on <a href="http://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a>, and I like hearing from people (pretty handy given my job, really) so say hi.</p>
+        </div>
+
+        <div class="subscribe panel">
+          <h2>Subscribe</h2>
+          <p>You should totally get the <a href="/blog/feed/">RSS feed</a>, or whatever it is you kids are using these days (I miss Reader.)</p>
+        </div>
+
+        <p class="disclaimer">Except as otherwise noted, the content of this page is licensed under the Creative Commons Attribution 3.0 License, and code samples are licensed under the Apache 2.0 License.</p>
+      </div>
+    </footer>
+
+    <script type="text/javascript" async="true">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-13024693-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+  </body>
+</html>

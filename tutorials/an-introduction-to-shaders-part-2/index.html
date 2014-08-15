@@ -1,0 +1,500 @@
+<!doctype html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="author" content="Paul Lewis" />
+  <meta name="viewport" content="width=device-width">
+
+  
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="//aerotwist.com/tutorials/feed/">
+  
+
+  
+
+  <style>
+    
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 400;
+      src: local('Lato Regular'), local('Lato-Regular'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qIIYRU-oROkIk8vfvxw6QvesZW2xOQ-xsNqO47m55DA.woff) format('woff');
+    }
+    
+
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 700;
+      src: local('Lato Bold'), local('Lato-Bold'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qdgUG4U09HnJwhYI-uK18wLUuEpTyoUstqEm5AMlJo4.woff) format('woff');
+    }
+  </style>
+
+  <link rel="stylesheet" media="screen" href="/css/aerotwist.css" />
+  <title>Aerotwist - An Introduction to Shaders - Part 2</title>
+  
+  <style>
+    .masthead h2 {
+      display: none;
+    }
+
+    .masthead {
+      background-image: url(/static/tutorials/headers/header-shaders-part-2-small.jpg);
+      
+      background-color: #222;
+      
+      
+    }
+
+    .meta {
+      background-color: #222 !important;
+    }
+
+    @media (min-width: 600px) {
+      .masthead {
+        background-image: url(/static/tutorials/headers/header-shaders-part-2.jpg);
+      }
+    }
+  </style>
+  
+</head>
+
+
+<!--
+                              __          .__          __
+  _____    ___________  _____/  |___  _  _|__| _______/  |_
+  \__  \ _/ __ \_  __ \/  _ \   __\ \/ \/ /  |/  ___/\   __\
+   / __ \\  ___/|  | \(  <_> )  |  \     /|  |\___ \  |  |
+  (____  /\___  >__|   \____/|__|   \/\_/ |__/____  > |__|
+       \/     \/                                  \/
+
+  Giant ascii art embedded in every page of your site is how you
+  show other people that YOU CARE. Mainly I care about developers,
+  which is what I presume you are if you're all about viewing
+  the source. Clearly you're my kind of person.
+
+  This is v3, it's run through Jekyll, it's been fun to build,
+  there's always more to do, and you may notice that aside from
+  Google Analytics there is no JavaScript. None.
+
+  That's one way of many you keep your pages fast. I care about
+  keeping this site fast because your time is precious and I need
+  to get out of your way.
+
+  <3'z
+
+  Paul
+-->
+
+
+  <body class="tutorials">
+
+    <header>
+      <div class="container">
+        <div id="logo">
+  <a href="/">
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="100%" height="100%">
+    <g>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#C8A47F" points="30.6,47.73 64.92,47.73 19.97,76.52"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#A9E9FF" points="48.198,0 53.008,14.06 39.31,24.76"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#2F7F8A" points="39.31,24.76 64.92,48 30.6,48"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#29C9FF" points="39.31,24.76 64.92,48 53.008,14.06"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#402000" points="30.6,48 64.92,48 48,58.69"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#924900" points="47.76,58.69 64.92,47.73 75.14,76.73"></polygon>
+    </g>
+    </svg>
+  </a>
+</div>
+
+        <nav>
+  <ul>
+    
+      
+        <li><a href="/">Home</a></li>
+      
+    
+      
+        <li><a href="/blog/">Blog</a></li>
+      
+    
+      
+        <li class="active"><a href="/tutorials/"> Tutorials</a></li>
+      
+    
+      
+        <li><a href="/lab/">Lab</a></li>
+      
+    
+  </ul>
+
+  <svg id="left-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#AAAAAA" stroke-width="1" />
+    </svg>
+
+  <svg id="right-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#C8A47F" stroke-opacity="0.3" stroke-width="1" />
+    </svg>
+</nav>
+
+      </div>
+    </header>
+    <section>
+
+      <div class="content">
+
+  <div class="masthead">
+
+    <div class="container">
+      <h2>An Introduction to Shaders - Part 2</h2>
+      <p></p>
+    </div>
+
+  </div>
+
+  
+
+  <div class="container"><div class="left column">
+<p>## Introduction</p>
+
+<p>This is the second part of an introduction to WebGL shaders. If you’ve not
+read <a href="../an-introduction-to-shaders-part-1/">Part 1</a> or my <a href="../getting-started-with-three-js/">introduction to
+using Three.js</a> you may be lost so it’s
+worth stopping here and going back if you’ve not read those.</p>
+
+<p>When we left the last article we had a <a href="/static/tutorials/an-introduction-to-shaders-part-2/demo/demo-1.html">pink sphere</a> which
+is a pretty fine start to the world of shaders. Now what I’d like to do is
+jump in to creating something a bit more entertaining.</p>
+
+<p>We are going to spend a bit of time adding in an animation loop, vertex
+attributes and a uniform. We’ll also add in a varying variable so that the
+vertex shader can send some data to the fragment shader. The end result is
+that our sphere that was pink is going to appear to be lit from above and to
+the side and is going to pulsate. It’s kind of trippy, but hopefully it will
+lead you to a good understanding of the three variable types as well as how
+they relate to each other and the underlying geometry. Of course we’ll be
+setting stuff up in Three.js, so that will be our framework of choice for this
+article.</p>
+
+<h2 id="a-fake-light">A Fake Light</h2>
+
+<p>Let’s update the colouring so it’s not a flat shaded object. We could take a
+look at how Three.js handles lighting, but as I’m sure you can appreciate it’s
+more complex than we need right now, so we’re going to fake it. You should
+totally look through <a href="https://github.com/mrdoob/three.j
+s/blob/master/src/extras/ShaderUtils.js">the fantastic shaders</a> that are a part of Three.js, and also
+<a href="http://ro.me/tech">the ones</a> from the recent amazing WebGL project by Chris
+Milk and Google, <a href="http://ro.me/">Rome</a>.</p>
+
+<p>Back to our shaders. We’ll update our Vertex Shader to provide each vertex
+normal to the Fragment Shader. We do this with a varying:
+</div></div></p>
+
+<div class="highlight"><pre><code class="language-glsl" data-lang="glsl"><span class="c1">// create a shared variable for the</span>
+<span class="c1">// VS and FS containing the normal</span>
+<span class="k">varying</span> <span class="k">vec3</span> <span class="n">vNormal</span><span class="p">;</span>
+
+<span class="k">void</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+
+  <span class="c1">// set the vNormal value with</span>
+  <span class="c1">// the attribute value passed</span>
+  <span class="c1">// in by Three.js</span>
+  <span class="n">vNormal</span> <span class="o">=</span> <span class="n">normal</span><span class="p">;</span>
+
+  <span class="n">gl_Position</span> <span class="o">=</span> <span class="n">projectionMatrix</span> <span class="o">*</span>
+                <span class="n">modelViewMatrix</span> <span class="o">*</span>
+                <span class="k">vec4</span><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">);</span>
+<span class="p">}</span></code></pre></div>
+
+<div class="container"><div class="left column">
+<p>In the Fragment Shader we’re going to set up the same variable name and
+then use the dot product of the vertex normal with a vector that represents a
+light shining from above and to the right of the sphere. The net result of
+this gives us an effect similar to a directional light in a 3D package.
+</div></div></p>
+
+<div class="highlight"><pre><code class="language-glsl" data-lang="glsl"><span class="c1">// same name and type as VS</span>
+<span class="k">varying</span> <span class="k">vec3</span> <span class="n">vNormal</span><span class="p">;</span>
+
+<span class="k">void</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+
+  <span class="c1">// calc the dot product and clamp</span>
+  <span class="c1">// 0 -&gt; 1 rather than -1 -&gt; 1</span>
+  <span class="k">vec3</span> <span class="n">light</span> <span class="o">=</span> <span class="k">vec3</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">);</span>
+
+  <span class="c1">// ensure it&#39;s normalized</span>
+  <span class="n">light</span> <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">light</span><span class="p">);</span>
+
+  <span class="c1">// calculate the dot product of</span>
+  <span class="c1">// the light to the vertex normal</span>
+  <span class="k">float</span> <span class="n">dProd</span> <span class="o">=</span> <span class="n">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span>
+                    <span class="n">dot</span><span class="p">(</span><span class="n">vNormal</span><span class="p">,</span> <span class="n">light</span><span class="p">));</span>
+
+  <span class="c1">// feed into our frag colour</span>
+  <span class="n">gl_FragColor</span> <span class="o">=</span> <span class="k">vec4</span><span class="p">(</span><span class="n">dProd</span><span class="p">,</span> <span class="c1">// R</span>
+                      <span class="n">dProd</span><span class="p">,</span> <span class="c1">// G</span>
+                      <span class="n">dProd</span><span class="p">,</span> <span class="c1">// B</span>
+                      <span class="mf">1.0</span><span class="p">);</span>  <span class="c1">// A</span>
+
+<span class="p">}</span></code></pre></div>
+
+<div class="container"><div class="left column">
+<p class="livedemo"><a href="/static/tutorials/an-introduction-to-shaders-part-2/demo/demo-2.html">See it running</a></p>
+
+<p>So the reason the dot product works is that given two vectors it comes out
+with a number that tells you how “similar” the two vectors are. With
+normalised vectors, if they point in exactly the same direction, you get a
+value of 1. If they point in opposite directions you get a -1. What we do is
+take that number and apply it to our lighting. So a vertex in the top right
+will have a value near or equal to 1, i.e. fully lit, whereas a vertex on the
+side would have a value near 0 and round the back would be -1. We clamp the
+value to 0 for anything negative, but when you plug the numbers in you end up
+with the basic lighting we’re seeing.</p>
+
+<p>What’s next? Well it would be nice to maybe try messing with some vertex
+positions.</p>
+
+<h2 id="attributes">Attributes</h2>
+
+<p>What I’d like us to do now is attach a random number to each vertex via an
+attribute. We’ll use this number to push the vertex out along its normal. The
+net result will be some kind of weird spike ball that will change every time
+you refresh the page. It won’t be animated just yet (that happens next) but a
+few refreshes will show you it’s randomised.</p>
+
+<p>Let’s start by adding in the attribute to the vertex shader:
+</div></div></p>
+
+<div class="highlight"><pre><code class="language-glsl" data-lang="glsl"><span class="k">attribute</span> <span class="k">float</span> <span class="n">displacement</span><span class="p">;</span>
+<span class="k">varying</span> <span class="k">vec3</span> <span class="n">vNormal</span><span class="p">;</span>
+
+<span class="k">void</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+
+  <span class="n">vNormal</span> <span class="o">=</span> <span class="n">normal</span><span class="p">;</span>
+
+  <span class="c1">// push the displacement into the</span>
+  <span class="c1">// three slots of a 3D vector so</span>
+  <span class="c1">// it can be used in operations</span>
+  <span class="c1">// with other 3D vectors like</span>
+  <span class="c1">// positions and normals</span>
+  <span class="k">vec3</span> <span class="n">newPosition</span> <span class="o">=</span> <span class="n">position</span> <span class="o">+</span>
+    <span class="n">normal</span> <span class="o">*</span> <span class="k">vec3</span><span class="p">(</span><span class="n">displacement</span><span class="p">);</span>
+
+  <span class="n">gl_Position</span> <span class="o">=</span> <span class="n">projectionMatrix</span> <span class="o">*</span>
+                <span class="n">modelViewMatrix</span> <span class="o">*</span>
+                <span class="k">vec4</span><span class="p">(</span><span class="n">newPosition</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">);</span>
+<span class="p">}</span></code></pre></div>
+
+<div class="container"><div class="left column">
+<p class="livedemo"><a href="/static/tutorials/an-introduction-to-shaders-part-2/demo/demo-3.html">See it running</a></p>
+
+<p>You’ll see that not a lot has changed. This is because the attribute hasn’t
+been set up in the MeshShaderMaterial so effectively the shader uses a zero
+value instead. It’s kind of like a placeholder right now. In a second we’ll
+add the attribute to the MeshShaderMaterial in the JavaScript and Three.js
+will tie the two together for us automatically.</p>
+
+<p>Also of note is the fact that I had to assign the updated position to a <em>new</em>
+vec3 variable because the original attribute, like all attributes, is read
+only.</p>
+
+<h2 id="updating-the-meshshadermaterial">Updating the MeshShaderMaterial</h2>
+
+<p>Let’s hop straight into updating our MeshShaderMaterial with the attribute
+needed to power our displacement. A reminder: attributes are per-vertex values
+so we need one value per vertex in our sphere. Like this:</p>
+
+</div></div>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">attributes</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">displacement</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;f&#39;</span><span class="p">,</span> <span class="c1">// a float</span>
+    <span class="nx">value</span><span class="o">:</span> <span class="p">[]</span> <span class="c1">// an empty array</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="kd">var</span> <span class="nx">vShader</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#vertexshader&#39;</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">fShader</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#fragmentshader&#39;</span><span class="p">);</span>
+
+<span class="c1">// create the material and now</span>
+<span class="c1">// include the attributes property</span>
+<span class="kd">var</span> <span class="nx">shaderMaterial</span> <span class="o">=</span>
+  <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">MeshShaderMaterial</span><span class="p">({</span>
+    <span class="nx">attributes</span><span class="o">:</span>     <span class="nx">attributes</span><span class="p">,</span>
+    <span class="nx">vertexShader</span><span class="o">:</span>   <span class="nx">vShader</span><span class="p">.</span><span class="nx">text</span><span class="p">(),</span>
+    <span class="nx">fragmentShader</span><span class="o">:</span> <span class="nx">fShader</span><span class="p">.</span><span class="nx">text</span><span class="p">()</span>
+  <span class="p">});</span>
+
+<span class="c1">// now populate the array of attributes</span>
+<span class="kd">var</span> <span class="nx">verts</span> <span class="o">=</span>
+  <span class="nx">sphere</span><span class="p">.</span><span class="nx">geometry</span><span class="p">.</span><span class="nx">vertices</span><span class="p">;</span>
+
+<span class="kd">var</span> <span class="nx">values</span> <span class="o">=</span>
+  <span class="nx">attributes</span><span class="p">.</span><span class="nx">displacement</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span>
+
+<span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">v</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">v</span> <span class="o">&lt;</span> <span class="nx">verts</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">v</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">values</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span> <span class="o">*</span> <span class="mi">30</span><span class="p">);</span>
+<span class="p">}</span></code></pre></div>
+
+<div class="container"><div class="left column">
+<p class="livedemo"><a href="/static/tutorials/an-introduction-to-shaders-part-2/demo/demo-4.html">See it running</a></p>
+
+<p>With that in place you should be seeing a mangled sphere, but the cool thing
+is that all the displacement is happening on the GPU.</p>
+
+<h2 id="animating-that-sucker">Animating That Sucker</h2>
+
+<p>We should totally make this animate. How do we do it? Well there are two
+things we need to get in place:</p>
+
+<ol>
+  <li>A uniform to animate how much displacement should be applied in each frame. We can use sine or cosine for that since they run from -1 to 1</li>
+  <li>An animation loop in the JS</li>
+</ol>
+
+<p>We’re going to add the uniform to both the MeshShaderMaterial and the Vertex
+Shader. First the Vertex Shader:
+</div></div></p>
+
+<div class="highlight"><pre><code class="language-glsl" data-lang="glsl"><span class="k">uniform</span> <span class="k">float</span> <span class="n">amplitude</span><span class="p">;</span>
+<span class="k">attribute</span> <span class="k">float</span> <span class="n">displacement</span><span class="p">;</span>
+<span class="k">varying</span> <span class="k">vec3</span> <span class="n">vNormal</span><span class="p">;</span>
+
+<span class="k">void</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+
+  <span class="n">vNormal</span> <span class="o">=</span> <span class="n">normal</span><span class="p">;</span>
+
+  <span class="c1">// multiply our displacement by</span>
+  <span class="c1">// the amplitude. The amp will</span>
+  <span class="c1">// get animated so we&#39;ll have</span>
+  <span class="c1">// animated displacement</span>
+  <span class="k">vec3</span> <span class="n">newPosition</span> <span class="o">=</span>
+    <span class="n">position</span> <span class="o">+</span> <span class="n">normal</span> <span class="o">*</span>
+    <span class="k">vec3</span><span class="p">(</span><span class="n">displacement</span> <span class="o">*</span> <span class="n">amplitude</span><span class="p">);</span>
+
+  <span class="n">gl_Position</span> <span class="o">=</span> <span class="n">projectionMatrix</span> <span class="o">*</span>
+                <span class="n">modelViewMatrix</span> <span class="o">*</span>
+                <span class="k">vec4</span><span class="p">(</span><span class="n">newPosition</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">);</span>
+<span class="p">}</span></code></pre></div>
+
+<div class="container"><div class="left column">
+<p>Next we update the MeshShaderMaterial:
+</div></div></p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="c1">// add a uniform for the amplitude</span>
+<span class="kd">var</span> <span class="nx">uniforms</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">amplitude</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;f&#39;</span><span class="p">,</span> <span class="c1">// a float</span>
+    <span class="nx">value</span><span class="o">:</span> <span class="mi">0</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="kd">var</span> <span class="nx">vShader</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#vertexshader&#39;</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">fShader</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#fragmentshader&#39;</span><span class="p">);</span>
+
+<span class="c1">// create the final material</span>
+<span class="kd">var</span> <span class="nx">shaderMaterial</span> <span class="o">=</span>
+    <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">MeshShaderMaterial</span><span class="p">({</span>
+      <span class="nx">uniforms</span><span class="o">:</span>       <span class="nx">uniforms</span><span class="p">,</span>
+      <span class="nx">attributes</span><span class="o">:</span>     <span class="nx">attributes</span><span class="p">,</span>
+      <span class="nx">vertexShader</span><span class="o">:</span>   <span class="nx">vShader</span><span class="p">.</span><span class="nx">text</span><span class="p">(),</span>
+      <span class="nx">fragmentShader</span><span class="o">:</span> <span class="nx">fShader</span><span class="p">.</span><span class="nx">text</span><span class="p">()</span>
+    <span class="p">});</span></code></pre></div>
+
+<div class="container"><div class="left column">
+<p class="livedemo"><a href="/static/tutorials/an-introduction-to-shaders-part-2/demo/demo-5.html">See it running</a></p>
+
+<p>Our shaders are done for now. But we would appear to have taken a step
+backwards. This is largely because our amplitude value is at 0 and since we
+multiply that with the displacement we’re seeing nothing change. We also
+haven’t set up the animation loop so we never see that 0 change to anything
+else.</p>
+
+<p>In our JavaScript we now need to wrap up the render call into a function and
+then use requestAnimationFrame to call it. In there we also need to update the
+uniform’s value.
+</div></div></p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">frame</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="kd">function</span> <span class="nx">update</span><span class="p">()</span> <span class="p">{</span>
+
+  <span class="c1">// update the amplitude based on</span>
+  <span class="c1">// the frame value.</span>
+  <span class="nx">uniforms</span><span class="p">.</span><span class="nx">amplitude</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span>
+    <span class="nb">Math</span><span class="p">.</span><span class="nx">sin</span><span class="p">(</span><span class="nx">frame</span><span class="p">);</span>
+
+  <span class="c1">// update the frame counter</span>
+  <span class="nx">frame</span> <span class="o">+=</span> <span class="mf">0.1</span><span class="p">;</span>
+
+  <span class="nx">renderer</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span><span class="nx">scene</span><span class="p">,</span> <span class="nx">camera</span><span class="p">);</span>
+
+  <span class="c1">// set up the next call</span>
+  <span class="nx">requestAnimFrame</span><span class="p">(</span><span class="nx">update</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="nx">requestAnimFrame</span><span class="p">(</span><span class="nx">update</span><span class="p">);</span></code></pre></div>
+
+<div class="container"><div class="left column">
+<p class="livedemo"><a href="/static/tutorials/an-introduction-to-shaders-part-2/demo/demo-6.html">See it running</a></p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>And that’s it! If you take a look now you’ll see it’s animating in a strange
+pulsating manner. There’s so much more we can cover on shaders as a topic, but
+I hope you’ve found this introduction helpful. You should now be able to
+understand shaders when you see them as well as having the confidence to
+create some amazing shaders of your own!</p>
+
+<p>As always I’ve <a href="/static/tutorials/an-introduction-to-shaders-part-2/sample.zip">wrapped up the source code</a> in this lab article so
+you have it as a reference. Don’t forget to say hi via the <a href="http://twitter.com/aerotwist">usual means</a>.</p>
+
+</div></div>
+
+
+</div>
+
+
+    </section>
+
+    <footer>
+
+      <div class="container">
+        <div class="bio panel">
+          <h2>Hello!</h2>
+          <p>My name is Paul. I work at <a href="http://www.google.com/" title="Some cloud company in the USA, I think.">Google</a> on the Chrome Developer Relations team as an advocate. I help developers improve the performance of their sites and apps.</p>
+
+          <p>You can find me on <a href="http://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a></p>
+        </div>
+
+        <div class="get-in-touch panel">
+          <h2>Get in touch</h2>
+          <p>I don’t bite. Honestly. You can find me on <a href="http://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a>, and I like hearing from people (pretty handy given my job, really) so say hi.</p>
+        </div>
+
+        <div class="subscribe panel">
+          <h2>Subscribe</h2>
+          <p>You should totally get the <a href="/blog/feed/">RSS feed</a>, or whatever it is you kids are using these days (I miss Reader.)</p>
+        </div>
+
+        <p class="disclaimer">Except as otherwise noted, the content of this page is licensed under the Creative Commons Attribution 3.0 License, and code samples are licensed under the Apache 2.0 License.</p>
+      </div>
+    </footer>
+
+    <script type="text/javascript" async="true">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-13024693-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+  </body>
+</html>

@@ -1,0 +1,440 @@
+<!doctype html>
+<html itemscope itemtype="http://schema.org/Article">
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="author" content="Paul Lewis" />
+  <meta name="viewport" content="width=device-width">
+
+  
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="//aerotwist.com/blog/feed/">
+  
+
+  
+  <meta itemprop="name" content="The Web Needs Containment">
+  <meta itemprop="description" content="Make me a view in HTML. Go on. You can&#39;t, of course, because the browser has no idea what a view is. And that means that we end up fighting with the browser, and that&#39;s never a good idea. Let&#39;s look at why this even matters...">
+
+    
+    <meta itemprop="image" content="http://aerotwist.com/static/blog/the-web-needs-containment/flash-movieclip.png">
+    
+
+  
+
+  <style>
+    
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 400;
+      src: local('Lato Regular'), local('Lato-Regular'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qIIYRU-oROkIk8vfvxw6QvesZW2xOQ-xsNqO47m55DA.woff) format('woff');
+    }
+    
+
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 700;
+      src: local('Lato Bold'), local('Lato-Bold'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qdgUG4U09HnJwhYI-uK18wLUuEpTyoUstqEm5AMlJo4.woff) format('woff');
+    }
+  </style>
+
+  <link rel="stylesheet" media="screen" href="/css/aerotwist.css" />
+  <title>Aerotwist - The Web Needs Containment</title>
+  
+</head>
+
+
+<!--
+                              __          .__          __
+  _____    ___________  _____/  |___  _  _|__| _______/  |_
+  \__  \ _/ __ \_  __ \/  _ \   __\ \/ \/ /  |/  ___/\   __\
+   / __ \\  ___/|  | \(  <_> )  |  \     /|  |\___ \  |  |
+  (____  /\___  >__|   \____/|__|   \/\_/ |__/____  > |__|
+       \/     \/                                  \/
+
+  Giant ascii art embedded in every page of your site is how you
+  show other people that YOU CARE. Mainly I care about developers,
+  which is what I presume you are if you're all about viewing
+  the source. Clearly you're my kind of person.
+
+  This is v3, it's run through Jekyll, it's been fun to build,
+  there's always more to do, and you may notice that aside from
+  Google Analytics there is no JavaScript. None.
+
+  That's one way of many you keep your pages fast. I care about
+  keeping this site fast because your time is precious and I need
+  to get out of your way.
+
+  <3'z
+
+  Paul
+-->
+
+
+  <body class="blog">
+
+    <header>
+      <div class="container">
+        <div id="logo">
+  <a href="/">
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="100%" height="100%">
+    <g>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#6EBAD3" points="30.6,47.73 64.92,47.73 19.97,76.52"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ED95C0" points="48.198,0 53.008,14.06 39.31,24.76"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#880043" points="39.31,24.76 64.92,48 30.6,48"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#DA0A7A" points="39.31,24.76 64.92,48 53.008,14.06"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#0B7DAD" points="30.6,48 64.92,48 48,58.69"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#BDDEE8" points="47.76,58.69 64.92,47.73 75.14,76.73"></polygon>
+    </g>
+    </svg>
+  </a>
+</div>
+
+        <nav>
+  <ul>
+    
+      
+        <li><a href="/">Home</a></li>
+      
+    
+      
+        <li class="active"><a href="/blog/"> Blog</a></li>
+      
+    
+      
+        <li><a href="/tutorials/">Tutorials</a></li>
+      
+    
+      
+        <li><a href="/lab/">Lab</a></li>
+      
+    
+  </ul>
+
+  <svg id="left-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#AAAAAA" stroke-width="1" />
+    </svg>
+
+  <svg id="right-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#6EBAD3" stroke-opacity="0.3" stroke-width="1" />
+    </svg>
+</nav>
+
+      </div>
+    </header>
+    <section>
+
+      <div class="content">
+
+  
+  <svg version="1.1" class="shape-reference" xmlns="http://www.w3.org/2000/svg" width="790" height="324">
+  <defs>
+    <filter id="blur-8">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="8" />
+    </filter>
+    <filter id="blur-6">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="6" />
+    </filter>
+    <filter id="blur-4">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="4" />
+    </filter>
+  </defs>
+
+  <g id="color-block">
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#394f77" stroke="#394f77" stroke-width="0.6" points="99,229 40,156 130,208"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#352c4c" stroke="#352c4c" stroke-width="0.6" points="99,229 130,208 199,242"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#442850" stroke="#442850" stroke-width="0.6" points="199,242 130,208 217,215"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#31112c" stroke="#31112c" stroke-width="0.6" points="199,242 217,215 292,284"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#4c143d" stroke="#4c143d" stroke-width="0.6" points="217,215 281,198 292,284"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#862e77" stroke="#862e77" stroke-width="0.6" points="217,215 214,142 281,198"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#6b3b79" stroke="#6b3b79" stroke-width="0.6" points="130,208 214,142 217,215"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#75559b" stroke="#75559b" stroke-width="0.6" points="130,208 127,144 214,142"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#51659b" stroke="#51659b" stroke-width="0.6" points="40,156 127,144 130,208"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ae308d" stroke="#ae308d" stroke-width="0.6" points="281,198 214,142 282,155"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#981666" stroke="#981666" stroke-width="0.6" points="371,229 281,198 282,155"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#500b34" stroke="#500b34" stroke-width="0.6" points="292,284 281,198 371,229"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#2e031b" stroke="#2e031b" stroke-width="0.6" points="292,284 371,229 392,266"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#6e033a" stroke="#6e033a" stroke-width="0.6" points="392,266 371,229 468,193"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#a80358" stroke="#a80358" stroke-width="0.6" points="468,193 371,229 389,181"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#d2117b" stroke="#d2117b" stroke-width="0.6" points="468,193 389,181 476,141"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#c4268c" stroke="#c4268c" stroke-width="0.6" points="468,193 476,141 552,152"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#a22b82" stroke="#a22b82" stroke-width="0.6" points="468,193 552,152 560,178"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#954397" stroke="#954397" stroke-width="0.6" points="560,178 552,152 627,157"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#9f69ab" stroke="#9f69ab" stroke-width="0.6" points="552,152 616,112 627,157"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#c18bbf" stroke="#c18bbf" stroke-width="0.6" points="552,152 550,75 616,112"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#cc72b4" stroke="#cc72b4" stroke-width="0.6" points="476,141 550,75 552,152"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#df7fbc" stroke="#df7fbc" stroke-width="0.6" points="476,141 450,115 550,75"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#e93095" stroke="#e93095" stroke-width="0.6" points="389,181 450,115 476,141"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#fe399b" stroke="#fe399b" stroke-width="0.6" points="389,181 350,107 450,115"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#e847a1" stroke="#e847a1" stroke-width="0.6" points="389,181 289,116 350,107"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#cc0f77" stroke="#cc0f77" stroke-width="0.6" points="389,181 371,229 289,116"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ca1c84" stroke="#ca1c84" stroke-width="0.6" points="289,116 371,229 282,155"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#c25aa6" stroke="#c25aa6" stroke-width="0.6" points="282,155 214,142 289,116"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ee99cb" stroke="#ee99cb" stroke-width="0.6" points="289,116 345,58 350,107"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#fbb3d8" stroke="#fbb3d8" stroke-width="0.6" points="350,107 345,58 424,66"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#fb8bc4" stroke="#fb8bc4" stroke-width="0.6" points="350,107 424,66 450,115"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f3c0de" stroke="#f3c0de" stroke-width="0.6" points="450,115 424,66 536,40"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ebbfdd" stroke="#ebbfdd" stroke-width="0.6" points="450,115 536,40 550,75"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ecdaeb" stroke="#ecdaeb" stroke-width="0.6" points="550,75 536,40 626,74"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#d2b8d7" stroke="#d2b8d7" stroke-width="0.6" points="616,112 550,75 626,74"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#b8abce" stroke="#b8abce" stroke-width="0.6" points="616,112 626,74 683,119"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#9685b8" stroke="#9685b8" stroke-width="0.6" points="627,157 616,112 683,119"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#7a75ad" stroke="#7a75ad" stroke-width="0.6" points="675,162 627,157 683,119"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#4e6ea4" stroke="#4e6ea4" stroke-width="0.6" points="675,162 683,119 750,212"/>
+  </g>
+</svg>
+
+  
+
+  <div class="masthead hatched">
+
+    
+      <svg class="behind-meta" width="790" height="324">
+        <use xlink:href="#color-block" />
+      </svg>
+
+      <svg class="left-meta" width="790" height="324">
+        <use xlink:href="#color-block" filter="url(#blur-6)" transform="translate(395 162) scale(-0.5 0.5) translate(-395 -162)" />
+      </svg>
+    
+
+    <div class="container">
+      <h2>The Web Needs Containment</h2>
+      <p>Make me a view in HTML. Go on. You can't, of course, because the browser has no idea what a view is. And that means that we end up fighting with the browser, and that's never a good idea. Let's look at why this even matters...</p>
+    </div>
+
+  </div>
+
+  <div class="container">
+    <div class="meta">
+
+      <ul>
+        <li class="last-updated">
+          <span class="name">Last updated:</span>
+          <span class="value">11 Dec 2013</span>
+        </li>
+
+        <li>
+          <span class="name">Est. Read Time:</span>
+          <span class="value">6 mins</span>
+        </li>
+
+        <li class="share">
+          <span class="name">Share this:</span>
+          <span class="value"><a href="http://www.twitter.com/share?url=http://aerotwist.com/blog/the-web-needs-containment/">Twitter</a></span>
+          <span class="value"><a href="https://plus.google.com/share?url=http://aerotwist.com/blog/the-web-needs-containment/">Google+</a></span>
+        </li>
+        <li class="tags">
+          <span class="name">Tagged:</span>
+          <span class="value">
+          
+            #perfmatters, 
+          
+            #flash, 
+          
+            #containment
+          
+          </span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="container"><div class="left column">
+<p>## Documents: they’re not a kind of app.</p>
+
+<p>MVC frameworks are the de facto way to structure a web app. A quick tally of <a href="http://todomvc.com/">TodoMVC</a> shows about <strong>50</strong> or so different flavors of MVC framework that you can use for your next project. That’s great and everything, but let me ask you this: <em>how do you semantically declare a view in your HTML?</em> And I don’t mean for the sake of screen readers and accessibility (though that would be good!) but to declare your intent to the browser? How does Chrome, Firefox, Safari, Opera or IE <em>know</em> that it’s dealing with a view? Because if the browser doesn’t know <strong>it can’t optimize for it</strong>.</p>
+
+<p>Today, of course, we have HTML and styling that’s grown up out of the primitive of the <code>document</code>. That’s no bad thing, but now we’re trying to build apps and that is increasingly like trying to teach an old dog new tricks. Today our rendering model assumes that if I change an element somewhere in the tree, that change will cascade down to child elements and potentially affect all of them. Those changes will also propagate back <em>up</em> the tree as well (yay!) and the entire document may need to be laid out.
+</div></div></p>
+
+<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="c">&lt;!-- This is so legit --&gt;</span>
+<span class="nt">&lt;section</span> <span class="na">class=</span><span class="s">&quot;view isolatedforlayoutandpaint ipromise&quot;</span><span class="nt">&gt;</span>
+  This is a document section desperately trying to be a view.
+
+  It isn&#39;t.
+
+  It&#39;s a SECTION of a DOCUMENT.
+<span class="nt">&lt;/section&gt;</span></code></pre></div>
+
+<div class="container"><div class="left column">
+
+<p>If we’re making an MVC app and we want to have – say – five different views, all of which are at the root. They probably have subviews like lists and whatnot, this being an app and everything. Naturally we want (and expect) the browser to contain those views for styling, layout and paint. This would be great for performance, but also our sanity. But since we can’t declare a view we can’t benefit from that!</p>
+
+<h2 id="no-views-and-insane-z-ordering">No views… and insane z ordering!</h2>
+
+<blockquote>
+  <p>You simply have to just go the whole hog and learn how everything plays out (or should play out, bugs notwithstanding) and then massage your CSS to get things working.</p>
+</blockquote>
+
+<p>Relatedly, things like stacking contexts and z-indexes are deeply confusing and end up horrible to manage. Behaviors change depending on whether an element is set to <code>position: absolute</code>, <code>static</code>, <code>fixed</code> or <code>relative</code>.</p>
+
+<p>You simply have to just go the whole hog and learn how everything plays out (or <em>should</em> play out, bugs notwithstanding) and then massage your CSS to get things working. <a href="http://philipwalton.com/articles/what-no-one-told-you-about-z-index/">And then there’s some weird crap about opacity</a>.</p>
+
+<h2 id="sup-flash">Sup, Flash!</h2>
+
+<p>Here’s something you may or may not know: Flash had (and still does have) the notion of self-contained views: <a href="http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/display/DisplayObject.html"><code>DisplayObject</code>s</a>. These are the base class of virtually everything on screen, and they behave like views! If you create two <code>DisplayObject</code>s (or one of its subclasses like <code>Sprite</code>, <code>MovieClip</code> or <code>Bitmap</code>) you can easily move them around and know they won’t affect each other.</p>
+
+<figure>
+  <img src="/static/blog/the-web-needs-containment/flash-movieclip.png" />
+  <figcaption>Creating a MovieClip like it's 1999</figcaption>
+</figure>
+
+<p>You can also have parent-child relationships, so you if you go all meme on it (“Yo dawg, I heard you like <code>DisplayObject</code>s, so I put a <code>DisplayObject</code> in your <code>DisplayObject</code> so you can’t object to displayin’ <code>DisplayObject</code>z”) you can build trees of these <strong>self-contained</strong> items. Internally each has a <em>consistent and predictable</em> z ordering, i.e. they are all stacking contexts, and, since the stage is effectively a <code>DisplayObject</code> you also have z ordering there, too.</p>
+
+<p>To be clear, I’m not saying I want develop in Flash again; the web has better accessibility and multi-device support, <em>but</em> that doesn’t mean we should discard what it does well!</p>
+
+<h2 id="broaden-the-horizon">Broaden the horizon</h2>
+
+<p>But let’s not get bogged down in Flash, eh? It’s still a bit raw for some folks and I’m pretty certain their pitchforks are just lying around begging to be sharpened. Instead let’s take a look a little bit further afield and see whether other platforms outside of the web have the notion of containment / views and, for giggles, sane z ordering:</p>
+
+<table class="left-highlight">
+  <thead>
+    <tr>
+      <th> </th>
+      <th>iOS</th>
+      <th>Android</th>
+      <th>Flash</th>
+      <th>Windows</th>
+      <th>Web</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Containment</td>
+      <td>Yes</td>
+      <td>Yes</td>
+      <td>Yes</td>
+      <td>Yes</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td>Sane Z Ordering</td>
+      <td>Yes</td>
+      <td>Yes</td>
+      <td>Yes</td>
+      <td>Yes</td>
+      <td>No</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Yeahhhhhh… all these other platforms have the basic notion of a view, and from there we find clear z ordering. Android and Windows both stand out to me as having an optional flexible layout model, something that is de facto on the web of course. But, crucially, when you change something inside one of your “views” on the web, the chances are <strong>everything else</strong> is going to be affected.</p>
+
+<p>In a <a href="../bad-benchmark-right-result/">previous blog post discussing benchmarks</a> I had this chart showing how style calculation times escalate proportionally to the number of affected elements:</p>
+
+<figure>
+  <img src="/static/blog/bad-benchmark-right-result/strings.png" />
+</figure>
+
+<p>If we want to maintain smooth framerates we need to avoid this work, and doubly so if the developer <em>never intended</em> for all those elements to be affected by a change. That chart doesn’t account for layout or paint, both of which would also increase. Oh and on mobile handsets times would increase by <strong>~6-8x</strong>.</p>
+
+<blockquote>
+  <p>We are applying hacks to cajole the browser into treating elements like self-contained views.</p>
+</blockquote>
+
+<p>Of course today there are implementation-specific criteria you can apply to your elements that get them to act as <a href="http://wilsonpage.co.uk/introducing-layout-boundaries/">Layout Boundaries</a>, but these are not always simple to apply and they are tied to the implementation. It’s the same with <code>translateZ(0)</code> and chums; we are applying hacks to cajole the browser into treating elements like self-contained views.</p>
+
+<h2 id="but-web-components-paul-they-shall-fix-our-woes">But… Web Components, Paul! They shall fix our woes!</h2>
+
+<p>You might think so, right? Component implies full containment? Not so.</p>
+
+<p>I actually think this should be a default for Web Components because if you include a 3rd party component it would be reassuring to think it can’t hose your entire page whenever it requires layout or paint. But as of today, because there is no API or spec for such a behavior, that’s not the case.</p>
+
+<h2 id="iframes-do-all-this-right">iframes do all this, right?</h2>
+
+<p>Yes they do, and that’s how <a href="http://www.sencha.com/blog/the-making-of-fastbook-an-html5-love-story">Sencha made Fastbook</a>, but I think there are problems with that approach:</p>
+
+<ul>
+  <li>We “lose” styling information, scripts and so forth so now we have to either pump them in or have the frame request them directly. Ewww!</li>
+  <li>Communication is done with <code>postMessage</code>, which is neither fun nor a view-like API. We aren’t able to dig into its guts from the outside very easily. You could argue that’s a good thing, but I’d say it’d be frustrating for many people, and it’s something I think should be decided by a developer.</li>
+  <li><code>iframe</code>s are getting, at least from a Chrome perspective, additional plumbing to take them <a href="http://www.chromium.org/developers/design-documents/oop-iframes">out of process</a>, something you would probably not expect to be applied to a view. This appears to be for when <code>iframe</code> content is cross-origin, but there may end up being other same-origin cases where it also applies, it’s not totally clear.</li>
+</ul>
+
+<p>That said, if you <em>do</em> want to get view-like isolation today, chances are an <code>iframe</code> is your best bet, even if it is a bit of a square-peg-in-a-round-hole scenario.</p>
+
+<h2 id="lazy-block-layout-css-containment-and-will-animate">Lazy block layout, css-containment and will-animate</h2>
+
+<p>Thankfully there are some movements towards containment, or at least damage limitation when we have paint or layout invalidations, so allow me to illuminate:</p>
+
+<ul>
+  <li><strong><a href="https://docs.google.com/a/google.com/document/d/1-tbcMJV8wNbX2g5ehNIcE_1W7Kj_B3g9w1BrUgHnh3U/edit">Lazy Block Layout</a></strong>: this takes the approach of  restricting fine-grain layout to <strong>only what can be seen in the viewport</strong>, thus much reducing the time spent in layout. (It estimates the layout for elements outside of the current viewport.) Generally I think this is A Good Thing™, because not everything is a web app and we still have documents that this will benefit. For apps, however, this still doesn’t provide complete containment, it just reduces layout cost globally.</li>
+  <li><strong><a href="http://dev.w3.org/csswg/css-containment/">CSS Containment</a></strong>: this property allows you to guarantee a boundary around an element for both layout and paint, assuming you opt for a value of <code>strict</code>. For me this is a lot closer to the notion of a self-contained view. The spec is still in draft as far as I know, but I’m hopeful it will see the light of day.</li>
+  <li><strong><a href="http://lists.w3.org/Archives/Public/www-style/2013Nov/0414.html">will-animate</a></strong>: this sucker, proposed by Benoit Girard at Mozilla, is hot off the press, and a declarative way for developers to say that an element is going to change visually. That may be position (left, top et al) or it may be the element’s contents. This is a huge leap forward when it comes to telling the browser that it should expect, and therefore optimize for, visual changes. That puts the boot in on the browser having to infer intended behavior, which is splendid. And terrific. And marvelous.</li>
+</ul>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>As an industry we talk so much about “web vs native”, and yet actually the web doesn’t have the same notion of an application as other platforms. If we’re going to build the next generation of web apps we need to think about the primitives we need. We can learn from old hands like Flash, or MVC powerhouses like Android, iOS and Windows.</p>
+
+<p>The web needs containment (or views if you want to call them that) because it’s eminently browser-optimizable. Much more than that, however, it’s a sane way to build apps.</p>
+
+<p>Why else would we have so many MVC frameworks?
+</div></div></p>
+
+
+  <div class="footer-share container">
+    Share this on: <span class="value"><a href="http://www.twitter.com/share?url=http://aerotwist.com/blog/the-web-needs-containment/">Twitter</a></span>
+    <span class="value"><a href="https://plus.google.com/share?url=http://aerotwist.com/blog/the-web-needs-containment/">Google+</a></span>
+  </div>
+
+  <div class="clear"></div>
+
+  
+    <svg class="left-shape" style="margin-left: -307.8px" width="453.6" height="1106.0">
+      <use xlink:href="#color-block" filter="url(#blur-4)" transform="scale(-1.4 1.4) rotate(90)"/>
+    </svg>
+
+    <svg class="right-shape" width="162.0" height="711.0">
+      <use xlink:href="#color-block" filter="url(#blur-8)" transform="scale(-0.9 0.9) rotate(90)"/>
+    </svg>
+  
+
+</div>
+
+
+    </section>
+
+    <footer>
+
+      <div class="container">
+        <div class="bio panel">
+          <h2>Hello!</h2>
+          <p>My name is Paul. I work at <a href="http://www.google.com/" title="Some cloud company in the USA, I think.">Google</a> on the Chrome Developer Relations team as an advocate. I help developers improve the performance of their sites and apps.</p>
+
+          <p>You can find me on <a href="http://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a></p>
+        </div>
+
+        <div class="get-in-touch panel">
+          <h2>Get in touch</h2>
+          <p>I don’t bite. Honestly. You can find me on <a href="http://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a>, and I like hearing from people (pretty handy given my job, really) so say hi.</p>
+        </div>
+
+        <div class="subscribe panel">
+          <h2>Subscribe</h2>
+          <p>You should totally get the <a href="/blog/feed/">RSS feed</a>, or whatever it is you kids are using these days (I miss Reader.)</p>
+        </div>
+
+        <p class="disclaimer">Except as otherwise noted, the content of this page is licensed under the Creative Commons Attribution 3.0 License, and code samples are licensed under the Apache 2.0 License.</p>
+      </div>
+    </footer>
+
+    <script type="text/javascript" async="true">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-13024693-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+  </body>
+</html>

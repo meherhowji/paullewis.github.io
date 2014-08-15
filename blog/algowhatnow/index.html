@@ -1,0 +1,357 @@
+<!doctype html>
+<html itemscope itemtype="http://schema.org/Article">
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="author" content="Paul Lewis" />
+  <meta name="viewport" content="width=device-width">
+
+  
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="//aerotwist.com/blog/feed/">
+  
+
+  
+  <meta itemprop="name" content="Algowhatnow?">
+  <meta itemprop="description" content="There have been some posts recently that lament the way that companies hire front-end developers, and in particular &quot;Computer Science questions&quot;. I feel like throwing my hat in the ring on this one, because I have some thoughts.">
+
+    
+
+  
+
+  <style>
+    
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 400;
+      src: local('Lato Regular'), local('Lato-Regular'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qIIYRU-oROkIk8vfvxw6QvesZW2xOQ-xsNqO47m55DA.woff) format('woff');
+    }
+    
+
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 700;
+      src: local('Lato Bold'), local('Lato-Bold'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qdgUG4U09HnJwhYI-uK18wLUuEpTyoUstqEm5AMlJo4.woff) format('woff');
+    }
+  </style>
+
+  <link rel="stylesheet" media="screen" href="/css/aerotwist.css" />
+  <title>Aerotwist - Algowhatnow?</title>
+  
+</head>
+
+
+<!--
+                              __          .__          __
+  _____    ___________  _____/  |___  _  _|__| _______/  |_
+  \__  \ _/ __ \_  __ \/  _ \   __\ \/ \/ /  |/  ___/\   __\
+   / __ \\  ___/|  | \(  <_> )  |  \     /|  |\___ \  |  |
+  (____  /\___  >__|   \____/|__|   \/\_/ |__/____  > |__|
+       \/     \/                                  \/
+
+  Giant ascii art embedded in every page of your site is how you
+  show other people that YOU CARE. Mainly I care about developers,
+  which is what I presume you are if you're all about viewing
+  the source. Clearly you're my kind of person.
+
+  This is v3, it's run through Jekyll, it's been fun to build,
+  there's always more to do, and you may notice that aside from
+  Google Analytics there is no JavaScript. None.
+
+  That's one way of many you keep your pages fast. I care about
+  keeping this site fast because your time is precious and I need
+  to get out of your way.
+
+  <3'z
+
+  Paul
+-->
+
+
+  <body class="blog">
+
+    <header>
+      <div class="container">
+        <div id="logo">
+  <a href="/">
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="100%" height="100%">
+    <g>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#6EBAD3" points="30.6,47.73 64.92,47.73 19.97,76.52"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ED95C0" points="48.198,0 53.008,14.06 39.31,24.76"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#880043" points="39.31,24.76 64.92,48 30.6,48"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#DA0A7A" points="39.31,24.76 64.92,48 53.008,14.06"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#0B7DAD" points="30.6,48 64.92,48 48,58.69"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#BDDEE8" points="47.76,58.69 64.92,47.73 75.14,76.73"></polygon>
+    </g>
+    </svg>
+  </a>
+</div>
+
+        <nav>
+  <ul>
+    
+      
+        <li><a href="/">Home</a></li>
+      
+    
+      
+        <li class="active"><a href="/blog/"> Blog</a></li>
+      
+    
+      
+        <li><a href="/tutorials/">Tutorials</a></li>
+      
+    
+      
+        <li><a href="/lab/">Lab</a></li>
+      
+    
+  </ul>
+
+  <svg id="left-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#AAAAAA" stroke-width="1" />
+    </svg>
+
+  <svg id="right-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#6EBAD3" stroke-opacity="0.3" stroke-width="1" />
+    </svg>
+</nav>
+
+      </div>
+    </header>
+    <section>
+
+      <div class="content">
+
+  
+  <svg version="1.1" class="shape-reference" xmlns="http://www.w3.org/2000/svg" width="741" height="331">
+  <defs>
+    <filter id="blur-8">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="8" />
+    </filter>
+    <filter id="blur-6">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="6" />
+    </filter>
+    <filter id="blur-4">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="4" />
+    </filter>
+  </defs>
+
+  <g id="color-block">
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#1d2d41" stroke="#1d2d41" stroke-width="0.6" points="40,291 79,207 106,230"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#1e3b51" stroke="#1e3b51" stroke-width="0.6" points="40,291 47,195 79,207"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#40608d" stroke="#40608d" stroke-width="0.6" points="79,207 47,195 113,154"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#434f7b" stroke="#434f7b" stroke-width="0.6" points="106,230 79,207 113,154"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#574e84" stroke="#574e84" stroke-width="0.6" points="106,230 113,154 163,182"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#46335d" stroke="#46335d" stroke-width="0.6" points="106,230 163,182 180,239"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#603269" stroke="#603269" stroke-width="0.6" points="180,239 163,182 210,195"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#431d43" stroke="#431d43" stroke-width="0.6" points="180,239 210,195 213,273"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#4b1841" stroke="#4b1841" stroke-width="0.6" points="266,238 213,273 210,195"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#2a0c22" stroke="#2a0c22" stroke-width="0.6" points="245,273 213,273 266,238"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#2c071f" stroke="#2c071f" stroke-width="0.6" points="245,273 266,238 335,278"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#4a072c" stroke="#4a072c" stroke-width="0.6" points="335,278 266,238 359,233"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#420021" stroke="#420021" stroke-width="0.6" points="335,278 359,233 415,264"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#5e0635" stroke="#5e0635" stroke-width="0.6" points="415,264 359,233 445,223"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#480c31" stroke="#480c31" stroke-width="0.6" points="415,264 445,223 514,253"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#751956" stroke="#751956" stroke-width="0.6" points="514,253 445,223 464,166"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#732463" stroke="#732463" stroke-width="0.6" points="549,199 514,253 464,166"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#46264e" stroke="#46264e" stroke-width="0.6" points="514,253 549,199 620,229"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#5a457b" stroke="#5a457b" stroke-width="0.6" points="620,229 549,199 622,155"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#4c6195" stroke="#4c6195" stroke-width="0.6" points="620,229 622,155 701,152"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#7d4d95" stroke="#7d4d95" stroke-width="0.6" points="622,155 549,199 553,158"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#97378a" stroke="#97378a" stroke-width="0.6" points="549,199 464,166 553,158"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#b8479c" stroke="#b8479c" stroke-width="0.6" points="553,158 464,166 480,134"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#dc54a6" stroke="#dc54a6" stroke-width="0.6" points="464,166 392,104 480,134"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ee51a6" stroke="#ee51a6" stroke-width="0.6" points="464,166 372,122 392,104"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f0238f" stroke="#f0238f" stroke-width="0.6" points="464,166 360,169 372,122"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ba1270" stroke="#ba1270" stroke-width="0.6" points="445,223 360,169 464,166"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#a10555" stroke="#a10555" stroke-width="0.6" points="359,233 360,169 445,223"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#a00c5d" stroke="#a00c5d" stroke-width="0.6" points="359,233 263,207 360,169"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#6c0f47" stroke="#6c0f47" stroke-width="0.6" points="266,238 263,207 359,233"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#6f1e59" stroke="#6f1e59" stroke-width="0.6" points="266,238 210,195 263,207"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#a02c82" stroke="#a02c82" stroke-width="0.6" points="210,195 263,134 263,207"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#a63b94" stroke="#a63b94" stroke-width="0.6" points="210,195 201,161 263,134"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#813e88" stroke="#813e88" stroke-width="0.6" points="163,182 201,161 210,195"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#985ea4" stroke="#985ea4" stroke-width="0.6" points="201,161 163,182 181,110"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#b66aae" stroke="#b66aae" stroke-width="0.6" points="201,161 181,110 263,134"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#d89bc9" stroke="#d89bc9" stroke-width="0.6" points="263,134 181,110 273,60"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#e7a9d1" stroke="#e7a9d1" stroke-width="0.6" points="263,134 273,60 284,73"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#e97fbd" stroke="#e97fbd" stroke-width="0.6" points="263,134 284,73 372,122"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ec3c9b" stroke="#ec3c9b" stroke-width="0.6" points="360,169 263,134 372,122"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#c91c84" stroke="#c91c84" stroke-width="0.6" points="263,207 263,134 360,169"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f989c4" stroke="#f989c4" stroke-width="0.6" points="372,122 284,73 392,104"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f5b5d9" stroke="#f5b5d9" stroke-width="0.6" points="392,104 284,73 273,60"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#e8cfe5" stroke="#e8cfe5" stroke-width="0.6" points="181,110 195,40 273,60"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#d3c9e0" stroke="#d3c9e0" stroke-width="0.6" points="181,110 70,90 195,40"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#9f9cc5" stroke="#9f9cc5" stroke-width="0.6" points="113,154 70,90 181,110"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#6588b5" stroke="#6588b5" stroke-width="0.6" points="47,195 70,90 113,154"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#8b6baa" stroke="#8b6baa" stroke-width="0.6" points="163,182 113,154 181,110"/>
+  </g>
+</svg>
+
+  
+
+  <div class="masthead hatched">
+
+    
+      <svg class="behind-meta" width="741" height="331">
+        <use xlink:href="#color-block" />
+      </svg>
+
+      <svg class="left-meta" width="741" height="331">
+        <use xlink:href="#color-block" filter="url(#blur-6)" transform="translate(741/2 331/2) scale(-0.5 0.5) translate(-741/2 -331/2)" />
+      </svg>
+    
+
+    <div class="container">
+      <h2>Algowhatnow?</h2>
+      <p>There have been some posts recently that lament the way that companies hire front-end developers, and in particular "Computer Science questions". I feel like throwing my hat in the ring on this one, because I have some thoughts.</p>
+    </div>
+
+  </div>
+
+  <div class="container">
+    <div class="meta">
+
+      <ul>
+        <li class="last-updated">
+          <span class="name">Last updated:</span>
+          <span class="value">22 Jan 2014</span>
+        </li>
+
+        <li>
+          <span class="name">Est. Read Time:</span>
+          <span class="value">3 mins</span>
+        </li>
+
+        <li class="share">
+          <span class="name">Share this:</span>
+          <span class="value"><a href="http://www.twitter.com/share?url=http://aerotwist.com/blog/algowhatnow/">Twitter</a></span>
+          <span class="value"><a href="https://plus.google.com/share?url=http://aerotwist.com/blog/algowhatnow/">Google+</a></span>
+        </li>
+        <li class="tags">
+          <span class="name">Tagged:</span>
+          <span class="value">
+          
+            #opinion
+          
+          </span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="container"><div class="left column"><p>My 2 ½ year old son knows what an algorithm is, even though he’s never heard the word. He knows how I make a coffee, and guides me through the process. He even helps me out a little by tipping coffee all over the place. He knows all the steps and ensures I Do Things Properly™. (I’m certain Mummy puts him up to it.)</p>
+
+<p>It kind of goes like this:</p>
+
+<ol>
+  <li>Get some coffee beans.</li>
+  <li>Chuck them in a bean grinder.</li>
+  <li>Grind beans.</li>
+  <li>Chuck coffee powder into coffee machine.</li>
+  <li>Boil water and wait for it to cool down a little; Daddy does <em>not</em> abide burnt coffee.</li>
+  <li>Pour water on the coffee.</li>
+  <li>Wait.</li>
+  <li>Pour coffee into the mug; apply milk.</li>
+  <li>Watch Daddy drink it and return to his Happy Place.</li>
+</ol>
+
+<p>An algorithm is just a list of ordered steps, and nothing to be particularly concerned about. I regard the ability to break down a task into steps as a basic building block for a programmer of any level.</p>
+
+<h1 id="ok-but-why-would-you-ask-me-to-write-quicksort">OK, but why would you ask me to write Quicksort?</h1>
+
+<p>The real problem is not algorithmic design questions per se, but “Computer Science” algorithmic questions, e.g. “build a binary tree” or “write Quicksort”. The objection seems to be that these are irrelevant to front-end development, i.e. you will <em>never</em> find yourself doing or dealing with any of this on the web. You’ll spend your time wiring up events, dealing with browser issues or CSS being bonkers (for a change). A few years ago I would have agreed with this point of view, but now I disagree.</p>
+
+<blockquote>
+  <p>The complex problems we face building apps will, in some cases at least, be eerily similar to “classic” Computer Science problems.</p>
+</blockquote>
+
+<p>Let me ask you this: <strong>are apps more or less complex than they were 5 years ago?</strong> The answer is, of course, that they are more complex. They are often more complicated as well. This leads me to think that we are going to find (and are already finding) that the problems we face building apps can be eerily similar to “classic” Computer Science problems. It makes sense, then, to understand these problems, as well as the best-known solutions and data structures. Not that you should need to memorize a given solution, but you should know how it solves the problem so that you can either apply a similar strategy to your own code, or know which API or library you need and <em>why</em>. This empowers you to avoid reinventing the wheel and to make better choices.</p>
+
+<p>In order to entirely disregard Computer Science, then, you really need to be sure that you have <strong>no use for it</strong>. We saw “print on the web” die and we have moved from simple scripts to building apps. In the same way we are soon going to see expectations of our knowledge and abilities escalate, and it’d be good to be ready for that. We will be building (if we aren’t already) very complicated and complex applications, meaning we will need to understand our code design decisions. And most of the time that walks us right into Computer Science.</p>
+
+<aside class="boxout">
+<p># Go forth and learn</p>
+
+<p>If you <em>are</em> interested in learning about algorithms and Computer Sciencey things, then <a href="https://www.udacity.com/course/cs215">Udacity have a course</a>. It’s in Python, but that’s no bad thing, and you can whack that on your list of Awesome Stuff I Can Do.</p>
+
+</aside>
+
+<h1 id="confirmation-bias">Confirmation Bias</h1>
+
+<p>In the interests of full disclosure, I should say that I have a Computer Science degree. Am I simply just defending my own experience as the only valid one? No, because I’m <strong>not</strong> saying you can’t be a good developer without first learning Computer Science. That’s not what I think. Many developers for whom I have the highest respect have no formal CS training at all. What they <strong>do</strong> tend to have is a good brain and a desire to learn. In many cases they arrive at very sound CS-like solutions to coding problems, because they perceive the complexity of what they’re asking the computer to do.</p>
+
+<p>In any case the fact that someone can arrive at good solutions doesn’t negate the benefits of actually learning Computer Science and understanding the best-known solutions to various classes of problems. They <em>will</em> show up in your apps eventually, if they haven’t already.</p>
+
+<h1 id="conclusion">Conclusion</h1>
+
+<p>Computer Science represents problem spaces very neatly and gives a language for us to discuss complex and complicated problems. Since web development is tending in that direction, that seems like something we should embrace. In fact, that’s <em>exactly</em> why I think companies are asking those Computer Science questions.</p>
+</div></div>
+
+  <div class="footer-share container">
+    Share this on: <span class="value"><a href="http://www.twitter.com/share?url=http://aerotwist.com/blog/algowhatnow/">Twitter</a></span>
+    <span class="value"><a href="https://plus.google.com/share?url=http://aerotwist.com/blog/algowhatnow/">Google+</a></span>
+  </div>
+
+  <div class="clear"></div>
+
+  
+    <svg class="left-shape" style="margin-left: -314.45px" width="463.4" height="1037.4">
+      <use xlink:href="#color-block" filter="url(#blur-4)" transform="scale(-1.4 1.4) rotate(90)"/>
+    </svg>
+
+    <svg class="right-shape" width="165.5" height="666.9">
+      <use xlink:href="#color-block" filter="url(#blur-8)" transform="scale(-0.9 0.9) rotate(90)"/>
+    </svg>
+  
+
+</div>
+
+
+    </section>
+
+    <footer>
+
+      <div class="container">
+        <div class="bio panel">
+          <h2>Hello!</h2>
+          <p>My name is Paul. I work at <a href="http://www.google.com/" title="Some cloud company in the USA, I think.">Google</a> on the Chrome Developer Relations team as an advocate. I help developers improve the performance of their sites and apps.</p>
+
+          <p>You can find me on <a href="http://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a></p>
+        </div>
+
+        <div class="get-in-touch panel">
+          <h2>Get in touch</h2>
+          <p>I don’t bite. Honestly. You can find me on <a href="http://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a>, and I like hearing from people (pretty handy given my job, really) so say hi.</p>
+        </div>
+
+        <div class="subscribe panel">
+          <h2>Subscribe</h2>
+          <p>You should totally get the <a href="/blog/feed/">RSS feed</a>, or whatever it is you kids are using these days (I miss Reader.)</p>
+        </div>
+
+        <p class="disclaimer">Except as otherwise noted, the content of this page is licensed under the Creative Commons Attribution 3.0 License, and code samples are licensed under the Apache 2.0 License.</p>
+      </div>
+    </footer>
+
+    <script type="text/javascript" async="true">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-13024693-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+  </body>
+</html>

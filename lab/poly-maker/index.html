@@ -1,0 +1,339 @@
+<!doctype html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="author" content="Paul Lewis" />
+  <meta name="viewport" content="width=device-width">
+
+  
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="//aerotwist.com/lab/feed/">
+  
+
+  
+
+  <style>
+    
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 400;
+      src: local('Lato Regular'), local('Lato-Regular'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qIIYRU-oROkIk8vfvxw6QvesZW2xOQ-xsNqO47m55DA.woff) format('woff');
+    }
+    
+
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 700;
+      src: local('Lato Bold'), local('Lato-Bold'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qdgUG4U09HnJwhYI-uK18wLUuEpTyoUstqEm5AMlJo4.woff) format('woff');
+    }
+  </style>
+
+  <link rel="stylesheet" media="screen" href="/css/aerotwist.css" />
+  <title>Aerotwist - Poly Maker</title>
+  
+  <style>
+    .masthead h2 {
+      display: none;
+    }
+
+    .masthead {
+      background-image: url(/static/lab/headers/header-poly-maker-small.jpg);
+      
+      background-color: #FFF;
+      
+      
+      border-top: 1px solid #EEEEEE;
+      
+    }
+
+    .meta {
+      background-color: #FFF !important;
+    }
+
+    @media (min-width: 600px) {
+      .masthead {
+        background-image: url(/static/lab/headers/header-poly-maker.jpg);
+      }
+    }
+  </style>
+  
+</head>
+
+
+<!--
+                              __          .__          __
+  _____    ___________  _____/  |___  _  _|__| _______/  |_
+  \__  \ _/ __ \_  __ \/  _ \   __\ \/ \/ /  |/  ___/\   __\
+   / __ \\  ___/|  | \(  <_> )  |  \     /|  |\___ \  |  |
+  (____  /\___  >__|   \____/|__|   \/\_/ |__/____  > |__|
+       \/     \/                                  \/
+
+  Giant ascii art embedded in every page of your site is how you
+  show other people that YOU CARE. Mainly I care about developers,
+  which is what I presume you are if you're all about viewing
+  the source. Clearly you're my kind of person.
+
+  This is v3, it's run through Jekyll, it's been fun to build,
+  there's always more to do, and you may notice that aside from
+  Google Analytics there is no JavaScript. None.
+
+  That's one way of many you keep your pages fast. I care about
+  keeping this site fast because your time is precious and I need
+  to get out of your way.
+
+  <3'z
+
+  Paul
+-->
+
+
+  <body class="lab">
+
+    <header>
+      <div class="container">
+        <div id="logo">
+  <a href="/">
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="100%" height="100%">
+    <g>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#CCDBD4" points="30.6,47.73 64.92,47.73 19.97,76.52"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#FFF194" points="48.198,0 53.008,14.06 39.31,24.76"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#89C13D" points="39.31,24.76 64.92,48 30.6,48"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#EADF3E" points="39.31,24.76 64.92,48 53.008,14.06"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#004C26" points="30.6,48 64.92,48 48,58.69"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#7FA592" points="47.76,58.69 64.92,47.73 75.14,76.73"></polygon>
+    </g>
+    </svg>
+  </a>
+</div>
+
+        <nav>
+  <ul>
+    
+      
+        <li><a href="/">Home</a></li>
+      
+    
+      
+        <li><a href="/blog/">Blog</a></li>
+      
+    
+      
+        <li><a href="/tutorials/">Tutorials</a></li>
+      
+    
+      
+        <li class="active"><a href="/lab/"> Lab</a></li>
+      
+    
+  </ul>
+
+  <svg id="left-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#AAAAAA" stroke-width="1" />
+    </svg>
+
+  <svg id="right-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#CCDBD4" stroke-opacity="0.3" stroke-width="1" />
+    </svg>
+</nav>
+
+      </div>
+    </header>
+    <section>
+
+      <div class="content">
+
+  <div class="masthead">
+
+    
+
+    <div class="container">
+      <h2>Poly Maker</h2>
+      <p></p>
+    </div>
+
+  </div>
+
+  <div class="container"><div class="left column">
+<p class="livedemo"><a href="http://lab.aerotwist.com/canvas/poly-maker/">See the experiment</a></p>
+
+<h2 id="synopsis">Synopsis</h2>
+
+<p>When I designed the site I designed some low poly shapes for the blog. Obviously for the design I did them by hand, but I knew I wanted them to be generative in the final version. So when I was at a loose end on a trip to Mountain View (visiting the Google Mothership, for the lolz) I took a day out to create the requisite chunk of code.</p>
+
+<p><strong>I wrote it as a prototype, you can totally break it. Do I look like I mind? I do not.</strong></p>
+
+<h2 id="building-the-shape">Building the shape</h2>
+
+<p>We start with four points needed to build a <a href="http://en.wikipedia.org/wiki/B%C3%A9zier_curve">cubic bezier curve</a>:</p>
+
+<figure>
+  <img src="/static/lab/poly-maker/step1.png" />
+</figure>
+
+<p>Essentially we can now interpolate between the points to get to a curve. Well, I say curve, but it really depends on how many steps we use in the interpolation. In my case I think I default to about 10 steps so you can see straight lines in my “curve”.</p>
+
+<aside class="boxout">
+<p># Lerping</p>
+
+<p>Linear Interpolation (lerping for short) is the process of moving from one point
+to another and it’s the way in which I create the curve. The best explanation I’ve seen of this and other similar mathematical concepts was covered by <a href="http://acko.net">Steven Wittens</a> at <a href="http://www.youtube.com/watch?v=ONN3jBly364">Full Frontal Conference in 2012</a>.
+</aside></p>
+
+<p>Now that we have a curve we can shoot out lines perpendicular to the curve at each of the interpolation points.</p>
+
+<figure>
+  <img src="/static/lab/poly-maker/step2.png" />
+</figure>
+
+<p>Along those lines we can place some points. The green ones are our shape’s contour points, the blue ones are inside the shape.</p>
+
+<figure>
+  <img src="/static/lab/poly-maker/step3.png" />
+</figure>
+
+<p>Next let’s add a bit of jitter to our points so it’s not as uniform:</p>
+
+<figure>
+  <img src="/static/lab/poly-maker/step4.png" />
+</figure>
+
+<p>Now comes the interesting bit where we have to use <a href="http://en.wikipedia.org/wiki/Delaunay_triangulation">Delauney Triangulation</a> to connect the points into triangles. I can’t tell you how much I <em>didn’t want to code it up</em>, so I won’t. Instead I will just point out that there’s a perfectly decent library called <a href="https://code.google.com/p/poly2tri/">poly2tri</a> that has a JavaScript port. Wheel reinvention: avoided.</p>
+
+<p>Once we run that against our points we get a bunch o’ triangles:</p>
+
+<figure>
+  <img src="/static/lab/poly-maker/step5.png" />
+</figure>
+
+<h2 id="coloring">Coloring</h2>
+
+<p>Next up: coloring the shape. All I did was create a box with a gradient: color1 -&gt; color2 -&gt; color1 in the X axis, white -&gt; black in the Y axis. That gives us a block like this:</p>
+
+<figure>
+  <img src="/static/lab/poly-maker/colors.png" />
+</figure>
+
+<p>Then it was just a case of looking up the color for the triangle, which I did by figuring out the coordinates of the triangle’s center and mapping that to our block.</p>
+
+<p>Now query the block at that pixel and we have our triangle’s color. It gives a lit look. I’m such a cheat. Do I look like I care? I do not.
+</div></div></p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">lookUpColor_</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">point1</span><span class="p">,</span> <span class="nx">point2</span><span class="p">,</span> <span class="nx">point3</span><span class="p">)</span> <span class="p">{</span>
+
+  <span class="c1">// colorData_ is the image data for the color block</span>
+  <span class="kd">var</span> <span class="nx">data</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">colorData_</span><span class="p">.</span><span class="nx">data</span><span class="p">;</span>
+  <span class="kd">var</span> <span class="nx">cx</span> <span class="o">=</span> <span class="p">((</span><span class="nx">point1</span><span class="p">.</span><span class="nx">x</span> <span class="o">+</span> <span class="nx">point2</span><span class="p">.</span><span class="nx">x</span> <span class="o">+</span> <span class="nx">point3</span><span class="p">.</span><span class="nx">x</span><span class="p">)</span> <span class="o">/</span> <span class="mi">3</span><span class="p">);</span>
+  <span class="kd">var</span> <span class="nx">cy</span> <span class="o">=</span> <span class="p">((</span><span class="nx">point1</span><span class="p">.</span><span class="nx">y</span> <span class="o">+</span> <span class="nx">point2</span><span class="p">.</span><span class="nx">y</span> <span class="o">+</span> <span class="nx">point3</span><span class="p">.</span><span class="nx">y</span><span class="p">)</span> <span class="o">/</span> <span class="mi">3</span><span class="p">);</span>
+  <span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">cx</span><span class="p">);</span>
+  <span class="kd">var</span> <span class="nx">y</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">cy</span><span class="p">);</span>
+
+  <span class="c1">// look up the pixel color</span>
+  <span class="kd">var</span> <span class="nx">pixel</span> <span class="o">=</span> <span class="p">(</span><span class="nx">y</span> <span class="o">*</span> <span class="k">this</span><span class="p">.</span><span class="nx">colorData_</span><span class="p">.</span><span class="nx">width</span> <span class="o">+</span> <span class="nx">x</span><span class="p">)</span> <span class="o">*</span> <span class="mi">4</span><span class="p">;</span>
+
+  <span class="c1">// cast to hex</span>
+  <span class="kd">var</span> <span class="nx">red</span> <span class="o">=</span> <span class="nx">data</span><span class="p">[</span><span class="nx">pixel</span><span class="p">].</span><span class="nx">toString</span><span class="p">(</span><span class="mi">16</span><span class="p">);</span>
+  <span class="kd">var</span> <span class="nx">green</span> <span class="o">=</span> <span class="nx">data</span><span class="p">[</span><span class="nx">pixel</span> <span class="o">+</span> <span class="mi">1</span><span class="p">].</span><span class="nx">toString</span><span class="p">(</span><span class="mi">16</span><span class="p">);</span>
+  <span class="kd">var</span> <span class="nx">blue</span> <span class="o">=</span> <span class="nx">data</span><span class="p">[</span><span class="nx">pixel</span> <span class="o">+</span> <span class="mi">2</span><span class="p">].</span><span class="nx">toString</span><span class="p">(</span><span class="mi">16</span><span class="p">);</span>
+
+  <span class="c1">// pad out if we need to</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">red</span><span class="p">.</span><span class="nx">length</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="nx">red</span> <span class="o">=</span> <span class="s1">&#39;0&#39;</span> <span class="o">+</span> <span class="nx">red</span><span class="p">;</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="nx">green</span><span class="p">.</span><span class="nx">length</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="nx">green</span> <span class="o">=</span> <span class="s1">&#39;0&#39;</span> <span class="o">+</span> <span class="nx">green</span><span class="p">;</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="nx">blue</span><span class="p">.</span><span class="nx">length</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="nx">blue</span> <span class="o">=</span> <span class="s1">&#39;0&#39;</span> <span class="o">+</span> <span class="nx">blue</span><span class="p">;</span>
+
+  <span class="k">return</span> <span class="s1">&#39;#&#39;</span> <span class="o">+</span> <span class="nx">red</span> <span class="o">+</span> <span class="nx">green</span> <span class="o">+</span> <span class="nx">blue</span><span class="p">;</span>
+<span class="p">}</span></code></pre></div>
+
+<div class="container"><div class="left column">
+<p>Now when we apply that to all our triangles we get our colored shape:</p>
+
+<figure>
+  <img src="/static/lab/poly-maker/step6.png" />
+</figure>
+
+<h2 id="adding-a-shadow">Adding a shadow</h2>
+
+<p>This was just a little touch I wanted to add to the whole process, and it’s rather simple thanks to other peoples’ work. For this I basically create a circle with a gradient in its center (from black to transparent), which looks like this:</p>
+
+<figure>
+  <img src="/static/lab/poly-maker/shadow-1.png" />
+</figure>
+
+<p>Then I applied a scale transform to squish it down to an ellipse:</p>
+
+<figure>
+  <img src="/static/lab/poly-maker/shadow-2.png" />
+</figure>
+
+<p>That looks close, but it’s a bit sharp and it’s in need of a blur, not something natively available to canvas contexts. But thanks to <a href="http://www.quasimondo.com/">Mario Klingemann</a> there is a <a href="http://www.quasimondo.com/BoxBlurForCanvas/FastBlurDemo.html">freely available block of code to apply blurs</a>! So I chucked that on.</p>
+
+<figure>
+  <img src="/static/lab/poly-maker/shadow-3.png" />
+</figure>
+
+<h2 id="finished-product">Finished product</h2>
+
+<p>After that it was just a bit of positioning and using <a href="http://twitter.com/supersole">Soledad Penadés</a>’s <a href="https://github.com/sole/tween.js/">Tween.js library</a> to do some easing of the triangles into position!</p>
+
+<figure>
+  <img src="/static/lab/poly-maker/final.png" />
+</figure>
+
+<p>And we’re done!
+</div></div></p>
+
+
+</div>
+
+
+    </section>
+
+    <footer>
+
+      <div class="container">
+        <div class="bio panel">
+          <h2>Hello!</h2>
+          <p>My name is Paul. I work at <a href="http://www.google.com/" title="Some cloud company in the USA, I think.">Google</a> on the Chrome Developer Relations team as an advocate. I help developers improve the performance of their sites and apps.</p>
+
+          <p>You can find me on <a href="http://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a></p>
+        </div>
+
+        <div class="get-in-touch panel">
+          <h2>Get in touch</h2>
+          <p>I don’t bite. Honestly. You can find me on <a href="http://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a>, and I like hearing from people (pretty handy given my job, really) so say hi.</p>
+        </div>
+
+        <div class="subscribe panel">
+          <h2>Subscribe</h2>
+          <p>You should totally get the <a href="/blog/feed/">RSS feed</a>, or whatever it is you kids are using these days (I miss Reader.)</p>
+        </div>
+
+        <p class="disclaimer">Except as otherwise noted, the content of this page is licensed under the Creative Commons Attribution 3.0 License, and code samples are licensed under the Apache 2.0 License.</p>
+      </div>
+    </footer>
+
+    <script type="text/javascript" async="true">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-13024693-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+  </body>
+</html>

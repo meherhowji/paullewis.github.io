@@ -1,0 +1,309 @@
+<!doctype html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="author" content="Paul Lewis" />
+  <meta name="viewport" content="width=device-width">
+
+  
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="//aerotwist.com/tutorials/feed/">
+  
+
+  
+
+  <style>
+    
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 400;
+      src: local('Lato Regular'), local('Lato-Regular'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qIIYRU-oROkIk8vfvxw6QvesZW2xOQ-xsNqO47m55DA.woff) format('woff');
+    }
+    
+
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 700;
+      src: local('Lato Bold'), local('Lato-Bold'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qdgUG4U09HnJwhYI-uK18wLUuEpTyoUstqEm5AMlJo4.woff) format('woff');
+    }
+  </style>
+
+  <link rel="stylesheet" media="screen" href="/css/aerotwist.css" />
+  <title>Aerotwist - Interaction ProTip #3: Offsets and Opposing Motion</title>
+  
+  <style>
+    .masthead h2 {
+      display: none;
+    }
+
+    .masthead {
+      background-image: url(/static/tutorials/headers/header-offsets-and-opposing-motion-small.jpg);
+      
+      background-color: #1E0F00;
+      
+      
+    }
+
+    .meta {
+      background-color: #1E0F00 !important;
+    }
+
+    @media (min-width: 600px) {
+      .masthead {
+        background-image: url(/static/tutorials/headers/header-offsets-and-opposing-motion.jpg);
+      }
+    }
+  </style>
+  
+</head>
+
+
+<!--
+                              __          .__          __
+  _____    ___________  _____/  |___  _  _|__| _______/  |_
+  \__  \ _/ __ \_  __ \/  _ \   __\ \/ \/ /  |/  ___/\   __\
+   / __ \\  ___/|  | \(  <_> )  |  \     /|  |\___ \  |  |
+  (____  /\___  >__|   \____/|__|   \/\_/ |__/____  > |__|
+       \/     \/                                  \/
+
+  Giant ascii art embedded in every page of your site is how you
+  show other people that YOU CARE. Mainly I care about developers,
+  which is what I presume you are if you're all about viewing
+  the source. Clearly you're my kind of person.
+
+  This is v3, it's run through Jekyll, it's been fun to build,
+  there's always more to do, and you may notice that aside from
+  Google Analytics there is no JavaScript. None.
+
+  That's one way of many you keep your pages fast. I care about
+  keeping this site fast because your time is precious and I need
+  to get out of your way.
+
+  <3'z
+
+  Paul
+-->
+
+
+  <body class="tutorials">
+
+    <header>
+      <div class="container">
+        <div id="logo">
+  <a href="/">
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="100%" height="100%">
+    <g>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#C8A47F" points="30.6,47.73 64.92,47.73 19.97,76.52"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#A9E9FF" points="48.198,0 53.008,14.06 39.31,24.76"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#2F7F8A" points="39.31,24.76 64.92,48 30.6,48"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#29C9FF" points="39.31,24.76 64.92,48 53.008,14.06"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#402000" points="30.6,48 64.92,48 48,58.69"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#924900" points="47.76,58.69 64.92,47.73 75.14,76.73"></polygon>
+    </g>
+    </svg>
+  </a>
+</div>
+
+        <nav>
+  <ul>
+    
+      
+        <li><a href="/">Home</a></li>
+      
+    
+      
+        <li><a href="/blog/">Blog</a></li>
+      
+    
+      
+        <li class="active"><a href="/tutorials/"> Tutorials</a></li>
+      
+    
+      
+        <li><a href="/lab/">Lab</a></li>
+      
+    
+  </ul>
+
+  <svg id="left-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#AAAAAA" stroke-width="1" />
+    </svg>
+
+  <svg id="right-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#C8A47F" stroke-opacity="0.3" stroke-width="1" />
+    </svg>
+</nav>
+
+      </div>
+    </header>
+    <section>
+
+      <div class="content">
+
+  <div class="masthead">
+
+    <div class="container">
+      <h2>Interaction ProTip #3: Offsets and Opposing Motion</h2>
+      <p></p>
+    </div>
+
+  </div>
+
+  
+
+  <div class="container">
+    <div class="meta">
+      <p>Other tutorials in this series:</p>
+      <ul>
+        
+          <li>
+            
+            <a href="/tutorials/protip-stick-vs-ease/">
+            
+              #1: Stick vs. Ease
+            
+            </a>
+            
+          </li>
+        
+          <li>
+            
+            <a href="/tutorials/protip-choose-your-ease/">
+            
+              #2: Choose Your Ease
+            
+            </a>
+            
+          </li>
+        
+          <li>
+            
+              #3: Offsets and Opposing Motion
+            
+          </li>
+        
+          <li>
+            
+            <a href="/tutorials/protip-nobody-expects-3d/">
+            
+              #4: Nobody expects 3D
+            
+            </a>
+            
+          </li>
+        
+          <li>
+            
+            <a href="/tutorials/protip-the-abc-of-interaction/">
+            
+              #5: The ABC of Interaction
+            
+            </a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+
+  <div class="container"><div class="left column"><p>I’m going to talk about the use of offsets and opposing motion in animation and how they relate to interactions. Part of creating compelling user interfaces is through guiding a person’s eye. We have to strike a balance of branding, responsiveness and polish.</p>
+
+<h2 id="offsets">Offsets</h2>
+
+<p>Offsets are a key weapon in your arsenal because, while they slow down an animation a little, they add a significant amount of interest and polish to the experience.</p>
+
+<p>Let’s start with a list that animates in from the side. I’ve made it as un-showbiz as I can muster.</p>
+
+<h3 id="without-an-offset">Without an offset</h3>
+
+<iframe src="/static/tutorials/protip-offsets-and-opposing-motion/no-offset.html" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" width="100%" height="400" style="margin-bottom: 20px; box-shadow: 0 2px 2px rgba(0,0,0,0.3)">
+</iframe>
+
+<p>You’ll probably notice straight away that this feels very uninspiring. Part of this is because I was a little naughty and chose the default ease-out CSS transition, which is a snore fest, and which by now <a href="../protip-choose-your-ease/">you should know not to use</a>. But a big part of this is down to the fact that all the items come in together, and we can do better than that by giving each list item an offset.</p>
+
+<h3 id="with-an-offset">With an offset</h3>
+
+<iframe src="/static/tutorials/protip-offsets-and-opposing-motion/fluid.html" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" width="100%" height="400" style="margin-bottom: 20px; box-shadow: 0 2px 2px rgba(0,0,0,0.3)">
+</iframe>
+
+<p>Things in nature tend to exhibit overlapping motion, so I guess our eyes are probably tuned to that and give it the visual high five.</p>
+
+<p>Offsets, then, are A Good Thing™.</p>
+
+<h2 id="opposing-motion">Opposing Motion</h2>
+
+<p>Contrast is also a good thing to add a bit of interest to your UI’s motion. (Why else would I be talking about it?) The easiest way to provide contrast is to scale something up while scaling something else down, or animating items in opposite directions.</p>
+
+<p>Let’s try adding a bit of opposing motion to our list:</p>
+
+<iframe src="/static/tutorials/protip-offsets-and-opposing-motion/side-to-side.html" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" width="100%" height="400" style="margin-bottom: 20px; box-shadow: 0 2px 2px rgba(0,0,0,0.3); overflow: hidden">
+</iframe>
+
+<p>For my personal tastes this is a bit much. It kinds of screams that I wanted things to be interesting and I won’t rest until I’ve shown you my animation prowess. Still, it’s a taste thing, you may feel differently.</p>
+
+<h2 id="bringing-it-all-together">Bringing it all together</h2>
+
+<p>If, like me, you find the from-the-side motion a little too much, you may prefer one where we come in from the top:</p>
+
+<iframe src="/static/tutorials/protip-offsets-and-opposing-motion/top-down.html" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" width="100%" height="400" style="margin-bottom: 20px; box-shadow: 0 2px 2px rgba(0,0,0,0.3)">
+</iframe>
+
+<p>Each item in the list has an offset that delays its incoming animation, but there’s also a couple of subtle additions to this demo: the labels themselves are in opposing motion to the blocks, coming in from bottom to top and the blocks themselves scale up from nothing. When combined these effects give the illusion of something a little more complex, while being relatively subtle.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>Next time you’re animating a UI see if you can add a touch of contrast or some offsets. It really adds a lot of personality to your work.</p>
+</div></div>
+
+</div>
+
+
+    </section>
+
+    <footer>
+
+      <div class="container">
+        <div class="bio panel">
+          <h2>Hello!</h2>
+          <p>My name is Paul. I work at <a href="http://www.google.com/" title="Some cloud company in the USA, I think.">Google</a> on the Chrome Developer Relations team as an advocate. I help developers improve the performance of their sites and apps.</p>
+
+          <p>You can find me on <a href="http://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a></p>
+        </div>
+
+        <div class="get-in-touch panel">
+          <h2>Get in touch</h2>
+          <p>I don’t bite. Honestly. You can find me on <a href="http://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a>, and I like hearing from people (pretty handy given my job, really) so say hi.</p>
+        </div>
+
+        <div class="subscribe panel">
+          <h2>Subscribe</h2>
+          <p>You should totally get the <a href="/blog/feed/">RSS feed</a>, or whatever it is you kids are using these days (I miss Reader.)</p>
+        </div>
+
+        <p class="disclaimer">Except as otherwise noted, the content of this page is licensed under the Creative Commons Attribution 3.0 License, and code samples are licensed under the Apache 2.0 License.</p>
+      </div>
+    </footer>
+
+    <script type="text/javascript" async="true">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-13024693-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+  </body>
+</html>

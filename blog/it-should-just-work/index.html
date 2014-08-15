@@ -1,0 +1,460 @@
+<!doctype html>
+<html itemscope itemtype="http://schema.org/Article">
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="author" content="Paul Lewis" />
+  <meta name="viewport" content="width=device-width">
+
+  
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="//aerotwist.com/blog/feed/">
+  
+
+  
+  <meta itemprop="name" content="It should &quot;just work&quot;">
+  <meta itemprop="description" content="The browser is a black box, yet we often have to optimize for implementation specifics. Is that fair?">
+
+    
+
+  
+
+  <style>
+    
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 400;
+      src: local('Lato Regular'), local('Lato-Regular'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qIIYRU-oROkIk8vfvxw6QvesZW2xOQ-xsNqO47m55DA.woff) format('woff');
+    }
+    
+
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 700;
+      src: local('Lato Bold'), local('Lato-Bold'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qdgUG4U09HnJwhYI-uK18wLUuEpTyoUstqEm5AMlJo4.woff) format('woff');
+    }
+  </style>
+
+  <link rel="stylesheet" media="screen" href="/css/aerotwist.css" />
+  <title>Aerotwist - It should "just work"</title>
+  
+</head>
+
+
+<!--
+                              __          .__          __
+  _____    ___________  _____/  |___  _  _|__| _______/  |_
+  \__  \ _/ __ \_  __ \/  _ \   __\ \/ \/ /  |/  ___/\   __\
+   / __ \\  ___/|  | \(  <_> )  |  \     /|  |\___ \  |  |
+  (____  /\___  >__|   \____/|__|   \/\_/ |__/____  > |__|
+       \/     \/                                  \/
+
+  Giant ascii art embedded in every page of your site is how you
+  show other people that YOU CARE. Mainly I care about developers,
+  which is what I presume you are if you're all about viewing
+  the source. Clearly you're my kind of person.
+
+  This is v3, it's run through Jekyll, it's been fun to build,
+  there's always more to do, and you may notice that aside from
+  Google Analytics there is no JavaScript. None.
+
+  That's one way of many you keep your pages fast. I care about
+  keeping this site fast because your time is precious and I need
+  to get out of your way.
+
+  <3'z
+
+  Paul
+-->
+
+
+  <body class="blog">
+
+    <header>
+      <div class="container">
+        <div id="logo">
+  <a href="/">
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="100%" height="100%">
+    <g>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#6EBAD3" points="30.6,47.73 64.92,47.73 19.97,76.52"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ED95C0" points="48.198,0 53.008,14.06 39.31,24.76"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#880043" points="39.31,24.76 64.92,48 30.6,48"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#DA0A7A" points="39.31,24.76 64.92,48 53.008,14.06"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#0B7DAD" points="30.6,48 64.92,48 48,58.69"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#BDDEE8" points="47.76,58.69 64.92,47.73 75.14,76.73"></polygon>
+    </g>
+    </svg>
+  </a>
+</div>
+
+        <nav>
+  <ul>
+    
+      
+        <li><a href="/">Home</a></li>
+      
+    
+      
+        <li class="active"><a href="/blog/"> Blog</a></li>
+      
+    
+      
+        <li><a href="/tutorials/">Tutorials</a></li>
+      
+    
+      
+        <li><a href="/lab/">Lab</a></li>
+      
+    
+  </ul>
+
+  <svg id="left-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#AAAAAA" stroke-width="1" />
+    </svg>
+
+  <svg id="right-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#6EBAD3" stroke-opacity="0.3" stroke-width="1" />
+    </svg>
+</nav>
+
+      </div>
+    </header>
+    <section>
+
+      <div class="content">
+
+  
+  <svg version="1.1" class="shape-reference" xmlns="http://www.w3.org/2000/svg" width="598" height="356">
+  <defs>
+    <filter id="blur-8">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="8" />
+    </filter>
+    <filter id="blur-6">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="6" />
+    </filter>
+    <filter id="blur-4">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="4" />
+    </filter>
+  </defs>
+
+  <g id="color-block">
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#426190" stroke="#426190" stroke-width="0.6" points="103,206 75,240 40,145"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#453862" stroke="#453862" stroke-width="0.6" points="172,248 75,240 103,206"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#2f1f3a" stroke="#2f1f3a" stroke-width="0.6" points="153,306 75,240 172,248"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#270c21" stroke="#270c21" stroke-width="0.6" points="153,306 172,248 248,299"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#0b0208" stroke="#0b0208" stroke-width="0.6" points="153,306 248,299 262,316"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#250214" stroke="#250214" stroke-width="0.6" points="262,316 248,299 316,267"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#250113" stroke="#250113" stroke-width="0.6" points="262,316 316,267 348,304"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#3b0826" stroke="#3b0826" stroke-width="0.6" points="348,304 316,267 406,261"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#740f4b" stroke="#740f4b" stroke-width="0.6" points="337,192 406,261 316,267"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#8c1e67" stroke="#8c1e67" stroke-width="0.6" points="406,261 337,192 399,194"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#763173" stroke="#763173" stroke-width="0.6" points="406,261 399,194 478,177"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#583b6f" stroke="#583b6f" stroke-width="0.6" points="406,261 478,177 511,217"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#5b71a8" stroke="#5b71a8" stroke-width="0.6" points="511,217 478,177 558,123"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#92a0c6" stroke="#92a0c6" stroke-width="0.6" points="478,177 512,85 558,123"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#a090be" stroke="#a090be" stroke-width="0.6" points="478,177 448,134 512,85"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#96539f" stroke="#96539f" stroke-width="0.6" points="399,194 448,134 478,177"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#af499c" stroke="#af499c" stroke-width="0.6" points="399,194 388,169 448,134"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ba2485" stroke="#ba2485" stroke-width="0.6" points="337,192 388,169 399,194"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#dc1a89" stroke="#dc1a89" stroke-width="0.6" points="337,192 309,166 388,169"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ee0178" stroke="#ee0178" stroke-width="0.6" points="337,192 259,200 309,166"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#b0025a" stroke="#b0025a" stroke-width="0.6" points="316,267 259,200 337,192"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#8f0850" stroke="#8f0850" stroke-width="0.6" points="245,230 259,200 316,267"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#951664" stroke="#951664" stroke-width="0.6" points="245,230 204,218 259,200"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#6f1c57" stroke="#6f1c57" stroke-width="0.6" points="172,248 204,218 245,230"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#7d3076" stroke="#7d3076" stroke-width="0.6" points="204,218 172,248 152,156"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#b24098" stroke="#b24098" stroke-width="0.6" points="204,218 152,156 227,134"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#c02185" stroke="#c02185" stroke-width="0.6" points="204,218 227,134 259,200"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#e7248f" stroke="#e7248f" stroke-width="0.6" points="309,166 259,200 227,134"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f151a6" stroke="#f151a6" stroke-width="0.6" points="309,166 227,134 286,115"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ff60af" stroke="#ff60af" stroke-width="0.6" points="286,115 302,96 309,166"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#fc9acc" stroke="#fc9acc" stroke-width="0.6" points="286,115 277,75 302,96"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f295c9" stroke="#f295c9" stroke-width="0.6" points="221,113 277,75 286,115"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#e679ba" stroke="#e679ba" stroke-width="0.6" points="227,134 221,113 286,115"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#d689c0" stroke="#d689c0" stroke-width="0.6" points="227,134 173,106 221,113"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#c27ab6" stroke="#c27ab6" stroke-width="0.6" points="173,106 227,134 152,156"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#b487bc" stroke="#b487bc" stroke-width="0.6" points="152,156 135,130 173,106"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#9a7db4" stroke="#9a7db4" stroke-width="0.6" points="152,156 102,147 135,130"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#7a63a5" stroke="#7a63a5" stroke-width="0.6" points="152,156 103,206 102,147"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#6c407f" stroke="#6c407f" stroke-width="0.6" points="172,248 103,206 152,156"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#6378ad" stroke="#6378ad" stroke-width="0.6" points="103,206 40,145 102,147"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#94accb" stroke="#94accb" stroke-width="0.6" points="102,147 40,145 61,71"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#a8a8cb" stroke="#a8a8cb" stroke-width="0.6" points="135,130 102,147 61,71"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f475b9" stroke="#f475b9" stroke-width="0.6" points="309,166 302,96 362,94"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#df53a6" stroke="#df53a6" stroke-width="0.6" points="309,166 362,94 388,169"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#d98bc1" stroke="#d98bc1" stroke-width="0.6" points="388,169 362,94 411,83"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#c480ba" stroke="#c480ba" stroke-width="0.6" points="388,169 411,83 448,134"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#d7c0dc" stroke="#d7c0dc" stroke-width="0.6" points="448,134 411,83 477,44"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#cec6de" stroke="#cec6de" stroke-width="0.6" points="448,134 477,44 512,85"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ebeef5" stroke="#ebeef5" stroke-width="0.6" points="512,85 477,44 555,40"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#c4d6e5" stroke="#c4d6e5" stroke-width="0.6" points="512,85 555,40 558,123"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#50103a" stroke="#50103a" stroke-width="0.6" points="248,299 172,248 245,230"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#550630" stroke="#550630" stroke-width="0.6" points="248,299 245,230 316,267"/>
+  </g>
+</svg>
+
+  
+
+  <div class="masthead hatched">
+
+    
+      <svg class="behind-meta" width="598" height="356">
+        <use xlink:href="#color-block" />
+      </svg>
+
+      <svg class="left-meta" width="598" height="356">
+        <use xlink:href="#color-block" filter="url(#blur-6)" transform="translate(299 178) scale(-0.5 0.5) translate(-299 -178)" />
+      </svg>
+    
+
+    <div class="container">
+      <h2>It should "just work"</h2>
+      <p>The browser is a black box, yet we often have to optimize for implementation specifics. From vendor prefixes, to just plain weird code, developers all have to perform coding gymnastics to get their projects to play nicely on the myriad of browsers we have to support. Is that fair?</p>
+    </div>
+
+  </div>
+
+  <div class="container">
+    <div class="meta">
+
+      <ul>
+        <li class="last-updated">
+          <span class="name">Last updated:</span>
+          <span class="value">26 Jun 2013</span>
+        </li>
+
+        <li>
+          <span class="name">Est. Read Time:</span>
+          <span class="value">5 mins</span>
+        </li>
+
+        <li class="share">
+          <span class="name">Share this:</span>
+          <span class="value"><a href="http://www.twitter.com/share?url=http://aerotwist.com/blog/it-should-just-work/">Twitter</a></span>
+          <span class="value"><a href="https://plus.google.com/share?url=http://aerotwist.com/blog/it-should-just-work/">Google+</a></span>
+        </li>
+        <li class="tags">
+          <span class="name">Tagged:</span>
+          <span class="value">
+          
+            #opinion
+          
+          </span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="container"><div class="left column"><h2 id="starter-for-ten">Starter for Ten</h2>
+
+<p>I’ve had a couple of conversations on Twitter and G+ in the past couple of
+days that have got me thinking. The first was with <a href="https://twitter.com/brucel">Bruce
+Lawson</a>, advocate at large for Opera:</p>
+
+<figure>
+  <img src="/static/blog/it-should-just-work/brucel.png" />
+</figure>
+
+<p>My response was terse, only because Twitter is limited to 140 characters, and
+I can rarely condense my thoughts well enough:</p>
+
+<figure>
+  <img src="/static/blog/it-should-just-work/paullewis1.png" />
+</figure>
+
+<p>I even went so far as to include an analogy, which means I’ve probably lost my
+marbles:</p>
+
+<figure>
+  <img src="/static/blog/it-should-just-work/paullewis2.png" />
+</figure>
+
+<p>But I actually think Bruce is right, to some degree. Why on earth should I
+care about how the browser implements the specifications? Surely the whole
+point of offering me the abstractions of HTML, CSS, JavaScript and APIs is
+exactly so I can live without having to actually building this stuff myself?
+I’d do a miserable job of most of it at any rate.</p>
+
+<aside class="boxout">
+<p># New here? Want RSS?</p>
+
+<p>Would you like an <a href="/blog/feed/">RSS feed of my articles</a>? Problem solved!
+</aside></p>
+
+<h2 id="then-there-was-the-canvas-thing">Then there was the canvas thing…</h2>
+
+<p>Recently, I’ve been building a little mobile web app at work (more on that in
+a future post, I suspect) and I ran into a performance bottleneck with the
+<code>&lt;canvas&gt;</code> element. I’m in an extremely privileged position of being able to
+wander over to Chrome engineers and ask what’s up. Having spent a bit of time
+looking at a <a href="http://dev.chromium.org/developers/how-tos/trace-event-
+profiling-tool">trace</a> (which is scary but badass for profiling) the solution
+arrived: “Oh, the canvas is smaller than 256 pixels. Yeah, that’ll be using
+the software path.” A quick hack later and the performance was roughly 10x and
+back under my self-imposed 16ms performance boundary. I <a href="https://plus.google.com/+aerotwist/posts/G7x687iopN3">shared this snippet
+of info</a> and <a href="https://twitter.com/mrdoob">Ricardo
+Cabello</a> called it:</p>
+
+<figure>
+  <img src="/static/blog/it-should-just-work/ricardo.png" />
+</figure>
+
+<p>The implicit objection seems to be: don’t offer an abstraction if it’s not
+optimal for my use-case.</p>
+
+<blockquote>
+  <p>The implicit objection seems to be: don’t offer an abstraction if it’s not optimal for my use-case.</p>
+</blockquote>
+
+<h2 id="i-kind-of-see-it-vs-i-kind-of-dont">I kind of see it vs. I kind of don’t</h2>
+
+<p>Since those two remarks cropped up, both of which have come from very
+experienced developers for whom I have plenty of time, I’ve been pondering it
+a little. What should our expectations be? How does this play out in a cross-
+browser web?</p>
+
+<p>Firstly, I believe we should expect compliance with published specifications.
+That’s a pretty straightforward one, especially nowadays. But I do not believe
+we should impose expectations on <em>how</em> specifications are implemented. Of
+course we all want the fastest possible performance – and certainly healthy
+competition between browser vendors should help to push that – but as <a href="https://twitter.com/slightlylate">Alex
+Russell</a> said to me recently: “the browser
+has the right to deprioritise your code at any point.” Because your code isn’t
+the only thing the browser has on at any given time, it has to deal with
+things as gracefully as possible, which sometimes (sadly) means a less-than-
+optimal experience in some cases.</p>
+
+<p>The clear solution here would be to specify the implementation, right? Then we
+all know where we’re at. Except that the reason implementation isn’t specified
+is that it just makes no sense. No two browsers are alike, so how would you
+even do that? It would also preclude alternative approaches that would drive
+innovation. Like I said, as a general purpose engine there are heuristics to
+how a browser executes beyond what we’d <em>like it to do</em>. And if the end result
+is correct and on-spec that’s I think the most we should expect.</p>
+
+<p>Sort of.</p>
+
+<p>On the other side I don’t see why anyone should have to memorise a pixel value
+for a canvas to be hardware accelerated, especially if it’s what they want and
+it’s possible to have it under certain circumstances. That’s frustrating for
+anyone, and a value like 256px is likely to change at any time should the
+engineer(s) responsible make it so.</p>
+
+<p>Also a magic value like that sounds awfully like a <em>rule</em> and not at all like
+<em>profiling your application</em>, which should ring an alarm bell for every
+developer. I should really do a presentation on <a href="//aerotwist.com/blog/dont-guess-it-test-it/">tools, not
+rules</a>, that would totally
+help here.</p>
+
+<p>The interesting aside in this case is that there may be times when hardware
+accelerated canvas in Chrome would perform less well than its software
+counterpart, so to repeat myself ad nauseam, <strong>always profile your code</strong>.</p>
+
+<h2 id="it-works-vs-its-awesome">It Works vs. It’s Awesome</h2>
+
+<p>The genius of the web is that everyone can create and publish content. If you
+have access to a computer the chances are you can, in the simplest case, use a
+text editor to create a file and host it somewhere on the Internet easily. Of
+course that’s the thinnest end of the wedge and, as our industry is maturing,
+we’re getting more advanced tooling, more capable browsers and, in turn, more
+advanced sites and applications.</p>
+
+<blockquote>
+  <p>The genius of the web is that everyone can create and publish content.</p>
+</blockquote>
+
+<p>We are also facing new challenges (to us at any rate; some are quite old in
+other industries) that come with those capabilities, particularly with respect
+to performance. We have a black box of functionality in the browser, one that
+abstracts us from the dirty details, and yet here we are trying to get things
+downloaded and running at 60fps on a host of devices and browsers.</p>
+
+<p>It’s a challenge for browser vendors to implement abstractions well; it’s a
+challenge for developers to use those abstractions well.</p>
+
+<aside class="boxout">
+<p># Antipatterns, yo.
+Whenever I talk to developers about rendering performance (something that is happening with increasingly frequency, yay!) they immediately ask whether what I advise for Chrome is an antipattern for any other browser. The answer is almost invariably no. Avoiding paint work, which is what I nearly always end up advising, is good for everyone. Not painting is not painting, no matter how good the algorithm.</p>
+
+<p>As my now-non-existent-since-becoming-a-father lazy days around the house
+confirm, doing nothing is significantly easier than doing anything at all!
+</aside></p>
+
+<h2 id="good-code-vs-targeted-code">Good Code vs. Targeted Code</h2>
+
+<p>Ultimately it’s a compromise. We should expect to write good, clean code that
+runs well, without any browser-specific tweaks.</p>
+
+<p>But I genuinely believe that if we want to get the very best out of the web
+platform, move from good to great, and get the very best performance we will
+need to understand as much as we can about how browsers execute our code. And
+sometimes, perhaps frustratingly, that’s going to mean catering for specific
+implementations.</p>
+</div></div>
+
+  <div class="footer-share container">
+    Share this on: <span class="value"><a href="http://www.twitter.com/share?url=http://aerotwist.com/blog/it-should-just-work/">Twitter</a></span>
+    <span class="value"><a href="https://plus.google.com/share?url=http://aerotwist.com/blog/it-should-just-work/">Google+</a></span>
+  </div>
+
+  <div class="clear"></div>
+
+  
+    <svg class="left-shape" style="margin-left: -338.2px" width="498.4" height="837.2">
+      <use xlink:href="#color-block" filter="url(#blur-4)" transform="scale(-1.4 1.4) rotate(90)"/>
+    </svg>
+
+    <svg class="right-shape" width="178.0" height="538.2">
+      <use xlink:href="#color-block" filter="url(#blur-8)" transform="scale(-0.9 0.9) rotate(90)"/>
+    </svg>
+  
+
+</div>
+
+
+    </section>
+
+    <footer>
+
+      <div class="container">
+        <div class="bio panel">
+          <h2>Hello!</h2>
+          <p>My name is Paul. I work at <a href="http://www.google.com/" title="Some cloud company in the USA, I think.">Google</a> on the Chrome Developer Relations team as an advocate. I help developers improve the performance of their sites and apps.</p>
+
+          <p>You can find me on <a href="http://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a></p>
+        </div>
+
+        <div class="get-in-touch panel">
+          <h2>Get in touch</h2>
+          <p>I don’t bite. Honestly. You can find me on <a href="http://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a>, and I like hearing from people (pretty handy given my job, really) so say hi.</p>
+        </div>
+
+        <div class="subscribe panel">
+          <h2>Subscribe</h2>
+          <p>You should totally get the <a href="/blog/feed/">RSS feed</a>, or whatever it is you kids are using these days (I miss Reader.)</p>
+        </div>
+
+        <p class="disclaimer">Except as otherwise noted, the content of this page is licensed under the Creative Commons Attribution 3.0 License, and code samples are licensed under the Apache 2.0 License.</p>
+      </div>
+    </footer>
+
+    <script type="text/javascript" async="true">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-13024693-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+  </body>
+</html>

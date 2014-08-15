@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Offsets</title>
+  <style>
+  html, body {
+    padding: 5px;
+    background: #fcfcfc;
+    font-family: Helvetica, Arial, sans-serif;
+  }
+
+  #threedeecontainer {
+    -webkit-perspective: 1000px;
+    -moz-perspective: 1000px;
+    -ms-perspective: 1000px;
+    -o-perspective: 1000px;
+    perspective: 1000px;
+
+    width: 280px;
+    height: 230px;
+
+    left: 50%;
+    top: 50%;
+    position: absolute;
+    margin: -115px 0 0 -140px;
+  }
+
+  .container {
+
+    position: absolute;
+    top: 0;
+    left: 50%;
+    margin-left: -140px;
+
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    -ms-transform-style: preserve-3d;
+    -o-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+
+    -webkit-transform-origin: 140px 115px -140px;
+    -moz-transform-origin: 140px 115px -140px;
+    -ms-transform-origin: 140px 115px -140px;
+    -o-transform-origin: 140px 115px -140px;
+    transform-origin: 140px 115px -140px;
+  }
+
+  #c2 .offsetable {
+    background: #333;
+    color: #FFF;
+  }
+
+  .offsetable {
+
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+
+    background: #FFF;
+    color: #333;
+    height: 170px;
+    width: 240px;
+    padding: 30px 20px;
+
+    position: relative;
+    border-radius: 0px;
+    -webkit-backface-visibility: hidden;
+    box-shadow: inset 0 0 1px rgba(0,0,0,0.3);
+
+    -webkit-transition: all 500ms cubic-bezier(0.190, 1.000, 0.220, 1.000);
+    -moz-transition: all 500ms cubic-bezier(0.190, 1.000, 0.220, 1.000);
+    -ms-transition: all 500ms cubic-bezier(0.190, 1.000, 0.220, 1.000);
+    -o-transition: all 500ms cubic-bezier(0.190, 1.000, 0.220, 1.000);
+    transition: all 500ms cubic-bezier(0.190, 1.000, 0.220, 1.000);
+
+    -webkit-transform: translateZ(-140px) rotateY(0) translateZ(140px);
+    -moz-transform: translateZ(-140px) rotateY(0) translateZ(140px);
+    -ms-transform: translateZ(-140px) rotateY(0) translateZ(140px);
+    -o-transform: translateZ(-140px) rotateY(0) translateZ(140px);
+    transform: translateZ(-140px) rotateY(0) translateZ(140px);
+
+  }
+
+  .container.rotated {
+    -webkit-transform: rotateY(-90deg);
+    -moz-transform: rotateY(-90deg);
+    -ms-transform: rotateY(-90deg);
+    -o-transform: rotateY(-90deg);
+    transform: rotateY(-90deg);
+  }
+
+  #threedeecontainer.twisted .offsetable {
+    pointer-events: none;
+    -webkit-transform: translateZ(-140px) rotateY(90deg) translateZ(140px);
+    -moz-transform: translateZ(-140px) rotateY(90deg) translateZ(140px);
+    -ms-transform: translateZ(-140px) rotateY(90deg) translateZ(140px);
+    -o-transform: translateZ(-140px) rotateY(90deg) translateZ(140px);
+    transform: translateZ(-140px) rotateY(90deg) translateZ(140px);
+  }
+
+  #threedeecontainer.twisted .container.rotated .offsetable {
+    pointer-events: auto;
+  }
+
+  .option {
+    width: 99px;
+    height: 77px;
+    border-radius: 3px;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.2);
+    border: 1px solid #BBB;
+
+    cursor: pointer;
+    display: inline-block;
+    margin: 0 8px;
+    position: relative;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+  }
+
+  .option:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    border-radius: 3px;
+    width: 99px;
+    height: 77px;
+  }
+
+  .option, .option:after {
+    opacity: 0.55;
+    background: url(tick-cross.png) top left no-repeat;
+    background-size: 200px 156px;
+
+    /**/
+  }
+
+  .option:after {
+    -webkit-backface-visibility: hidden;
+    opacity: 0;
+
+    -webkit-transition: opacity 400ms cubic-bezier(0.190, 1.000, 0.220, 1.000);
+    -moz-transition: opacity 400ms cubic-bezier(0.190, 1.000, 0.220, 1.000);
+    -ms-transition: opacity 400ms cubic-bezier(0.190, 1.000, 0.220, 1.000);
+    -o-transition: opacity 400ms cubic-bezier(0.190, 1.000, 0.220, 1.000);
+    transition: opacity 400ms cubic-bezier(0.190, 1.000, 0.220, 1.000);
+  }
+
+  #tick:after {
+    background-position: 0 -77px;
+  }
+
+  #cross {
+    background-position: -99px 0;
+  }
+
+  #cross:after {
+    background-position: -99px -77px;
+  }
+
+  .option:hover {
+    box-shadow: 0 3px 3px rgba(0,0,0,0.15);
+    -webkit-transform: translateY(-2px);
+    opacity: 1;
+  }
+
+  .option.active {
+    opacity: 1;
+  }
+
+  .option:hover:after,
+  .option.active:after {
+    opacity: 1;
+  }
+
+  .livedemo {
+    opacity: 0.4;
+    width: 100px;
+    background: #333;
+    color: #FFF !important;
+    font-size: 14px;
+    padding: 7px 10px;
+    border-radius: 4px;
+    border: none;
+    transition: background 0.3s ease-out;
+
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    margin-left: -50px;
+
+    -webkit-transition: opacity 400ms cubic-bezier(0.190, 1.000, 0.220, 1.000);
+    -moz-transition: opacity 400ms cubic-bezier(0.190, 1.000, 0.220, 1.000);
+    -ms-transition: opacity 400ms cubic-bezier(0.190, 1.000, 0.220, 1.000);
+    -o-transition: opacity 400ms cubic-bezier(0.190, 1.000, 0.220, 1.000);
+    transition: opacity 400ms cubic-bezier(0.190, 1.000, 0.220, 1.000);
+  }
+
+  .livedemo.active {
+    opacity: 1;
+  }
+
+  .livedemo.active:hover {
+    background: #50C0FB;
+  }
+
+  .title {
+    padding: 0 0 1em 0;
+    text-align: center;
+    font-weight: bold;
+    font-size: 16px;
+  }
+
+  .swirly {
+    width: 82px;
+    height: 82px;
+  }
+
+  .swirly {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+
+    -webkit-transition: -webkit-transform 500ms cubic-bezier(0.190, 1.000, 0.220, 1.000);
+    -moz-transition: -moz-transform 500ms cubic-bezier(0.190, 1.000, 0.220, 1.000);
+    -ms-transition: -ms-transform 500ms cubic-bezier(0.190, 1.000, 0.220, 1.000);
+    -o-transition: -o-transform 500ms cubic-bezier(0.190, 1.000, 0.220, 1.000);
+    transition: transform 500ms cubic-bezier(0.190, 1.000, 0.220, 1.000);
+  }
+
+  .message-text,
+  .message-text-fail {
+
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+
+    cursor: default;
+
+    opacity: 0;
+    text-align: center;
+    width: 210px;
+    position: absolute;
+    bottom: 0px;
+    left: 50%;
+    margin-left: -105px;
+
+    -webkit-transition: all 500ms cubic-bezier(0.190, 1.000, 0.220, 1.000) 50ms;
+    -moz-transition: all 500ms cubic-bezier(0.190, 1.000, 0.220, 1.000) 50ms;
+    -ms-transition: all 500ms cubic-bezier(0.190, 1.000, 0.220, 1.000) 50ms;
+    -o-transition: all 500ms cubic-bezier(0.190, 1.000, 0.220, 1.000) 50ms;
+    transition: all 500ms cubic-bezier(0.190, 1.000, 0.220, 1.000) 50ms;
+  }
+
+  .message-text-fail {
+    bottom: 20px;
+    pointer-events: none;
+  }
+
+  .message-text-fail .big {
+    font-size: 24px;
+  }
+
+  .message-text-fail div,
+  .message-text div {
+    margin-top: 1em;
+    line-height: 1.2;
+    display: block;
+  }
+
+  .message-text-fail a,
+  .message-text a {
+    color: #6BC1F8;
+  }
+
+  .message-text-fail a:nth-child(2n) {
+    margin-left: 10px;
+  }
+
+  #c2.message .swirly {
+    -webkit-transform: translateY(-40px) scale(0.7);
+    -moz-transform: translateY(-40px) scale(0.7);
+    -ms-transform: translateY(-40px) scale(0.7);
+    -o-transform: translateY(-40px) scale(0.7);
+    transform: translateY(-40px) scale(0.7);
+  }
+
+  #c2.message .message-text {
+    opacity: 1;
+
+    -webkit-transform: translateY(-40px);
+    -moz-transform: translateY(-40px);
+    -ms-transform: translateY(-40px);
+    -o-transform: translateY(-40px);
+    transform: translateY(-40px);
+  }
+
+  #c2.fail .swirly,
+  #c2.fail .message-text {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  #c2.fail .message-text-fail {
+    opacity: 1;
+
+    -webkit-transform: translateY(-40px);
+    -moz-transform: translateY(-40px);
+    -ms-transform: translateY(-40px);
+    -o-transform: translateY(-40px);
+    transform: translateY(-40px);
+
+    pointer-events: auto;
+  }
+
+  .swirly:after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 82px;
+    height: 82px;
+    margin: -41px 0 0 -41px;
+    background: url(swirly.png) center center no-repeat;
+    background-size: 82px 82px;
+
+    -webkit-backface-visibility: hidden;
+
+    -webkit-animation: rotateAnim 650ms 0s infinite linear forwards;
+    -moz-animation: rotateAnim 650ms 0s infinite linear forwards;
+    -o-animation: rotateAnim 650ms 0s infinite linear forwards;
+    animation: rotateAnim 650ms 0s infinite linear forwards;
+  }
+
+  @-webkit-keyframes rotateAnim {
+    0% {
+      -webkit-transform: rotate(0);
+    }
+
+    100% {
+      -webkit-transform: rotate(360deg);
+    }
+  }
+
+  @-moz-keyframes rotateAnim {
+    0% {
+      -moz-transform: rotate(0);
+    }
+
+    100% {
+      -moz-transform: rotate(360deg);
+    }
+  }
+
+  @-ms-keyframes rotateAnim {
+    0% {
+      -ms-transform: rotate(0);
+    }
+
+    100% {
+      -ms-transform: rotate(360deg);
+    }
+  }
+
+  @-ms-keyframes rotateAnim {
+    0% {
+      -ms-transform: rotate(0);
+    }
+
+    100% {
+      -ms-transform: rotate(360deg);
+    }
+  }
+
+  @-o-keyframes rotateAnim {
+    0% {
+      -o-transform: rotate(0);
+    }
+
+    100% {
+      -o-transform: rotate(360deg);
+    }
+  }
+
+  @keyframes rotateAnim {
+    0% {
+      transform: rotate(0);
+    }
+
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  </style>
+
+</head>
+<body>
+
+  <div id="threedeecontainer">
+
+    <div class="container" id="c1">
+      <div class="offsetable">
+
+        <div class="title">Choices are rad, AMIRITE?!</div>
+
+        <div class="option" id="tick"></div>
+        <div class="option" id="cross"></div>
+
+        <button id="animate" class="livedemo">Send</button>
+
+      </div>
+    </div>
+
+    <div class="container rotated" id="c2">
+      <div class="offsetable">
+        <div class="swirly"></div>
+        <div class="message-text">
+          <div>I'm afraid this is taking longer than expected...</div>
+          <div><a href="#" class="cancel">Cancel</a></div>
+        </div>
+
+        <div class="message-text-fail">
+          <div class="big">I'm sorry, I couldn't reach the website.</div>
+          <div><a href="#" class="try-again">Try again</a> <a href="#" class="cancel">Cancel</a></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+
+    var goButton = document.getElementById("animate");
+    var container = document.getElementById("threedeecontainer");
+    var c2 = document.getElementById('c2');
+    var failTimeout = 0;
+
+    var tryAgainButton = document.querySelector('.try-again');
+    tryAgainButton.addEventListener('click', tryAgain);
+
+    var options = document.querySelectorAll('.option');
+    for (var i = 0; i < options.length; i++) {
+      options[i].addEventListener('click', onOptionPress);
+    }
+
+    var cancelButtons = document.querySelectorAll(".cancel");
+    for (var c = 0; c < cancelButtons.length; c++) {
+      cancelButtons[c].addEventListener('click', cancel);
+    }
+
+    function onOptionPress(evt) {
+      evt.preventDefault();
+      for (var i = 0; i < options.length; i++) {
+        options[i].classList.remove('active');
+      }
+      evt.target.classList.add('active');
+      goButton.classList.add('active');
+    }
+
+    function onTakingTooLong() {
+      c2.classList.add('message');
+
+      clearTimeout(failTimeout);
+      failTimeout = setTimeout(showFail, 2000);
+    }
+
+    function tryAgain () {
+
+      c2.classList.remove('fail');
+      c2.classList.remove('message');
+
+      setTimeout(onTakingTooLong, 2000);
+    }
+
+    function cancel (evt) {
+      container.classList.remove('twisted');
+      c2.classList.remove('message');
+      c2.classList.remove('fail');
+
+      clearTimeout(failTimeout);
+      evt.preventDefault();
+    }
+
+    function showFail() {
+      c2.classList.add('fail');
+      c2.classList.remove('message');
+    }
+
+  </script>
+</body>
+</html>

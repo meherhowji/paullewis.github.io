@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Easable</title>
+  <style>
+  html, body {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    background: #fcfcfc;
+    font-family: Helvetica, Arial, sans-serif;
+  }
+
+  .livedemo {
+    background: #333;
+    color: #FFF !important;
+    font-size: 14px;
+    padding: 7px 10px;
+    border-radius: 4px;
+    border: none;
+    transition: background 0.3s ease-out;
+  }
+
+  .livedemo:hover {
+    background: #50C0FB;
+  }
+
+  #controls {
+    position: absolute;
+    bottom: 20px;
+    text-align: center;
+    width: 100%;
+  }
+
+  #controls div {
+    font-size: 14px;
+    display: block;
+    padding-bottom: 10px;
+  }
+
+  #controls select {
+    font-size: 16px;
+  }
+
+  #easable {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 100px;
+    height: 20px;
+    margin: -80px 0 0 -80px;
+    text-align: center;
+    display: inline-block;
+    padding: 40px 30px;
+    border: 1px solid #111;
+    background: #222;
+    color: #FFF;
+    position: relative;
+    border-radius: 3px;
+    -webkit-backface-visibility: hidden;
+    cursor: pointer;
+
+    -webkit-transform: translateX(-200px);
+    -moz-transform: translateX(-200px);
+    -ms-transform: translateX(-200px);
+    -o-transform: translateX(-200px);
+    transform: translateX(-200px);
+  }
+
+  #easable.move {
+    -webkit-transform: translateX(200px);
+    -moz-transform: translateX(200px);
+    -ms-transform: translateX(200px);
+    -o-transform: translateX(200px);
+    transform: translateX(200px);
+  }
+
+  #easable.linear {
+    -webkit-transition: -webkit-transform 0.3s linear;
+    -moz-transition: -moz-transform 0.3s linear;
+    -ms-transition: -ms-transform 0.3s linear;
+    -o-transition: -o-transform 0.3s linear;
+    transition: transform 0.3s linear;
+  }
+
+  #easable.easeIn {
+    -webkit-transition: -webkit-transform 0.3s cubic-bezier(0.755, 0.050, 0.855, 0.060);
+    -moz-transition: -moz-transform 0.3s cubic-bezier(0.755, 0.050, 0.855, 0.060);
+    -ms-transition: -ms-transform 0.3s cubic-bezier(0.755, 0.050, 0.855, 0.060);
+    -o-transition: -o-transform 0.3s cubic-bezier(0.755, 0.050, 0.855, 0.060);
+    transition: transform 0.3s cubic-bezier(0.755, 0.050, 0.855, 0.060);
+  }
+
+  #easable.easeOut {
+    -webkit-transition: -webkit-transform 0.3s cubic-bezier(0.230, 1.000, 0.320, 1.000);
+    -moz-transition: -moz-transform 0.3s cubic-bezier(0.230, 1.000, 0.320, 1.000);
+    -ms-transition: -ms-transform 0.3s cubic-bezier(0.230, 1.000, 0.320, 1.000);
+    -o-transition: -o-transform 0.3s cubic-bezier(0.230, 1.000, 0.320, 1.000);
+    transition: transform 0.3s cubic-bezier(0.230, 1.000, 0.320, 1.000);
+  }
+
+  #easable.easeInOut {
+    -webkit-transition: -webkit-transform 0.5s cubic-bezier(0.860, 0.000, 0.070, 1.000);
+    -moz-transition: -moz-transform 0.5s cubic-bezier(0.860, 0.000, 0.070, 1.000);
+    -ms-transition: -ms-transform 0.5s cubic-bezier(0.860, 0.000, 0.070, 1.000);
+    -o-transition: -o-transform 0.5s cubic-bezier(0.860, 0.000, 0.070, 1.000);
+    transition: transform 0.5s cubic-bezier(0.860, 0.000, 0.070, 1.000);
+  }
+
+  </style>
+
+</head>
+<body>
+  <div id="easable" class="linear">
+    Animate me, yo.
+  </div>
+
+  <div id="controls">
+    <div>
+      <label>Select an ease:</label>
+      <select id="ease">
+        <option value="1">Linear</option>
+        <option value="2">Ease In</option>
+        <option value="3">Ease Out</option>
+        <option value="4">Ease InOut</option>
+      </select>
+    </div>
+
+    <button id="animate" class="livedemo">Animate</button>
+  </div>
+
+  <script>
+
+    var ease = document.getElementById('ease');
+    var animate = document.getElementById('animate');
+    var easable = document.getElementById('easable');
+
+    ease.addEventListener('change', function() {
+      easable.classList.remove('linear');
+      easable.classList.remove('easeIn');
+      easable.classList.remove('easeOut');
+      easable.classList.remove('easeInOut');
+
+      switch(ease.value) {
+        case "1": easable.classList.add('linear'); break;
+        case "2": easable.classList.add('easeIn'); break;
+        case "3": easable.classList.add('easeOut'); break;
+        case "4": easable.classList.add('easeInOut'); break;
+      }
+    });
+
+    animate.addEventListener('click', function() {
+      easable.classList.toggle('move');
+    });
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,443 @@
+<!doctype html>
+<html itemscope itemtype="http://schema.org/Article">
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="author" content="Paul Lewis" />
+  <meta name="viewport" content="width=device-width">
+
+  
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="//aerotwist.com/blog/feed/">
+  
+
+  
+  <meta itemprop="name" content="Bad Benchmark, Right Result">
+  <meta itemprop="description" content="A benchmark is a benchmark, right? How wrong can it be? Turns out I got hoodwinked by one, but even when I unpicked it I discovered some interesting bugs. Come with me on a voyage of API discovery!">
+
+    
+    <meta itemprop="image" content="http://aerotwist.com/static/blog/bad-benchmark-right-result/prepcode.png">
+    
+
+  
+
+  <style>
+    
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 400;
+      src: local('Lato Regular'), local('Lato-Regular'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qIIYRU-oROkIk8vfvxw6QvesZW2xOQ-xsNqO47m55DA.woff) format('woff');
+    }
+    
+
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 700;
+      src: local('Lato Bold'), local('Lato-Bold'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qdgUG4U09HnJwhYI-uK18wLUuEpTyoUstqEm5AMlJo4.woff) format('woff');
+    }
+  </style>
+
+  <link rel="stylesheet" media="screen" href="/css/aerotwist.css" />
+  <title>Aerotwist - Bad Benchmark, Right Result</title>
+  
+</head>
+
+
+<!--
+                              __          .__          __
+  _____    ___________  _____/  |___  _  _|__| _______/  |_
+  \__  \ _/ __ \_  __ \/  _ \   __\ \/ \/ /  |/  ___/\   __\
+   / __ \\  ___/|  | \(  <_> )  |  \     /|  |\___ \  |  |
+  (____  /\___  >__|   \____/|__|   \/\_/ |__/____  > |__|
+       \/     \/                                  \/
+
+  Giant ascii art embedded in every page of your site is how you
+  show other people that YOU CARE. Mainly I care about developers,
+  which is what I presume you are if you're all about viewing
+  the source. Clearly you're my kind of person.
+
+  This is v3, it's run through Jekyll, it's been fun to build,
+  there's always more to do, and you may notice that aside from
+  Google Analytics there is no JavaScript. None.
+
+  That's one way of many you keep your pages fast. I care about
+  keeping this site fast because your time is precious and I need
+  to get out of your way.
+
+  <3'z
+
+  Paul
+-->
+
+
+  <body class="blog">
+
+    <header>
+      <div class="container">
+        <div id="logo">
+  <a href="/">
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="100%" height="100%">
+    <g>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#6EBAD3" points="30.6,47.73 64.92,47.73 19.97,76.52"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ED95C0" points="48.198,0 53.008,14.06 39.31,24.76"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#880043" points="39.31,24.76 64.92,48 30.6,48"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#DA0A7A" points="39.31,24.76 64.92,48 53.008,14.06"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#0B7DAD" points="30.6,48 64.92,48 48,58.69"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#BDDEE8" points="47.76,58.69 64.92,47.73 75.14,76.73"></polygon>
+    </g>
+    </svg>
+  </a>
+</div>
+
+        <nav>
+  <ul>
+    
+      
+        <li><a href="/">Home</a></li>
+      
+    
+      
+        <li class="active"><a href="/blog/"> Blog</a></li>
+      
+    
+      
+        <li><a href="/tutorials/">Tutorials</a></li>
+      
+    
+      
+        <li><a href="/lab/">Lab</a></li>
+      
+    
+  </ul>
+
+  <svg id="left-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#AAAAAA" stroke-width="1" />
+    </svg>
+
+  <svg id="right-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#6EBAD3" stroke-opacity="0.3" stroke-width="1" />
+    </svg>
+</nav>
+
+      </div>
+    </header>
+    <section>
+
+      <div class="content">
+
+  
+  <svg version="1.1" class="shape-reference" xmlns="http://www.w3.org/2000/svg" width="690" height="349">
+  <defs>
+    <filter id="blur-8">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="8" />
+    </filter>
+    <filter id="blur-6">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="6" />
+    </filter>
+    <filter id="blur-4">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="4" />
+    </filter>
+  </defs>
+
+  <g id="color-block">
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#9ca5c8" stroke="#9ca5c8" stroke-width="0.6" points="107,164 40,97 144,99"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#a386ba" stroke="#a386ba" stroke-width="0.6" points="107,164 144,99 191,140"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#87519d" stroke="#87519d" stroke-width="0.6" points="187,209 107,164 191,140"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#aa3691" stroke="#aa3691" stroke-width="0.6" points="187,209 191,140 278,176"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#821f65" stroke="#821f65" stroke-width="0.6" points="256,259 187,209 278,176"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#8c135c" stroke="#8c135c" stroke-width="0.6" points="256,259 278,176 298,223"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#4f0b34" stroke="#4f0b34" stroke-width="0.6" points="271,292 256,259 298,223"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#4f052d" stroke="#4f052d" stroke-width="0.6" points="364,276 271,292 298,223"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#830345" stroke="#830345" stroke-width="0.6" points="364,276 298,223 330,213"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#7f0241" stroke="#7f0241" stroke-width="0.6" points="364,276 330,213 368,233"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#50062f" stroke="#50062f" stroke-width="0.6" points="364,276 368,233 427,274"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#610d3f" stroke="#610d3f" stroke-width="0.6" points="427,274 368,233 435,235"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#4a133b" stroke="#4a133b" stroke-width="0.6" points="435,235 505,255 427,274"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#551d4b" stroke="#551d4b" stroke-width="0.6" points="505,255 435,235 496,230"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#472a54" stroke="#472a54" stroke-width="0.6" points="586,223 505,255 496,230"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#322441" stroke="#322441" stroke-width="0.6" points="553,283 505,255 586,223"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#1c0e1e" stroke="#1c0e1e" stroke-width="0.6" points="489,309 505,255 553,283"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#250c20" stroke="#250c20" stroke-width="0.6" points="489,309 427,274 505,255"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#28314c" stroke="#28314c" stroke-width="0.6" points="553,283 586,223 650,237"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#3d4e78" stroke="#3d4e78" stroke-width="0.6" points="650,237 586,223 568,177"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#60538e" stroke="#60538e" stroke-width="0.6" points="586,223 545,170 568,177"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#5e4077" stroke="#5e4077" stroke-width="0.6" points="496,230 545,170 586,223"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#904091" stroke="#904091" stroke-width="0.6" points="496,230 467,140 545,170"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#a03188" stroke="#a03188" stroke-width="0.6" points="445,183 467,140 496,230"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#c83f99" stroke="#c83f99" stroke-width="0.6" points="445,183 402,155 467,140"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#c91b82" stroke="#c91b82" stroke-width="0.6" points="384,205 402,155 445,183"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#e90e84" stroke="#e90e84" stroke-width="0.6" points="384,205 347,163 402,155"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#d7036e" stroke="#d7036e" stroke-width="0.6" points="330,213 347,163 384,205"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#dc0a7a" stroke="#dc0a7a" stroke-width="0.6" points="330,213 278,176 347,163"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#b10e68" stroke="#b10e68" stroke-width="0.6" points="298,223 278,176 330,213"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#e42690" stroke="#e42690" stroke-width="0.6" points="278,176 278,148 347,163"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#c8479e" stroke="#c8479e" stroke-width="0.6" points="191,140 278,148 278,176"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#cc78b7" stroke="#cc78b7" stroke-width="0.6" points="191,140 217,94 278,148"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#c69bc7" stroke="#c69bc7" stroke-width="0.6" points="191,140 144,99 217,94"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#e2cae2" stroke="#e2cae2" stroke-width="0.6" points="144,99 206,40 217,94"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#eae1ee" stroke="#eae1ee" stroke-width="0.6" points="144,99 131,48 206,40"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#cecfe2" stroke="#cecfe2" stroke-width="0.6" points="40,97 131,48 144,99"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#eac5e0" stroke="#eac5e0" stroke-width="0.6" points="278,99 217,94 206,40"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#df87c0" stroke="#df87c0" stroke-width="0.6" points="217,94 278,99 278,148"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ea54a8" stroke="#ea54a8" stroke-width="0.6" points="278,99 347,163 278,148"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#fb5dad" stroke="#fb5dad" stroke-width="0.6" points="383,118 347,163 278,99"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ee419e" stroke="#ee419e" stroke-width="0.6" points="347,163 383,118 402,155"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#e267b0" stroke="#e267b0" stroke-width="0.6" points="402,155 383,118 450,115"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#d264ad" stroke="#d264ad" stroke-width="0.6" points="402,155 450,115 467,140"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#eb9acb" stroke="#eb9acb" stroke-width="0.6" points="383,118 397,65 450,115"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#fab5da" stroke="#fab5da" stroke-width="0.6" points="383,118 324,59 397,65"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#fb9ece" stroke="#fb9ece" stroke-width="0.6" points="383,118 278,99 324,59"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f5d3e8" stroke="#f5d3e8" stroke-width="0.6" points="324,59 278,99 206,40"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#a70558" stroke="#a70558" stroke-width="0.6" points="368,233 330,213 384,205"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#8b0d55" stroke="#8b0d55" stroke-width="0.6" points="368,233 384,205 435,235"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#9b1869" stroke="#9b1869" stroke-width="0.6" points="435,235 384,205 445,183"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#7c2163" stroke="#7c2163" stroke-width="0.6" points="435,235 445,183 496,230"/>
+  </g>
+</svg>
+
+  
+
+  <div class="masthead hatched">
+
+    
+      <svg class="behind-meta" width="690" height="349">
+        <use xlink:href="#color-block" />
+      </svg>
+
+      <svg class="left-meta" width="690" height="349">
+        <use xlink:href="#color-block" filter="url(#blur-6)" transform="translate(345 349/2) scale(-0.5 0.5) translate(-345 -349/2)" />
+      </svg>
+    
+
+    <div class="container">
+      <h2>Bad Benchmark, Right Result</h2>
+      <p>A benchmark is a benchmark, right? How wrong can it be? Turns out I got hoodwinked by one, but even when I unpicked it I discovered some interesting bugs. Come with me on a voyage of API discovery!</p>
+    </div>
+
+  </div>
+
+  <div class="container">
+    <div class="meta">
+
+      <ul>
+        <li class="last-updated">
+          <span class="name">Last updated:</span>
+          <span class="value">1 Dec 2013</span>
+        </li>
+
+        <li>
+          <span class="name">Est. Read Time:</span>
+          <span class="value">4 mins</span>
+        </li>
+
+        <li class="share">
+          <span class="name">Share this:</span>
+          <span class="value"><a href="http://www.twitter.com/share?url=http://aerotwist.com/blog/bad-benchmark-right-result/">Twitter</a></span>
+          <span class="value"><a href="https://plus.google.com/share?url=http://aerotwist.com/blog/bad-benchmark-right-result/">Google+</a></span>
+        </li>
+        <li class="tags">
+          <span class="name">Tagged:</span>
+          <span class="value">
+          
+            #perfmatters, 
+          
+            #scrutiny
+          
+          </span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="container"><div class="left column">
+<p>The other day <a href="https://developer.apple.com/library/safari/documentation/AudioVideo/Reference/WebKitCSSMatrixClassReference/WebKitCSSMatrix/WebKitCSSMatrix.html">WebKitCSSMatrix</a> was pointed out to me. If you’ve never come across it it’s a really useful way of manipulating matrices for 3D transforms. It’s available in Chrome, Safari and Opera. Firefox doesn’t seem to have the corresponding <code>Moz-</code> or unprefixed version, and <a href="http://twitter.com/ChrisLove">Chris Love</a> informs me that Internet Explorer has <code>MSCSSMatrix</code>.</p>
+
+<p>In short you create one of these matrices and then you can manipulate it like so:
+</div></div></p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="c1">// make an identity matrix</span>
+<span class="kd">var</span> <span class="nx">matrix</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">WebKitCSSMatrix</span><span class="p">();</span>
+
+<span class="c1">// access any of the 16 components</span>
+<span class="c1">// in the 4x4 matrix. Let&#39;s change</span>
+<span class="c1">// the Y translation to 20.</span>
+<span class="nx">matrix</span><span class="p">.</span><span class="nx">m42</span> <span class="o">=</span> <span class="mi">20</span><span class="p">;</span>
+
+<span class="c1">// or use some built-in functions</span>
+<span class="nx">matrix</span> <span class="o">=</span> <span class="nx">matrix</span><span class="p">.</span><span class="nx">translate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+
+<span class="c1">// although they make a new matrix</span>
+<span class="c1">// which is bad for GC...</span></code></pre></div>
+
+<div class="container"><div class="left column">
+<p>Now you have this matrix all you need to do is apply it to an element’s transform:
+</div></div></p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">div</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">WebkitTransform</span> <span class="o">=</span> <span class="nx">matrix</span><span class="p">;</span></code></pre></div>
+
+<div class="container"><div class="left column">
+<p>If you want to change the matrix’s components after apply it you <em>can</em> do that, but you need to set the element’s transform again once you do. Sadly, you can’t just grab the current <code>WebkitTransform</code> and manipulate it (shame, I know) because you’ll just
+get a string to work with.</p>
+
+<p>There was also a comment from a Chrome engineer on a <a href="https://code.google.com/p/chromium/issues/detail?id=322222#c4">Chrome bug</a> that I found interesting:</p>
+
+<blockquote class="quote">
+  <p>[They should be] us[ing]: style.webkitTransform = new WebKitCSSMatrix(“matrix(blah, blah)”) or using the attributes to set only the pieces of the matrix they need w/o going through the CSS Parser.</p>
+</blockquote>
+
+<p>This was suggesting the use of <code>CSSMatrix</code> in contrast to the (virtually-always-used) alternative of creating strings all over the place like so:
+</div></div></p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">div</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">WebkitTransform</span> <span class="o">=</span> <span class="s2">&quot;translate3d(&quot;</span> <span class="o">+</span> <span class="nx">x</span> <span class="o">+</span> <span class="s2">&quot;px, &quot;</span> <span class="o">+</span> <span class="nx">y</span> <span class="o">+</span> <span class="s2">&quot;px, &quot;</span> <span class="o">+</span> <span class="nx">z</span> <span class="o">+</span> <span class="s2">&quot;px)&quot;</span><span class="p">.</span></code></pre></div>
+
+<div class="container"><div class="left column">
+<p>I bounced over to Twitter all excited, because from a developer point of view this is clearly way freakin’ awesomer than the string gymnastics.</p>
+
+<figure>
+  <img src="/static/blog/bad-benchmark-right-result/paul.png" />
+</figure>
+
+<h2 id="the-benchmark">The benchmark</h2>
+
+<p><a href="http://twitter.com/relativeedge">Kris Gustaveson</a> responded to my initial tweet with a query:</p>
+
+<figure>
+  <img src="/static/blog/bad-benchmark-right-result/kris.png" />
+</figure>
+
+<p>Sure enough, when I visited the <a href="http://jsperf.com/webkitcssmatrix-vs-translate3d">benchmark in question</a> I saw exactly the same thing as Kris. Roughly speaking it appeared <strong>70% slower</strong> to use <code>WebKitCSSMatrix</code> than to create strings. On the other side I had the comment in the bug, which definitely indicated that using a matrix <em>should</em> be faster than passing in a string. The theory being that internally we can detect the use of the matrix and can bypass the CSS string parser.</p>
+
+<h2 id="scrutiny">Scrutiny</h2>
+
+<p>It shouldn’t have taken me an hour to figure it out why the jsPerf benchmark was squiffy, but it did. The clue lay in the benchmark’s preparation code. See if you can figure it out faster than I did.</p>
+
+<figure>
+  <img src="/static/blog/bad-benchmark-right-result/prepcode.png" />
+</figure>
+
+<p>In case you couldn’t see it, here’s what I (eventually) realised: the element doesn’t exist in the render tree, so any style changes <em>will be ignored</em>. This test is therefore akin to checking whether it’s faster to set a property of an object with a string or another object!</p>
+
+<p>When the element has been added to the DOM and exists in the render tree, we can actually test how <code>CSSMatrix</code> compares to using strings because we can measure the time spent in recalculating the styles. In theory using the matrix should be way faster (no CSS string parsing, yo.)</p>
+
+<aside class="boxout">
+<p># Render Tree? You lost me!</p>
+
+<p>The render tree is all the stuff that needs to be painted in the page. If an element doesn’t exist there (which if won’t if it’s set to <code>display: none</code>, for example) then it will be ignored for rendering.</p>
+
+<p>If you want to learn more check out my talk on <a href="http://vimeo.com/77591536">Rendering Performance for Developers</a>.
+</aside></p>
+
+<p>In the end I created my own quick tests (<a href="http://jsbin.com/ukomILOP/3/edit">one using strings</a>, one using <a href="http://jsbin.com/EMaxuma/3/edit">CSSMatrix</a>) that animated 1,000 <em>visible</em> DOM elements, all in the hope of clearing matters up.</p>
+
+<p>But all was not as it seemed… (Ooh, feel that tension.)</p>
+
+<h2 id="the-right-result">The right result</h2>
+
+<blockquote>
+  <p>What is already a budget buster for desktop would be an fps killer on mobile.</p>
+</blockquote>
+
+<p>I’m on a decent Macbook Air and I was seeing ~20ms of recalc style for 1,000 elements in both the string and <code>CSSMatrix</code> versions. On mobile that would be in the region of 6-8x, so basically what is already a budget buster for desktop would be an fps killer on mobile.</p>
+
+<p>The chart below shows the cost of Recalculate Style and time spent in JavaScript vs the number of DOM elements <strong>when you use strings</strong>:</p>
+
+<figure>
+  <img src="/static/blog/bad-benchmark-right-result/strings.png" />
+</figure>
+
+<p>But now see what it looks like for <strong><code>CSSMatrix</code></strong>:</p>
+
+<figure>
+  <img src="/static/blog/bad-benchmark-right-result/webkitcssmatrix.png" />
+</figure>
+
+<p>There are two things to notice here:</p>
+
+<p>1.The JavaScript cost of using <code>CSSMatrix</code> is really high in Chrome. I did a little digging here and it’s definitely where you go and assign the matrix to the element’s transform.
+2.Probably related, but when I used <a href="http://addyosmani.com/blog/devtools-flame-charts/">the Chrome DevTools flame chart</a> I noticed that a <code>toString()</code> method was being called inside my <code>requestAnimationFrame</code> callback. That wasn’t from me, so it appears internally Chrome calls <code>toString</code> on the matrix and passes it over to the CSS parser, which is exactly what we were hoping to avoid.</p>
+
+<p>Therefore because we’re essentially bouncing down to a string here the Recalculate Style cost is virtually identical to setting a string directly. But for some reason (must confess here, I don’t fully understand), <strong>the JavaScript cost of <code>CSSMatrix</code> is higher than using a string</strong>.</p>
+
+<aside class="boxout">
+<p># But Paul, surely this is a microbenchmark?</p>
+
+<p>Sort of. Ask anyone who does animations at 60fps, or authors an animation library and they will tell you pretty quickly that this stuff matters. Sure, if you only do a small bit of animation now and then, or you’re just setting a transform as a one-off this entire discussion is probably overkill.</p>
+
+<p>But if you <em>do</em> need high performance animations everywhere – and bear in mind on mobile these numbers will be way larger – then you need every little bit of help you can get!
+</aside></p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>For me this was an interesting journey. Having to rationalize seemingly contrary claims was fun, and actually getting to the bottom of it was satisfying, even if the conclusion was the same: use strings not <code>CSSMatrix</code>. I’ve filed <a href="http://crbug.com/324107">a bug with all my findings</a> (where Eric Seidel, one of our engineers has confirmed the <code>toString()</code> theory… can I call that my String Theory? No? Too confusing. Gotcha.) and my hope is that our engineers will be able to allow <code>CSSMatrix</code> to be faster than it is today.</p>
+
+<p><strong>But here’s a super critical point: if you benchmark visual APIs, make certain they operate on <em>visible</em> DOM elements that reside in the render tree.</strong></p>
+
+</div></div>
+
+
+  <div class="footer-share container">
+    Share this on: <span class="value"><a href="http://www.twitter.com/share?url=http://aerotwist.com/blog/bad-benchmark-right-result/">Twitter</a></span>
+    <span class="value"><a href="https://plus.google.com/share?url=http://aerotwist.com/blog/bad-benchmark-right-result/">Google+</a></span>
+  </div>
+
+  <div class="clear"></div>
+
+  
+    <svg class="left-shape" style="margin-left: -331.55px" width="488.6" height="966.0">
+      <use xlink:href="#color-block" filter="url(#blur-4)" transform="scale(-1.4 1.4) rotate(90)"/>
+    </svg>
+
+    <svg class="right-shape" width="174.5" height="621.0">
+      <use xlink:href="#color-block" filter="url(#blur-8)" transform="scale(-0.9 0.9) rotate(90)"/>
+    </svg>
+  
+
+</div>
+
+
+    </section>
+
+    <footer>
+
+      <div class="container">
+        <div class="bio panel">
+          <h2>Hello!</h2>
+          <p>My name is Paul. I work at <a href="http://www.google.com/" title="Some cloud company in the USA, I think.">Google</a> on the Chrome Developer Relations team as an advocate. I help developers improve the performance of their sites and apps.</p>
+
+          <p>You can find me on <a href="http://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a></p>
+        </div>
+
+        <div class="get-in-touch panel">
+          <h2>Get in touch</h2>
+          <p>I don’t bite. Honestly. You can find me on <a href="http://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a>, and I like hearing from people (pretty handy given my job, really) so say hi.</p>
+        </div>
+
+        <div class="subscribe panel">
+          <h2>Subscribe</h2>
+          <p>You should totally get the <a href="/blog/feed/">RSS feed</a>, or whatever it is you kids are using these days (I miss Reader.)</p>
+        </div>
+
+        <p class="disclaimer">Except as otherwise noted, the content of this page is licensed under the Creative Commons Attribution 3.0 License, and code samples are licensed under the Apache 2.0 License.</p>
+      </div>
+    </footer>
+
+    <script type="text/javascript" async="true">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-13024693-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+  </body>
+</html>

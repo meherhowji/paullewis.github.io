@@ -1,0 +1,45 @@
+/* the humans responsible & colophon */
+/* humanstxt.org */
+
+
+/* TEAM */
+  Lead Developer, Sole Developer, Visionary and One-man wolfpack: Paul Lewis
+  Site: www.aerotwist.com
+  Twitter: @aerotwist
+  Location: London, England
+
+/* SITE */
+  Standards: HTML5, WebGL, CSS3
+  Components: Modernizr, jQuery
+  Software:
+
+
+
+                               -o/-
+                               +oo//-
+                              :ooo+//:
+                             -ooooo///-
+                             /oooooo//:
+                            :ooooooo+//-
+                           -+oooooooo///-
+           -://////////////+oooooooooo++////////////::
+            :+ooooooooooooooooooooooooooooooooooooo+:::-
+              -/+ooooooooooooooooooooooooooooooo+/::////:-
+                -:+oooooooooooooooooooooooooooo/::///////:-
+                  --/+ooooooooooooooooooooo+::://////:-
+                     -:+ooooooooooooooooo+:://////:--
+                       /ooooooooooooooooo+//////:-
+                      -ooooooooooooooooooo////-
+                      /ooooooooo+oooooooooo//:
+                     :ooooooo+/::/+oooooooo+//-
+                    -oooooo/::///////+oooooo///-
+                    /ooo+::://////:---:/+oooo//:
+                   -o+/::///////:-      -:/+o+//-
+                   :-:///////:-            -:/://
+                     -////:-                 --//:
+                       --                       -:
+
+
+That would be the HTML Boilerplate logo above, in ASCII Art. I would've removed it, but it's such a loud and bombastic move by Paul Irish to put it there I just didn't have the heart to nix it. I applaud the enormous ASCII star manoeuvre. Well done.
+
+I've even left it in for version 2... Tells you how much I like it. That would be "a lot" if you're struggling to get my meaning.

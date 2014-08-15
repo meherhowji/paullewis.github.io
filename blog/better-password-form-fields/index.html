@@ -1,0 +1,353 @@
+<!doctype html>
+<html itemscope itemtype="http://schema.org/Article">
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="author" content="Paul Lewis" />
+  <meta name="viewport" content="width=device-width">
+
+  
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="//aerotwist.com/blog/feed/">
+  
+
+  
+  <meta itemprop="name" content="Better password form fields">
+  <meta itemprop="description" content="The best experiences are all about reducing friction, and that takes many forms. Sometimes it means adding things in, like labels, tooltips or other signifiers. At other times it’s about stripping things back to the core, making it super clear what you’re supposed to do next.">
+
+    
+
+  
+
+  <style>
+    
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 400;
+      src: local('Lato Regular'), local('Lato-Regular'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qIIYRU-oROkIk8vfvxw6QvesZW2xOQ-xsNqO47m55DA.woff) format('woff');
+    }
+    
+
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 700;
+      src: local('Lato Bold'), local('Lato-Bold'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qdgUG4U09HnJwhYI-uK18wLUuEpTyoUstqEm5AMlJo4.woff) format('woff');
+    }
+  </style>
+
+  <link rel="stylesheet" media="screen" href="/css/aerotwist.css" />
+  <title>Aerotwist - Better password form fields</title>
+  
+</head>
+
+
+<!--
+                              __          .__          __
+  _____    ___________  _____/  |___  _  _|__| _______/  |_
+  \__  \ _/ __ \_  __ \/  _ \   __\ \/ \/ /  |/  ___/\   __\
+   / __ \\  ___/|  | \(  <_> )  |  \     /|  |\___ \  |  |
+  (____  /\___  >__|   \____/|__|   \/\_/ |__/____  > |__|
+       \/     \/                                  \/
+
+  Giant ascii art embedded in every page of your site is how you
+  show other people that YOU CARE. Mainly I care about developers,
+  which is what I presume you are if you're all about viewing
+  the source. Clearly you're my kind of person.
+
+  This is v3, it's run through Jekyll, it's been fun to build,
+  there's always more to do, and you may notice that aside from
+  Google Analytics there is no JavaScript. None.
+
+  That's one way of many you keep your pages fast. I care about
+  keeping this site fast because your time is precious and I need
+  to get out of your way.
+
+  <3'z
+
+  Paul
+-->
+
+
+  <body class="blog">
+
+    <header>
+      <div class="container">
+        <div id="logo">
+  <a href="/">
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="100%" height="100%">
+    <g>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#6EBAD3" points="30.6,47.73 64.92,47.73 19.97,76.52"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ED95C0" points="48.198,0 53.008,14.06 39.31,24.76"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#880043" points="39.31,24.76 64.92,48 30.6,48"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#DA0A7A" points="39.31,24.76 64.92,48 53.008,14.06"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#0B7DAD" points="30.6,48 64.92,48 48,58.69"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#BDDEE8" points="47.76,58.69 64.92,47.73 75.14,76.73"></polygon>
+    </g>
+    </svg>
+  </a>
+</div>
+
+        <nav>
+  <ul>
+    
+      
+        <li><a href="/">Home</a></li>
+      
+    
+      
+        <li class="active"><a href="/blog/"> Blog</a></li>
+      
+    
+      
+        <li><a href="/tutorials/">Tutorials</a></li>
+      
+    
+      
+        <li><a href="/lab/">Lab</a></li>
+      
+    
+  </ul>
+
+  <svg id="left-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#AAAAAA" stroke-width="1" />
+    </svg>
+
+  <svg id="right-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#6EBAD3" stroke-opacity="0.3" stroke-width="1" />
+    </svg>
+</nav>
+
+      </div>
+    </header>
+    <section>
+
+      <div class="content">
+
+  
+  <svg version="1.1" class="shape-reference" xmlns="http://www.w3.org/2000/svg" width="425" height="321">
+  <defs>
+    <filter id="blur-8">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="8" />
+    </filter>
+    <filter id="blur-6">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="6" />
+    </filter>
+    <filter id="blur-4">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="4" />
+    </filter>
+  </defs>
+
+  <g id="color-block">
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#181726" stroke="#181726" stroke-width="0.6" points="40,249 87,230 123,278"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#303d5d" stroke="#303d5d" stroke-width="0.6" points="40,249 77,162 87,230"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#5f3a71" stroke="#5f3a71" stroke-width="0.6" points="154,188 87,230 77,162"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#5d2154" stroke="#5d2154" stroke-width="0.6" points="87,230 154,188 163,218"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#301530" stroke="#301530" stroke-width="0.6" points="123,278 87,230 163,218"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#25081c" stroke="#25081c" stroke-width="0.6" points="123,278 163,218 189,276"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#4e062e" stroke="#4e062e" stroke-width="0.6" points="189,276 163,218 214,223"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#2b0116" stroke="#2b0116" stroke-width="0.6" points="249,281 189,276 214,223"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#340620" stroke="#340620" stroke-width="0.6" points="269,252 249,281 214,223"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#160511" stroke="#160511" stroke-width="0.6" points="249,281 269,252 289,267"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#34132f" stroke="#34132f" stroke-width="0.6" points="289,267 269,252 314,209"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#2c1933" stroke="#2c1933" stroke-width="0.6" points="340,249 289,267 314,209"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#3f3056" stroke="#3f3056" stroke-width="0.6" points="314,209 337,187 340,249"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#6d3c7b" stroke="#6d3c7b" stroke-width="0.6" points="337,187 314,209 285,160"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#7d4e97" stroke="#7d4e97" stroke-width="0.6" points="285,160 337,147 337,187"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#936aaa" stroke="#936aaa" stroke-width="0.6" points="337,147 285,160 336,119"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#7d87b7" stroke="#7d87b7" stroke-width="0.6" points="337,147 336,119 381,140"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#5d6aa5" stroke="#5d6aa5" stroke-width="0.6" points="337,187 337,147 381,140"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#8f9fc5" stroke="#8f9fc5" stroke-width="0.6" points="336,119 356,97 381,140"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#b1aecf" stroke="#b1aecf" stroke-width="0.6" points="336,119 336,88 356,97"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#c5aacf" stroke="#c5aacf" stroke-width="0.6" points="336,119 276,84 336,88"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#c788be" stroke="#c788be" stroke-width="0.6" points="258,133 276,84 336,119"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#e383be" stroke="#e383be" stroke-width="0.6" points="258,133 231,102 276,84"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f550a6" stroke="#f550a6" stroke-width="0.6" points="258,133 185,141 231,102"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#fb1c8d" stroke="#fb1c8d" stroke-width="0.6" points="185,141 258,133 184,167"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ca1b84" stroke="#ca1b84" stroke-width="0.6" points="184,167 154,188 185,141"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#971968" stroke="#971968" stroke-width="0.6" points="163,218 154,188 184,167"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#940c58" stroke="#940c58" stroke-width="0.6" points="163,218 184,167 214,223"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#aa065c" stroke="#aa065c" stroke-width="0.6" points="273,200 214,223 184,167"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#600e40" stroke="#600e40" stroke-width="0.6" points="269,252 214,223 273,200"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#551c4a" stroke="#551c4a" stroke-width="0.6" points="269,252 273,200 314,209"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#7c2c71" stroke="#7c2c71" stroke-width="0.6" points="314,209 273,200 285,160"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#b32c8b" stroke="#b32c8b" stroke-width="0.6" points="273,200 258,133 285,160"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#d61280" stroke="#d61280" stroke-width="0.6" points="273,200 184,167 258,133"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#b261a9" stroke="#b261a9" stroke-width="0.6" points="285,160 258,133 336,119"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#b63492" stroke="#b63492" stroke-width="0.6" points="185,141 154,188 107,143"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#d376b6" stroke="#d376b6" stroke-width="0.6" points="107,143 172,68 185,141"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f57ebd" stroke="#f57ebd" stroke-width="0.6" points="185,141 172,68 231,102"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#fcc0df" stroke="#fcc0df" stroke-width="0.6" points="172,68 203,40 231,102"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f9cde5" stroke="#f9cde5" stroke-width="0.6" points="231,102 203,40 276,55"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ebb5d8" stroke="#ebb5d8" stroke-width="0.6" points="276,84 231,102 276,55"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#efd5e9" stroke="#efd5e9" stroke-width="0.6" points="276,84 276,55 284,55"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ead0e5" stroke="#ead0e5" stroke-width="0.6" points="276,84 284,55 302,65"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#dbc2dd" stroke="#dbc2dd" stroke-width="0.6" points="276,84 302,65 336,88"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#854995" stroke="#854995" stroke-width="0.6" points="154,188 77,162 107,143"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#cbcce1" stroke="#cbcce1" stroke-width="0.6" points="356,97 336,88 348,53"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#c1cee1" stroke="#c1cee1" stroke-width="0.6" points="385,93 356,97 348,53"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#8fb0cd" stroke="#8fb0cd" stroke-width="0.6" points="381,140 356,97 385,93"/>
+  </g>
+</svg>
+
+  
+
+  <div class="masthead hatched">
+
+    
+      <svg class="behind-meta" width="425" height="321">
+        <use xlink:href="#color-block" />
+      </svg>
+
+      <svg class="left-meta" width="425" height="321">
+        <use xlink:href="#color-block" filter="url(#blur-6)" transform="translate(425/2 321/2) scale(-0.5 0.5) translate(-425/2 -321/2)" />
+      </svg>
+    
+
+    <div class="container">
+      <h2>Better password form fields</h2>
+      <p>The best experiences are all about reducing friction, and that takes many forms. Sometimes it means adding things in, like labels, tooltips or other signifiers. At other times it’s about stripping things back to the core, making it super clear what you’re supposed to do next.</p>
+    </div>
+
+  </div>
+
+  <div class="container">
+    <div class="meta">
+
+      <ul>
+        <li class="last-updated">
+          <span class="name">Last updated:</span>
+          <span class="value">29 Apr 2014</span>
+        </li>
+
+        <li>
+          <span class="name">Est. Read Time:</span>
+          <span class="value">2 mins</span>
+        </li>
+
+        <li class="share">
+          <span class="name">Share this:</span>
+          <span class="value"><a href="http://www.twitter.com/share?url=http://aerotwist.com/blog/better-password-form-fields/">Twitter</a></span>
+          <span class="value"><a href="https://plus.google.com/share?url=http://aerotwist.com/blog/better-password-form-fields/">Google+</a></span>
+        </li>
+        <li class="tags">
+          <span class="name">Tagged:</span>
+          <span class="value">
+          
+            #design, 
+          
+            #opinion
+          
+          </span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="container"><div class="left column"><p><strong>Update (1st May 2014, pre caffeine):</strong> I’ve had feedback that my suggestion is bad because it makes you follow “a brain dead formula”. I wholeheartedly agree that password forms, as they stand today, are terrible and <a href="http://xkcd.com/936">engender terrible passwords</a>. This is about <em>reducing the friction</em> in today’s world by giving feedback, it’s <em>not</em> about trying to create a completely new way of collecting passwords. It’s related, but different. So with that said…</p>
+
+<h2 id="passwords-eh-annoying">Passwords, eh? Annoying.</h2>
+
+<p>Sure you can use an app like <a href="https://agilebits.com/onepassword">1Password</a>. In fact, in light of <a href="http://heartbleed.com/">Heartbleed</a>, that’s probably pretty wise, but password fields aren’t going away any time soon, and not everyone is going to rely on a generator.</p>
+
+<p>The thing is, whenever I create a password there’s always a list of criteria (numbers, letters, punctuation, prevailing wind direction) and when I hit submit the form normally tells me the password doesn’t meet them all. It’s annoying. I have to figure out what I put into my password, and where I (allegedly) failed.</p>
+
+<p>I think there’s a better way:</p>
+
+<iframe src="/static/design/better-password-form-fields/demo/index.html" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" width="100%" height="420" style="margin-bottom: 20px; box-shadow: 0 2px 2px rgba(0,0,0,0.3)">
+</iframe>
+
+<p class="livedemo"><a href="/static/design/better-password-form-fields/demo/index.html">Standalone version</a></p>
+
+<p>It’s deadly simple: as you enter the password the checklist lights up. The guessing game is gone, and you should have confidence that you’ve met all the criteria. <strong>These criteria, to reiterate, are suboptimal, but it’s the current state of the world.</strong></p>
+
+<h2 id="an-alternative-the-tooltip">An alternative: The tooltip</h2>
+
+<p>I figured I’d also try designing an ‘inline’ approach, which I suspect would work much better on smaller screens than the first version:</p>
+
+<figure>
+  <img src="/static/design/better-password-form-fields/tooltip-step-1.png" />
+  <figcaption>The tooltip lights up as you meet each criterion.</figcaption>
+</figure>
+
+<p>I think a key part of this is that you spell out the criteria that you have for a valid password below, so there’s always that to refer to. But as you type each part of the tooltip lights up.</p>
+
+<p>I’d be the first to say that the various segments of the tooltip (particularly those for punctuation and the character count) <em>could</em> be clearer. That’s something for me to mull over, I guess, unless anyone has better ideas, in which case <a href="https://dribbble.com/shots/1531963-Password-fields">feel free to do a rebound</a>!</p>
+
+<figure>
+  <img src="/static/design/better-password-form-fields/tooltip-step-2.png" />
+  <figcaption>And now it tells you if the password matches...</figcaption>
+</figure>
+
+<h2 id="reduction-friction">Reduction Friction</h2>
+
+<p>For me, whether it’s performance or design, it’s not about getting a badge of honour (though they’re always nice) that says “ooh this loads quickly” or “isn’t it beautiful and fun to use?” but much more about recognising that <strong>we make things that people use</strong>. They’re busy, they want to get on with life and they most definitely do not want to wrestle with technology. The best thing we can do for those people is make things easier.</p>
+
+<p>Let’s make the web <strong>frictionless</strong>.</p>
+</div></div>
+
+  <div class="footer-share container">
+    Share this on: <span class="value"><a href="http://www.twitter.com/share?url=http://aerotwist.com/blog/better-password-form-fields/">Twitter</a></span>
+    <span class="value"><a href="https://plus.google.com/share?url=http://aerotwist.com/blog/better-password-form-fields/">Google+</a></span>
+  </div>
+
+  <div class="clear"></div>
+
+  
+    <svg class="left-shape" style="margin-left: -304.95px" width="449.4" height="595.0">
+      <use xlink:href="#color-block" filter="url(#blur-4)" transform="scale(-1.4 1.4) rotate(90)"/>
+    </svg>
+
+    <svg class="right-shape" width="160.5" height="382.5">
+      <use xlink:href="#color-block" filter="url(#blur-8)" transform="scale(-0.9 0.9) rotate(90)"/>
+    </svg>
+  
+
+</div>
+
+
+    </section>
+
+    <footer>
+
+      <div class="container">
+        <div class="bio panel">
+          <h2>Hello!</h2>
+          <p>My name is Paul. I work at <a href="http://www.google.com/" title="Some cloud company in the USA, I think.">Google</a> on the Chrome Developer Relations team as an advocate. I help developers improve the performance of their sites and apps.</p>
+
+          <p>You can find me on <a href="http://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a></p>
+        </div>
+
+        <div class="get-in-touch panel">
+          <h2>Get in touch</h2>
+          <p>I don’t bite. Honestly. You can find me on <a href="http://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a>, and I like hearing from people (pretty handy given my job, really) so say hi.</p>
+        </div>
+
+        <div class="subscribe panel">
+          <h2>Subscribe</h2>
+          <p>You should totally get the <a href="/blog/feed/">RSS feed</a>, or whatever it is you kids are using these days (I miss Reader.)</p>
+        </div>
+
+        <p class="disclaimer">Except as otherwise noted, the content of this page is licensed under the Creative Commons Attribution 3.0 License, and code samples are licensed under the Apache 2.0 License.</p>
+      </div>
+    </footer>
+
+    <script type="text/javascript" async="true">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-13024693-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+  </body>
+</html>

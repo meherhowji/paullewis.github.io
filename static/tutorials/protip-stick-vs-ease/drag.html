@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Draggable</title>
+  <style>
+  html, body {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    background: #fcfcfc;
+    font-family: Helvetica, Arial, sans-serif;
+  }
+
+  .draggable {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 100px;
+    height: 20px;
+    margin: -30px 0 0 -80px;
+    text-align: center;
+    display: inline-block;
+    padding: 40px 30px;
+    border: 1px solid #111;
+    background: #222;
+    color: #FFF;
+    position: relative;
+    border-radius: 3px;
+    -webkit-backface-visibility: hidden;
+    cursor: pointer;
+  }
+
+  </style>
+
+</head>
+<body>
+  <div class="draggable">
+    Drag me, yo.
+  </div>
+
+  <script>
+
+  // <3'z and hugs for Paul Irish.
+  window.requestAnimFrame = (function(){
+  return  window.requestAnimationFrame       ||
+          window.webkitRequestAnimationFrame ||
+          window.mozRequestAnimationFrame    ||
+          function( callback ){
+            window.setTimeout(callback, 1000 / 60);
+          };
+  })();
+
+  // and on with the show...
+  var userBasePosition = {x: 0, y: 0};
+  var differenceFromUserBasePositionToCurrent = {x: 0, y: 0};
+  var boxPosition = {x: 0, y: 0};
+
+  var userIsDragging = false;
+  var draggable = document.querySelector('.draggable');
+
+  function setUserBasePosition (evt) {
+    userBasePosition.x = evt.clientX;
+    userBasePosition.y = evt.clientY;
+
+    // Prefer touch events if we have them.
+    if (evt.touches && evt.touches.length) {
+      userBasePosition.x = evt.touches[0].clientX;
+      userBasePosition.y = evt.touches[0].clientY;
+    }
+  }
+
+  function setPositionDifference (evt) {
+
+    var currentX = evt.clientX;
+    var currentY = evt.clientY;
+
+    if (evt.touches && evt.touches.length) {
+      currentX = evt.touches[0].clientX;
+      currentY = evt.touches[0].clientY;
+    }
+
+    differenceFromUserBasePositionToCurrent.x = currentX - userBasePosition.x;
+    differenceFromUserBasePositionToCurrent.y = currentY - userBasePosition.y;
+
+  }
+
+  function onDown (evt) {
+
+    userIsDragging = true;
+    setUserBasePosition(evt);
+    setPositionDifference(evt);
+
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseup', onUp);
+    document.addEventListener('touchmove', onMove);
+    document.addEventListener('touchend', onUp);
+
+    evt.preventDefault();
+  }
+
+  function onMove (evt) {
+
+    if (!userIsDragging)
+      return;
+
+    setPositionDifference(evt);
+    evt.preventDefault();
+
+  }
+
+  function onUp (evt) {
+
+    userIsDragging = false;
+
+    setBoxPositionForEasingBackToHome();
+
+    document.removeEventListener('mousemove', onMove);
+    document.removeEventListener('mouseup', onUp);
+    document.removeEventListener('touchmove', onMove);
+    document.removeEventListener('touchend', onUp);
+
+    setUserBasePosition(evt);
+    setPositionDifference(evt);
+
+  }
+
+  function setBoxPositionForEasingBackToHome () {
+    boxPosition.x = boxPosition.x + differenceFromUserBasePositionToCurrent.x;
+    boxPosition.y = boxPosition.y + differenceFromUserBasePositionToCurrent.y;
+  }
+
+  function onAnimationFrame () {
+
+    var x = 0;
+    var y = 0;
+
+    if (userIsDragging) {
+
+      // map to the user's cursor / finger
+      x = boxPosition.x + differenceFromUserBasePositionToCurrent.x;
+      y = boxPosition.y + differenceFromUserBasePositionToCurrent.y;
+
+    } else {
+
+      // ease the box back to its base position
+      boxPosition.x += (0 - boxPosition.x) / 5;
+      boxPosition.y += (0 - boxPosition.y) / 5;
+
+      x = boxPosition.x;
+      y = boxPosition.y;
+
+    }
+
+    draggable.style.webkitTransform = 'translate(' + x + 'px, ' + y + 'px)';
+    draggable.style.mozTransform = 'translate(' + x + 'px, ' + y + 'px)';
+    draggable.style.msTransform = 'translate(' + x + 'px, ' + y + 'px)';
+    draggable.style.oTransform = 'translate(' + x + 'px, ' + y + 'px)';
+    draggable.style.transform = 'translate(' + x + 'px, ' + y + 'px)';
+
+    requestAnimFrame(onAnimationFrame);
+
+  }
+
+  // mouse
+  draggable.addEventListener('mousedown', onDown);
+
+  // touch
+  draggable.addEventListener('touchstart', onDown);
+
+  requestAnimFrame(onAnimationFrame);
+
+  </script>
+</body>
+</html>

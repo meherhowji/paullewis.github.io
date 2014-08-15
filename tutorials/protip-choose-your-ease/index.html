@@ -1,0 +1,326 @@
+<!doctype html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="author" content="Paul Lewis" />
+  <meta name="viewport" content="width=device-width">
+
+  
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="//aerotwist.com/tutorials/feed/">
+  
+
+  
+
+  <style>
+    
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 400;
+      src: local('Lato Regular'), local('Lato-Regular'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qIIYRU-oROkIk8vfvxw6QvesZW2xOQ-xsNqO47m55DA.woff) format('woff');
+    }
+    
+
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 700;
+      src: local('Lato Bold'), local('Lato-Bold'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qdgUG4U09HnJwhYI-uK18wLUuEpTyoUstqEm5AMlJo4.woff) format('woff');
+    }
+  </style>
+
+  <link rel="stylesheet" media="screen" href="/css/aerotwist.css" />
+  <title>Aerotwist - Interaction ProTip #2: Choose your ease</title>
+  
+  <style>
+    .masthead h2 {
+      display: none;
+    }
+
+    .masthead {
+      background-image: url(/static/tutorials/headers/header-choose-your-ease-small.jpg);
+      
+      background-color: #1E0F00;
+      
+      
+    }
+
+    .meta {
+      background-color: #1E0F00 !important;
+    }
+
+    @media (min-width: 600px) {
+      .masthead {
+        background-image: url(/static/tutorials/headers/header-choose-your-ease.jpg);
+      }
+    }
+  </style>
+  
+</head>
+
+
+<!--
+                              __          .__          __
+  _____    ___________  _____/  |___  _  _|__| _______/  |_
+  \__  \ _/ __ \_  __ \/  _ \   __\ \/ \/ /  |/  ___/\   __\
+   / __ \\  ___/|  | \(  <_> )  |  \     /|  |\___ \  |  |
+  (____  /\___  >__|   \____/|__|   \/\_/ |__/____  > |__|
+       \/     \/                                  \/
+
+  Giant ascii art embedded in every page of your site is how you
+  show other people that YOU CARE. Mainly I care about developers,
+  which is what I presume you are if you're all about viewing
+  the source. Clearly you're my kind of person.
+
+  This is v3, it's run through Jekyll, it's been fun to build,
+  there's always more to do, and you may notice that aside from
+  Google Analytics there is no JavaScript. None.
+
+  That's one way of many you keep your pages fast. I care about
+  keeping this site fast because your time is precious and I need
+  to get out of your way.
+
+  <3'z
+
+  Paul
+-->
+
+
+  <body class="tutorials">
+
+    <header>
+      <div class="container">
+        <div id="logo">
+  <a href="/">
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="100%" height="100%">
+    <g>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#C8A47F" points="30.6,47.73 64.92,47.73 19.97,76.52"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#A9E9FF" points="48.198,0 53.008,14.06 39.31,24.76"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#2F7F8A" points="39.31,24.76 64.92,48 30.6,48"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#29C9FF" points="39.31,24.76 64.92,48 53.008,14.06"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#402000" points="30.6,48 64.92,48 48,58.69"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#924900" points="47.76,58.69 64.92,47.73 75.14,76.73"></polygon>
+    </g>
+    </svg>
+  </a>
+</div>
+
+        <nav>
+  <ul>
+    
+      
+        <li><a href="/">Home</a></li>
+      
+    
+      
+        <li><a href="/blog/">Blog</a></li>
+      
+    
+      
+        <li class="active"><a href="/tutorials/"> Tutorials</a></li>
+      
+    
+      
+        <li><a href="/lab/">Lab</a></li>
+      
+    
+  </ul>
+
+  <svg id="left-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#AAAAAA" stroke-width="1" />
+    </svg>
+
+  <svg id="right-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#C8A47F" stroke-opacity="0.3" stroke-width="1" />
+    </svg>
+</nav>
+
+      </div>
+    </header>
+    <section>
+
+      <div class="content">
+
+  <div class="masthead">
+
+    <div class="container">
+      <h2>Interaction ProTip #2: Choose your ease</h2>
+      <p></p>
+    </div>
+
+  </div>
+
+  
+
+  <div class="container">
+    <div class="meta">
+      <p>Other tutorials in this series:</p>
+      <ul>
+        
+          <li>
+            
+            <a href="/tutorials/protip-stick-vs-ease/">
+            
+              #1: Stick vs. Ease
+            
+            </a>
+            
+          </li>
+        
+          <li>
+            
+              #2: Choose Your Ease
+            
+          </li>
+        
+          <li>
+            
+            <a href="/tutorials/protip-offsets-and-opposing-motion/">
+            
+              #3: Offsets and Opposing Motion
+            
+            </a>
+            
+          </li>
+        
+          <li>
+            
+            <a href="/tutorials/protip-nobody-expects-3d/">
+            
+              #4: Nobody expects 3D
+            
+            </a>
+            
+          </li>
+        
+          <li>
+            
+            <a href="/tutorials/protip-the-abc-of-interaction/">
+            
+              #5: The ABC of Interaction
+            
+            </a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+
+  <div class="container"><div class="left column"><p>Easing is a basic building block for interaction work. In case it’s completely new to you, you can think of it as how motion <em>feels</em>.</p>
+
+<p>Most things in the real world exhibit some form of easing, where they perhaps start slow and accelerate and slow down again. Very few things start immediately, move linearly, then stop abruptly. In fact, the most obvious thing that fits that description is a robot, which is almost the <em>definition</em> of something artificial or unnatural. Including easing in our work, then, makes it feel more natural and real.</p>
+
+<iframe src="/static/tutorials/protip-choose-your-ease/ease.html" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" width="100%" height="400" style="margin-bottom: 20px; box-shadow: 0 2px 2px rgba(0,0,0,0.3)">
+</iframe>
+
+<h2 id="remapping-time">Remapping time.</h2>
+
+<p>In its most basic form easing is a simple remapping function. Let’s assume we want to move a box from left to right over – say – 1 second. One option is simply to divide the distance by the time and move an equal amount each frame. That is linear motion, which we just decided was robotic and weird. But we can take the linear value of how far we are through the motion (a number between 0 and 1) and plug into an easing equation and have it remapped to something awesomer!</p>
+
+<p>There are a bunch of easing equations you can use, but generally they fall into three groups: in, out and in-out.</p>
+
+<h3 id="ease-in">Ease In</h3>
+
+<p>These start slow and get faster as they go, coming to and abrupt stop at the end. Essentially they “ease in” to the motion and the graph looks like this:</p>
+
+<figure>
+  <img src="/static/tutorials/protip-choose-your-ease/ease-in.jpg" />
+  <figcaption>An ease in curve</figcaption>
+</figure>
+
+<h3 id="ease-out">Ease Out</h3>
+
+<p>These start quickly and slow down at the end of the motion, coming to a nice easy settle. As the name implies, they “ease out” of the motion.</p>
+
+<figure>
+  <img src="/static/tutorials/protip-choose-your-ease/ease-out.jpg" />
+  <figcaption>An ease out curve</figcaption>
+</figure>
+
+<h3 id="ease-in-out">Ease In-Out</h3>
+
+<p>The mummy-and-daddy-love-each-other combination of the above, these start slow and end slow. Bit like a car accelerating and decelerating.</p>
+
+<figure>
+  <img src="/static/tutorials/protip-choose-your-ease/ease-in-out.jpg" />
+  <figcaption>An ease in-out curve</figcaption>
+</figure>
+
+<h2 id="easing-in-interfaces">Easing in interfaces</h2>
+
+<p>Now that we’ve defined our eases, you’ll likely want to know which is the right kind for interaction work.</p>
+
+<ul>
+  <li><strong>For anything that is in direct response to a user action, like an expanding UI widget, you should ease out</strong>. The reasoning is pretty simple: you want to start fast because it gives the perception of responsiveness. Ease outs will give you that and give you a nice settle. Ease ins and in-outs don’t and the user will feel like they’re willing the animation to get done.</li>
+  <li><strong>Expand fast, contract slow(er)</strong>. I typically roll with around 200ms for outward animation and 300ms for returns. This is personal preference, but I find that it’s a decent balance. Getting the animation complete to get to the interactivity on the way out is paramount, but you want <em>some</em> animation so it feels polished. Appearing instead of animating is fine, and if it comes down to it, <em>no animation on the way out</em> is way better than a slow one. On the way back (where the user isn’t interacting anymore) we can afford to be a little gentler.</li>
+  <li><strong>Don’t use an overly aggressive ease</strong>. Younger Paul was a big fan of an exponential ease outs, which has a pretty mean looking curve. It works, but it also has a kind of “HERE’S YOUR CHUFFING COMPONENT, NOW GO AWAY” feel to it… maybe a reflection on younger Paul. Anyway, nowadays I tend to find a quintic ease out is a rather dandy compromise, but like all of this stuff, have a play around and see what matches your project’s personality.</li>
+</ul>
+
+<figure>
+  <img src="/static/tutorials/protip-choose-your-ease/quintic-ease-out.jpg" />
+  <figcaption>A quintic ease out curve</figcaption>
+</figure>
+
+<h2 id="resources">Resources</h2>
+
+<p>There are some libraries and tools I heartily recommend you take a look at:</p>
+
+<ul>
+  <li><a href="http://www.greensock.com/gsap-js/">GSAP</a>. This is <em>the</em> go-to library from back in the Flash days that has received a complete JavaScript port. It has a loads of additional functionality, and all the easing you could want plus some bonkers ones (<a href="http://codepen.io/rhernando/details/tgEBn">slow mo anyone</a>?)</li>
+  <li><a href="https://github.com/sole/tween.js/">Tween.js</a>. You should also take a look at <a href="https://twitter.com/supersole">Soledad Penadés</a>’s library. It has a lightweight, no-nonsense approach to tweening that I really warm to.</li>
+  <li><a href="http://matthewlein.com/ceaser/">Ceaser</a>. If you want to play around with different easing curves, see them in action and get the corresponding CSS cubic bezier curve, <a href="https://twitter.com/matthewlein">Matthew Lein</a> has you covered. There is no finer tool.</li>
+</ul>
+</div></div>
+
+</div>
+
+
+    </section>
+
+    <footer>
+
+      <div class="container">
+        <div class="bio panel">
+          <h2>Hello!</h2>
+          <p>My name is Paul. I work at <a href="http://www.google.com/" title="Some cloud company in the USA, I think.">Google</a> on the Chrome Developer Relations team as an advocate. I help developers improve the performance of their sites and apps.</p>
+
+          <p>You can find me on <a href="http://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a></p>
+        </div>
+
+        <div class="get-in-touch panel">
+          <h2>Get in touch</h2>
+          <p>I don’t bite. Honestly. You can find me on <a href="http://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a>, and I like hearing from people (pretty handy given my job, really) so say hi.</p>
+        </div>
+
+        <div class="subscribe panel">
+          <h2>Subscribe</h2>
+          <p>You should totally get the <a href="/blog/feed/">RSS feed</a>, or whatever it is you kids are using these days (I miss Reader.)</p>
+        </div>
+
+        <p class="disclaimer">Except as otherwise noted, the content of this page is licensed under the Creative Commons Attribution 3.0 License, and code samples are licensed under the Apache 2.0 License.</p>
+      </div>
+    </footer>
+
+    <script type="text/javascript" async="true">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-13024693-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+  </body>
+</html>

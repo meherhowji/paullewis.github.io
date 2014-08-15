@@ -1,0 +1,400 @@
+<!doctype html>
+<html itemscope itemtype="http://schema.org/Article">
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="author" content="Paul Lewis" />
+  <meta name="viewport" content="width=device-width">
+
+  
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="//aerotwist.com/blog/feed/">
+  
+
+  
+  <meta itemprop="name" content="Dart: on its merits">
+  <meta itemprop="description" content="Younger Paul was an inquisitive chap. He liked to monkey about with loads of different technologies, frameworks and platforms. That&#39;s changed, and I&#39;ve found myself opposed to one technology in particular: Dart. But I think that&#39;s because I was conflating the language with the VM...">
+
+    
+    <meta itemprop="image" content="http://aerotwist.com/static/blog/on-its-merits/dart-logo-wordmark.png">
+    
+
+  
+
+  <style>
+    
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 400;
+      src: local('Lato Regular'), local('Lato-Regular'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qIIYRU-oROkIk8vfvxw6QvesZW2xOQ-xsNqO47m55DA.woff) format('woff');
+    }
+    
+
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 700;
+      src: local('Lato Bold'), local('Lato-Bold'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qdgUG4U09HnJwhYI-uK18wLUuEpTyoUstqEm5AMlJo4.woff) format('woff');
+    }
+  </style>
+
+  <link rel="stylesheet" media="screen" href="/css/aerotwist.css" />
+  <title>Aerotwist - Dart: on its merits</title>
+  
+</head>
+
+
+<!--
+                              __          .__          __
+  _____    ___________  _____/  |___  _  _|__| _______/  |_
+  \__  \ _/ __ \_  __ \/  _ \   __\ \/ \/ /  |/  ___/\   __\
+   / __ \\  ___/|  | \(  <_> )  |  \     /|  |\___ \  |  |
+  (____  /\___  >__|   \____/|__|   \/\_/ |__/____  > |__|
+       \/     \/                                  \/
+
+  Giant ascii art embedded in every page of your site is how you
+  show other people that YOU CARE. Mainly I care about developers,
+  which is what I presume you are if you're all about viewing
+  the source. Clearly you're my kind of person.
+
+  This is v3, it's run through Jekyll, it's been fun to build,
+  there's always more to do, and you may notice that aside from
+  Google Analytics there is no JavaScript. None.
+
+  That's one way of many you keep your pages fast. I care about
+  keeping this site fast because your time is precious and I need
+  to get out of your way.
+
+  <3'z
+
+  Paul
+-->
+
+
+  <body class="blog">
+
+    <header>
+      <div class="container">
+        <div id="logo">
+  <a href="/">
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="100%" height="100%">
+    <g>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#6EBAD3" points="30.6,47.73 64.92,47.73 19.97,76.52"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ED95C0" points="48.198,0 53.008,14.06 39.31,24.76"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#880043" points="39.31,24.76 64.92,48 30.6,48"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#DA0A7A" points="39.31,24.76 64.92,48 53.008,14.06"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#0B7DAD" points="30.6,48 64.92,48 48,58.69"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#BDDEE8" points="47.76,58.69 64.92,47.73 75.14,76.73"></polygon>
+    </g>
+    </svg>
+  </a>
+</div>
+
+        <nav>
+  <ul>
+    
+      
+        <li><a href="/">Home</a></li>
+      
+    
+      
+        <li class="active"><a href="/blog/"> Blog</a></li>
+      
+    
+      
+        <li><a href="/tutorials/">Tutorials</a></li>
+      
+    
+      
+        <li><a href="/lab/">Lab</a></li>
+      
+    
+  </ul>
+
+  <svg id="left-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#AAAAAA" stroke-width="1" />
+    </svg>
+
+  <svg id="right-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#6EBAD3" stroke-opacity="0.3" stroke-width="1" />
+    </svg>
+</nav>
+
+      </div>
+    </header>
+    <section>
+
+      <div class="content">
+
+  
+  <svg version="1.1" class="shape-reference" xmlns="http://www.w3.org/2000/svg" width="780" height="293">
+  <defs>
+    <filter id="blur-8">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="8" />
+    </filter>
+    <filter id="blur-6">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="6" />
+    </filter>
+    <filter id="blur-4">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="4" />
+    </filter>
+  </defs>
+
+  <g id="color-block">
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#615c99" stroke="#615c99" stroke-width="0.6" points="40,133 161,127 179,197"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#9691be" stroke="#9691be" stroke-width="0.6" points="161,127 40,133 183,81"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#bb81b9" stroke="#bb81b9" stroke-width="0.6" points="293,124 161,127 183,81"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#934092" stroke="#934092" stroke-width="0.6" points="293,124 179,197 161,127"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#982879" stroke="#982879" stroke-width="0.6" points="179,197 293,124 309,168"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#5b1849" stroke="#5b1849" stroke-width="0.6" points="297,233 179,197 309,168"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#610839" stroke="#610839" stroke-width="0.6" points="417,221 297,233 309,168"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#a10455" stroke="#a10455" stroke-width="0.6" points="417,221 309,168 395,160"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#a50c60" stroke="#a50c60" stroke-width="0.6" points="417,221 395,160 494,148"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#7d1354" stroke="#7d1354" stroke-width="0.6" points="417,221 494,148 517,197"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#390926" stroke="#390926" stroke-width="0.6" points="491,253 417,221 517,197"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#360f2c" stroke="#360f2c" stroke-width="0.6" points="491,253 517,197 567,210"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#5b2153" stroke="#5b2153" stroke-width="0.6" points="517,197 564,173 567,210"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#86266e" stroke="#86266e" stroke-width="0.6" points="517,197 494,148 564,173"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#b43995" stroke="#b43995" stroke-width="0.6" points="494,148 516,107 564,173"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#d84da2" stroke="#d84da2" stroke-width="0.6" points="494,148 413,117 516,107"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#e61a8a" stroke="#e61a8a" stroke-width="0.6" points="494,148 395,160 413,117"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f42591" stroke="#f42591" stroke-width="0.6" points="395,160 293,124 413,117"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#d61482" stroke="#d61482" stroke-width="0.6" points="309,168 293,124 395,160"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f95eae" stroke="#f95eae" stroke-width="0.6" points="293,124 410,83 413,117"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f39acb" stroke="#f39acb" stroke-width="0.6" points="293,124 314,48 410,83"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#e0a8d0" stroke="#e0a8d0" stroke-width="0.6" points="293,124 183,81 314,48"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ec75b8" stroke="#ec75b8" stroke-width="0.6" points="413,117 410,83 516,107"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#efb2d7" stroke="#efb2d7" stroke-width="0.6" points="410,83 485,40 516,107"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#eacae2" stroke="#eacae2" stroke-width="0.6" points="516,107 485,40 589,55"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ca9bc8" stroke="#ca9bc8" stroke-width="0.6" points="516,107 589,55 589,124"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#a952a1" stroke="#a952a1" stroke-width="0.6" points="564,173 516,107 589,124"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#77498e" stroke="#77498e" stroke-width="0.6" points="564,173 589,124 663,170"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#4d3a69" stroke="#4d3a69" stroke-width="0.6" points="661,205 564,173 663,170"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#482852" stroke="#482852" stroke-width="0.6" points="567,210 564,173 661,205"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#3e4972" stroke="#3e4972" stroke-width="0.6" points="661,205 663,170 704,162"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#5672a8" stroke="#5672a8" stroke-width="0.6" points="663,170 699,99 704,162"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#7e86b7" stroke="#7e86b7" stroke-width="0.6" points="699,99 663,170 644,103"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#aeb4d2" stroke="#aeb4d2" stroke-width="0.6" points="699,99 644,103 677,76"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#b9c5db" stroke="#b9c5db" stroke-width="0.6" points="677,76 693,71 699,99"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#c1d1e2" stroke="#c1d1e2" stroke-width="0.6" points="699,99 693,71 740,57"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#a7c3d9" stroke="#a7c3d9" stroke-width="0.6" points="730,109 699,99 740,57"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#6d93bb" stroke="#6d93bb" stroke-width="0.6" points="704,162 699,99 730,109"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#c4c1da" stroke="#c4c1da" stroke-width="0.6" points="644,103 636,65 677,76"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#b6a3ca" stroke="#b6a3ca" stroke-width="0.6" points="589,124 636,65 644,103"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#cebad8" stroke="#cebad8" stroke-width="0.6" points="589,124 589,55 636,65"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#846eab" stroke="#846eab" stroke-width="0.6" points="589,124 644,103 663,170"/>
+  </g>
+</svg>
+
+  
+
+  <div class="masthead hatched">
+
+    
+      <svg class="behind-meta" width="780" height="293">
+        <use xlink:href="#color-block" />
+      </svg>
+
+      <svg class="left-meta" width="780" height="293">
+        <use xlink:href="#color-block" filter="url(#blur-6)" transform="translate(390 293/2) scale(-0.5 0.5) translate(-390 -293/2)" />
+      </svg>
+    
+
+    <div class="container">
+      <h2>Dart: on its merits</h2>
+      <p>Younger Paul was an inquisitive chap. He liked to monkey about with loads of different technologies, frameworks and platforms. That's changed, and I've found myself opposed to one technology in particular: Dart. But I think that's because I was conflating the language with the VM...</p>
+    </div>
+
+  </div>
+
+  <div class="container">
+    <div class="meta">
+
+      <ul>
+        <li class="last-updated">
+          <span class="name">Last updated:</span>
+          <span class="value">18 Dec 2013</span>
+        </li>
+
+        <li>
+          <span class="name">Est. Read Time:</span>
+          <span class="value">7 mins</span>
+        </li>
+
+        <li class="share">
+          <span class="name">Share this:</span>
+          <span class="value"><a href="http://www.twitter.com/share?url=http://aerotwist.com/blog/on-its-merits/">Twitter</a></span>
+          <span class="value"><a href="https://plus.google.com/share?url=http://aerotwist.com/blog/on-its-merits/">Google+</a></span>
+        </li>
+        <li class="tags">
+          <span class="name">Tagged:</span>
+          <span class="value">
+          
+            #perfmatters, 
+          
+            #dart
+          
+          </span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="container"><div class="left column"><h2 id="duke-nukem-vs-quake">Duke Nukem vs Quake</h2>
+
+<p>I was, I think, 12 years old when both games came out. There were turf wars over which game was better. The humour of Duke Nukem was brilliant to teenage Paul, but Quake had, like, a <em>for realz</em> 3D engine, none of this sprited characters nonsense!</p>
+
+<p>The Paul Lewis Approach™: buy both, play both, enjoy both.</p>
+
+<h2 id="taking-stock">Taking stock</h2>
+
+<p>Roll on to today and I’m a little disappointed with 2013 Paul, if I’m honest. To understand why, you need to know a little about what I got up to before Google. The list of technologies on my CV (resume for the non-Brits) looked a little like this: <strong>HTML</strong>, <strong>JavaScript</strong>, <strong>CSS</strong>, <strong>Flash (AS1, 2 and 3)</strong>, <strong>PHP</strong>, <strong>MySQL</strong>, <strong>Java</strong>, <strong>Objective-C</strong>.</p>
+
+<blockquote>
+  <p>In order to know something is the right tool for the job you have to understand your <em>entire</em> toolkit.</p>
+</blockquote>
+
+<p>If you speak to anyone I worked with during that period I’m pretty confident they would tell you I could hold my own in any of those stacks, and a few others besides. <strong>The point here is absolutely not “look at me, aren’t I amaaaazing?”</strong> but rather my underlying attitude: I was inquisitive and thorough. I dedicated myself to understanding as many technologies as possible, their strengths and weaknesses. I didn’t really care whether something was in fashion per se; if it was the <em>right tool for the job</em> it was going to get used. There is a certain amount of subjectivity to the term ‘right’ in my mind, it’s sometimes just a judgment call.</p>
+
+<p>But in order to know something is the right tool for the job you have to understand your <em>entire</em> toolkit.</p>
+
+<h2 id="did-something-change">Did something change?</h2>
+
+<p>You know, it did: I had kids. Kids, as every parent knows, equate to way less free time. Consequently I’ve let my drive to look at new technologies wane. Worse than that, though, without that drive I’ve not had as broad an outlook, and I’ve noticed I’ve become a little, umm, polarized in some areas. Not necessarily in a good way.</p>
+
+<h2 id="bias">Bias</h2>
+
+<p>I’ve caught myself being opposed to Dart, and yet I couldn’t articulate why. Younger Paul would be disappointed in such a lack of openness. I suspect it’s more a product of laziness or, more charitably, that lack of time I just mentioned.</p>
+
+<p>It’s been super easy to be that way though, because today’s <a href="http://www.chromestatus.com/features/6682831673622528">recorded opinion on chromestatus.com, at least from vendors and JavaScript devs, is against Dart</a>. But I’m starting to wonder why. Perhaps they, like me, have conflated Dart the language with Dart VM.</p>
+
+<h2 id="the-language">The Language</h2>
+
+<p>When I look at the language itself it doesn’t have any of the frankly <a href="http://wtfjs.com/">bonkers aspects of JavaScript</a>. It also has some pretty cool features in and of itself, like classes, maps, cascade operators, streams or tree-shaking. Parallels for some of those are already landing in JavaScript as of ES6, which is awesome.</p>
+
+<blockquote>
+  <p>The genius of the JavaScript is that it’s super simple to get started with, ubiquitous, and once you get used to it developing is fun and fine.</p>
+</blockquote>
+
+<p>The genius of the JavaScript is that it’s super simple to get started with, ubiquitous, and once you get used to it developing is fun and fine for many classes of applications. To say it’s the greatest possible language we could have on the web (which seems to be a consensus view, though I grant not everyone’s) seems myopic to me.</p>
+
+<p>What matters to me most is developer productivity and that you can make better apps and sites <em>for your users</em>. Whatever makes that possible is A+ in my opinion. If that’s JavaScript, great. If it’s something else, high fives.</p>
+
+<h2 id="perfmatters">#perfmatters</h2>
+
+<p>You know me, I love performance, and I won’t tolerate <em>anything</em> that causes problems. Thankfully <a href="https://www.dartlang.org/docs/dart-up-and-running/contents/ch04-tools-dart2js.html">dart2js</a> is not a hacked-up bit of code, but rather an optimizing compiler that attempts to take Dart and output human readable and optimized JavaScript. What kind of performance they’re aiming for I do not know, but if it’s as good as plain old I-wrote-that-myself JavaScript that’s cool. And currently, <a href="https://www.dartlang.org/performance/">on some benchmarks</a>, it is.</p>
+
+<p>In short, I don’t want a penalty if I use Dart because I could’ve just as easily written JavaScript and not taken the hit. That’s a big deal for me and I’m sure many other developers, too.</p>
+
+<h2 id="but-what-does-dart-solve-why-cant-we-just-evolve-javascript">But what does Dart solve? Why can’t we just evolve JavaScript?</h2>
+
+<p>Who said it had to be an either-or thing? Bear in mind I’m the guy who bought Duke Nukem and Quake. (I repeated that feat with Unreal Tournament and Quake 3 FWIW. Believe me, it’s the showbiz move.) Apple allows iOS apps to be built with Objective-C and C++. The lack of support for C++ would hamstring a huge quantity of games, since many engines are authored in it. Microsoft allow apps to be authored in C#, C++ and VB, all of which are <a href="http://en.wikipedia.org/wiki/Common_Language_Runtime">compiled down to their CLR</a> and then executed. Android lets you use Java or C++. You get the idea.</p>
+
+<p>My point is that I see a lot of people asking what Dart solves, rather than asking what limiting the web to JavaScript alone prevents. But that assumes an attempt to replace JavaScript with Dart. (I’m familiar with the infamous memo.)</p>
+
+<p>To my mind Dart makes sense for large and/or complex codebases where classes and optional static typing become critical to productivity and stability. It also makes a lot of sense for any developers who struggle with or simply dislike the fundamental building blocks of JavaScript like prototypal inheritance or function scoping. I personally have no problems with those aspects of JavaScript, mainly because I’ve spent time understanding them, but I sympathize with many programmers who come from a classical background and don’t have the time and inclination. You can say that “they shouldn’t be on the platform”, something I’ve heard said a few times, but I would respond that that’s antithetical to the inclusive nature of the web.</p>
+
+<p>In summary, I consider the Dart language a great option (possibly one of the best) amongst the compile-to-JavaScript options like CoffeeScript, TypeScript, GWT, <a href="https://github.com/jashkenas/coffee-script/wiki/List-of-languages-that-compile-to-JS">or any of these languages</a>.</p>
+
+<h2 id="dart-vm--dart-the-language">Dart VM != Dart the language</h2>
+
+<p>What I <em>do</em> see, however, is the concerns of those who do not have the engineering resources or desire to include two VMs (JavaScript and Dart) in their browser. But that’s why dart2js exists. Nobody has to ship a Dart VM. From a Chrome point of view, there are <a href="http://www.chromium.org/blink#new-features">very clear criteria in place for adding new features to Blink</a>, which we set out in April of this year.</p>
+
+<p><strong>My main problem is seeing the Dart VM be conflated with the Dart language</strong>: Dart as a language is great, the Dart VM itself may not be, <em>depending on your perspective</em>. They’re related, but objections for one should not be leveled at the other: the language is developer-facing, the VM is a vendor concern in the main.</p>
+
+<blockquote>
+  <p>I believe everyone <em>should</em> be cautious of introducing a new VM, Dart or otherwise, because it potentially represents a huge investment for the platform as a whole, not just one vendor.</p>
+</blockquote>
+
+<p>I believe everyone <em>should</em> be cautious of introducing a new VM, Dart or otherwise, because it potentially represents a huge investment for the platform as a whole, not just one vendor. Nor should we rule it out, but rather we should judge it against our goal of producing the best possible multi-device experiences for our development teams and users.</p>
+
+<h2 id="so-if-i-want-to-do-the-dart-thing-id-have-to-keep-two-versions-of-my-code-on-my-server">So if I want to do the Dart thing I’d have to keep two versions of my code on my server?</h2>
+
+<p>Sure, I guess. But I don’t see how that’s different to keeping multiple video file formats, image formats, or source maps (and corresponding unminified source code). Ultimately you would write Dart code and the publishing process would create the equivalent JavaScript.</p>
+
+<aside class="boxout">
+<p># asm.js</p>
+
+<p>Interestingly, both asm.js and Dart share a particular profile today. In both you write in another language and you get highly optimized JavaScript out of the other side. For asm.js this is typically C++, which you compile through Emscripten and LLVM to JavaScript. For Dart it’s dart2js.
+</aside></p>
+
+<p>We have a long tradition of developing in languages that is most convenient for us (ActionScript, C++, CoffeeScript, TypeScript, JavaScript), having some kind of processing step in the middle (Grunt, Ant, Maven, Makefiles, Flash), then serving the most appropriate thing for the browser. If any vendor isn’t shipping a Dart VM ultimately there’s JavaScript that can run. I don’t get any real heebie-jeebies from that, especially in light of my former points about productivity and performance.</p>
+
+<h2 id="and-onwards">2014 and onwards</h2>
+
+<p>I don’t know if Brian was thinking of Dart when he tweeted this, but it resonated with me:</p>
+
+<figure>
+  <img src="/static/blog/on-its-merits/brian.png" />
+</figure>
+
+<p>You might think I’ve “<a href="http://en.wikipedia.org/wiki/Drinking_the_Kool-Aid">drunk the Dart Kool-Aid</a>”, but that’s really not the case. All I’m saying is there are many things about Dart to like and by taking a step back I’m appreciating them, much as I appreciate the niceties of Objective-C, Java, PHP (seriously) or pretty much any language: classes, optional static typing, collections and tree-shaking are all great features. Again it’s not an either-or thing in my head, this is about being open to different technologies and approaches.</p>
+
+<p>I think 2014 Paul is going to recapture a bit of his former agnosticism. Kind of like buying Duke Nukem and Quake.</p>
+</div></div>
+
+  <div class="footer-share container">
+    Share this on: <span class="value"><a href="http://www.twitter.com/share?url=http://aerotwist.com/blog/on-its-merits/">Twitter</a></span>
+    <span class="value"><a href="https://plus.google.com/share?url=http://aerotwist.com/blog/on-its-merits/">Google+</a></span>
+  </div>
+
+  <div class="clear"></div>
+
+  
+    <svg class="left-shape" style="margin-left: -278.35px" width="410.2" height="1092.0">
+      <use xlink:href="#color-block" filter="url(#blur-4)" transform="scale(-1.4 1.4) rotate(90)"/>
+    </svg>
+
+    <svg class="right-shape" width="146.5" height="702.0">
+      <use xlink:href="#color-block" filter="url(#blur-8)" transform="scale(-0.9 0.9) rotate(90)"/>
+    </svg>
+  
+
+</div>
+
+
+    </section>
+
+    <footer>
+
+      <div class="container">
+        <div class="bio panel">
+          <h2>Hello!</h2>
+          <p>My name is Paul. I work at <a href="http://www.google.com/" title="Some cloud company in the USA, I think.">Google</a> on the Chrome Developer Relations team as an advocate. I help developers improve the performance of their sites and apps.</p>
+
+          <p>You can find me on <a href="http://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a></p>
+        </div>
+
+        <div class="get-in-touch panel">
+          <h2>Get in touch</h2>
+          <p>I don’t bite. Honestly. You can find me on <a href="http://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a>, and I like hearing from people (pretty handy given my job, really) so say hi.</p>
+        </div>
+
+        <div class="subscribe panel">
+          <h2>Subscribe</h2>
+          <p>You should totally get the <a href="/blog/feed/">RSS feed</a>, or whatever it is you kids are using these days (I miss Reader.)</p>
+        </div>
+
+        <p class="disclaimer">Except as otherwise noted, the content of this page is licensed under the Creative Commons Attribution 3.0 License, and code samples are licensed under the Apache 2.0 License.</p>
+      </div>
+    </footer>
+
+    <script type="text/javascript" async="true">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-13024693-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+  </body>
+</html>

@@ -1,0 +1,337 @@
+<!doctype html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="author" content="Paul Lewis" />
+  <meta name="viewport" content="width=device-width">
+
+  
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="//aerotwist.com/tutorials/feed/">
+  
+
+  
+
+  <style>
+    
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 400;
+      src: local('Lato Regular'), local('Lato-Regular'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qIIYRU-oROkIk8vfvxw6QvesZW2xOQ-xsNqO47m55DA.woff) format('woff');
+    }
+    
+
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 700;
+      src: local('Lato Bold'), local('Lato-Bold'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qdgUG4U09HnJwhYI-uK18wLUuEpTyoUstqEm5AMlJo4.woff) format('woff');
+    }
+  </style>
+
+  <link rel="stylesheet" media="screen" href="/css/aerotwist.css" />
+  <title>Aerotwist - Create your own environment maps</title>
+  
+  <style>
+    .masthead h2 {
+      display: none;
+    }
+
+    .masthead {
+      background-image: url(/static/tutorials/headers/header-env-maps-small.jpg);
+      
+      background-color: #1E0F00;
+      
+      
+    }
+
+    .meta {
+      background-color: #1E0F00 !important;
+    }
+
+    @media (min-width: 600px) {
+      .masthead {
+        background-image: url(/static/tutorials/headers/header-env-maps.jpg);
+      }
+    }
+  </style>
+  
+</head>
+
+
+<!--
+                              __          .__          __
+  _____    ___________  _____/  |___  _  _|__| _______/  |_
+  \__  \ _/ __ \_  __ \/  _ \   __\ \/ \/ /  |/  ___/\   __\
+   / __ \\  ___/|  | \(  <_> )  |  \     /|  |\___ \  |  |
+  (____  /\___  >__|   \____/|__|   \/\_/ |__/____  > |__|
+       \/     \/                                  \/
+
+  Giant ascii art embedded in every page of your site is how you
+  show other people that YOU CARE. Mainly I care about developers,
+  which is what I presume you are if you're all about viewing
+  the source. Clearly you're my kind of person.
+
+  This is v3, it's run through Jekyll, it's been fun to build,
+  there's always more to do, and you may notice that aside from
+  Google Analytics there is no JavaScript. None.
+
+  That's one way of many you keep your pages fast. I care about
+  keeping this site fast because your time is precious and I need
+  to get out of your way.
+
+  <3'z
+
+  Paul
+-->
+
+
+  <body class="tutorials">
+
+    <header>
+      <div class="container">
+        <div id="logo">
+  <a href="/">
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="100%" height="100%">
+    <g>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#C8A47F" points="30.6,47.73 64.92,47.73 19.97,76.52"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#A9E9FF" points="48.198,0 53.008,14.06 39.31,24.76"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#2F7F8A" points="39.31,24.76 64.92,48 30.6,48"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#29C9FF" points="39.31,24.76 64.92,48 53.008,14.06"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#402000" points="30.6,48 64.92,48 48,58.69"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#924900" points="47.76,58.69 64.92,47.73 75.14,76.73"></polygon>
+    </g>
+    </svg>
+  </a>
+</div>
+
+        <nav>
+  <ul>
+    
+      
+        <li><a href="/">Home</a></li>
+      
+    
+      
+        <li><a href="/blog/">Blog</a></li>
+      
+    
+      
+        <li class="active"><a href="/tutorials/"> Tutorials</a></li>
+      
+    
+      
+        <li><a href="/lab/">Lab</a></li>
+      
+    
+  </ul>
+
+  <svg id="left-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#AAAAAA" stroke-width="1" />
+    </svg>
+
+  <svg id="right-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#C8A47F" stroke-opacity="0.3" stroke-width="1" />
+    </svg>
+</nav>
+
+      </div>
+    </header>
+    <section>
+
+      <div class="content">
+
+  <div class="masthead">
+
+    <div class="container">
+      <h2>Create your own environment maps</h2>
+      <p></p>
+    </div>
+
+  </div>
+
+  
+
+  <div class="container"><div class="left column">
+<p>## Introduction</p>
+
+<p>Environment maps are pretty cool. Whenever you do reflections or refractions
+in WebGL or OpenGL, chances are you’ll use one. To make one can take a lot of
+time and specific equipment, but what if you want to make your own? Actually
+it turns out it’s not too taxing to go ghetto.</p>
+
+<p>To make this work you’re going to need an application that lets you take
+panoramic pictures. In my case I’m using <a href="http://itunes.apple.com/gb/app/photosynth/id430065256?mt=8">Microsoft’s Photosynth
+app</a> on iPhone
+since it does exactly what we need.</p>
+
+<h2 id="environment-maps">Environment Maps</h2>
+
+<p>To begin with let’s talk about what Environment Maps are. In the case of WebGL
+and OpenGL they’re actually cube maps typically, which is a specific kind of
+environment map. A cube map is simply a panoramic view of a scene (could be a
+real-world one or a virtual one) that has been mapped to the inside of a cube.
+Imagine being on the top of a hill and looking straight ahead, then 90 degrees
+to your left and then 90 degrees your right, straight up and down and finally
+right behind you. Handily you would see each side of this “cube”. If the cube
+we’re talking about is big enough it becomes difficult to perceive the joins
+in the cube edges and corners and it gives us the effect of being in a large
+environment. If all that confuses you the <a href="http://en.wikipedia.org/wiki/Cube_mapping">Wikipedia article on cube
+maps</a> is pretty helpful!</p>
+
+<p>Cool, but how does this help? Well it means we can do things like reflection
+and refraction, and in fact these two functions are built into GLSL, the
+shading language of WebGL. The theory is that you give the shader 6 images to
+represent the sides of this cube, and you tell WebGL that this is a cube map
+and from there you can start using it to do the aforementioned visual effects.</p>
+
+<h2 id="half-axes">Half Axes</h2>
+
+<p>A quick note on the terminology employed for cube maps. Since there are three
+axes we typically use: x, y and z, it follows that the images used for cube
+maps are labelled for those axes. However, as I said, there are 6 images, two
+per axis. These are called half axes, e.g. positive x and negative x.</p>
+
+<h2 id="get-a-panoramic">Get a Panoramic</h2>
+
+<p>So the first step is to go outside and use the app to take a panoramic
+picture. In this example I took a walk to London’s financial district and
+snapped a panoramic of the Gherkin.</p>
+
+<p>I then get an image that looks rather like this:</p>
+
+<figure>
+  <img src="/static/tutorials/create-your-own-environment-maps/images/environment.jpg" />
+</figure>
+
+<p>It’s worth pointing out that these panoramic apps often map back to a sphere,
+which is fine, but it does mean that we now need to convert it over to a cube
+so that it’s compatible with our WebGL-supported cube maps.</p>
+
+<h2 id="convert-to-cube">Convert to cube</h2>
+
+<p>This step I’ve actually shortcutted for you, because I’m nice like that. The
+theory is that we take the picture and load it into some 3D application like
+Maya or Blender and map it onto a sphere. From there we create 6 90-degree
+cameras, each pointing at one of the half axes. Then we export the images seen
+by these cameras and we have the six images to load into our WebGL scene.
+Since that’s a huge pain for me to explain and for you to do <a href="/static/tutorials/create-your-own-environment-maps/environment.zip">I’ve created a
+Blender file</a> with everything set up for you!</p>
+
+<p>To use the file:</p>
+
+<ol>
+  <li>Rename your panoramic to <strong>environment.jpg</strong></li>
+  <li>Place the panoramic image alongside the Blender file</li>
+  <li>Load the Blender file</li>
+  <li>Click on “Animation” on the right hand side</li>
+  <li>Sit back in wonder as 6 images are created in the folder</li>
+</ol>
+
+<p>Pretty cool, right? In my case I just created a single camera and then an “animation” with 6 frames, on each frame I updated the camera’s angle to one of the half axes.</p>
+
+<p>Now you can rename the files so they match the half axis they represent. (This is optional but it’s probably worth doing.) Here’s what you need to do:</p>
+
+<ul>
+  <li>Rename <strong>0001.png</strong> to <strong>pos-z.png</strong></li>
+  <li>Rename <strong>0002.png</strong> to <strong>neg-x.png</strong></li>
+  <li>Rename <strong>0003.png</strong> to <strong>neg-z.png</strong></li>
+  <li>Rename <strong>0004.png</strong> to <strong>pos-x.png</strong></li>
+  <li>Rename <strong>0005.png</strong> to <strong>neg-y.png</strong></li>
+  <li>Rename <strong>0006.png</strong> to <strong>pos-y.png</strong></li>
+</ul>
+
+<h2 id="add-to-the-scene">Add to the scene</h2>
+
+<p>Now we’ve got our very own environment map the last thing we need to do is to load it into the scene and use it. I’ll show you how to do that with Three.js since that, as usual, makes everything nice and easy for us:</p>
+
+</div></div>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="c1">// urls of the images, one per half axis</span>
+<span class="kd">var</span> <span class="nx">urls</span> <span class="o">=</span> <span class="p">[</span>
+  <span class="s1">&#39;path/to/pos-x.png&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;path/to/neg-x.png&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;path/to/pos-y.png&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;path/to/neg-y.png&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;path/to/pos-z.png&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;path/to/neg-z.png&#39;</span>
+<span class="p">],</span>
+
+<span class="c1">// wrap it up into the object that we need</span>
+<span class="nx">cubemap</span> <span class="o">=</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">ImageUtils</span><span class="p">.</span><span class="nx">loadTextureCube</span><span class="p">(</span><span class="nx">urls</span><span class="p">);</span>
+
+<span class="c1">// set the format, likely RGB unless you&#39;ve gone crazy</span>
+<span class="nx">cubemap</span><span class="p">.</span><span class="nx">format</span> <span class="o">=</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">RGBFormat</span><span class="p">;</span></code></pre></div>
+
+<div class="container"><div class="left column">
+<p>Now all you need to do is assign the cube map to a material and off you go!
+</div></div></p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">material</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">MeshLambertMaterial</span><span class="p">({</span>
+  <span class="nx">color</span><span class="o">:</span> <span class="mh">0xffffff</span><span class="p">,</span>
+  <span class="nx">envMap</span><span class="o">:</span> <span class="nx">cubemap</span>
+<span class="p">});</span></code></pre></div>
+
+<div class="container"><div class="left column">
+
+<p class="livedemo"><a href="/static/tutorials/create-your-own-environment-maps/demo/">See it running</a></p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>So there you go. It may be tricky to get a good environment map image,
+depending on where you can take your snaps, but it’s a really nice way to
+personalise your WebGL scenes. As usual there’s a <a href="/static/tutorials/create-your-own-environment-maps/sample.zip">zip for you to
+download</a> if you want a copy of the code. If you’ve enjoyed this
+or have any questions let me know via <a href="http://twitter.com/aerotwist">Twitter</a>.
+</div></div></p>
+
+
+</div>
+
+
+    </section>
+
+    <footer>
+
+      <div class="container">
+        <div class="bio panel">
+          <h2>Hello!</h2>
+          <p>My name is Paul. I work at <a href="http://www.google.com/" title="Some cloud company in the USA, I think.">Google</a> on the Chrome Developer Relations team as an advocate. I help developers improve the performance of their sites and apps.</p>
+
+          <p>You can find me on <a href="http://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a></p>
+        </div>
+
+        <div class="get-in-touch panel">
+          <h2>Get in touch</h2>
+          <p>I don’t bite. Honestly. You can find me on <a href="http://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a>, and I like hearing from people (pretty handy given my job, really) so say hi.</p>
+        </div>
+
+        <div class="subscribe panel">
+          <h2>Subscribe</h2>
+          <p>You should totally get the <a href="/blog/feed/">RSS feed</a>, or whatever it is you kids are using these days (I miss Reader.)</p>
+        </div>
+
+        <p class="disclaimer">Except as otherwise noted, the content of this page is licensed under the Creative Commons Attribution 3.0 License, and code samples are licensed under the Apache 2.0 License.</p>
+      </div>
+    </footer>
+
+    <script type="text/javascript" async="true">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-13024693-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+  </body>
+</html>

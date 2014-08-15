@@ -1,0 +1,438 @@
+<!doctype html>
+<html itemscope itemtype="http://schema.org/Article">
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="author" content="Paul Lewis" />
+  <meta name="viewport" content="width=device-width">
+
+  
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="//aerotwist.com/blog/feed/">
+  
+
+  
+  <meta itemprop="name" content="Reflections on Performance at Google I/O">
+  <meta itemprop="description" content="I spent most of my time at Google I/O talking to developers about performance. Here are some thoughts...">
+
+    
+
+  
+
+  <style>
+    
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 400;
+      src: local('Lato Regular'), local('Lato-Regular'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qIIYRU-oROkIk8vfvxw6QvesZW2xOQ-xsNqO47m55DA.woff) format('woff');
+    }
+    
+
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 700;
+      src: local('Lato Bold'), local('Lato-Bold'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qdgUG4U09HnJwhYI-uK18wLUuEpTyoUstqEm5AMlJo4.woff) format('woff');
+    }
+  </style>
+
+  <link rel="stylesheet" media="screen" href="/css/aerotwist.css" />
+  <title>Aerotwist - Reflections on Performance at Google I/O</title>
+  
+</head>
+
+
+<!--
+                              __          .__          __
+  _____    ___________  _____/  |___  _  _|__| _______/  |_
+  \__  \ _/ __ \_  __ \/  _ \   __\ \/ \/ /  |/  ___/\   __\
+   / __ \\  ___/|  | \(  <_> )  |  \     /|  |\___ \  |  |
+  (____  /\___  >__|   \____/|__|   \/\_/ |__/____  > |__|
+       \/     \/                                  \/
+
+  Giant ascii art embedded in every page of your site is how you
+  show other people that YOU CARE. Mainly I care about developers,
+  which is what I presume you are if you're all about viewing
+  the source. Clearly you're my kind of person.
+
+  This is v3, it's run through Jekyll, it's been fun to build,
+  there's always more to do, and you may notice that aside from
+  Google Analytics there is no JavaScript. None.
+
+  That's one way of many you keep your pages fast. I care about
+  keeping this site fast because your time is precious and I need
+  to get out of your way.
+
+  <3'z
+
+  Paul
+-->
+
+
+  <body class="blog">
+
+    <header>
+      <div class="container">
+        <div id="logo">
+  <a href="/">
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="100%" height="100%">
+    <g>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#6EBAD3" points="30.6,47.73 64.92,47.73 19.97,76.52"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ED95C0" points="48.198,0 53.008,14.06 39.31,24.76"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#880043" points="39.31,24.76 64.92,48 30.6,48"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#DA0A7A" points="39.31,24.76 64.92,48 53.008,14.06"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#0B7DAD" points="30.6,48 64.92,48 48,58.69"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#BDDEE8" points="47.76,58.69 64.92,47.73 75.14,76.73"></polygon>
+    </g>
+    </svg>
+  </a>
+</div>
+
+        <nav>
+  <ul>
+    
+      
+        <li><a href="/">Home</a></li>
+      
+    
+      
+        <li class="active"><a href="/blog/"> Blog</a></li>
+      
+    
+      
+        <li><a href="/tutorials/">Tutorials</a></li>
+      
+    
+      
+        <li><a href="/lab/">Lab</a></li>
+      
+    
+  </ul>
+
+  <svg id="left-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#AAAAAA" stroke-width="1" />
+    </svg>
+
+  <svg id="right-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#6EBAD3" stroke-opacity="0.3" stroke-width="1" />
+    </svg>
+</nav>
+
+      </div>
+    </header>
+    <section>
+
+      <div class="content">
+
+  
+  <svg version="1.1" class="shape-reference" xmlns="http://www.w3.org/2000/svg" width="743" height="349">
+  <defs>
+    <filter id="blur-8">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="8" />
+    </filter>
+    <filter id="blur-6">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="6" />
+    </filter>
+    <filter id="blur-4">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="4" />
+    </filter>
+  </defs>
+
+  <g id="color-block">
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#2b4c6c" stroke="#2b4c6c" stroke-width="0.6" points="62,253 40,205 91,212"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#252f48" stroke="#252f48" stroke-width="0.6" points="62,253 91,212 128,286"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#363254" stroke="#363254" stroke-width="0.6" points="128,286 91,212 155,220"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#2f203c" stroke="#2f203c" stroke-width="0.6" points="128,286 155,220 183,266"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#4e2854" stroke="#4e2854" stroke-width="0.6" points="183,266 155,220 221,221"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#371432" stroke="#371432" stroke-width="0.6" points="183,266 221,221 247,304"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#52103b" stroke="#52103b" stroke-width="0.6" points="247,304 221,221 347,231"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#2d051c" stroke="#2d051c" stroke-width="0.6" points="335,309 247,304 347,231"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#670134" stroke="#670134" stroke-width="0.6" points="335,309 347,231 417,224"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#4e042c" stroke="#4e042c" stroke-width="0.6" points="335,309 417,224 455,260"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#721753" stroke="#721753" stroke-width="0.6" points="455,260 417,224 542,207"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#922a79" stroke="#922a79" stroke-width="0.6" points="542,207 417,224 543,161"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#7f4690" stroke="#7f4690" stroke-width="0.6" points="542,207 543,161 611,181"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#906baa" stroke="#906baa" stroke-width="0.6" points="543,161 595,122 611,181"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#b486bc" stroke="#b486bc" stroke-width="0.6" points="543,161 529,102 595,122"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ca91c3" stroke="#ca91c3" stroke-width="0.6" points="501,84 529,102 543,161"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ddbedb" stroke="#ddbedb" stroke-width="0.6" points="529,102 501,84 576,69"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ccb2d4" stroke="#ccb2d4" stroke-width="0.6" points="529,102 576,69 595,122"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#c9c3dc" stroke="#c9c3dc" stroke-width="0.6" points="595,122 576,69 650,78"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#afb7d4" stroke="#afb7d4" stroke-width="0.6" points="686,114 595,122 650,78"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#898dbb" stroke="#898dbb" stroke-width="0.6" points="686,114 611,181 595,122"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#b9cde0" stroke="#b9cde0" stroke-width="0.6" points="686,114 650,78 703,75"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#cd67ae" stroke="#cd67ae" stroke-width="0.6" points="501,84 543,161 412,164"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#e570b5" stroke="#e570b5" stroke-width="0.6" points="412,164 401,123 501,84"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#fe3b9c" stroke="#fe3b9c" stroke-width="0.6" points="306,143 401,123 412,164"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f563b0" stroke="#f563b0" stroke-width="0.6" points="401,123 306,143 329,110"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#fe9ece" stroke="#fe9ece" stroke-width="0.6" points="329,110 395,40 401,123"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#facae4" stroke="#facae4" stroke-width="0.6" points="329,110 285,59 395,40"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ec90c6" stroke="#ec90c6" stroke-width="0.6" points="306,143 285,59 329,110"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#e299c9" stroke="#e299c9" stroke-width="0.6" points="223,108 285,59 306,143"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#c85ba8" stroke="#c85ba8" stroke-width="0.6" points="241,183 223,108 306,143"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#b966ac" stroke="#b966ac" stroke-width="0.6" points="209,138 223,108 241,183"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ad81b8" stroke="#ad81b8" stroke-width="0.6" points="209,138 108,153 223,108"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#8a6baa" stroke="#8a6baa" stroke-width="0.6" points="139,179 108,153 209,138"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#5b609b" stroke="#5b609b" stroke-width="0.6" points="91,212 108,153 139,179"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#436595" stroke="#436595" stroke-width="0.6" points="91,212 40,205 108,153"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#534b7f" stroke="#534b7f" stroke-width="0.6" points="91,212 139,179 155,220"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#7e4c96" stroke="#7e4c96" stroke-width="0.6" points="155,220 139,179 209,138"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#7f3b82" stroke="#7f3b82" stroke-width="0.6" points="221,221 155,220 209,138"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#9d388e" stroke="#9d388e" stroke-width="0.6" points="241,183 221,221 209,138"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#8c1d67" stroke="#8c1d67" stroke-width="0.6" points="241,183 347,231 221,221"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#a41165" stroke="#a41165" stroke-width="0.6" points="347,231 241,183 346,212"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#a40052" stroke="#a40052" stroke-width="0.6" points="347,231 346,212 417,224"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#c50669" stroke="#c50669" stroke-width="0.6" points="346,212 412,164 417,224"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f50881" stroke="#f50881" stroke-width="0.6" points="346,212 306,143 412,164"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#cb1c84" stroke="#cb1c84" stroke-width="0.6" points="241,183 306,143 346,212"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#bd1f82" stroke="#bd1f82" stroke-width="0.6" points="412,164 543,161 417,224"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f3b6d9" stroke="#f3b6d9" stroke-width="0.6" points="401,123 395,40 501,84"/>
+  </g>
+</svg>
+
+  
+
+  <div class="masthead hatched">
+
+    
+      <svg class="behind-meta" width="743" height="349">
+        <use xlink:href="#color-block" />
+      </svg>
+
+      <svg class="left-meta" width="743" height="349">
+        <use xlink:href="#color-block" filter="url(#blur-6)" transform="translate(743/2 349/2) scale(-0.5 0.5) translate(-743/2 -349/2)" />
+      </svg>
+    
+
+    <div class="container">
+      <h2>Reflections on Performance at Google I/O</h2>
+      <p>I spent most of my time at Google I/O talking to developers about performance. It was a good few days, and those with whom I spoke were interesting, interested and came away with advice for profiling their sites. The thing I noticed most, however, was a skew.</p>
+    </div>
+
+  </div>
+
+  <div class="container">
+    <div class="meta">
+
+      <ul>
+        <li class="last-updated">
+          <span class="name">Last updated:</span>
+          <span class="value">28 May 2013</span>
+        </li>
+
+        <li>
+          <span class="name">Est. Read Time:</span>
+          <span class="value">4 mins</span>
+        </li>
+
+        <li class="share">
+          <span class="name">Share this:</span>
+          <span class="value"><a href="http://www.twitter.com/share?url=http://aerotwist.com/blog/reflections-on-performance-at-google-io/">Twitter</a></span>
+          <span class="value"><a href="https://plus.google.com/share?url=http://aerotwist.com/blog/reflections-on-performance-at-google-io/">Google+</a></span>
+        </li>
+        <li class="tags">
+          <span class="name">Tagged:</span>
+          <span class="value">
+          
+            #perfmatters
+          
+          </span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="container"><div class="left column"><h2 id="the-skew">The Skew</h2>
+
+<p>Most of the conversations I had started the same way: “So, OK, performance,” I
+said, “what does it mean to you?” Most of the time the developer would say
+something along the lines of “Oh, umm, concatenation, minification,
+JavaScript.” and that’s entirely what I expected, but it’s a huge skew towards
+only a part of the browser’s frame lifecycle.</p>
+
+<h2 id="the-things-chrome-does">The Things Chrome Does</h2>
+
+<p>To illustrate the point let me list out the headlines of Chrome’s potential
+workload inside a single frame:</p>
+
+<ul>
+  <li>Dealing with loaded data (image callbacks, styles)</li>
+  <li>Parsing HTML into the DOM</li>
+  <li>Calculating (and recalculating) styles</li>
+  <li>Layout of the page (combining the DOM with styles)</li>
+  <li>Painting the elements of the page</li>
+  <li>Compositing the painted elements together</li>
+  <li>Executing JavaScript and collecting its garbage</li>
+</ul>
+
+<p>Of course the first period of the page likely contains all of these, but each
+subsequent frame will contain some or (hopefully not, but you never know)
+<em>all</em> of these. On this view, then, talking solely of concatenation,
+minification and JavaScript is heavily skewed towards page load time and the
+computation effort of your own code.</p>
+
+<aside class="boxout">
+<p># 60Hz = 60fps</p>
+
+<p>Chrome is synchronized to the device’s refresh rate. At 60Hz Chrome has a
+window of ~16ms to get all its work done. That’s not a lot of time!</p>
+
+<p>Loading quickly is hugely important, but as you can see there is a whole
+tranche of work besides those <em>once the page has loaded</em> that we, as
+developers, control directly.
+</aside></p>
+
+<h2 id="how-we-see-things">How We See Things</h2>
+
+<p>In Chrome DevRel’s Performance team we have a slightly different take on
+things. We carve up those headline tasks into three areas: Network, Compute
+and Render.</p>
+
+<p><strong>Network</strong> is pretty much what you’d expect and, given the conversations I had with developers, it’s well understood. Change formats, reduce the number of requests and reduce the size of the requests. Of course, like anything, there are nuances and things differ a great deal when you factor in mobile radios and highly variable bandwidth.</p>
+
+<p><strong>Compute</strong> covers the JavaScript, but actually when you check the list above you’ll see that parsing HTML, constructing the DOM (and CSSOM), recalculating styles and laying out the page are all computational in nature. It also follows that it ties in very neatly with your code. By way of example, if you give Chrome a lot of HTML then constructing or modifying the DOM will be more expensive. It sounds obvious, but I think it’s often overlooked. It turns out that, unless you’re doing something extremely heavy like a game, JavaScript is unlikely to be your bottleneck. (That said, I do think <a href="http://asmjs.org/">asm.js</a> is pretty darn cool, and I like that people are still trying to push JS performance forward!)</p>
+
+<p><strong>Render</strong> is actually my primary focus area, and I would say, as a rough finger-in-the-air measure, that about <strong>80%</strong> of the sites I profiled at Google I/O had <em>some</em> form of render bottleneck, so that’s what I’m going to talk about a bit. The jobs that come under render are:</p>
+
+<ul>
+  <li>Painting the elements of the page</li>
+  <li>Compositing the painted elements together</li>
+</ul>
+
+<p>My plan is to deliver talks later in the year outlining this in more detail,
+but the painting involves two tasks of interest to us developers:</p>
+
+<ol>
+  <li>Using a software rasterizer to draw elements into bitmaps</li>
+  <li>Decoding and resizing images to support the software rasterizer’s task</li>
+</ol>
+
+<blockquote>
+  <p>I would say, as a rough finger-in-the-air measure, that about 80% of the sites I profiled at Google I/O had some form of render bottleneck</p>
+</blockquote>
+
+<p>Both of these tasks are done lazily, i.e. only when needed, and they’re
+remarkably expensive. Take image decoding: I ran a little test where I used a
+command line C++ decoder on a 2000px square image. It took that decoder about
+~100ms to decode the image and it took Chrome ~70ms to do the same. Chrome is
+exceptionally fast, but bearing in mind that we have ~16ms to get <em>everything</em>
+done inside a single frame you can see how easy it is to cause a slowdown.</p>
+
+<p>But don’t take my word for it, <a href="https://twitter.com/millermedeiros">Miller
+Medeiros</a> had a paint issue recently, and
+check the final sentence of his tweet:</p>
+
+<figure>
+  <img src="/static/blog/reflections-on-performance-at-google-io/tweet.jpg" />
+</figure>
+
+<p>Of course it all depends on the number of images used, their encoding and
+dimensions as to how much Chrome has to do, but you get the idea I’m sure.</p>
+
+<p>On the software rasterizing side we’re talking about using your CSS to figure
+out how an element should be painted. Does it have a border? Rounded corners?
+Shadows? What color is the text? Colt McAnlis from my team has <a href="http://www.html5rocks.com/en/tutorials/speed/css-paint-times/">covered this
+recently</a>, so
+I’ll recommend you read that for more insight.</p>
+
+<h2 id="changing-the-conversation">Changing the Conversation</h2>
+
+<p>We need to change the performance conversation. Network performance is
+critical, but JavaScript execution is often extremely quick and unlikely to be
+your bottleneck. The thing is, when you <em>actually profile</em> your sites’
+scrolling and interactions with Chrome DevTools my hunch is you will see some
+purple and a whole lot of green.</p>
+
+<figure>
+  <img src="/static/blog/reflections-on-performance-at-google-io/devtools.png" />
+</figure>
+
+<p>The purple is recalculating style (changing some classes, animating) or layout
+(where are all the boxes on screen? Do we need to have scrollbars?) and the
+green is painting or compositing.</p>
+
+<aside class="boxout">
+<p># I want to avoid paints!</p>
+
+<p>Of course you do, my developery chum. That’s why I wrote this article on HTML5
+Rocks about <a href="http://www.html5rocks.com/en/tutorials/speed/unnecessary-paints/">Avoiding Unnecessary
+Paints</a> just
+for you!
+</aside></p>
+
+<p>Browsers are capable of running at the refresh rate of the device. When they
+do so our sites and apps feel smooth and crisp. It’s nice, users love it. When
+it doesn’t it hitches, hiccups, janks (pick your term of choice) and <em>users
+don’t like it</em>. Users not liking something should be a huge red flag that we
+need to fix things because they’re often our paying customers!</p>
+
+<p>Let’s talk differently in our development teams and companies about
+performance. It isn’t just about how <em>quickly it loads</em>, it’s also about <em>how
+quickly it runs</em>. That’s what keeps our users happy.</p>
+</div></div>
+
+  <div class="footer-share container">
+    Share this on: <span class="value"><a href="http://www.twitter.com/share?url=http://aerotwist.com/blog/reflections-on-performance-at-google-io/">Twitter</a></span>
+    <span class="value"><a href="https://plus.google.com/share?url=http://aerotwist.com/blog/reflections-on-performance-at-google-io/">Google+</a></span>
+  </div>
+
+  <div class="clear"></div>
+
+  
+    <svg class="left-shape" style="margin-left: -331.55px" width="488.6" height="1040.2">
+      <use xlink:href="#color-block" filter="url(#blur-4)" transform="scale(-1.4 1.4) rotate(90)"/>
+    </svg>
+
+    <svg class="right-shape" width="174.5" height="668.7">
+      <use xlink:href="#color-block" filter="url(#blur-8)" transform="scale(-0.9 0.9) rotate(90)"/>
+    </svg>
+  
+
+</div>
+
+
+    </section>
+
+    <footer>
+
+      <div class="container">
+        <div class="bio panel">
+          <h2>Hello!</h2>
+          <p>My name is Paul. I work at <a href="http://www.google.com/" title="Some cloud company in the USA, I think.">Google</a> on the Chrome Developer Relations team as an advocate. I help developers improve the performance of their sites and apps.</p>
+
+          <p>You can find me on <a href="http://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a></p>
+        </div>
+
+        <div class="get-in-touch panel">
+          <h2>Get in touch</h2>
+          <p>I don’t bite. Honestly. You can find me on <a href="http://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a>, and I like hearing from people (pretty handy given my job, really) so say hi.</p>
+        </div>
+
+        <div class="subscribe panel">
+          <h2>Subscribe</h2>
+          <p>You should totally get the <a href="/blog/feed/">RSS feed</a>, or whatever it is you kids are using these days (I miss Reader.)</p>
+        </div>
+
+        <p class="disclaimer">Except as otherwise noted, the content of this page is licensed under the Creative Commons Attribution 3.0 License, and code samples are licensed under the Apache 2.0 License.</p>
+      </div>
+    </footer>
+
+    <script type="text/javascript" async="true">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-13024693-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+  </body>
+</html>

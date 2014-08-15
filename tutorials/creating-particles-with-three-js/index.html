@@ -1,0 +1,441 @@
+<!doctype html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="author" content="Paul Lewis" />
+  <meta name="viewport" content="width=device-width">
+
+  
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="//aerotwist.com/tutorials/feed/">
+  
+
+  
+
+  <style>
+    
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 400;
+      src: local('Lato Regular'), local('Lato-Regular'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qIIYRU-oROkIk8vfvxw6QvesZW2xOQ-xsNqO47m55DA.woff) format('woff');
+    }
+    
+
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 700;
+      src: local('Lato Bold'), local('Lato-Bold'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qdgUG4U09HnJwhYI-uK18wLUuEpTyoUstqEm5AMlJo4.woff) format('woff');
+    }
+  </style>
+
+  <link rel="stylesheet" media="screen" href="/css/aerotwist.css" />
+  <title>Aerotwist - Creating Particles with Three.js</title>
+  
+  <style>
+    .masthead h2 {
+      display: none;
+    }
+
+    .masthead {
+      background-image: url(/static/tutorials/headers/header-creating-particles-small.jpg);
+      
+      background-color: #222;
+      
+      
+    }
+
+    .meta {
+      background-color: #222 !important;
+    }
+
+    @media (min-width: 600px) {
+      .masthead {
+        background-image: url(/static/tutorials/headers/header-creating-particles.jpg);
+      }
+    }
+  </style>
+  
+</head>
+
+
+<!--
+                              __          .__          __
+  _____    ___________  _____/  |___  _  _|__| _______/  |_
+  \__  \ _/ __ \_  __ \/  _ \   __\ \/ \/ /  |/  ___/\   __\
+   / __ \\  ___/|  | \(  <_> )  |  \     /|  |\___ \  |  |
+  (____  /\___  >__|   \____/|__|   \/\_/ |__/____  > |__|
+       \/     \/                                  \/
+
+  Giant ascii art embedded in every page of your site is how you
+  show other people that YOU CARE. Mainly I care about developers,
+  which is what I presume you are if you're all about viewing
+  the source. Clearly you're my kind of person.
+
+  This is v3, it's run through Jekyll, it's been fun to build,
+  there's always more to do, and you may notice that aside from
+  Google Analytics there is no JavaScript. None.
+
+  That's one way of many you keep your pages fast. I care about
+  keeping this site fast because your time is precious and I need
+  to get out of your way.
+
+  <3'z
+
+  Paul
+-->
+
+
+  <body class="tutorials">
+
+    <header>
+      <div class="container">
+        <div id="logo">
+  <a href="/">
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="100%" height="100%">
+    <g>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#C8A47F" points="30.6,47.73 64.92,47.73 19.97,76.52"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#A9E9FF" points="48.198,0 53.008,14.06 39.31,24.76"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#2F7F8A" points="39.31,24.76 64.92,48 30.6,48"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#29C9FF" points="39.31,24.76 64.92,48 53.008,14.06"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#402000" points="30.6,48 64.92,48 48,58.69"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#924900" points="47.76,58.69 64.92,47.73 75.14,76.73"></polygon>
+    </g>
+    </svg>
+  </a>
+</div>
+
+        <nav>
+  <ul>
+    
+      
+        <li><a href="/">Home</a></li>
+      
+    
+      
+        <li><a href="/blog/">Blog</a></li>
+      
+    
+      
+        <li class="active"><a href="/tutorials/"> Tutorials</a></li>
+      
+    
+      
+        <li><a href="/lab/">Lab</a></li>
+      
+    
+  </ul>
+
+  <svg id="left-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#AAAAAA" stroke-width="1" />
+    </svg>
+
+  <svg id="right-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#C8A47F" stroke-opacity="0.3" stroke-width="1" />
+    </svg>
+</nav>
+
+      </div>
+    </header>
+    <section>
+
+      <div class="content">
+
+  <div class="masthead">
+
+    <div class="container">
+      <h2>Creating Particles with Three.js</h2>
+      <p></p>
+    </div>
+
+  </div>
+
+  
+
+  <div class="container"><div class="left column">
+<p>## Introduction</p>
+
+<p>Hello again. So by now you’ve <a href="../getting-started-
+with-three-js/">got started with Three.js</a>. If you’ve not you might want to go back. Assuming you have
+you’re probably thinking that you’d like to do something with particles. Let’s
+face it, everyone loves particles. And wouldn’t you know it, you can create
+them very easily using Three.js!</p>
+
+<h2 id="creating-a-particle-system">Creating a Particle System</h2>
+
+<p>Three.js treats a particle system like any other primitive shape in that it
+has geometry and position, scale and rotation properties. What it does is use
+the individual vertices of the geometry to position the particles. Why does it
+do that? A couple of reasons, I suspect: it means the whole system can be
+drawn in one go rather than thousands of draw calls to the WebGL context and
+also there are global properties for affecting all the particles at once.</p>
+
+<p>Even though they are treated as part of the same object we can still style the
+particles individually in terms of their colour since Three.js sends through
+colour attributes to the shader when it’s drawing them. I won’t be doing that
+in this article, so if that’s something you’re interested in you should take a
+look at <a href="https://github.com/mrdoob/three.js/blob/master/examples/
+webgl_particles_billboards_colors.html">the example</a> on the Three.js GitHub repo where
+vertex colours are used.</p>
+
+<p>There is also a knock-on effect of having a particle system governed by the
+geometry vertices, which you may need to consider. Since under the hood
+Three.js reserves the correct amount of data to handle the particle system
+when it is rendered for the first time you can’t then add to and remove from
+the particle system easily. What you <em>can</em> do, if you need to, is drop the
+alpha of a particle to zero if you don’t need it at a certain point. But you
+should create the total number of particles required at the start.</p>
+
+<p>To create a particle system we need the following code:
+</div></div></p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="c1">// create the particle variables</span>
+<span class="kd">var</span> <span class="nx">particleCount</span> <span class="o">=</span> <span class="mi">1800</span><span class="p">,</span>
+    <span class="nx">particles</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Geometry</span><span class="p">(),</span>
+    <span class="nx">pMaterial</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">ParticleBasicMaterial</span><span class="p">({</span>
+      <span class="nx">color</span><span class="o">:</span> <span class="mh">0xFFFFFF</span><span class="p">,</span>
+      <span class="nx">size</span><span class="o">:</span> <span class="mi">20</span>
+    <span class="p">});</span>
+
+<span class="c1">// now create the individual particles</span>
+<span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">p</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">p</span> <span class="o">&lt;</span> <span class="nx">particleCount</span><span class="p">;</span> <span class="nx">p</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+
+  <span class="c1">// create a particle with random</span>
+  <span class="c1">// position values, -250 -&gt; 250</span>
+  <span class="kd">var</span> <span class="nx">pX</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span> <span class="o">*</span> <span class="mi">500</span> <span class="o">-</span> <span class="mi">250</span><span class="p">,</span>
+      <span class="nx">pY</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span> <span class="o">*</span> <span class="mi">500</span> <span class="o">-</span> <span class="mi">250</span><span class="p">,</span>
+      <span class="nx">pZ</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span> <span class="o">*</span> <span class="mi">500</span> <span class="o">-</span> <span class="mi">250</span><span class="p">,</span>
+      <span class="nx">particle</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Vertex</span><span class="p">(</span>
+        <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Vector3</span><span class="p">(</span><span class="nx">pX</span><span class="p">,</span> <span class="nx">pY</span><span class="p">,</span> <span class="nx">pZ</span><span class="p">)</span>
+      <span class="p">);</span>
+
+  <span class="c1">// add it to the geometry</span>
+  <span class="nx">particles</span><span class="p">.</span><span class="nx">vertices</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">particle</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// create the particle system</span>
+<span class="kd">var</span> <span class="nx">particleSystem</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">ParticleSystem</span><span class="p">(</span>
+    <span class="nx">particles</span><span class="p">,</span>
+    <span class="nx">pMaterial</span><span class="p">);</span>
+
+<span class="c1">// add it to the scene</span>
+<span class="nx">scene</span><span class="p">.</span><span class="nx">addChild</span><span class="p">(</span><span class="nx">particleSystem</span><span class="p">);</span></code></pre></div>
+
+<div class="container"><div class="left column">
+<p>If you run that, you’ll notice two things:</p>
+
+<ol>
+  <li>The particles are squares</li>
+  <li>They don’t move</li>
+</ol>
+
+<p>Let’s fix both of those, one at a time.</p>
+
+<h2 id="style">Style++</h2>
+
+<p>When we created the ParticleBasicMaterial we just gave it a colour and a size.
+What we probably want to do is to give it an image instead so we have fine
+control over exactly what our particles look like.</p>
+
+<p>Because as you’ve seen they are actually squares being drawn out we should
+make our texture square. To make it look more showbiz we’ll use additive
+blending, but to do that we need to make sure the background of the texture is
+black rather than transparent. The reason for this is that transparency and
+additive blending isn’t a supported combination right now as far as I
+understand it. But no matter because it’s going to look awesome.</p>
+
+<p>Let’s update our ParticleBasicMaterial and the Particle System to get additive
+transparent particles. You can <a href="/static/tutorials/creating-particles-with-three-js/images/particle.png">use my particle image</a> if
+you like.
+</div></div></p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="c1">// create the particle variables</span>
+<span class="kd">var</span> <span class="nx">pMaterial</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">ParticleBasicMaterial</span><span class="p">({</span>
+  <span class="nx">color</span><span class="o">:</span> <span class="mh">0xFFFFFF</span><span class="p">,</span>
+  <span class="nx">size</span><span class="o">:</span> <span class="mi">20</span><span class="p">,</span>
+  <span class="nx">map</span><span class="o">:</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">ImageUtils</span><span class="p">.</span><span class="nx">loadTexture</span><span class="p">(</span>
+    <span class="s2">&quot;images/particle.png&quot;</span>
+  <span class="p">),</span>
+  <span class="nx">blending</span><span class="o">:</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">AdditiveBlending</span><span class="p">,</span>
+  <span class="nx">transparent</span><span class="o">:</span> <span class="kc">true</span>
+<span class="p">});</span>
+
+<span class="c1">// also update the particle system to</span>
+<span class="c1">// sort the particles which enables</span>
+<span class="c1">// the behaviour we want</span>
+<span class="nx">particleSystem</span><span class="p">.</span><span class="nx">sortParticles</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span></code></pre></div>
+
+<div class="container"><div class="left column">
+<p>That already looks a load better. Let’s introduce a little bit of physics to
+the scene and get the particles moving around.</p>
+
+<h2 id="lets-get-physical">Let’s Get Physical</h2>
+
+<p>By default our particles don’t move in 3D space, which is totally fine. But
+I’d like them to, and in this case we’re going to do two things. We’re going
+to rotate the whole particle system around the Y-axis. Since we positioned our
+particles between -250 and +250 in each axis they should be spread around 0,
+which means the particles will look to rotate around the middle of the system.</p>
+
+<p>I’m assuming you have an animation loop in place, very much like the one I
+discussed in the <a href="../an-introduction-to-shaders-
+part-2">Introduction to Shaders</a> article. So in there we have one line to add:
+</div></div></p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="c1">// animation loop</span>
+<span class="kd">function</span> <span class="nx">update</span><span class="p">()</span> <span class="p">{</span>
+
+  <span class="c1">// add some rotation to the system</span>
+  <span class="nx">particleSystem</span><span class="p">.</span><span class="nx">rotation</span><span class="p">.</span><span class="nx">y</span> <span class="o">+=</span> <span class="mf">0.01</span><span class="p">;</span>
+
+  <span class="c1">// draw</span>
+  <span class="nx">renderer</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span><span class="nx">scene</span><span class="p">,</span> <span class="nx">camera</span><span class="p">);</span>
+
+  <span class="c1">// set up the next call</span>
+  <span class="nx">requestAnimFrame</span><span class="p">(</span><span class="nx">update</span><span class="p">);</span>
+<span class="p">}</span></code></pre></div>
+
+<div class="container"><div class="left column">
+<p>Now we actually should animate the individual particles. Let’s go with a
+simple raining particles feel. This will involve doing the following:</p>
+
+<ol>
+  <li>Adding a velocity vector to each particle</li>
+  <li>Add acceleration due to gravity to each particle’s velocity on each frame</li>
+  <li>Adding the velocity to the particle’s position each frame</li>
+  <li>Resetting a particle’s position and velocity when it goes out of view</li>
+</ol>
+
+<p>Sounds like a lot, but actually it’s not that much code. First let’s add the
+velocity vector to the particles. We do this when we created the particles in
+the loop:
+</div></div></p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="c1">// create a velocity vector</span>
+<span class="nx">particle</span><span class="p">.</span><span class="nx">velocity</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Vector3</span><span class="p">(</span>
+  <span class="mi">0</span><span class="p">,</span>              <span class="c1">// x</span>
+  <span class="o">-</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">(),</span> <span class="c1">// y: random vel</span>
+  <span class="mi">0</span><span class="p">);</span>             <span class="c1">// z</span></code></pre></div>
+
+<div class="container"><div class="left column">
+<p>Next in our animation loop we’re going to pass over each particle and
+update its velocity and position as well as reset it should it go off the
+bottom of the screen:
+</div></div></p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="c1">// animation loop</span>
+<span class="kd">function</span> <span class="nx">update</span><span class="p">()</span> <span class="p">{</span>
+
+  <span class="c1">// add some rotation to the system</span>
+  <span class="nx">particleSystem</span><span class="p">.</span><span class="nx">rotation</span><span class="p">.</span><span class="nx">y</span> <span class="o">+=</span> <span class="mf">0.01</span><span class="p">;</span>
+
+  <span class="kd">var</span> <span class="nx">pCount</span> <span class="o">=</span> <span class="nx">particleCount</span><span class="p">;</span>
+  <span class="k">while</span> <span class="p">(</span><span class="nx">pCount</span><span class="o">--</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="c1">// get the particle</span>
+    <span class="kd">var</span> <span class="nx">particle</span> <span class="o">=</span>
+      <span class="nx">particles</span><span class="p">.</span><span class="nx">vertices</span><span class="p">[</span><span class="nx">pCount</span><span class="p">];</span>
+
+    <span class="c1">// check if we need to reset</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">particle</span><span class="p">.</span><span class="nx">position</span><span class="p">.</span><span class="nx">y</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mi">200</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">particle</span><span class="p">.</span><span class="nx">position</span><span class="p">.</span><span class="nx">y</span> <span class="o">=</span> <span class="mi">200</span><span class="p">;</span>
+      <span class="nx">particle</span><span class="p">.</span><span class="nx">velocity</span><span class="p">.</span><span class="nx">y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="c1">// update the velocity with</span>
+    <span class="c1">// a splat of randomniz</span>
+    <span class="nx">particle</span><span class="p">.</span><span class="nx">velocity</span><span class="p">.</span><span class="nx">y</span> <span class="o">-=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span> <span class="o">*</span> <span class="p">.</span><span class="mi">1</span><span class="p">;</span>
+
+    <span class="c1">// and the position</span>
+    <span class="nx">particle</span><span class="p">.</span><span class="nx">position</span><span class="p">.</span><span class="nx">addSelf</span><span class="p">(</span>
+      <span class="nx">particle</span><span class="p">.</span><span class="nx">velocity</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="c1">// flag to the particle system</span>
+  <span class="c1">// that we&#39;ve changed its vertices.</span>
+  <span class="nx">particleSystem</span><span class="p">.</span>
+    <span class="nx">geometry</span><span class="p">.</span>
+    <span class="nx">__dirtyVertices</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+
+  <span class="c1">// draw</span>
+  <span class="nx">renderer</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span><span class="nx">scene</span><span class="p">,</span> <span class="nx">camera</span><span class="p">);</span>
+
+  <span class="c1">// set up the next call</span>
+  <span class="nx">requestAnimFrame</span><span class="p">(</span><span class="nx">update</span><span class="p">);</span>
+<span class="p">}</span></code></pre></div>
+
+<div class="container"><div class="left column">
+<p class="livedemo"><a href="/static/tutorials/creating-particles-with-three-js/demo/"> See it running </a></p>
+
+<p>Not world beating in terms of the physics applied, but it shows you how it can
+be done. You should totally create an awesome physics simulation and let me
+know.</p>
+
+<p>The caveat that needs applying here is that in the animation loop I’ve gone
+ahead and done a loop through all the particles, which is something of a brute
+force approach to handling it. If you’re doing a lot of work in your animation
+loop you may see a big drop in frame rate since the browser is trying to do
+that work at 60fps (if it’s using requestAnimationFrame) so take the time to
+optimise your code and do the minimum amount of work in your loop.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>Particles are awesome. Everyone loves them, and now you know how you can add
+them to your Three.js WebGL project. I hope as always that you’ve found this
+handy!</p>
+
+<p>The usual stuff applies: <a href="/static/tutorials/creating-particles-with-three-js/sample.zip">here’s the source code</a> and <a href="http://twitter.com/aerotwist">let me know what you think</a></p>
+
+<p>Have fun!
+</div></div></p>
+
+
+</div>
+
+
+    </section>
+
+    <footer>
+
+      <div class="container">
+        <div class="bio panel">
+          <h2>Hello!</h2>
+          <p>My name is Paul. I work at <a href="http://www.google.com/" title="Some cloud company in the USA, I think.">Google</a> on the Chrome Developer Relations team as an advocate. I help developers improve the performance of their sites and apps.</p>
+
+          <p>You can find me on <a href="http://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a></p>
+        </div>
+
+        <div class="get-in-touch panel">
+          <h2>Get in touch</h2>
+          <p>I don’t bite. Honestly. You can find me on <a href="http://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a>, and I like hearing from people (pretty handy given my job, really) so say hi.</p>
+        </div>
+
+        <div class="subscribe panel">
+          <h2>Subscribe</h2>
+          <p>You should totally get the <a href="/blog/feed/">RSS feed</a>, or whatever it is you kids are using these days (I miss Reader.)</p>
+        </div>
+
+        <p class="disclaimer">Except as otherwise noted, the content of this page is licensed under the Creative Commons Attribution 3.0 License, and code samples are licensed under the Apache 2.0 License.</p>
+      </div>
+    </footer>
+
+    <script type="text/javascript" async="true">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-13024693-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+  </body>
+</html>

@@ -1,0 +1,453 @@
+<!doctype html>
+<html itemscope itemtype="http://schema.org/Article">
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="author" content="Paul Lewis" />
+  <meta name="viewport" content="width=device-width">
+
+  
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="//aerotwist.com/blog/feed/">
+  
+
+  
+  <meta itemprop="name" content="Reinventing the Wheel">
+  <meta itemprop="description" content="I&#39;m worried about the web. I mainly worry that we&#39;re not advancing the state of the art quickly enough. Let me explain why...">
+
+    
+
+  
+
+  <style>
+    
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 400;
+      src: local('Lato Regular'), local('Lato-Regular'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qIIYRU-oROkIk8vfvxw6QvesZW2xOQ-xsNqO47m55DA.woff) format('woff');
+    }
+    
+
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 700;
+      src: local('Lato Bold'), local('Lato-Bold'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qdgUG4U09HnJwhYI-uK18wLUuEpTyoUstqEm5AMlJo4.woff) format('woff');
+    }
+  </style>
+
+  <link rel="stylesheet" media="screen" href="/css/aerotwist.css" />
+  <title>Aerotwist - Reinventing the Wheel</title>
+  
+</head>
+
+
+<!--
+                              __          .__          __
+  _____    ___________  _____/  |___  _  _|__| _______/  |_
+  \__  \ _/ __ \_  __ \/  _ \   __\ \/ \/ /  |/  ___/\   __\
+   / __ \\  ___/|  | \(  <_> )  |  \     /|  |\___ \  |  |
+  (____  /\___  >__|   \____/|__|   \/\_/ |__/____  > |__|
+       \/     \/                                  \/
+
+  Giant ascii art embedded in every page of your site is how you
+  show other people that YOU CARE. Mainly I care about developers,
+  which is what I presume you are if you're all about viewing
+  the source. Clearly you're my kind of person.
+
+  This is v3, it's run through Jekyll, it's been fun to build,
+  there's always more to do, and you may notice that aside from
+  Google Analytics there is no JavaScript. None.
+
+  That's one way of many you keep your pages fast. I care about
+  keeping this site fast because your time is precious and I need
+  to get out of your way.
+
+  <3'z
+
+  Paul
+-->
+
+
+  <body class="blog">
+
+    <header>
+      <div class="container">
+        <div id="logo">
+  <a href="/">
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="100%" height="100%">
+    <g>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#6EBAD3" points="30.6,47.73 64.92,47.73 19.97,76.52"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ED95C0" points="48.198,0 53.008,14.06 39.31,24.76"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#880043" points="39.31,24.76 64.92,48 30.6,48"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#DA0A7A" points="39.31,24.76 64.92,48 53.008,14.06"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#0B7DAD" points="30.6,48 64.92,48 48,58.69"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#BDDEE8" points="47.76,58.69 64.92,47.73 75.14,76.73"></polygon>
+    </g>
+    </svg>
+  </a>
+</div>
+
+        <nav>
+  <ul>
+    
+      
+        <li><a href="/">Home</a></li>
+      
+    
+      
+        <li class="active"><a href="/blog/"> Blog</a></li>
+      
+    
+      
+        <li><a href="/tutorials/">Tutorials</a></li>
+      
+    
+      
+        <li><a href="/lab/">Lab</a></li>
+      
+    
+  </ul>
+
+  <svg id="left-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#AAAAAA" stroke-width="1" />
+    </svg>
+
+  <svg id="right-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#6EBAD3" stroke-opacity="0.3" stroke-width="1" />
+    </svg>
+</nav>
+
+      </div>
+    </header>
+    <section>
+
+      <div class="content">
+
+  
+  <svg version="1.1" class="shape-reference" xmlns="http://www.w3.org/2000/svg" width="532" height="302">
+  <defs>
+    <filter id="blur-8">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="8" />
+    </filter>
+    <filter id="blur-6">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="6" />
+    </filter>
+    <filter id="blur-4">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="4" />
+    </filter>
+  </defs>
+
+  <g id="color-block">
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#2f2340" stroke="#2f2340" stroke-width="0.6" points="40,208 112,183 183,262"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#515d92" stroke="#515d92" stroke-width="0.6" points="40,208 99,99 112,183"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#7e98bf" stroke="#7e98bf" stroke-width="0.6" points="40,208 66,54 99,99"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#e0daea" stroke="#e0daea" stroke-width="0.6" points="173,40 99,99 66,54"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#dcc1dd" stroke="#dcc1dd" stroke-width="0.6" points="169,89 99,99 173,40"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#bc8dc0" stroke="#bc8dc0" stroke-width="0.6" points="165,134 99,99 169,89"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#a270af" stroke="#a270af" stroke-width="0.6" points="142,150 99,99 165,134"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#815ea2" stroke="#815ea2" stroke-width="0.6" points="112,183 99,99 142,150"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#693e7c" stroke="#693e7c" stroke-width="0.6" points="132,187 112,183 142,150"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#432147" stroke="#432147" stroke-width="0.6" points="112,183 132,187 183,262"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#3f1739" stroke="#3f1739" stroke-width="0.6" points="132,187 175,210 183,262"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#69255e" stroke="#69255e" stroke-width="0.6" points="175,210 132,187 186,178"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#751e5d" stroke="#751e5d" stroke-width="0.6" points="175,210 186,178 190,184"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#5f184b" stroke="#5f184b" stroke-width="0.6" points="188,219 175,210 190,184"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#330e29" stroke="#330e29" stroke-width="0.6" points="183,262 175,210 188,219"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#200616" stroke="#200616" stroke-width="0.6" points="183,262 188,219 242,252"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#380521" stroke="#380521" stroke-width="0.6" points="242,252 188,219 266,231"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#2b0117" stroke="#2b0117" stroke-width="0.6" points="242,252 266,231 331,243"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#6c083f" stroke="#6c083f" stroke-width="0.6" points="331,243 266,231 289,153"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#6b124a" stroke="#6b124a" stroke-width="0.6" points="356,213 331,243 289,153"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#2a0e25" stroke="#2a0e25" stroke-width="0.6" points="331,243 356,213 406,246"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#371e3e" stroke="#371e3e" stroke-width="0.6" points="406,246 356,213 429,192"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#212237" stroke="#212237" stroke-width="0.6" points="406,246 429,192 492,235"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#702d6b" stroke="#702d6b" stroke-width="0.6" points="356,213 345,143 429,192"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#a51f75" stroke="#a51f75" stroke-width="0.6" points="289,153 345,143 356,213"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#dc3496" stroke="#dc3496" stroke-width="0.6" points="289,153 297,116 345,143"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ed3e9d" stroke="#ed3e9d" stroke-width="0.6" points="289,153 286,116 297,116"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#fd1f8f" stroke="#fd1f8f" stroke-width="0.6" points="286,116 289,153 231,142"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#fa57aa" stroke="#fa57aa" stroke-width="0.6" points="286,116 231,142 255,86"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f86ab4" stroke="#f86ab4" stroke-width="0.6" points="286,116 255,86 297,116"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ff8bc5" stroke="#ff8bc5" stroke-width="0.6" points="297,116 255,86 245,70"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#da1a88" stroke="#da1a88" stroke-width="0.6" points="255,86 231,142 188,219"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#c50264" stroke="#c50264" stroke-width="0.6" points="289,153 266,231 231,142"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#810c4f" stroke="#810c4f" stroke-width="0.6" points="266,231 188,219 231,142"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ae217b" stroke="#ae217b" stroke-width="0.6" points="227,131 190,184 186,178"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#951c6a" stroke="#951c6a" stroke-width="0.6" points="227,131 188,219 190,184"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#db238d" stroke="#db238d" stroke-width="0.6" points="255,86 188,219 227,131"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f486c1" stroke="#f486c1" stroke-width="0.6" points="255,86 227,131 245,70"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#e775b7" stroke="#e775b7" stroke-width="0.6" points="227,131 191,117 245,70"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#c9429b" stroke="#c9429b" stroke-width="0.6" points="175,162 191,117 227,131"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#b84b9e" stroke="#b84b9e" stroke-width="0.6" points="175,162 165,134 191,117"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#a24096" stroke="#a24096" stroke-width="0.6" points="142,150 165,134 175,162"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#823982" stroke="#823982" stroke-width="0.6" points="132,187 142,150 175,162"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#802d74" stroke="#802d74" stroke-width="0.6" points="186,178 132,187 175,162"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#b62685" stroke="#b62685" stroke-width="0.6" points="186,178 175,162 227,131"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#c978b6" stroke="#c978b6" stroke-width="0.6" points="165,134 169,89 191,117"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#e397c8" stroke="#e397c8" stroke-width="0.6" points="191,117 169,89 245,70"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f0cbe4" stroke="#f0cbe4" stroke-width="0.6" points="169,89 173,40 245,70"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#fadeee" stroke="#fadeee" stroke-width="0.6" points="245,70 173,40 267,55"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#fdc5e2" stroke="#fdc5e2" stroke-width="0.6" points="264,72 245,70 267,55"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#fe94ca" stroke="#fe94ca" stroke-width="0.6" points="264,72 297,116 245,70"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#fca2d0" stroke="#fca2d0" stroke-width="0.6" points="267,55 297,116 264,72"/>
+  </g>
+</svg>
+
+  
+
+  <div class="masthead hatched">
+
+    
+      <svg class="behind-meta" width="532" height="302">
+        <use xlink:href="#color-block" />
+      </svg>
+
+      <svg class="left-meta" width="532" height="302">
+        <use xlink:href="#color-block" filter="url(#blur-6)" transform="translate(266 151) scale(-0.5 0.5) translate(-266 -151)" />
+      </svg>
+    
+
+    <div class="container">
+      <h2>Reinventing the Wheel</h2>
+      <p>I worry about the web. I worry that we're either not the delivery platform of choice, or we're headed towards that destination. Let me explain.</p>
+    </div>
+
+  </div>
+
+  <div class="container">
+    <div class="meta">
+
+      <ul>
+        <li class="last-updated">
+          <span class="name">Last updated:</span>
+          <span class="value">10 Apr 2013</span>
+        </li>
+
+        <li>
+          <span class="name">Est. Read Time:</span>
+          <span class="value">5 mins</span>
+        </li>
+
+        <li class="share">
+          <span class="name">Share this:</span>
+          <span class="value"><a href="http://www.twitter.com/share?url=http://aerotwist.com/blog/reinventing-the-wheel/">Twitter</a></span>
+          <span class="value"><a href="https://plus.google.com/share?url=http://aerotwist.com/blog/reinventing-the-wheel/">Google+</a></span>
+        </li>
+        <li class="tags">
+          <span class="name">Tagged:</span>
+          <span class="value">
+          
+            #code, 
+          
+            #opinion
+          
+          </span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="container"><div class="left column"><h2 id="pick-your-platform">Pick your platform</h2>
+
+<p>Let’s say you’re building a site or app for a business, whether that’s yours
+or someone else’s. Time was you really only built for the web atop the
+Internet. There was no real alternative, to be honest. Now, of course, the web
+is there, but so are a whole heap of other non-web platforms that operate just
+fine on top of the Internet.</p>
+
+<p>To add to that they often have access to features and capabilities that simply
+don’t exist in the browser. You can say what you like about the ubiquity of
+the web vs any other platform, but most people only have a device or two and
+they care about what they can do on <em>that</em> device. I’d also ask whether you
+ship exactly the same assets and logic for all devices, and since you probably
+don’t I’d say that the concept of ubiquity is probably illusory at best.</p>
+
+<p>The other thing I’d like to point out is that programmers are often <em>not the
+decision makers</em> for an app’s delivery platform. Rather, managers and
+executives who are swayed by the perception of a platform’s capabilities and
+its <em>return on investment</em> are the ones making the call. So it’s important
+that we let our platform shine whenever we can.</p>
+
+<blockquote>
+  <p>It’s important that we let our platform shine whenever we can.</p>
+</blockquote>
+
+<h2 id="improving-a-platform">Improving a platform</h2>
+
+<p>To my mind there are three ways you can improve the state of the art:</p>
+
+<ol>
+  <li>Add features to the browser.</li>
+  <li>Update the language(s).</li>
+  <li>Programmers do better things in the browser.</li>
+</ol>
+
+<p>I’ll quickly step through each and highlight what’s bothering me.</p>
+
+<h2 id="add-features-to-the-browser">Add features to the browser</h2>
+
+<p>We all need standards around which to rally, but there’s an infamous problem
+with committees: they can be ridiculously slow, such is their nature. At this
+point there’s someone who will tell me that things just can’t change that
+quickly, that these things take time. That’s entirely true, but I would also
+point you to iOS and how quickly features start getting used there.</p>
+
+<p>If Apple roll a new API for the next version of iOS you can bet that the
+feature will be used by a whole suite of apps nearly immediately. That can’t
+be said for browsers right now. <em>That’s</em> what worries me.</p>
+
+<h2 id="update-the-languages">Update the language(s)</h2>
+
+<p>In our case the language is, of course, JavaScript. There seem to be two
+camps: those who accept JavaScript, and those that love it. I am in the former
+camp, to be honest. There are many things I appreciate about JavaScript, but I
+have a fundamental objection to it today. In order to run quickly we have JITs
+that evaluate <em>and replace</em> JavaScript with C++ code. If that’s the case then
+I need to write JavaScript that is favourable to that process, not necessarily
+the code I would otherwise write. So do I really benefit from the dynamic
+typing or closures? Well it depends on how well the JIT in question can deal
+with my code, and that’s not immediately obvious at the best of times.</p>
+
+<p>TC-39 is the standards body that governs where ECMAScript (and therefore
+JavaScript) goes, and it’s taken them a long time to add classes and modules
+to the standard. Now we play the waiting game until vendors ship the changes
+which, let’s face it, will be a long time in some cases. Meanwhile, other non-
+web platforms release a bunch of features that make development far easier and
+we suffer. <em>That’s</em> what worries me.</p>
+
+<blockquote>
+  <p>Now we play the waiting game until vendors ship the changes which, let’s face it, will be a long time in some cases.</p>
+</blockquote>
+
+<h2 id="programmers-do-better-things-in-the-browser">Programmers do better things in the browser.</h2>
+
+<p>I love helping developers, it’s why I’m in Developer Relations, but if I’m
+honest this is the one I worry about the most. When I watch our industry the
+pattern I see is the reinvention of the wheel (“Ohai everyone, I just launched
+my new MVC framework! CHECK IT OUT!”) and, lo, we have eleventy billion of the
+suckers. That doesn’t improve things, it just means we have yet another way to
+do the same stuff as before. I’m picking on MVC, but empirically we know there
+are a heap of variants of virtually any kind of library you care to think up.</p>
+
+<p>But, we say, it’s helpful for developers to learn how to do these things, so
+why not? How do we know if we don’t try? That is absolutely true, but then I’d
+also say don’t push it to GitHub and promote it as a viable alternative to the
+other frameworks. I’m just as guilty of doing this with my 3D engine A3,
+although I’d posit that I never claimed it as a viable alternative to
+Three.js. In hindsight I probably shouldn’t have pushed it to GitHub, but
+there we go, lesson learned.</p>
+
+<p>At this point, now that you have a much richer understanding of “how to build a
+framework / library for [insert task here]”, it would help everyone out a huge
+deal if you put your energies into an <em>existing project</em> and help to shape
+that for the better. If we rally around specific solutions we can make
+progress much more quickly than if we all pull in different directions. Many
+times we don’t do that. <em>That’s</em> what worries me.</p>
+
+<p>As a side-note to this, I’m not suggesting that we need <em>one</em> solution for
+things. Not at all, we need innovation and competition, but we still need to
+question whether our time is better spent making a new solution to a problem,
+or iterating and improving on an <em>existing</em> solution.</p>
+
+<blockquote>
+  <p>If we rally around specific solutions we can make progress much more quickly than if we all pull in different directions.</p>
+</blockquote>
+
+<p>I <em>do</em> believe our platform needs better primitives because we see developers
+solving the same problems over and over again, and to my mind the browser
+should handle many of these things. But, more desperately, we need to push the
+state of the art, not spend our time repeating ourselves. At the risk of
+repeating <em>myself</em> (for maximum irony), we are competing against other
+delivery platforms and so the best way to do that is to improve existing
+solutions not recreate them.</p>
+
+<aside class="boxout">
+<p># Same hymn sheet, different Paul.</p>
+
+<p>Paul Irish gave a talk on some of this stuff yesterday. (I actually had no
+idea he was covering this ground as well!). Luke Wroblewski <a href="http://www.lukew.com/ff/entry.asp?1716">took
+some notes</a>. :)
+</aside></p>
+
+<h2 id="what-to-do-what-to-do">What to do, what to do…</h2>
+
+<p>We need a sense of urgency, we need better tools, better language features, a
+better approach to building applications. At the end of the day we’re the
+developers who build sites and apps, and we have a responsibility to shape our
+platform for the better.</p>
+
+<p>We’re unique in that we <em>do</em> have standards bodies to which we can contribute
+(which we really should, we all have experiences, insights and opinions on how
+our platform should evolve), and open-source browsers for which we can file
+bugs and commit patches (if we so desire), but, while we wait for platform and
+language improvements to come, let’s spend some time on improving our
+<em>existing</em> libraries and frameworks (file bugs, commit fixes, write
+documentation and tutorials), and not reinventing the wheel.</p>
+</div></div>
+
+  <div class="footer-share container">
+    Share this on: <span class="value"><a href="http://www.twitter.com/share?url=http://aerotwist.com/blog/reinventing-the-wheel/">Twitter</a></span>
+    <span class="value"><a href="https://plus.google.com/share?url=http://aerotwist.com/blog/reinventing-the-wheel/">Google+</a></span>
+  </div>
+
+  <div class="clear"></div>
+
+  
+    <svg class="left-shape" style="margin-left: -286.9px" width="422.8" height="744.8">
+      <use xlink:href="#color-block" filter="url(#blur-4)" transform="scale(-1.4 1.4) rotate(90)"/>
+    </svg>
+
+    <svg class="right-shape" width="151.0" height="478.8">
+      <use xlink:href="#color-block" filter="url(#blur-8)" transform="scale(-0.9 0.9) rotate(90)"/>
+    </svg>
+  
+
+</div>
+
+
+    </section>
+
+    <footer>
+
+      <div class="container">
+        <div class="bio panel">
+          <h2>Hello!</h2>
+          <p>My name is Paul. I work at <a href="http://www.google.com/" title="Some cloud company in the USA, I think.">Google</a> on the Chrome Developer Relations team as an advocate. I help developers improve the performance of their sites and apps.</p>
+
+          <p>You can find me on <a href="http://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a></p>
+        </div>
+
+        <div class="get-in-touch panel">
+          <h2>Get in touch</h2>
+          <p>I don’t bite. Honestly. You can find me on <a href="http://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a>, and I like hearing from people (pretty handy given my job, really) so say hi.</p>
+        </div>
+
+        <div class="subscribe panel">
+          <h2>Subscribe</h2>
+          <p>You should totally get the <a href="/blog/feed/">RSS feed</a>, or whatever it is you kids are using these days (I miss Reader.)</p>
+        </div>
+
+        <p class="disclaimer">Except as otherwise noted, the content of this page is licensed under the Creative Commons Attribution 3.0 License, and code samples are licensed under the Apache 2.0 License.</p>
+      </div>
+    </footer>
+
+    <script type="text/javascript" async="true">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-13024693-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+  </body>
+</html>

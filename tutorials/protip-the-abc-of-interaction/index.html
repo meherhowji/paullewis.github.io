@@ -1,0 +1,342 @@
+<!doctype html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="author" content="Paul Lewis" />
+  <meta name="viewport" content="width=device-width">
+
+  
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="//aerotwist.com/tutorials/feed/">
+  
+
+  
+
+  <style>
+    
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 400;
+      src: local('Lato Regular'), local('Lato-Regular'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qIIYRU-oROkIk8vfvxw6QvesZW2xOQ-xsNqO47m55DA.woff) format('woff');
+    }
+    
+
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 700;
+      src: local('Lato Bold'), local('Lato-Bold'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qdgUG4U09HnJwhYI-uK18wLUuEpTyoUstqEm5AMlJo4.woff) format('woff');
+    }
+  </style>
+
+  <link rel="stylesheet" media="screen" href="/css/aerotwist.css" />
+  <title>Aerotwist - Interaction ProTip #5: The ABC of Interaction</title>
+  
+  <style>
+    .masthead h2 {
+      display: none;
+    }
+
+    .masthead {
+      background-image: url(/static/tutorials/headers/header-the-abc-of-interaction-small.jpg);
+      
+      background-color: #1E0F00;
+      
+      
+    }
+
+    .meta {
+      background-color: #1E0F00 !important;
+    }
+
+    @media (min-width: 600px) {
+      .masthead {
+        background-image: url(/static/tutorials/headers/header-the-abc-of-interaction.jpg);
+      }
+    }
+  </style>
+  
+</head>
+
+
+<!--
+                              __          .__          __
+  _____    ___________  _____/  |___  _  _|__| _______/  |_
+  \__  \ _/ __ \_  __ \/  _ \   __\ \/ \/ /  |/  ___/\   __\
+   / __ \\  ___/|  | \(  <_> )  |  \     /|  |\___ \  |  |
+  (____  /\___  >__|   \____/|__|   \/\_/ |__/____  > |__|
+       \/     \/                                  \/
+
+  Giant ascii art embedded in every page of your site is how you
+  show other people that YOU CARE. Mainly I care about developers,
+  which is what I presume you are if you're all about viewing
+  the source. Clearly you're my kind of person.
+
+  This is v3, it's run through Jekyll, it's been fun to build,
+  there's always more to do, and you may notice that aside from
+  Google Analytics there is no JavaScript. None.
+
+  That's one way of many you keep your pages fast. I care about
+  keeping this site fast because your time is precious and I need
+  to get out of your way.
+
+  <3'z
+
+  Paul
+-->
+
+
+  <body class="tutorials">
+
+    <header>
+      <div class="container">
+        <div id="logo">
+  <a href="/">
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="100%" height="100%">
+    <g>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#C8A47F" points="30.6,47.73 64.92,47.73 19.97,76.52"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#A9E9FF" points="48.198,0 53.008,14.06 39.31,24.76"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#2F7F8A" points="39.31,24.76 64.92,48 30.6,48"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#29C9FF" points="39.31,24.76 64.92,48 53.008,14.06"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#402000" points="30.6,48 64.92,48 48,58.69"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#924900" points="47.76,58.69 64.92,47.73 75.14,76.73"></polygon>
+    </g>
+    </svg>
+  </a>
+</div>
+
+        <nav>
+  <ul>
+    
+      
+        <li><a href="/">Home</a></li>
+      
+    
+      
+        <li><a href="/blog/">Blog</a></li>
+      
+    
+      
+        <li class="active"><a href="/tutorials/"> Tutorials</a></li>
+      
+    
+      
+        <li><a href="/lab/">Lab</a></li>
+      
+    
+  </ul>
+
+  <svg id="left-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#AAAAAA" stroke-width="1" />
+    </svg>
+
+  <svg id="right-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#C8A47F" stroke-opacity="0.3" stroke-width="1" />
+    </svg>
+</nav>
+
+      </div>
+    </header>
+    <section>
+
+      <div class="content">
+
+  <div class="masthead">
+
+    <div class="container">
+      <h2>Interaction ProTip #5: The ABC of Interaction</h2>
+      <p></p>
+    </div>
+
+  </div>
+
+  
+
+  <div class="container">
+    <div class="meta">
+      <p>Other tutorials in this series:</p>
+      <ul>
+        
+          <li>
+            
+            <a href="/tutorials/protip-stick-vs-ease/">
+            
+              #1: Stick vs. Ease
+            
+            </a>
+            
+          </li>
+        
+          <li>
+            
+            <a href="/tutorials/protip-choose-your-ease/">
+            
+              #2: Choose Your Ease
+            
+            </a>
+            
+          </li>
+        
+          <li>
+            
+            <a href="/tutorials/protip-offsets-and-opposing-motion/">
+            
+              #3: Offsets and Opposing Motion
+            
+            </a>
+            
+          </li>
+        
+          <li>
+            
+            <a href="/tutorials/protip-nobody-expects-3d/">
+            
+              #4: Nobody expects 3D
+            
+            </a>
+            
+          </li>
+        
+          <li>
+            
+              #5: The ABC of Interaction
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+
+  <div class="container"><div class="left column"><p>I spent a few hours in a hospital waiting room this past weekend. It started off fine (as fine as a trip to hospitals ever are!), I got straight to the reception and checked in. The lady there advised me that there was a bit of a wait to see any medical personnel and that I should take a seat, which I duly did. But as time went by I started to get bored and agitated, not because anyone was doing anything <em>wrong</em> per se, but because they <em>failed to provide me with any kind of update</em>. Two hours later, with no updates, my head was in a pretty bleak place.</p>
+
+<p>It kind of made me think of interactions in apps, bored as I was, and I formulated a little ABC acronymy thing. It goes like this: <strong>Acknowledge</strong>, <strong>Begin</strong>, <strong>Communicate</strong>.</p>
+
+<p>By way of illustration let’s assume we are building a widget where a user makes a simple yes/no choice which we will then send over to a server.</p>
+
+<h2 id="acknowledge">Acknowledge</h2>
+
+<p>In most cases acknowledgment comes in one of two forms:</p>
+
+<ol>
+  <li><strong>Visual confirmation the user’s choices</strong>. This might seem obvious, but you should make it super clear to the user what the current status of the UI is. If they make some kind of gesture or choice it should be super clear that you have registered it correctly. Apple has faced this problem recently in iOS 7.1 where some users are unclear as to <a href="http://ismyshiftkeyonornot.com/">whether or not their shift key is pressed</a>. This is a classic case of users asking “did it do what I expected?” and that’s what we need to avoid.</li>
+  <li><strong>Validate the user’s choices</strong>. If you can validate the user’s input quickly and easily, do it. It’s better than making a round trip to the server side to just come back with errors. That said, you <em>absolutely should</em> validate the data on the server side every time, just do it on the client side <em>as well</em> if at all possible. It’s faster.</li>
+</ol>
+
+<iframe src="/static/tutorials/protip-the-abc-of-interaction/widget-base.html" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" width="100%" height="430" style="margin-bottom: 20px; box-shadow: 0 2px 2px rgba(0,0,0,0.3)">
+</iframe>
+
+<p>In this example I simply disable the send button until an option is selected. The alternative would be to only notify the user that they need to choose an option when they press the button. The problem with that is it’s annoying; it’s like being sent to the naughty corner because you didn’t infer the magic ritual you needed to perform.</p>
+
+<p>At this point the widget doesn’t actually send anything to the server side, but that comes next, yo.</p>
+
+<h2 id="begin">Begin</h2>
+
+<p>I’m not going to spend a lot of time on this because I’d probably go down the “how to implement something” rabbit hole, and that’s not what I’m focusing on here. It’s the bit where you process the user’s action. What’s important is that you’ve acknowledged (and validated) the user’s choice <em>before</em> you start acting on it. It gives us our all-important ‘B’, though, and I’m nothing if not a slave to a tenuous acronym.</p>
+
+<h2 id="communicate">Communicate</h2>
+
+<p>This is the bit I think that we overlook most often when we plan and build our interfaces. We assume that nothing will go wrong, or, if we do, that actions simply have success or fail states.</p>
+
+<p>In fact, most decisions in life outside of a browser are far more nuanced. If you’re helping someone and you hit a snag you probably do several things:</p>
+
+<ul>
+  <li>Try the thing again a few times.</li>
+  <li>Explain to the person that you’re helping that something isn’t quite as you expected.</li>
+  <li>Offer to try again later, try something different, or simply give up.</li>
+</ul>
+
+<p>First up, “trying something different” doesn’t really map that well because hopefully you should <em>know</em> what you’re supposed to be doing, so let’s park that and look at the other bits in more detail.</p>
+
+<h3 id="try-again-a-few-times">Try again a few times</h3>
+
+<p>If in our example you were posting the user’s choice over to the server side you could set a relatively short timeout and, in the event of failure, attempt to send the data again several times. You wouldn’t want to keep trying forever, but there’s definitely something to be said for it. On mobile, where patchy connections are pretty much a given, it may introduce a little more perceived reliability to your app.</p>
+
+<h3 id="talk-to-the-user">Talk to the user</h3>
+
+<p>When you sit back and consider an action in detail, you will almost certainly find that there are several points of potential failure. In our example here are the immediate ones that spring to my mind:</p>
+
+<ul>
+  <li>The user is offline.</li>
+  <li>The user is online but the connection is patchy.</li>
+  <li>The user is online and the server side is slow to respond or entirely unresponsive.</li>
+</ul>
+
+<p>Now I’m not saying that you want to tell the user exactly what’s going on in gory detail when you run into issues, but what you <em>do</em> want to do is look at these points of failure and figure out what you need to tell the user and when.</p>
+
+<p>Let’s teach our widget some communication skills:</p>
+
+<iframe src="/static/tutorials/protip-the-abc-of-interaction/widget-send.html" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" width="100%" height="430" style="margin-bottom: 20px; box-shadow: 0 2px 2px rgba(0,0,0,0.3)">
+</iframe>
+
+<p>You can see here when you click on the send button I drop in a swirly “I’m doing something” animation for some immediate acknowledgment. But after a few seconds of inaction from the server a timeout is triggered that tells the user that it’s taking longer than expected to get a response. It’s jolly British about it, too, which is a frightfully good thing.</p>
+
+<h3 id="give-the-user-some-sane-options">Give the user some sane options</h3>
+
+<p>When something fails, or looks like it’s going to, we can do a few things:</p>
+
+<ol>
+  <li><strong>Offer to store the data offline and attempt to post again later</strong>. Whether this is a suitable option is really going to depend on the nature of your app, but remembering the user’s choice might provide a much better user experience.</li>
+  <li><strong>Offer to retry</strong>. Sometimes the user will know why something failed, and they may just want to give it another go.</li>
+  <li><strong>Quit and call it a day.</strong> Of course, occasionally it’s just not worth the hassle and they will just want to quit. (That doesn’t mean you can’t store their choices and entry for future attempts.)</li>
+</ol>
+
+<p>It’s entirely your call as to what you choose to do, of course, but hopefully you can see “success” and “fail”, or “let’s just hope it all works out” approaches generally miss an opportunity to offer a better experience.</p>
+
+<h2 id="this-is-not-just-a-developer-concern">This is not just a developer concern</h2>
+
+<p>Perhaps your gut reaction to this is that developers should be dealing with this, but I wholeheartedly disagree. The “what happens when this goes wrong?” question is something that spans UX, design and development: UX should be deciding what the process and messaging should be, designers should be ensuring that it looks and feels right, and developers should be crafting code and ensuring all eventualities are covered.</p>
+
+<p>Like all interaction work, it’s a team sport.</p>
+</div></div>
+
+</div>
+
+
+    </section>
+
+    <footer>
+
+      <div class="container">
+        <div class="bio panel">
+          <h2>Hello!</h2>
+          <p>My name is Paul. I work at <a href="http://www.google.com/" title="Some cloud company in the USA, I think.">Google</a> on the Chrome Developer Relations team as an advocate. I help developers improve the performance of their sites and apps.</p>
+
+          <p>You can find me on <a href="http://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a></p>
+        </div>
+
+        <div class="get-in-touch panel">
+          <h2>Get in touch</h2>
+          <p>I don’t bite. Honestly. You can find me on <a href="http://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a>, and I like hearing from people (pretty handy given my job, really) so say hi.</p>
+        </div>
+
+        <div class="subscribe panel">
+          <h2>Subscribe</h2>
+          <p>You should totally get the <a href="/blog/feed/">RSS feed</a>, or whatever it is you kids are using these days (I miss Reader.)</p>
+        </div>
+
+        <p class="disclaimer">Except as otherwise noted, the content of this page is licensed under the Creative Commons Attribution 3.0 License, and code samples are licensed under the Apache 2.0 License.</p>
+      </div>
+    </footer>
+
+    <script type="text/javascript" async="true">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-13024693-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+  </body>
+</html>

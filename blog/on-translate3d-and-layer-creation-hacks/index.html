@@ -1,0 +1,404 @@
+<!doctype html>
+<html itemscope itemtype="http://schema.org/Article">
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="author" content="Paul Lewis" />
+  <meta name="viewport" content="width=device-width">
+
+  
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="//aerotwist.com/blog/feed/">
+  
+
+  
+  <meta itemprop="name" content="On translate3d and layer creation hacks">
+  <meta itemprop="description" content="Translate3d is often hailed as something of a silver bullet. In many cases it will drastically improve rendering performance in WebKit and Blink browsers like Chrome, Opera and Safari. Let&#39;s take a look at why it can improve rendering performance, and what we need to be careful of.">
+
+    
+
+  
+
+  <style>
+    
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 400;
+      src: local('Lato Regular'), local('Lato-Regular'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qIIYRU-oROkIk8vfvxw6QvesZW2xOQ-xsNqO47m55DA.woff) format('woff');
+    }
+    
+
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 700;
+      src: local('Lato Bold'), local('Lato-Bold'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qdgUG4U09HnJwhYI-uK18wLUuEpTyoUstqEm5AMlJo4.woff) format('woff');
+    }
+  </style>
+
+  <link rel="stylesheet" media="screen" href="/css/aerotwist.css" />
+  <title>Aerotwist - On translate3d and layer creation hacks</title>
+  
+</head>
+
+
+<!--
+                              __          .__          __
+  _____    ___________  _____/  |___  _  _|__| _______/  |_
+  \__  \ _/ __ \_  __ \/  _ \   __\ \/ \/ /  |/  ___/\   __\
+   / __ \\  ___/|  | \(  <_> )  |  \     /|  |\___ \  |  |
+  (____  /\___  >__|   \____/|__|   \/\_/ |__/____  > |__|
+       \/     \/                                  \/
+
+  Giant ascii art embedded in every page of your site is how you
+  show other people that YOU CARE. Mainly I care about developers,
+  which is what I presume you are if you're all about viewing
+  the source. Clearly you're my kind of person.
+
+  This is v3, it's run through Jekyll, it's been fun to build,
+  there's always more to do, and you may notice that aside from
+  Google Analytics there is no JavaScript. None.
+
+  That's one way of many you keep your pages fast. I care about
+  keeping this site fast because your time is precious and I need
+  to get out of your way.
+
+  <3'z
+
+  Paul
+-->
+
+
+  <body class="blog">
+
+    <header>
+      <div class="container">
+        <div id="logo">
+  <a href="/">
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="100%" height="100%">
+    <g>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#6EBAD3" points="30.6,47.73 64.92,47.73 19.97,76.52"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ED95C0" points="48.198,0 53.008,14.06 39.31,24.76"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#880043" points="39.31,24.76 64.92,48 30.6,48"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#DA0A7A" points="39.31,24.76 64.92,48 53.008,14.06"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#0B7DAD" points="30.6,48 64.92,48 48,58.69"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#BDDEE8" points="47.76,58.69 64.92,47.73 75.14,76.73"></polygon>
+    </g>
+    </svg>
+  </a>
+</div>
+
+        <nav>
+  <ul>
+    
+      
+        <li><a href="/">Home</a></li>
+      
+    
+      
+        <li class="active"><a href="/blog/"> Blog</a></li>
+      
+    
+      
+        <li><a href="/tutorials/">Tutorials</a></li>
+      
+    
+      
+        <li><a href="/lab/">Lab</a></li>
+      
+    
+  </ul>
+
+  <svg id="left-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#AAAAAA" stroke-width="1" />
+    </svg>
+
+  <svg id="right-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#6EBAD3" stroke-opacity="0.3" stroke-width="1" />
+    </svg>
+</nav>
+
+      </div>
+    </header>
+    <section>
+
+      <div class="content">
+
+  
+  <svg version="1.1" class="shape-reference" xmlns="http://www.w3.org/2000/svg" width="765" height="301">
+  <defs>
+    <filter id="blur-8">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="8" />
+    </filter>
+    <filter id="blur-6">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="6" />
+    </filter>
+    <filter id="blur-4">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="4" />
+    </filter>
+  </defs>
+
+  <g id="color-block">
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#899ec3" stroke="#899ec3" stroke-width="0.6" points="103,162 40,70 116,111"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#6a60a1" stroke="#6a60a1" stroke-width="0.6" points="103,162 116,111 168,174"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#8a60a5" stroke="#8a60a5" stroke-width="0.6" points="168,174 116,111 216,136"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#913e8e" stroke="#913e8e" stroke-width="0.6" points="168,174 216,136 248,158"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#7b2b6f" stroke="#7b2b6f" stroke-width="0.6" points="271,203 168,174 248,158"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#a9217a" stroke="#a9217a" stroke-width="0.6" points="271,203 248,158 324,136"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#9f1467" stroke="#9f1467" stroke-width="0.6" points="271,203 324,136 335,196"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#4d0b32" stroke="#4d0b32" stroke-width="0.6" points="314,261 271,203 335,196"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#52052e" stroke="#52052e" stroke-width="0.6" points="314,261 335,196 396,210"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#93014b" stroke="#93014b" stroke-width="0.6" points="396,210 335,196 399,182"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#810a4c" stroke="#810a4c" stroke-width="0.6" points="396,210 399,182 495,204"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#9b1565" stroke="#9b1565" stroke-width="0.6" points="399,182 488,152 495,204"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#e11c8a" stroke="#e11c8a" stroke-width="0.6" points="399,182 418,105 488,152"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#fe1589" stroke="#fe1589" stroke-width="0.6" points="399,182 324,136 418,105"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#c1096b" stroke="#c1096b" stroke-width="0.6" points="335,196 324,136 399,182"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f65dad" stroke="#f65dad" stroke-width="0.6" points="418,105 324,136 334,95"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#fd97cb" stroke="#fd97cb" stroke-width="0.6" points="418,105 334,95 421,56"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ec8dc4" stroke="#ec8dc4" stroke-width="0.6" points="502,121 418,105 421,56"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#d651a4" stroke="#d651a4" stroke-width="0.6" points="488,152 418,105 502,121"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#b6499d" stroke="#b6499d" stroke-width="0.6" points="573,143 488,152 502,121"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#8f3787" stroke="#8f3787" stroke-width="0.6" points="574,189 488,152 573,143"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#7e2669" stroke="#7e2669" stroke-width="0.6" points="488,152 574,189 495,204"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#674380" stroke="#674380" stroke-width="0.6" points="574,189 573,143 656,180"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#7361a3" stroke="#7361a3" stroke-width="0.6" points="573,143 652,116 656,180"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#4e6ca3" stroke="#4e6ca3" stroke-width="0.6" points="656,180 652,116 725,164"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#fdcae4" stroke="#fdcae4" stroke-width="0.6" points="334,95 343,40 421,56"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f3bbdc" stroke="#f3bbdc" stroke-width="0.6" points="334,95 267,83 343,40"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#e084bf" stroke="#e084bf" stroke-width="0.6" points="264,127 267,83 334,95"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#d493c5" stroke="#d493c5" stroke-width="0.6" points="264,127 211,85 267,83"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#c075b4" stroke="#c075b4" stroke-width="0.6" points="216,136 211,85 264,127"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#b38cbe" stroke="#b38cbe" stroke-width="0.6" points="116,111 211,85 216,136"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#c7bbd8" stroke="#c7bbd8" stroke-width="0.6" points="116,111 121,58 211,85"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#c1cbdf" stroke="#c1cbdf" stroke-width="0.6" points="116,111 40,70 121,58"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#b3479b" stroke="#b3479b" stroke-width="0.6" points="248,158 216,136 264,127"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#c63a97" stroke="#c63a97" stroke-width="0.6" points="324,136 248,158 264,127"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#df5baa" stroke="#df5baa" stroke-width="0.6" points="324,136 264,127 334,95"/>
+  </g>
+</svg>
+
+  
+
+  <div class="masthead hatched">
+
+    
+      <svg class="behind-meta" width="765" height="301">
+        <use xlink:href="#color-block" />
+      </svg>
+
+      <svg class="left-meta" width="765" height="301">
+        <use xlink:href="#color-block" filter="url(#blur-6)" transform="translate(765/2 301/2) scale(-0.5 0.5) translate(-765/2 -301/2)" />
+      </svg>
+    
+
+    <div class="container">
+      <h2>On translate3d and layer creation hacks</h2>
+      <p>Translate3d is often hailed as something of a silver bullet. In many cases it will drastically improve rendering performance in WebKit and Blink browsers like Chrome, Opera and Safari. Let's take a look at why it can improve rendering performance, and what we need to be careful of.</p>
+    </div>
+
+  </div>
+
+  <div class="container">
+    <div class="meta">
+
+      <ul>
+        <li class="last-updated">
+          <span class="name">Last updated:</span>
+          <span class="value">27 Feb 2013</span>
+        </li>
+
+        <li>
+          <span class="name">Est. Read Time:</span>
+          <span class="value">4 mins</span>
+        </li>
+
+        <li class="share">
+          <span class="name">Share this:</span>
+          <span class="value"><a href="http://www.twitter.com/share?url=http://aerotwist.com/blog/on-translate3d-and-layer-creation-hacks/">Twitter</a></span>
+          <span class="value"><a href="https://plus.google.com/share?url=http://aerotwist.com/blog/on-translate3d-and-layer-creation-hacks/">Google+</a></span>
+        </li>
+        <li class="tags">
+          <span class="name">Tagged:</span>
+          <span class="value">
+          
+            #layers, 
+          
+            #rendering, 
+          
+            #hacks
+          
+          </span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="container"><div class="left column"><h2 id="the-go-faster-hack">The “go faster” hack!</h2>
+
+<p>So you know that magic bullet hack for Chrome (and other WebKit ports) that
+makes things really zippy? You know, <code>-webkit-transform: translateZ(0);</code> or
+its good friend <code>-webkit-transform: translate3d(0,0,0);</code>? Sometimes it’s
+called the null transform hack. A lot of developers apply it to their elements
+to give their pages a speed boost so I wanted to take a quick peek behind the
+scenes (from a Chrome perspective) and see why it works.</p>
+
+<p>The <code>translate3d</code> hack, then, does two things:</p>
+
+<ul>
+  <li>It switches on the hardware compositing mode in Chrome, assuming it’s supported for the platform you’re on and isn’t on already.</li>
+  <li>It creates a new layer with its <em>own backing surface</em> in Chrome.</li>
+</ul>
+
+<p>Hardware compositing is generally a good thing because it means the GPU will
+assist Chrome in putting together the page rather than everything happening on
+the CPU.</p>
+
+<p>To the second point, not all newly created layers get a new backing surface (a
+graphics context into which layers are drawn), some layers happily share a
+backing surface. But in certain circumstances, like when you apply a 3D
+transform to an element, it gets one of its own. For the morbidly curious,
+here are the criteria that Chrome uses to determine if a layer needs its own
+backing surface:</p>
+
+<ul>
+  <li>The layer has 3D or perspective transform CSS properties.</li>
+  <li>The layer is used by <code>&lt;video&gt;</code> element using accelerated video decoding.</li>
+  <li>The layer is used by a <code>&lt;canvas&gt;</code> element with a 3D context or accelerated 2D context.</li>
+  <li>The layer is used for a composited plugin, e.g. Flash or Silverlight.</li>
+  <li>The layer uses a CSS animation for its opacity or uses an animated webkit transform.</li>
+  <li>The layer uses accelerated CSS filters.</li>
+  <li>The layer has a descendant that is a compositing layer.</li>
+  <li>The layer has a sibling with a lower z-index which has a compositing layer (in other words the layer is rendered on top of a composited layer).</li>
+</ul>
+
+<blockquote>
+  <p>Where things get really messy is on mobile devices, because they have comparatively limited VRAM, and it becomes easy to exhaust that and end up with excruciatingly poor rendering performance.</p>
+</blockquote>
+
+<p>Each backing surface is essentially a texture that needs to be uploaded to,
+and composited by, the GPU. Compositing is the process where each of the
+individual textures uploaded to the GPU is drawn out in turn, and results in
+one final picture: your page. A major benefit of this is on subsequent frames,
+where if all you do is move layers around or change their opacity, the GPU can
+handle all the work directly, leaving the CPU side of things free to do
+something else.</p>
+
+<p>On a hefty desktop device with a ton of video memory (VRAM) you’ll likely be
+able to create a <em>lot</em> of newly backed layers without problems. On laptops
+you’ll possibly have some hiccups, but generally speaking you’ll need to make
+a lot of layers before you see any snags. Where things get really messy is on
+<strong>mobile devices</strong>, because they have comparatively limited VRAM, and it
+becomes easy to exhaust that and end up with excruciatingly poor rendering
+performance.</p>
+
+<p>To make matters worse, not all devices are quick to transfer the textures from
+the CPU side over to the GPU for compositing. Now there are potentially a lot
+of textures, each taking a long time to get pushed to the GPU.</p>
+
+<h2 id="making-layers-considered-dangerous">“Making layers considered dangerous”</h2>
+
+<p>While using 3D transforms can be really tempting, especially if you’re seeing
+problems with respect to rendering performance, force-hacking layer creation
+may not be the right solution. Equally it’s not something to shy away from,
+either, you just need to be aware of the trade-offs that you might be making
+along the way. The important thing is to test your page and adjust
+accordingly.</p>
+
+<p>In order to test your pages you should first try the frame mode in DevTools’s
+Timeline panel.</p>
+
+<figure>
+  <img src="/static/blog/on-translate3d-and-layer-creation-hacks/devtools.png" />
+</figure>
+
+<p>If you notice that you’re breaking through your frame budget take a step back and see why
+that is. A lot of the time, in my experience, the reason is either paint or
+garbage collection. I’m not going to go into garbage collection here, I’ll
+save that for another day, but let’s talk briefly about how you can assess the
+paint work that’s going on.</p>
+
+<p>You’ll notice the paint records have dimensions next to them, and if you roll
+over them Chrome handily pops a blue rectangle atop the page. The first thing
+to say is that if you’re doing a full screen paint, that’s probably very
+expensive and the first thing you should try to fix. If that’s not your
+problem you’ve perhaps got expensive styles and you should look to minimize
+their impact. That’s where the new Continuous Paint mode in DevTools comes in
+handy. Eberhard Gräther, the engineer who built the feature, has written an
+<a href="http://updates.html5rocks.com/2013/02/Profiling-Long-
+Paint-Times-with-DevTools-Continuous-Painting-Mode">excellent article</a> on how to profile long
+paints using it and other features of Chrome’s DevTools.</p>
+
+<p>Ultimately <code>translate3d</code>, like any layer creation criterion, can really boost
+performance. But it needs to be used wisely, and you should really make sure
+that it’s actually going to solve whatever is slowing down your page.</p>
+
+<p>Finally, like all performance advice, things change so <strong>don’t guess it, test
+it</strong>.</p>
+</div></div>
+
+  <div class="footer-share container">
+    Share this on: <span class="value"><a href="http://www.twitter.com/share?url=http://aerotwist.com/blog/on-translate3d-and-layer-creation-hacks/">Twitter</a></span>
+    <span class="value"><a href="https://plus.google.com/share?url=http://aerotwist.com/blog/on-translate3d-and-layer-creation-hacks/">Google+</a></span>
+  </div>
+
+  <div class="clear"></div>
+
+  
+    <svg class="left-shape" style="margin-left: -285.95px" width="421.4" height="1071.0">
+      <use xlink:href="#color-block" filter="url(#blur-4)" transform="scale(-1.4 1.4) rotate(90)"/>
+    </svg>
+
+    <svg class="right-shape" width="150.5" height="688.5">
+      <use xlink:href="#color-block" filter="url(#blur-8)" transform="scale(-0.9 0.9) rotate(90)"/>
+    </svg>
+  
+
+</div>
+
+
+    </section>
+
+    <footer>
+
+      <div class="container">
+        <div class="bio panel">
+          <h2>Hello!</h2>
+          <p>My name is Paul. I work at <a href="http://www.google.com/" title="Some cloud company in the USA, I think.">Google</a> on the Chrome Developer Relations team as an advocate. I help developers improve the performance of their sites and apps.</p>
+
+          <p>You can find me on <a href="http://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a></p>
+        </div>
+
+        <div class="get-in-touch panel">
+          <h2>Get in touch</h2>
+          <p>I don’t bite. Honestly. You can find me on <a href="http://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a>, and I like hearing from people (pretty handy given my job, really) so say hi.</p>
+        </div>
+
+        <div class="subscribe panel">
+          <h2>Subscribe</h2>
+          <p>You should totally get the <a href="/blog/feed/">RSS feed</a>, or whatever it is you kids are using these days (I miss Reader.)</p>
+        </div>
+
+        <p class="disclaimer">Except as otherwise noted, the content of this page is licensed under the Creative Commons Attribution 3.0 License, and code samples are licensed under the Apache 2.0 License.</p>
+      </div>
+    </footer>
+
+    <script type="text/javascript" async="true">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-13024693-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+  </body>
+</html>

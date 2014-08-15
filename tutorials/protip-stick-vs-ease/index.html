@@ -1,0 +1,443 @@
+<!doctype html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="author" content="Paul Lewis" />
+  <meta name="viewport" content="width=device-width">
+
+  
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="//aerotwist.com/tutorials/feed/">
+  
+
+  
+
+  <style>
+    
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 400;
+      src: local('Lato Regular'), local('Lato-Regular'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qIIYRU-oROkIk8vfvxw6QvesZW2xOQ-xsNqO47m55DA.woff) format('woff');
+    }
+    
+
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 700;
+      src: local('Lato Bold'), local('Lato-Bold'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qdgUG4U09HnJwhYI-uK18wLUuEpTyoUstqEm5AMlJo4.woff) format('woff');
+    }
+  </style>
+
+  <link rel="stylesheet" media="screen" href="/css/aerotwist.css" />
+  <title>Aerotwist - Interaction ProTip #1: Stick vs. Ease</title>
+  
+  <style>
+    .masthead h2 {
+      display: none;
+    }
+
+    .masthead {
+      background-image: url(/static/tutorials/headers/header-stick-vs-ease-small.jpg);
+      
+      background-color: #1E0F00;
+      
+      
+    }
+
+    .meta {
+      background-color: #1E0F00 !important;
+    }
+
+    @media (min-width: 600px) {
+      .masthead {
+        background-image: url(/static/tutorials/headers/header-stick-vs-ease.jpg);
+      }
+    }
+  </style>
+  
+</head>
+
+
+<!--
+                              __          .__          __
+  _____    ___________  _____/  |___  _  _|__| _______/  |_
+  \__  \ _/ __ \_  __ \/  _ \   __\ \/ \/ /  |/  ___/\   __\
+   / __ \\  ___/|  | \(  <_> )  |  \     /|  |\___ \  |  |
+  (____  /\___  >__|   \____/|__|   \/\_/ |__/____  > |__|
+       \/     \/                                  \/
+
+  Giant ascii art embedded in every page of your site is how you
+  show other people that YOU CARE. Mainly I care about developers,
+  which is what I presume you are if you're all about viewing
+  the source. Clearly you're my kind of person.
+
+  This is v3, it's run through Jekyll, it's been fun to build,
+  there's always more to do, and you may notice that aside from
+  Google Analytics there is no JavaScript. None.
+
+  That's one way of many you keep your pages fast. I care about
+  keeping this site fast because your time is precious and I need
+  to get out of your way.
+
+  <3'z
+
+  Paul
+-->
+
+
+  <body class="tutorials">
+
+    <header>
+      <div class="container">
+        <div id="logo">
+  <a href="/">
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="100%" height="100%">
+    <g>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#C8A47F" points="30.6,47.73 64.92,47.73 19.97,76.52"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#A9E9FF" points="48.198,0 53.008,14.06 39.31,24.76"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#2F7F8A" points="39.31,24.76 64.92,48 30.6,48"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#29C9FF" points="39.31,24.76 64.92,48 53.008,14.06"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#402000" points="30.6,48 64.92,48 48,58.69"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#924900" points="47.76,58.69 64.92,47.73 75.14,76.73"></polygon>
+    </g>
+    </svg>
+  </a>
+</div>
+
+        <nav>
+  <ul>
+    
+      
+        <li><a href="/">Home</a></li>
+      
+    
+      
+        <li><a href="/blog/">Blog</a></li>
+      
+    
+      
+        <li class="active"><a href="/tutorials/"> Tutorials</a></li>
+      
+    
+      
+        <li><a href="/lab/">Lab</a></li>
+      
+    
+  </ul>
+
+  <svg id="left-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#AAAAAA" stroke-width="1" />
+    </svg>
+
+  <svg id="right-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#C8A47F" stroke-opacity="0.3" stroke-width="1" />
+    </svg>
+</nav>
+
+      </div>
+    </header>
+    <section>
+
+      <div class="content">
+
+  <div class="masthead">
+
+    <div class="container">
+      <h2>Interaction ProTip #1: Stick vs. Ease</h2>
+      <p></p>
+    </div>
+
+  </div>
+
+  
+
+  <div class="container">
+    <div class="meta">
+      <p>Other tutorials in this series:</p>
+      <ul>
+        
+          <li>
+            
+              #1: Stick vs. Ease
+            
+          </li>
+        
+          <li>
+            
+            <a href="/tutorials/protip-choose-your-ease/">
+            
+              #2: Choose Your Ease
+            
+            </a>
+            
+          </li>
+        
+          <li>
+            
+            <a href="/tutorials/protip-offsets-and-opposing-motion/">
+            
+              #3: Offsets and Opposing Motion
+            
+            </a>
+            
+          </li>
+        
+          <li>
+            
+            <a href="/tutorials/protip-nobody-expects-3d/">
+            
+              #4: Nobody expects 3D
+            
+            </a>
+            
+          </li>
+        
+          <li>
+            
+            <a href="/tutorials/protip-the-abc-of-interaction/">
+            
+              #5: The ABC of Interaction
+            
+            </a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+
+  <div class="container"><div class="left column">
+
+<p>Sometimes you’ll need to build a widget or component that responds directly to user input, like a dial or something draggable. There should be a tangible relation between the user’s movement and the UI’s reaction, so normally you will want things to “stick” to the user’s finger or cursor. If the animation is not in response to direct interaction you will want to ease, and there’s a very neat little way to do the easing in code.</p>
+
+<p>Let’s take a little widget that sticks to your finger. When you drag it we want it to follow your finger, and when you release it it’s going to ease back to it’s original location. Simple enough.</p>
+
+<iframe src="/static/tutorials/protip-stick-vs-ease/drag.html" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" width="100%" height="400" style="margin-bottom: 20px; box-shadow: 0 2px 2px rgba(0,0,0,0.3)">
+</iframe>
+
+<p>You can take a <a href="https://gist.github.com/paullewis/9486124">look at the code</a> in more detail if you like to get stuck right in, and there’s also a <a href="/static/tutorials/protip-stick-vs-ease/drag.html">standalone version of the demo</a> if you don’t like reading gists.</p>
+
+<p>So here’s how you make it work as well as possible:</p>
+
+<h2 id="track-from-an-absolute-start-position">1. Track from an absolute start position</h2>
+
+<p>You’ll see when the user starts a drag motion that the first thing you should do is extract a base position and a separate value for how far they’ve moved from that base position:</p>
+
+</div></div>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">function</span> <span class="nx">onDown</span> <span class="p">(</span><span class="nx">evt</span><span class="p">)</span> <span class="p">{</span>
+
+  <span class="c1">// set up the tracking so we know</span>
+  <span class="c1">// how far the user has moved</span>
+  <span class="nx">userIsDragging</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+  <span class="nx">setUserBasePosition</span><span class="p">(</span><span class="nx">evt</span><span class="p">);</span>
+  <span class="nx">setPositionDifference</span><span class="p">(</span><span class="nx">evt</span><span class="p">);</span>
+
+  <span class="c1">// now we know they&#39;re interacting</span>
+  <span class="c1">// bind the callbacks</span>
+  <span class="nb">document</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;mousemove&#39;</span><span class="p">,</span> <span class="nx">onMove</span><span class="p">);</span>
+  <span class="nb">document</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;mouseup&#39;</span><span class="p">,</span> <span class="nx">onUp</span><span class="p">);</span>
+  <span class="nb">document</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;touchmove&#39;</span><span class="p">,</span> <span class="nx">onMove</span><span class="p">);</span>
+  <span class="nb">document</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;touchend&#39;</span><span class="p">,</span> <span class="nx">onUp</span><span class="p">);</span>
+
+  <span class="nx">evt</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+<span class="p">}</span></code></pre></div>
+
+<div class="container"><div class="left column">
+
+<p>The code for the two functions (<code>setUserBasePosition</code> and <code>setPositionDifference</code>) are slightly convoluted just because we’ll need to listen for both touch events and mouse events. Essentially, though, we’ll simply <strong>extract the values and store them for later</strong>.</p>
+
+<p>The reason we track absolutely is because the alternative is to only use deltas (the difference between the last position and the current one) and errors will creep in, what with <a href="http://stackoverflow.com/questions/588004/is-floating-point-math-broken">JavaScript’s storage of floating point numbers</a>.</p>
+
+<h2 id="debounce-your-visual-updates">2. Debounce your visual updates</h2>
+
+<p>I’ve said it before on lots of occasions, but it’s worth saying again: we <strong>want to debounce our visual updates to the next animation frame</strong>. This is because we will likely get several callbacks inside a single frame, but we only want to update our element <strong>once</strong>. As I said, we store the values inside the down, up and move callbacks, and we have a <code>requestAnimationFrame</code> callback running that handles the visual update to the box.</p>
+
+<p>Our animation frame callback looks like this:
+</div></div></p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">function</span> <span class="nx">onAnimationFrame</span> <span class="p">()</span> <span class="p">{</span>
+
+  <span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="kd">var</span> <span class="nx">y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="nx">userIsDragging</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="c1">// map to the user&#39;s cursor / finger</span>
+    <span class="nx">x</span> <span class="o">=</span> <span class="nx">boxPosition</span><span class="p">.</span><span class="nx">x</span> <span class="o">+</span> <span class="nx">differenceFromUserBasePositionToCurrent</span><span class="p">.</span><span class="nx">x</span><span class="p">;</span>
+    <span class="nx">y</span> <span class="o">=</span> <span class="nx">boxPosition</span><span class="p">.</span><span class="nx">y</span> <span class="o">+</span> <span class="nx">differenceFromUserBasePositionToCurrent</span><span class="p">.</span><span class="nx">y</span><span class="p">;</span>
+
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+
+    <span class="c1">// ease the box back to its base position</span>
+    <span class="nx">boxPosition</span><span class="p">.</span><span class="nx">x</span> <span class="o">+=</span> <span class="p">(</span><span class="mi">0</span> <span class="o">-</span> <span class="nx">boxPosition</span><span class="p">.</span><span class="nx">x</span><span class="p">)</span> <span class="o">/</span> <span class="mi">5</span><span class="p">;</span>
+    <span class="nx">boxPosition</span><span class="p">.</span><span class="nx">y</span> <span class="o">+=</span> <span class="p">(</span><span class="mi">0</span> <span class="o">-</span> <span class="nx">boxPosition</span><span class="p">.</span><span class="nx">y</span><span class="p">)</span> <span class="o">/</span> <span class="mi">5</span><span class="p">;</span>
+
+    <span class="nx">x</span> <span class="o">=</span> <span class="nx">boxPosition</span><span class="p">.</span><span class="nx">x</span><span class="p">;</span>
+    <span class="nx">y</span> <span class="o">=</span> <span class="nx">boxPosition</span><span class="p">.</span><span class="nx">y</span><span class="p">;</span>
+
+  <span class="p">}</span>
+
+  <span class="c1">// totally collapsed out the vendor prefixed nonsense...</span>
+  <span class="nx">draggable</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">transform</span> <span class="o">=</span> <span class="s1">&#39;translate(&#39;</span> <span class="o">+</span> <span class="nx">x</span> <span class="o">+</span> <span class="s1">&#39;px, &#39;</span> <span class="o">+</span> <span class="nx">y</span> <span class="o">+</span> <span class="s1">&#39;px)&#39;</span><span class="p">;</span>
+  <span class="nx">requestAnimationFrame</span><span class="p">(</span><span class="nx">onAnimationFrame</span><span class="p">);</span>
+
+<span class="p">}</span></code></pre></div>
+
+<div class="container"><div class="left column">
+
+<p>You’ll see we have two “modes” here, which to be fair I should probably break this out to separate functions. Ah well.</p>
+
+<p>In any case the user is either dragging the box, or they aren’t. If they <em>are</em> we derive our box’s <code>x</code> and <code>y</code> values from the box’s base position <em>plus</em> the difference between where they are and where they started. If they aren’t dragging the box then we update the box’s position to the last known position, and we ease it back to (0, 0), which is pretty convenient because we’re using transforms.</p>
+
+<h2 id="use-a-simple-ease">3. Use a simple ease</h2>
+
+<p>When the user stops dragging we update the box’s position to be the its base position plus the difference:</p>
+
+</div></div>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">function</span> <span class="nx">onUp</span> <span class="p">(</span><span class="nx">evt</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">userIsDragging</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+
+  <span class="nx">setBoxPositionForEasingBackToHome</span><span class="p">();</span>
+
+  <span class="c1">// reset the user drag values</span>
+  <span class="nx">setUserBasePosition</span><span class="p">(</span><span class="nx">evt</span><span class="p">);</span>
+  <span class="nx">setPositionDifference</span><span class="p">(</span><span class="nx">evt</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">setBoxPositionForEasingBackToHome</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="nx">boxPosition</span><span class="p">.</span><span class="nx">x</span> <span class="o">=</span> <span class="nx">boxPosition</span><span class="p">.</span><span class="nx">x</span> <span class="o">+</span> <span class="nx">differenceFromUserBasePositionToCurrent</span><span class="p">.</span><span class="nx">x</span><span class="p">;</span>
+  <span class="nx">boxPosition</span><span class="p">.</span><span class="nx">y</span> <span class="o">=</span> <span class="nx">boxPosition</span><span class="p">.</span><span class="nx">y</span> <span class="o">+</span> <span class="nx">differenceFromUserBasePositionToCurrent</span><span class="p">.</span><span class="nx">y</span><span class="p">;</span>
+<span class="p">}</span></code></pre></div>
+
+<div class="container"><div class="left column">
+
+<p>That means that when the user stops dragging we “lock in” that last known position and then in the animation frame callback we simply ease the values back to (0, 0):</p>
+
+</div></div>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">boxPosition</span><span class="p">.</span><span class="nx">x</span> <span class="o">+=</span> <span class="p">(</span><span class="mi">0</span> <span class="o">-</span> <span class="nx">boxPosition</span><span class="p">.</span><span class="nx">x</span><span class="p">)</span> <span class="o">/</span> <span class="mi">5</span><span class="p">;</span>
+<span class="nx">boxPosition</span><span class="p">.</span><span class="nx">y</span> <span class="o">+=</span> <span class="p">(</span><span class="mi">0</span> <span class="o">-</span> <span class="nx">boxPosition</span><span class="p">.</span><span class="nx">y</span><span class="p">)</span> <span class="o">/</span> <span class="mi">5</span><span class="p">;</span></code></pre></div>
+
+<div class="container"><div class="left column">
+<p>Here’s the fun bit: <strong>any</strong> property you want to ease to another value can follow this pattern:</p>
+
+</div></div>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">currentPropertyValue</span> <span class="o">+=</span> <span class="p">(</span><span class="nx">targetPropertyValue</span> <span class="o">-</span> <span class="nx">currentPropertyValue</span><span class="p">)</span> <span class="o">/</span> <span class="nx">easeStrength</span><span class="p">;</span></code></pre></div>
+
+<div class="container"><div class="left column">
+
+<p>At first glance it’s possibly a bit odd, but let’s dissect it pretty quickly. We use a delta (<code>+=</code>) calculated on the difference between where we want to be and where we are (<code>targetPropertyValue - currentPropertyValue</code>) divided by an easing strength value. If the <code>easeStrength</code> were <code>1</code> we would simply add the difference and our box would snap to (0, 0). If <code>easeStrength</code> has a value greater than <code>1</code>, however, we only move a proportion of the difference each time. On each subsequent frame the difference gets smaller, and that means we move a little less, giving the illusion of a slowdown.</p>
+
+<p>Let’s quickly look at through some example numbers. Assume a box moving from 0 to 100 pixels across the screen:</p>
+
+<ol>
+  <li><code>box.x += (100 -    0) / 10;</code></li>
+  <li><code>box.x += (100 -   10) / 10;</code></li>
+  <li><code>box.x += (100 -   19) / 10;</code></li>
+  <li><code>box.x += (100 - 27.1) / 10;</code></li>
+</ol>
+
+<p>… and on and on. Each time the difference between where the box is and where we want it to be is decreasing, and that means we appear to slow down as we get closer to the target value.</p>
+
+<p>The legendary Paul Neave also <a href="http://blog.neave.com/post/69482887767/smoothing-equations-a-simpler-way-to-ease-variables">wrote about this technique on his blog</a> a while back. I’m guessing all us old Flash folk know about it, and probably don’t want it get lost in the sands of time given its usefulness!</p>
+
+<p>It’s worth mentioning that in this particular demo CSS transitions would allow us to get back to (0, 0). Where you can you should consider using CSS transitions because the compositor can typically handle animations very efficiently. But for the times you can’t get by without JavaScript, or you’re changing a property that you can’t use CSS to handle, this approach will help.</p>
+
+<h2 id="use-transforms-and-layers-to-your-advantage">4. Use transforms and layers to your advantage</h2>
+
+<p>If you didn’t notice it the first time around, have another look at the end of the <code>onAnimationFrame</code> callback:</p>
+
+</div></div>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">draggable</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">transform</span> <span class="o">=</span> <span class="s1">&#39;translate(&#39;</span> <span class="o">+</span> <span class="nx">x</span> <span class="o">+</span> <span class="s1">&#39;px, &#39;</span> <span class="o">+</span> <span class="nx">y</span> <span class="o">+</span> <span class="s1">&#39;px)&#39;</span><span class="p">;</span></code></pre></div>
+
+<div class="container"><div class="left column">
+
+<p>So we use a transform to move the element around, but also note that a 2D transform doesn’t qualify an element for it’s own compositor layer in Blink / WebKit, so we should really tack on some styling to let the compositor know that we want to promote this element. In the future we will have <a href="http://www.aerotwist.com/blog/bye-bye-layer-hacks/"><code>will-change</code></a>, but since we don’t have that just yet we can just apply a 3D transform:
+</div></div></p>
+
+<div class="highlight"><pre><code class="language-css" data-lang="css"><span class="nt">-webkit-backface-visibility</span><span class="o">:</span> <span class="nt">hidden</span><span class="o">;</span></code></pre></div>
+
+<div class="container"><div class="left column">
+
+<p>You may be wondering why I’m not using <code>translateZ(0)</code>, and the answer is pretty simple: if I do then I’ll have to include it whenever I update the element’s <code>x</code> and <code>y</code> positions. Without it as soon as I update the transform the layer promotion would be lost. With <code>-webkit-backface-visibility</code> it remains, and is independent of the transforms.</p>
+
+<h2 id="bind-low-bind-late-unbind-asap">5. Bind low, bind late, unbind ASAP</h2>
+
+<p>Last but not least take a look again at the latter half of the <code>onDown</code> function:</p>
+
+</div></div>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="c1">// now we know they&#39;re interacting</span>
+<span class="c1">// bind the callbacks</span>
+<span class="nb">document</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;mousemove&#39;</span><span class="p">,</span> <span class="nx">onMove</span><span class="p">);</span>
+<span class="nb">document</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;mouseup&#39;</span><span class="p">,</span> <span class="nx">onUp</span><span class="p">);</span>
+<span class="nb">document</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;touchmove&#39;</span><span class="p">,</span> <span class="nx">onMove</span><span class="p">);</span>
+<span class="nb">document</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;touchend&#39;</span><span class="p">,</span> <span class="nx">onUp</span><span class="p">);</span></code></pre></div>
+
+<div class="container"><div class="left column">
+
+<p>The key here is that we don’t have unnecessary callbacks bound to the document until we know for sure that we need them. To have the callbacks running all the time, even when the draggable widget isn’t active, causes us to make a trip over to the main thread from the compositor to have JavaScript run. We should only do that when we <em>absolutely know</em> we need to execute that JavaScript. When we’re done, we can unbind the listeners and smile a happy smile, safe in the knowledge we didn’t run JavaScript unnecessarily.</p>
+
+<h2 id="onwards-and-upwards">Onwards and upwards</h2>
+
+<p>Now you know how you can set your interactions and easing up to feel as snappy and smooth as possible. I guess that was more like 5 tips in 1. Lucky you!</p>
+
+</div></div>
+
+
+</div>
+
+
+    </section>
+
+    <footer>
+
+      <div class="container">
+        <div class="bio panel">
+          <h2>Hello!</h2>
+          <p>My name is Paul. I work at <a href="http://www.google.com/" title="Some cloud company in the USA, I think.">Google</a> on the Chrome Developer Relations team as an advocate. I help developers improve the performance of their sites and apps.</p>
+
+          <p>You can find me on <a href="http://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a></p>
+        </div>
+
+        <div class="get-in-touch panel">
+          <h2>Get in touch</h2>
+          <p>I don’t bite. Honestly. You can find me on <a href="http://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a>, and I like hearing from people (pretty handy given my job, really) so say hi.</p>
+        </div>
+
+        <div class="subscribe panel">
+          <h2>Subscribe</h2>
+          <p>You should totally get the <a href="/blog/feed/">RSS feed</a>, or whatever it is you kids are using these days (I miss Reader.)</p>
+        </div>
+
+        <p class="disclaimer">Except as otherwise noted, the content of this page is licensed under the Creative Commons Attribution 3.0 License, and code samples are licensed under the Apache 2.0 License.</p>
+      </div>
+    </footer>
+
+    <script type="text/javascript" async="true">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-13024693-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+  </body>
+</html>

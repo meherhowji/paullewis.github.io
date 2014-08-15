@@ -1,0 +1,327 @@
+<!doctype html>
+<html itemscope itemtype="http://schema.org/Article">
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="author" content="Paul Lewis" />
+  <meta name="viewport" content="width=device-width">
+
+  
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="//aerotwist.com/blog/feed/">
+  
+
+  
+  <meta itemprop="name" content="Web Components and the Three Unsexy Pillars">
+  <meta itemprop="description" content="Web Components are the future, for better or worse! That was the summary provided byPeter Gasston at Edge Conference last Friday. I finally managed to figure out, off the back of his presentation, what my primary concern over Web Components are.">
+
+    
+
+  
+
+  <style>
+    
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 400;
+      src: local('Lato Regular'), local('Lato-Regular'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qIIYRU-oROkIk8vfvxw6QvesZW2xOQ-xsNqO47m55DA.woff) format('woff');
+    }
+    
+
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 700;
+      src: local('Lato Bold'), local('Lato-Bold'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qdgUG4U09HnJwhYI-uK18wLUuEpTyoUstqEm5AMlJo4.woff) format('woff');
+    }
+  </style>
+
+  <link rel="stylesheet" media="screen" href="/css/aerotwist.css" />
+  <title>Aerotwist - Web Components and the Three Unsexy Pillars</title>
+  
+</head>
+
+
+<!--
+                              __          .__          __
+  _____    ___________  _____/  |___  _  _|__| _______/  |_
+  \__  \ _/ __ \_  __ \/  _ \   __\ \/ \/ /  |/  ___/\   __\
+   / __ \\  ___/|  | \(  <_> )  |  \     /|  |\___ \  |  |
+  (____  /\___  >__|   \____/|__|   \/\_/ |__/____  > |__|
+       \/     \/                                  \/
+
+  Giant ascii art embedded in every page of your site is how you
+  show other people that YOU CARE. Mainly I care about developers,
+  which is what I presume you are if you're all about viewing
+  the source. Clearly you're my kind of person.
+
+  This is v3, it's run through Jekyll, it's been fun to build,
+  there's always more to do, and you may notice that aside from
+  Google Analytics there is no JavaScript. None.
+
+  That's one way of many you keep your pages fast. I care about
+  keeping this site fast because your time is precious and I need
+  to get out of your way.
+
+  <3'z
+
+  Paul
+-->
+
+
+  <body class="blog">
+
+    <header>
+      <div class="container">
+        <div id="logo">
+  <a href="/">
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="100%" height="100%">
+    <g>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#6EBAD3" points="30.6,47.73 64.92,47.73 19.97,76.52"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ED95C0" points="48.198,0 53.008,14.06 39.31,24.76"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#880043" points="39.31,24.76 64.92,48 30.6,48"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#DA0A7A" points="39.31,24.76 64.92,48 53.008,14.06"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#0B7DAD" points="30.6,48 64.92,48 48,58.69"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#BDDEE8" points="47.76,58.69 64.92,47.73 75.14,76.73"></polygon>
+    </g>
+    </svg>
+  </a>
+</div>
+
+        <nav>
+  <ul>
+    
+      
+        <li><a href="/">Home</a></li>
+      
+    
+      
+        <li class="active"><a href="/blog/"> Blog</a></li>
+      
+    
+      
+        <li><a href="/tutorials/">Tutorials</a></li>
+      
+    
+      
+        <li><a href="/lab/">Lab</a></li>
+      
+    
+  </ul>
+
+  <svg id="left-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#AAAAAA" stroke-width="1" />
+    </svg>
+
+  <svg id="right-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#6EBAD3" stroke-opacity="0.3" stroke-width="1" />
+    </svg>
+</nav>
+
+      </div>
+    </header>
+    <section>
+
+      <div class="content">
+
+  
+  <svg version="1.1" class="shape-reference" xmlns="http://www.w3.org/2000/svg" width="629" height="242">
+  <defs>
+    <filter id="blur-8">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="8" />
+    </filter>
+    <filter id="blur-6">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="6" />
+    </filter>
+    <filter id="blur-4">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="4" />
+    </filter>
+  </defs>
+
+  <g id="color-block">
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#96a2c7" stroke="#96a2c7" stroke-width="0.6" points="100,115 40,65 122,90"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#9282b7" stroke="#9282b7" stroke-width="0.6" points="100,115 122,90 140,98"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#7c5ba0" stroke="#7c5ba0" stroke-width="0.6" points="156,142 100,115 140,98"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#9b59a2" stroke="#9b59a2" stroke-width="0.6" points="156,142 140,98 198,96"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#9f3990" stroke="#9f3990" stroke-width="0.6" points="156,142 198,96 215,131"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#5f2357" stroke="#5f2357" stroke-width="0.6" points="191,190 156,142 215,131"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#400f30" stroke="#400f30" stroke-width="0.6" points="261,202 191,190 215,131"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#630f42" stroke="#630f42" stroke-width="0.6" points="271,156 261,202 215,131"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#560632" stroke="#560632" stroke-width="0.6" points="261,202 271,156 304,157"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ac065d" stroke="#ac065d" stroke-width="0.6" points="304,157 271,156 318,120"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#9f0555" stroke="#9f0555" stroke-width="0.6" points="304,157 318,120 366,170"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#bd0f70" stroke="#bd0f70" stroke-width="0.6" points="366,170 318,120 376,114"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#8d1c66" stroke="#8d1c66" stroke-width="0.6" points="448,146 366,170 376,114"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#b13191" stroke="#b13191" stroke-width="0.6" points="448,146 376,114 435,100"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#85438f" stroke="#85438f" stroke-width="0.6" points="448,146 435,100 519,133"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#462f59" stroke="#462f59" stroke-width="0.6" points="508,191 448,146 519,133"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#1e2438" stroke="#1e2438" stroke-width="0.6" points="508,191 519,133 589,198"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f04da4" stroke="#f04da4" stroke-width="0.6" points="318,120 331,64 376,114"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#fd67b3" stroke="#fd67b3" stroke-width="0.6" points="318,120 278,82 331,64"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ed1085" stroke="#ed1085" stroke-width="0.6" points="271,156 278,82 318,120"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#cd1b85" stroke="#cd1b85" stroke-width="0.6" points="271,156 215,131 278,82"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ce55a5" stroke="#ce55a5" stroke-width="0.6" points="278,82 215,131 198,96"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#e99dcc" stroke="#e99dcc" stroke-width="0.6" points="278,82 198,96 260,48"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#fab5d9" stroke="#fab5d9" stroke-width="0.6" points="278,82 260,48 331,64"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#edc6e1" stroke="#edc6e1" stroke-width="0.6" points="260,48 198,96 212,40"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#e9cfe5" stroke="#e9cfe5" stroke-width="0.6" points="198,96 166,43 212,40"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#caa4cc" stroke="#caa4cc" stroke-width="0.6" points="198,96 140,98 166,43"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#c4aed1" stroke="#c4aed1" stroke-width="0.6" points="140,98 122,90 166,43"/>
+  </g>
+</svg>
+
+  
+
+  <div class="masthead hatched">
+
+    
+      <svg class="behind-meta" width="629" height="242">
+        <use xlink:href="#color-block" />
+      </svg>
+
+      <svg class="left-meta" width="629" height="242">
+        <use xlink:href="#color-block" filter="url(#blur-6)" transform="translate(629/2 121) scale(-0.5 0.5) translate(-629/2 -121)" />
+      </svg>
+    
+
+    <div class="container">
+      <h2>Web Components and the Three Unsexy Pillars</h2>
+      <p>Web Components are the future, for better or worse! That was the summary provided by <a href="https://twitter.com/stopsatgreen">Peter Gasston</a> at <a href="http://edgeconf.com/">Edge Conference</a> last Friday. I finally managed to figure out, off the back of his presentation, what my primary concern over Web Components are.</p>
+    </div>
+
+  </div>
+
+  <div class="container">
+    <div class="meta">
+
+      <ul>
+        <li class="last-updated">
+          <span class="name">Last updated:</span>
+          <span class="value">24 Mar 2014</span>
+        </li>
+
+        <li>
+          <span class="name">Est. Read Time:</span>
+          <span class="value">3 mins</span>
+        </li>
+
+        <li class="share">
+          <span class="name">Share this:</span>
+          <span class="value"><a href="http://www.twitter.com/share?url=http://aerotwist.com/blog/web-components-and-three-unsexy-pillars/">Twitter</a></span>
+          <span class="value"><a href="https://plus.google.com/share?url=http://aerotwist.com/blog/web-components-and-three-unsexy-pillars/">Google+</a></span>
+        </li>
+        <li class="tags">
+          <span class="name">Tagged:</span>
+          <span class="value">
+          
+            #accessibility, 
+          
+            #security, 
+          
+            #performance
+          
+          </span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="container"><div class="left column"><h2 id="the-three-unsexy-pillars-of-web-dev">The Three Unsexy Pillars™ of Web Dev</h2>
+
+<p>I have this idea that there are three underpinning concerns every developer should have when they build their projects: <strong>accessibility</strong>, <strong>security</strong> and <strong>performance</strong>. You can immediately see how one could affect the others, but their relationship is nuanced. They’re not sexy, though, because you’re never going to persuade the people paying for your project (unless they’re savvy) that these unseen aspects are critical. Security is probably the easiest, I’d wager, but typically only <abbr title="Fear, Uncertainty and Doubt">FUD</abbr> powers their inclusion.</p>
+
+<p>There are two further things I notice about them:</p>
+
+<ul>
+  <li><strong>They’re only a problem when they’re missing</strong>. Ship something which lacks one or more of the Three Unsexy Pillars™ and you’re going to have a bad time.</li>
+  <li><strong>They’re not unit tests</strong>. Try and retrofit any of them to your project and you’re going to have a bad time.</li>
+</ul>
+
+<p>They’re basic building blocks of building well and they’re more a mindset every good developer should have than anything else.</p>
+
+<h2 id="the-promise-of-web-components">The “promise” of Web Components</h2>
+
+<p>Firstly, let me say that I’m excited about Web Components. I think they’re likely the Next Big Thing™ for the web. I also genuinely think the term “Web Component” <em>implies</em> that the three aspects of web development I outlined have been taken care of, and I think that fundamental mismatch of implication vs. reality is a problem. As a developer I would expect, to a large degree, that I can trust that these components will in no way hose my project.</p>
+
+<p>Some of it comes down to the component developer’s choices and some of it to the way in which the browser deals with components. Unfortunately, however, there’s very little in the specs (as far as I know) that directly speaks to the three pillars, largely because you can’t really “enforce” them directly. After all they’re just elements, and so how different are they from other elements you already get provided by the browser?</p>
+
+<p>HTML Imports are interesting in that the current implementation treats them like stylesheets, which means browsers will wait on them before rendering. That may or may not end up being an issue, depending on whether or not a developer <em>realises</em> imports can be render blocking. (If they weren’t then we’d be talking about how you get FOUC when HTML Imports get parsed, which would also be bad.) For sure this is a nuance of Web Components, but I think it at least illustrates that there’s no silver bullet here; developers <em>need</em> to understand the mechanics of what’s going on.</p>
+
+<h2 id="go-go-gadget-community">Go Go Gadget Community!</h2>
+
+<blockquote>
+  <p>I believe we need some open and community-driven way of vetting and ensuring Web Components are accessible, secure and performant.</p>
+</blockquote>
+
+<p>No issue is insurmountable here, but my point here is that since <em>by default</em> there is very little that enforces good accessibility, security and performance, we’ll end up with a load of components that are terrible, with no way for developers to sort the wheat from the chaff. We’ve seen that happen with npm, Bower, and jQuery UI and, as it stands, I don’t see any reason to think Web Components will be any different.</p>
+
+<p>In any case the scalable solution is definitely <em>not</em> to expect developers to assess the quality of each component; they have better things to do, and in some cases it’s not all that easy. I’d be the first to confess my knowledge of accessibility and security could be significantly better, and I doubt I’m the only one!</p>
+
+<p>I believe we need some open and community-driven way of vetting and ensuring Web Components are accessible, secure and performant. While we figure out what that means, let’s not be fooled into thinking that Web Components can fix bad development; we’re going to need something very different for that.</p>
+</div></div>
+
+  <div class="footer-share container">
+    Share this on: <span class="value"><a href="http://www.twitter.com/share?url=http://aerotwist.com/blog/web-components-and-three-unsexy-pillars/">Twitter</a></span>
+    <span class="value"><a href="https://plus.google.com/share?url=http://aerotwist.com/blog/web-components-and-three-unsexy-pillars/">Google+</a></span>
+  </div>
+
+  <div class="clear"></div>
+
+  
+    <svg class="left-shape" style="margin-left: -229.9px" width="338.8" height="880.6">
+      <use xlink:href="#color-block" filter="url(#blur-4)" transform="scale(-1.4 1.4) rotate(90)"/>
+    </svg>
+
+    <svg class="right-shape" width="121.0" height="566.1">
+      <use xlink:href="#color-block" filter="url(#blur-8)" transform="scale(-0.9 0.9) rotate(90)"/>
+    </svg>
+  
+
+</div>
+
+
+    </section>
+
+    <footer>
+
+      <div class="container">
+        <div class="bio panel">
+          <h2>Hello!</h2>
+          <p>My name is Paul. I work at <a href="http://www.google.com/" title="Some cloud company in the USA, I think.">Google</a> on the Chrome Developer Relations team as an advocate. I help developers improve the performance of their sites and apps.</p>
+
+          <p>You can find me on <a href="http://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a></p>
+        </div>
+
+        <div class="get-in-touch panel">
+          <h2>Get in touch</h2>
+          <p>I don’t bite. Honestly. You can find me on <a href="http://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a>, and I like hearing from people (pretty handy given my job, really) so say hi.</p>
+        </div>
+
+        <div class="subscribe panel">
+          <h2>Subscribe</h2>
+          <p>You should totally get the <a href="/blog/feed/">RSS feed</a>, or whatever it is you kids are using these days (I miss Reader.)</p>
+        </div>
+
+        <p class="disclaimer">Except as otherwise noted, the content of this page is licensed under the Creative Commons Attribution 3.0 License, and code samples are licensed under the Apache 2.0 License.</p>
+      </div>
+    </footer>
+
+    <script type="text/javascript" async="true">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-13024693-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+  </body>
+</html>

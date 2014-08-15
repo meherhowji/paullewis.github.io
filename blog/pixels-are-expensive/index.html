@@ -1,0 +1,422 @@
+<!doctype html>
+<html itemscope itemtype="http://schema.org/Article">
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="author" content="Paul Lewis" />
+  <meta name="viewport" content="width=device-width">
+
+  
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="//aerotwist.com/blog/feed/">
+  
+
+  
+  <meta itemprop="name" content="Pixels are expensive">
+  <meta itemprop="description" content="How pixels get onto your users&#39; screens is something you should know about. Not for the sake of knowing, but because in order to be effective as a modern web developer you&#39;re going to need to optimize for it.">
+
+    
+
+  
+
+  <style>
+    
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 400;
+      src: local('Lato Regular'), local('Lato-Regular'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qIIYRU-oROkIk8vfvxw6QvesZW2xOQ-xsNqO47m55DA.woff) format('woff');
+    }
+    
+
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 700;
+      src: local('Lato Bold'), local('Lato-Bold'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qdgUG4U09HnJwhYI-uK18wLUuEpTyoUstqEm5AMlJo4.woff) format('woff');
+    }
+  </style>
+
+  <link rel="stylesheet" media="screen" href="/css/aerotwist.css" />
+  <title>Aerotwist - Pixels are expensive</title>
+  
+</head>
+
+
+<!--
+                              __          .__          __
+  _____    ___________  _____/  |___  _  _|__| _______/  |_
+  \__  \ _/ __ \_  __ \/  _ \   __\ \/ \/ /  |/  ___/\   __\
+   / __ \\  ___/|  | \(  <_> )  |  \     /|  |\___ \  |  |
+  (____  /\___  >__|   \____/|__|   \/\_/ |__/____  > |__|
+       \/     \/                                  \/
+
+  Giant ascii art embedded in every page of your site is how you
+  show other people that YOU CARE. Mainly I care about developers,
+  which is what I presume you are if you're all about viewing
+  the source. Clearly you're my kind of person.
+
+  This is v3, it's run through Jekyll, it's been fun to build,
+  there's always more to do, and you may notice that aside from
+  Google Analytics there is no JavaScript. None.
+
+  That's one way of many you keep your pages fast. I care about
+  keeping this site fast because your time is precious and I need
+  to get out of your way.
+
+  <3'z
+
+  Paul
+-->
+
+
+  <body class="blog">
+
+    <header>
+      <div class="container">
+        <div id="logo">
+  <a href="/">
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="100%" height="100%">
+    <g>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#6EBAD3" points="30.6,47.73 64.92,47.73 19.97,76.52"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ED95C0" points="48.198,0 53.008,14.06 39.31,24.76"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#880043" points="39.31,24.76 64.92,48 30.6,48"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#DA0A7A" points="39.31,24.76 64.92,48 53.008,14.06"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#0B7DAD" points="30.6,48 64.92,48 48,58.69"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#BDDEE8" points="47.76,58.69 64.92,47.73 75.14,76.73"></polygon>
+    </g>
+    </svg>
+  </a>
+</div>
+
+        <nav>
+  <ul>
+    
+      
+        <li><a href="/">Home</a></li>
+      
+    
+      
+        <li class="active"><a href="/blog/"> Blog</a></li>
+      
+    
+      
+        <li><a href="/tutorials/">Tutorials</a></li>
+      
+    
+      
+        <li><a href="/lab/">Lab</a></li>
+      
+    
+  </ul>
+
+  <svg id="left-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#AAAAAA" stroke-width="1" />
+    </svg>
+
+  <svg id="right-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#6EBAD3" stroke-opacity="0.3" stroke-width="1" />
+    </svg>
+</nav>
+
+      </div>
+    </header>
+    <section>
+
+      <div class="content">
+
+  
+  <svg version="1.1" class="shape-reference" xmlns="http://www.w3.org/2000/svg" width="595" height="340">
+  <defs>
+    <filter id="blur-8">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="8" />
+    </filter>
+    <filter id="blur-6">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="6" />
+    </filter>
+    <filter id="blur-4">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="4" />
+    </filter>
+  </defs>
+
+  <g id="color-block">
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#1f2034" stroke="#1f2034" stroke-width="0.6" points="40,296 109,207 143,271"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#2e3d5d" stroke="#2e3d5d" stroke-width="0.6" points="40,296 89,178 109,207"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#735398" stroke="#735398" stroke-width="0.6" points="109,207 89,178 180,142"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#943d8f" stroke="#943d8f" stroke-width="0.6" points="222,181 109,207 180,142"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#5a2c5e" stroke="#5a2c5e" stroke-width="0.6" points="222,181 143,271 109,207"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#5f184b" stroke="#5f184b" stroke-width="0.6" points="143,271 222,181 255,246"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#a01163" stroke="#a01163" stroke-width="0.6" points="277,189 255,246 222,181"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#820546" stroke="#820546" stroke-width="0.6" points="255,246 277,189 310,256"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#8c0349" stroke="#8c0349" stroke-width="0.6" points="339,233 310,256 277,189"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#530731" stroke="#530731" stroke-width="0.6" points="310,256 339,233 356,269"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#2b0419" stroke="#2b0419" stroke-width="0.6" points="339,300 310,256 356,269"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#5c0b3a" stroke="#5c0b3a" stroke-width="0.6" points="339,233 352,231 356,269"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#950d58" stroke="#950d58" stroke-width="0.6" points="339,233 315,178 352,231"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#bc0563" stroke="#bc0563" stroke-width="0.6" points="339,233 277,189 315,178"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#e50779" stroke="#e50779" stroke-width="0.6" points="277,189 259,169 315,178"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#cd157e" stroke="#cd157e" stroke-width="0.6" points="277,189 222,181 259,169"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#c42f91" stroke="#c42f91" stroke-width="0.6" points="222,181 180,142 259,169"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#db52a5" stroke="#db52a5" stroke-width="0.6" points="259,169 180,142 277,107"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f62993" stroke="#f62993" stroke-width="0.6" points="315,178 259,169 277,107"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f7429f" stroke="#f7429f" stroke-width="0.6" points="341,131 315,178 277,107"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#da278f" stroke="#da278f" stroke-width="0.6" points="315,178 341,131 387,176"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ab166f" stroke="#ab166f" stroke-width="0.6" points="352,231 315,178 387,176"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#822267" stroke="#822267" stroke-width="0.6" points="352,231 387,176 431,216"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#591746" stroke="#591746" stroke-width="0.6" points="386,263 352,231 431,216"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#470c31" stroke="#470c31" stroke-width="0.6" points="356,269 352,231 386,263"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#3b1a3b" stroke="#3b1a3b" stroke-width="0.6" points="386,263 431,216 471,268"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#472c54" stroke="#472c54" stroke-width="0.6" points="431,216 468,204 471,268"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#6a3874" stroke="#6a3874" stroke-width="0.6" points="431,216 433,184 468,204"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#85327b" stroke="#85327b" stroke-width="0.6" points="431,216 387,176 433,184"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#9f3f96" stroke="#9f3f96" stroke-width="0.6" points="433,184 387,176 442,145"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#824792" stroke="#824792" stroke-width="0.6" points="468,204 433,184 442,145"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#74579d" stroke="#74579d" stroke-width="0.6" points="506,164 468,204 442,145"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#585c94" stroke="#585c94" stroke-width="0.6" points="468,204 506,164 520,178"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#474775" stroke="#474775" stroke-width="0.6" points="497,238 468,204 520,178"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#372d4e" stroke="#372d4e" stroke-width="0.6" points="471,268 468,204 497,238"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#365177" stroke="#365177" stroke-width="0.6" points="497,238 520,178 555,210"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#b654a2" stroke="#b654a2" stroke-width="0.6" points="387,176 390,131 442,145"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ce4da0" stroke="#ce4da0" stroke-width="0.6" points="387,176 341,131 390,131"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#d983bd" stroke="#d983bd" stroke-width="0.6" points="390,131 341,131 409,85"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#c685bc" stroke="#c685bc" stroke-width="0.6" points="390,131 409,85 442,145"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#eba1ce" stroke="#eba1ce" stroke-width="0.6" points="341,131 324,67 409,85"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f98ac4" stroke="#f98ac4" stroke-width="0.6" points="277,107 324,67 341,131"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#fabadc" stroke="#fabadc" stroke-width="0.6" points="277,107 229,56 324,67"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ebaed4" stroke="#ebaed4" stroke-width="0.6" points="277,107 182,100 229,56"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#d881bc" stroke="#d881bc" stroke-width="0.6" points="277,107 180,142 182,100"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#a573b0" stroke="#a573b0" stroke-width="0.6" points="180,142 89,178 182,100"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ffe4f1" stroke="#ffe4f1" stroke-width="0.6" points="324,67 229,56 331,40"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f6d4e9" stroke="#f6d4e9" stroke-width="0.6" points="324,67 331,40 409,85"/>
+  </g>
+</svg>
+
+  
+
+  <div class="masthead hatched">
+
+    
+      <svg class="behind-meta" width="595" height="340">
+        <use xlink:href="#color-block" />
+      </svg>
+
+      <svg class="left-meta" width="595" height="340">
+        <use xlink:href="#color-block" filter="url(#blur-6)" transform="translate(595/2 170) scale(-0.5 0.5) translate(-595/2 -170)" />
+      </svg>
+    
+
+    <div class="container">
+      <h2>Pixels are expensive</h2>
+      <p>How pixels get onto your users' screens is something you should know about. Not for the sake of knowing, but because in order to be effective as a modern web developer you're going to need to optimize for it.</p>
+    </div>
+
+  </div>
+
+  <div class="container">
+    <div class="meta">
+
+      <ul>
+        <li class="last-updated">
+          <span class="name">Last updated:</span>
+          <span class="value">3 Jul 2014</span>
+        </li>
+
+        <li>
+          <span class="name">Est. Read Time:</span>
+          <span class="value">6 mins</span>
+        </li>
+
+        <li class="share">
+          <span class="name">Share this:</span>
+          <span class="value"><a href="http://www.twitter.com/share?url=http://aerotwist.com/blog/pixels-are-expensive/">Twitter</a></span>
+          <span class="value"><a href="https://plus.google.com/share?url=http://aerotwist.com/blog/pixels-are-expensive/">Google+</a></span>
+        </li>
+        <li class="tags">
+          <span class="name">Tagged:</span>
+          <span class="value">
+          
+            #perfmatters
+          
+          </span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="container"><div class="left column"><p>The other day I was reading through <a href="http://frontendbabel.info/articles/webpage-rendering-101/">What Every Frontend Developer Should Know About Webpage Rendering</a> and I came away feeling like it missed out some crucial points. The article emphasizes CSS selector matching, layout (or reflow for Gecko-based browsers like Firefox), and being careful about forced synchronous layouts aka <a href="http://wilsonpage.co.uk/preventing-layout-thrashing/">Layout Thrashing</a>. All of these things, I should say, are <em>good</em> things for us to be aware of, but for me it doesn’t cover everything we need to know about page rendering. For the most part we’ll be trying to get to 60fps in our work, and that normally means understanding what the browser’s doing and optimizing for it.</p>
+
+<p>I did a session at this year’s Google I/O where I step through the pipeline in a fair amount of detail. If you prefer watching over reading then here’s the session video:</p>
+
+<iframe width="100%" height="420" src="//www.youtube.com/embed/WrA85a4ZIaM?vq=hd720" frameborder="0" allowfullscreen="allowfullscreen" style="margin-bottom: 20px; box-shadow: 0 2px 2px rgba(0,0,0,0.3)">
+</iframe>
+
+<p>The render pipeline part <a href="https://www.youtube.com/watch?v=WrA85a4ZIaM#t=970">starts around 16 minutes in</a>, in case you want to skip to it.</p>
+
+<h2 id="what-developers-need-to-know-about-webpage-rendering">What Developers Need To Know About Webpage Rendering</h2>
+
+<p>From a developer’s point of view there are <em>four</em> major areas we care about:</p>
+
+<h3 id="recalculate-style">1. Recalculate Style</h3>
+
+<p>This is the first part that the article looked at, and it pertains to selector matching and figuring out which styles apply to which parts of the DOM.</p>
+
+<figure>
+  <img src="/static/blog/pixels-are-expensive/recalc-style.jpg" />
+  <figcaption>The browser figuring out which CSS applies to which elements.</figcaption>
+</figure>
+
+<p>Normally, however, <em>this is super fast</em> unless you have a DOM tree with thousands upon thousands of elements and you change a large part of said tree, either directly or through cascade (like – say – by adding a class to the body that affects all its children).</p>
+
+<blockquote>
+  <p>For the most part optimizing selector matching is going to give minimal returns.</p>
+</blockquote>
+
+<p>For the most part optimizing selector matching is going to give minimal returns. Not when you factor in what happens next…</p>
+
+<h3 id="layout">2. Layout</h3>
+
+<p>Once we know what styles apply to the DOM we have a render tree, which is what we want to paint. To us it looks essentially like the DOM with things missing (the stuff we don’t need to draw) and other things added (like pseudo elements).</p>
+
+<figure>
+  <img src="/static/blog/pixels-are-expensive/render-tree.jpg" />
+  <figcaption>The render tree: the stuff we need to paint.</figcaption>
+</figure>
+
+<blockquote>
+  <p>If I change the dimensions of <code>&lt;body&gt;</code>, then chances are the things inside of it will also need to change.</p>
+</blockquote>
+
+<p>In layout we figure out the geometry of the page, i.e. where each element is on the page. This is where things can start to get a little more computationally expensive as the way elements are laid out is contingent; where one element lives is normally affected by another. If I change the dimensions of <code>&lt;body&gt;</code>, then chances are the things inside of it will also need to change.</p>
+
+<p>Now this is also where things get interesting. Let’s say you change a layout property, something that alters the geometry of the page (paddings, margins, positions, text size, borders), what happens then? Well here’s a video I made that shows the Chrome DevTools Timeline when you alter the geometry of an element. In this case I change its height:</p>
+
+<iframe width="100%" height="420" src="//www.youtube.com/embed/qEG0QkCCK6A?vq=hd720" frameborder="0" allowfullscreen="allowfullscreen" style="margin-bottom: 20px; box-shadow: 0 2px 2px rgba(0,0,0,0.3)">
+</iframe>
+
+<p>The thing to notice is that the bars are shooting way past the 60fps line, and that we spend around ~23ms figuring out the geometry changes in each frame. This is true whether the animation is triggered by JavaScript or CSS as the layout work still needs to get done. When we’re aiming to achieve 60fps we have ~16ms to get <em>everything</em> done, and we just went over that in one task. Oops.</p>
+
+<p>As something of a bonus point here, you definitely want to <a href="http://wilsonpage.co.uk/preventing-layout-thrashing/">avoid layout thrashing</a>, or forced synchronous layouts, which is where you cause a browser to do layout / reflows unnecessarily. That’s just going to make matters even worse.</p>
+
+<p>With that said, however, from that video you’ll hopefully <em>also</em> see that although we spend ~23ms in layout we spend a whopping <strong>~600ms</strong> painting the changed pixels.</p>
+
+<h3 id="paint">3. Paint</h3>
+
+<p>Now we know where the elements are we need to fill in their pixels, and <em>this</em> is where you’re going to spend the vast majority of your time. If you trigger paint you’re going to <em>feel it</em>. Well, your users definitely will when your site struggles along. Here’s another sample where I cause paints (no layout changes here) by changing an element from gray to glorious hot pink:</p>
+
+<iframe width="100%" height="420" src="//www.youtube.com/embed/yDl_ZcYj4N4?vq=hd720" frameborder="0" allowfullscreen="allowfullscreen" style="margin-bottom: 20px; box-shadow: 0 2px 2px rgba(0,0,0,0.3)">
+</iframe>
+
+<p>The kinds of properties that trigger paint are anything “visual” like color, background or shadows. There’s a bunch of them, but the thing is if you <strong>change a layout property</strong> you are almost certainly going to trigger paint. If the geometry of the page changed, some of the pixels get dirtied and need to be repainted.</p>
+
+<p>Once we’re done painting we are on to the final part.</p>
+
+<h3 id="composite">4. Composite</h3>
+
+<blockquote>
+  <p>We sometimes separate elements out into distinct layers, called compositor layers.</p>
+</blockquote>
+
+<p>By default we paint elements into a single layer in memory, which for us as developers we can think of in a similar way to Photoshop’s canvas. If you change a pixel with a brush it’s destructive, you can’t get back at the original pixels. (There’s an undo in Photoshop… L.O.L.)</p>
+
+<p>To get around this problem, in a very similar way to Photoshop and other art packages, we sometimes separate elements out into distinct layers, called compositor layers. That way if we have to paint an element ideally we don’t want to have to paint anything else. I’ve written about <a href="http://aerotwist.com/blog/on-translate3d-and-layer-creation-hacks/">the rules that are currently in use for ‘promoting’ an element</a> to its own layer before, but stick around as there’s a totally new way, which I will explain shortly! <code>:-O</code></p>
+
+<figure>
+  <img src="/static/blog/pixels-are-expensive/layers.jpg" />
+  <figcaption>An artist's impression... Fine, <strong>my</strong> impression of a page's compositor layers.</figcaption>
+</figure>
+
+<p>When we’re done with these layers we smush them all back together, which is compositing.</p>
+
+<h2 id="avoiding-performance-bottlenecks">Avoiding performance bottlenecks</h2>
+
+<p>A while back I wrote <a href="http://www.html5rocks.com/en/tutorials/speed/high-performance-animations/">an article with Paul Irish on HTML5 Rocks</a> explaining how you can get high performance animations, or in this case, how you can exploit the pipeline to make sure you hit 60fps. What it boils down to is <em>only changing properties that trigger compositing</em> rather than layout or paint:</p>
+
+<figure>
+  <img src="/static/blog/pixels-are-expensive/high-perf-anims.jpg" />
+  <figcaption>The properties you can change without triggering layout or paint.</figcaption>
+</figure>
+
+<p>This is the list of the most common transforms (along with opacity) but in theory it should work for any of them. You will need to put elements onto their own compositor layer, though. The newest and shiniest way of doing that is <code>will-change</code>, which, for certain keywords, like <code>opacity</code> or <code>transform</code> will cause Chrome and Firefox to make the appropriate optimizations under the hood. In the case of these two keywords, for Chrome at least, means making compositor layers.</p>
+
+<p>If you’re new to <code>will-change</code>, <a href="https://twitter.com/SaraSoueidan">Sara Soueidan</a> recently wrote up a post about it on <a href="http://dev.opera.com/articles/css-will-change-property/">dev.Opera</a>. If you can’t rely on that for your work, and that includes the current version of Chrome, then you’re talking old skool hacks like <code>-webkit-backface-visibility: hidden</code> or the perennial fave, <code>-webkit-transform: translateZ(0);</code> (ohai null transform layer hack!), and you’ll be on your way again.</p>
+
+<p>When we stick to compositor operations, we see super light frames and we get 60fps!</p>
+
+<iframe width="100%" height="420" src="//www.youtube.com/embed/F5OwoQnptHY?vq=hd720" frameborder="0" allowfullscreen="allowfullscreen" style="margin-bottom: 20px; box-shadow: 0 2px 2px rgba(0,0,0,0.3)">
+</iframe>
+
+<p>For the curious, the reason that we see transparent frames is because we’re still tracking to 60fps, even if the workload completes earlier than 16ms. In those cases we fill the Timeline bars with empty space. Ooh space!</p>
+
+<h2 id="tools-not-rules-and-a-brighter-future">Tools, Not Rules and a brighter future</h2>
+
+<p>Things are always changing, including the pipeline I’ve explained. The thoroughly spiffing news is that your developer tools will always be up-to-date and truthy, so if you’re not used to spending a lot of huggle time, all-up-n-cosy with your tools, change that. They’ll love you back.</p>
+
+<p>The really good news is that things are also getting much faster. At this year’s Google I/O we showed <a href="https://www.youtube.com/watch?v=wtLJPvx7-ys#t=1800">fast, fluid, continous animations at 60fps in Chrome on Android</a>, and that’s something that continues to be really important to the Chrome team. I know it’s also really important for other browser vendors, too.</p>
+
+<p>I hope to some day say that all you need to care about is writing ‘sane’ code, whether it triggers layout, paint or anything else, and that you can let the browser do the work, but until then, <em>this</em> is what every frontend developer should know about webpage rendering.</p>
+</div></div>
+
+  <div class="footer-share container">
+    Share this on: <span class="value"><a href="http://www.twitter.com/share?url=http://aerotwist.com/blog/pixels-are-expensive/">Twitter</a></span>
+    <span class="value"><a href="https://plus.google.com/share?url=http://aerotwist.com/blog/pixels-are-expensive/">Google+</a></span>
+  </div>
+
+  <div class="clear"></div>
+
+  
+    <svg class="left-shape" style="margin-left: -323.0px" width="476.0" height="833.0">
+      <use xlink:href="#color-block" filter="url(#blur-4)" transform="scale(-1.4 1.4) rotate(90)"/>
+    </svg>
+
+    <svg class="right-shape" width="170.0" height="535.5">
+      <use xlink:href="#color-block" filter="url(#blur-8)" transform="scale(-0.9 0.9) rotate(90)"/>
+    </svg>
+  
+
+</div>
+
+
+    </section>
+
+    <footer>
+
+      <div class="container">
+        <div class="bio panel">
+          <h2>Hello!</h2>
+          <p>My name is Paul. I work at <a href="http://www.google.com/" title="Some cloud company in the USA, I think.">Google</a> on the Chrome Developer Relations team as an advocate. I help developers improve the performance of their sites and apps.</p>
+
+          <p>You can find me on <a href="http://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a></p>
+        </div>
+
+        <div class="get-in-touch panel">
+          <h2>Get in touch</h2>
+          <p>I don’t bite. Honestly. You can find me on <a href="http://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a>, and I like hearing from people (pretty handy given my job, really) so say hi.</p>
+        </div>
+
+        <div class="subscribe panel">
+          <h2>Subscribe</h2>
+          <p>You should totally get the <a href="/blog/feed/">RSS feed</a>, or whatever it is you kids are using these days (I miss Reader.)</p>
+        </div>
+
+        <p class="disclaimer">Except as otherwise noted, the content of this page is licensed under the Creative Commons Attribution 3.0 License, and code samples are licensed under the Apache 2.0 License.</p>
+      </div>
+    </footer>
+
+    <script type="text/javascript" async="true">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-13024693-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+  </body>
+</html>
