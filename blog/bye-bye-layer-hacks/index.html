@@ -208,7 +208,7 @@
       </svg>
 
       <svg class="left-meta" width="514" height="311">
-        <use xlink:href="#color-block" filter="url(#blur-6)" transform="translate(257 311/2) scale(-0.5 0.5) translate(-257 -311/2)" />
+        <use xlink:href="#color-block" filter="url(#blur-6)" transform="translate(257 155) scale(-0.5 0.5) translate(-257 -156)" />
       </svg>
     
 
@@ -252,7 +252,7 @@
     </div>
   </div>
 
-  <div class="container"><div class="left column"><h2 id="hackery-thuggery">Hackery Thuggery</h2>
+  <div class="container"><div class="left column"><h2 id="hackery_thuggery">Hackery Thuggery</h2>
 
 <p>Developers have long used <code>translateZ</code> to promote elements to their own layers. It’s a great way to isolate elements so painting has less impact, but it doesn’t come <a href="//aerotwist.com/blog/on-translate3d-and-layer-creation-hacks/">without costs</a>.</p>
 
@@ -260,13 +260,13 @@
 
 <p>Just as well, then, that a new property is incoming: <code>will-change</code>.</p>
 
-<h2 id="heyaaaaa-declarative-wonderment">Heyaaaaa declarative wonderment</h2>
+<h2 id="heyaaaaa_declarative_wonderment">Heyaaaaa declarative wonderment</h2>
 
 <p>With <code>will-change</code>, you get to declare your intention to the browser, letting it know what you plan to change about an element: its position, dimensions or scroll position to name just three. Instead of inferring things through other styles (ohai 3D transform), the browser can explicitly make provision for whatever it is you’re planning to do.</p>
 
 <p>There is relatively fine-grain control for detailing <em>what exactly</em> will be changing, and this is important. In the same way as with <code>transition</code>s, where in all likelihood you don’t want to use a value of <code>all</code>, so here you will probably want to hint very clearly what is going to change. That way the browser gets to choose the correct optimizations under the hood beyond simply “make a layer for this element”.</p>
 
-<h2 id="the-web-needs-containment">The web needs containment</h2>
+<h2 id="the_web_needs_containment">The web needs containment</h2>
 
 <p>I recently wrote a post on how <a href="//aerotwist.com/blog/the-web-needs-containment/">the web needs to provide a couple of things</a> to enable the next generation of web apps and this property (it was called <code>will-animate</code> at that point) was one of them.</p>
 
@@ -274,24 +274,23 @@
 
 <p>Game on.</p>
 
-<h2 id="update-2014-02-21">Update (2014-02-21)</h2>
+<h2 id="update_20140221">Update (2014-02-21)</h2>
 
 <p>There’s been a bit of chatter on Twitter. What caught my eye was Lea Verou saying that this is something that the browser should handle automatically:</p>
-
 <figure>
-  <a href="https://twitter.com/LeaVerou/status/436612125826744320"><img src="/static/blog/bye-bye-layer-hacks/lea-verou-tweet.png" /></a>
+  <a href='https://twitter.com/LeaVerou/status/436612125826744320'><img src='/static/blog/bye-bye-layer-hacks/lea-verou-tweet.png' /></a>
 </figure>
-
 <p>Let me say up-front that I’m entirely sympathetic to this view, and historically browser vendors have handled everything automatically very well. But here’s why I don’t think this is adequate today:</p>
 
 <ul>
-  <li><strong>A browser can only infer what you intend to change visually by proxy.</strong> If you make a class to apply a transition on an element’s – say – width, height, top and left that’s all well and good, but then the browser doesn’t know <em>for sure</em> that you’re going to change any of those things until you add the class to an element. And even then adding a transition property does not equate to actually changing a transitional property’s value. This applies equally to styles toggled through JavaScript or states, e.g. hover. You can’t actively preempt it because then <em>all</em> candidate elements should by rights be optimized for that eventuality and it would kill performance.</li>
-  <li><strong>Many developers require the ability to make changes imperatively via JavaScript, not declaratively through CSS.</strong> For those who don’t like JavaScript animation, the use-case is when you have dynamically- or user-generated content about which you can’t reason, and therefore bake into CSS, ahead of time. As such the browser has no idea JavaScipt-based changes are coming until they are executed. It would be akin to <a href="http://en.wikipedia.org/wiki/Halting_problem">the Halting Problem</a> for the browser to try and figure out if you’re <em>definitely</em> going to execute a particular piece code.</li>
-  <li><strong>Setting up graphics to render pages is not free</strong>. We get to author our stuff in CSS, and the browser has to do all the heavy lifting to accurately present the page to a user. Creating all the structures, handling painting and compositing (all the while ensuring everything remains correct) is not free. In fact it’s computationally expensive and an engineering task, for sure, but it’s a constraint of operating with graphics that is not unique to the web. We can either do that work <em>on demand</em> and hamstring runtime performance, or we can do it <em>ahead of time</em> and hopefully give our users the best possible experience.</li>
+<li><strong>A browser can only infer what you intend to change visually by proxy.</strong> If you make a class to apply a transition on an element’s – say – width, height, top and left that’s all well and good, but then the browser doesn’t know <em>for sure</em> that you’re going to change any of those things until you add the class to an element. And even then adding a transition property does not equate to actually changing a transitional property’s value. This applies equally to styles toggled through JavaScript or states, e.g. hover. You can’t actively preempt it because then <em>all</em> candidate elements should by rights be optimized for that eventuality and it would kill performance.</li>
+
+<li><strong>Many developers require the ability to make changes imperatively via JavaScript, not declaratively through CSS.</strong> For those who don’t like JavaScript animation, the use-case is when you have dynamically- or user-generated content about which you can’t reason, and therefore bake into CSS, ahead of time. As such the browser has no idea JavaScipt-based changes are coming until they are executed. It would be akin to <a href="http://en.wikipedia.org/wiki/Halting_problem">the Halting Problem</a> for the browser to try and figure out if you’re <em>definitely</em> going to execute a particular piece code.</li>
+
+<li><strong>Setting up graphics to render pages is not free</strong>. We get to author our stuff in CSS, and the browser has to do all the heavy lifting to accurately present the page to a user. Creating all the structures, handling painting and compositing (all the while ensuring everything remains correct) is not free. In fact it’s computationally expensive and an engineering task, for sure, but it’s a constraint of operating with graphics that is not unique to the web. We can either do that work <em>on demand</em> and hamstring runtime performance, or we can do it <em>ahead of time</em> and hopefully give our users the best possible experience.</li>
 </ul>
 
-<p>Ultimately web apps are getting more complex and complicated, a point I made when I posted about how <a href="//aerotwist.com/blog/algowhatnow/">developers can benefit from learning Computer Science</a>. More complicated and complex applications put a burden on authors, of course, but also on browsers. The best things happen when people work <em>with</em> technology, and, given the above points, I’d rather we had the finer-grain control to express to browsers what we really intend to do rather than leave them guessing.</p>
-</div></div>
+<p>Ultimately web apps are getting more complex and complicated, a point I made when I posted about how <a href="//aerotwist.com/blog/algowhatnow/">developers can benefit from learning Computer Science</a>. More complicated and complex applications put a burden on authors, of course, but also on browsers. The best things happen when people work <em>with</em> technology, and, given the above points, I’d rather we had the finer-grain control to express to browsers what we really intend to do rather than leave them guessing.</p></div></div>
 
   <div class="footer-share container">
     Share this on: <span class="value"><a href="http://www.twitter.com/share?url=http://aerotwist.com/blog/bye-bye-layer-hacks/">Twitter</a></span>
@@ -301,7 +300,7 @@
   <div class="clear"></div>
 
   
-    <svg class="left-shape" style="margin-left: -295.45px" width="435.4" height="719.6">
+    <svg class="left-shape" style="margin-left: -295.45px" width="435.4" height="719.5999999999999">
       <use xlink:href="#color-block" filter="url(#blur-4)" transform="scale(-1.4 1.4) rotate(90)"/>
     </svg>
 

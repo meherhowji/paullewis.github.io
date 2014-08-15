@@ -161,57 +161,25 @@
 
 <h2 id="synopsis">Synopsis</h2>
 
-<p>Apparently an attractor is <a href="http://en.wikipedia.org/wiki/Attractor">a set to which a dynamical system evolves over
-time</a>. They’re used to represent all
-sorts of things, particularly chaos, and they’re called “strange” if they have
-a non-integer dimension. Looking at it geometrically, which I like to do
-whenever I can, they are a good way to test point rendering performance.</p>
+<p>Apparently an attractor is <a href="http://en.wikipedia.org/wiki/Attractor">a set to which a dynamical system evolves over time</a>. They’re used to represent all sorts of things, particularly chaos, and they’re called “strange” if they have a non-integer dimension. Looking at it geometrically, which I like to do whenever I can, they are a good way to test point rendering performance.</p>
 
-<h2 id="getting-strange">Getting Strange</h2>
+<h2 id="getting_strange">Getting Strange</h2>
 
-<p>There are a few well-known strange attractors, and the one I’m most fond of is
-the <a href="http://en.wikipedia.org/wiki/Lorenz_attractor">Lorenz Attractor</a>. It kind
-of reminds me of a butterfly mixed with Saturn’s rings.</p>
+<p>There are a few well-known strange attractors, and the one I’m most fond of is the <a href="http://en.wikipedia.org/wiki/Lorenz_attractor">Lorenz Attractor</a>. It kind of reminds me of a butterfly mixed with Saturn’s rings.</p>
 
-<p>The idea, then, is pretty simple. There are three equations, one each for x, y
-and z. Given a fixed number of iterations (points) we increment a value and
-feed it into the equations, plotting a point each time. All being well we
-should see the Lorenz Attractor plotted out. If the increment is small the
-points will merge to look like lines.</p>
+<p>The idea, then, is pretty simple. There are three equations, one each for x, y and z. Given a fixed number of iterations (points) we increment a value and feed it into the equations, plotting a point each time. All being well we should see the Lorenz Attractor plotted out. If the increment is small the points will merge to look like lines.</p>
 
-<p>In theory you could just create your own attractor if you create a set of
-equations for x, y and z. Interestingly the definition of an attractor, to me
-at least, seems quite vague, along the lines of “so long as it uses the
-equations you’re golden” but I might be missing the point. My guess is it’s
-going to be quite tricky to come up with something as nice as the Lorenz
-Attractor.</p>
+<p>In theory you could just create your own attractor if you create a set of equations for x, y and z. Interestingly the definition of an attractor, to me at least, seems quite vague, along the lines of “so long as it uses the equations you’re golden” but I might be missing the point. My guess is it’s going to be quite tricky to come up with something as nice as the Lorenz Attractor.</p>
 
 <h2 id="prettify">Prettify!</h2>
 
-<p>Well, thankfully it worked and the points rendered out as expected. What was
-slightly more difficult was to make it pretty. It turns out that given the
-attractor values it’s not obvious (to me, at least) how they then map to the
-final dimensions of the attractor. I knew pretty much straight away that I
-wanted to have some kind of rainbow look, and in the end I had to do two
-passes over the data, once to get the boundaries, the second to set the RGB
-values relative to those boundaries. Ultimately, though, it’s still O(n) for
-the CompSci nerds, so I’m not too upset.</p>
+<p>Well, thankfully it worked and the points rendered out as expected. What was slightly more difficult was to make it pretty. It turns out that given the attractor values it’s not obvious (to me, at least) how they then map to the final dimensions of the attractor. I knew pretty much straight away that I wanted to have some kind of rainbow look, and in the end I had to do two passes over the data, once to get the boundaries, the second to set the RGB values relative to those boundaries. Ultimately, though, it’s still O(n) for the CompSci nerds, so I’m not too upset.</p>
 
-<p>After that it was a case of switching on additive blending and allowing some
-controls. Because of the fact that you are rendering 100,000 points by default
-I opted to not do the redrawing on the fly should you wish to recalculate the
-attractor.</p>
+<p>After that it was a case of switching on additive blending and allowing some controls. Because of the fact that you are rendering 100,000 points by default I opted to not do the redrawing on the fly should you wish to recalculate the attractor.</p>
 
-<p>One of the interesting things I’ve noticed is that JavaScript returns a frame
-rate of 60fps on almost every machine I’ve tried. If you check it on a slower
-machine, though, it’s clearly not managing that at all. The reason seems to be
-WebGL’s asynchronous rendering (which makes total sense) since the
-JavaScript’s work is simply to monkey around with the camera’s view matrix and
-that’s about it.</p>
+<p>One of the interesting things I’ve noticed is that JavaScript returns a frame rate of 60fps on almost every machine I’ve tried. If you check it on a slower machine, though, it’s clearly not managing that at all. The reason seems to be WebGL’s asynchronous rendering (which makes total sense) since the JavaScript’s work is simply to monkey around with the camera’s view matrix and that’s about it.</p>
 
-<p>Attractors do make for some pretty stuff and I love pretty stuff. I really,
-really do.</p>
-</div></div>
+<p>Attractors do make for some pretty stuff and I love pretty stuff. I really, really do.</p></div></div>
 
 </div>
 

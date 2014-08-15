@@ -161,66 +161,25 @@
 
 <h2 id="synopsis">Synopsis</h2>
 
-<p>For a while now Webkit browsers (Chrome and Safari being the most notable)
-have supported 3D transforms. As it happens support for this has also recently
-been extended to include Firefox. Given 3D transforms are part of the HTML5
-spec we can expect it to show up everywhere in the end. I thought it might be
-interesting to see how far I could push it. With some sleight of hand I think
-I managed to create something that doesn’t look like it’s been created with
-CSS.</p>
+<p>For a while now Webkit browsers (Chrome and Safari being the most notable) have supported 3D transforms. As it happens support for this has also recently been extended to include Firefox. Given 3D transforms are part of the HTML5 spec we can expect it to show up everywhere in the end. I thought it might be interesting to see how far I could push it. With some sleight of hand I think I managed to create something that doesn’t look like it’s been created with CSS.</p>
 
-<h2 id="shape-shifter">Shape Shifter</h2>
+<h2 id="shape_shifter">Shape Shifter</h2>
 
-<p>If you’re looking at the shape thinking that it doesn’t look particularly like
-a cube or other boxy shape, then you may also wonder how that was done.
-Ultimately CSS 3D transforms are taking standard block (box) elements, like
-divs, and pushing them into a 3D space. That’s true, but nobody ever said they
-couldn’t be “textured” to look like a different shape! That’s what’s going on
-here: each spike is eight divs, each with a triangular image as its “texture”.
-With a few rotations and translations you get the shape we’re talking about.</p>
+<p>If you’re looking at the shape thinking that it doesn’t look particularly like a cube or other boxy shape, then you may also wonder how that was done. Ultimately CSS 3D transforms are taking standard block (box) elements, like divs, and pushing them into a 3D space. That’s true, but nobody ever said they couldn’t be “textured” to look like a different shape! That’s what’s going on here: each spike is eight divs, each with a triangular image as its “texture”. With a few rotations and translations you get the shape we’re talking about.</p>
 
-<h2 id="but-it-looks-lit">But It Looks Lit!</h2>
+<h2 id="but_it_looks_lit">But It Looks Lit!</h2>
 
-<p>Absolutely. And this is another part of the sleight of hand. To do this
-required two things: face normals and a sprite. If you imagine that each div
-starts by looking out towards the screen, then if you know your 3D maths you
-can deduce it’s got a face normal vector of [0,0,1]. Every rotation on the div
-is repeated on the face normal so that we have something representative of the
-div’s final face direction. How does this help? Well when it comes to drawing
-everything we can use this face normal to work out how much light it gets, and
-therefore what colour to use. For simplicity I just used the dot product of
-the face normal and the light direction, the net result is something like a
-directional light in a 3D package.</p>
+<p>Absolutely. And this is another part of the sleight of hand. To do this required two things: face normals and a sprite. If you imagine that each div starts by looking out towards the screen, then if you know your 3D maths you can deduce it’s got a face normal vector of [0,0,1]. Every rotation on the div is repeated on the face normal so that we have something representative of the div’s final face direction. How does this help? Well when it comes to drawing everything we can use this face normal to work out how much light it gets, and therefore what colour to use. For simplicity I just used the dot product of the face normal and the light direction, the net result is something like a directional light in a 3D package.</p>
 
-<h2 id="what-about-the-sprite">What About the Sprite?</h2>
+<h2 id="what_about_the_sprite">What About the Sprite?</h2>
 
-<p>This was totally fun to do. All I ended up doing was drawing out the triangle
-shape about 40 times into a canvas, running from black through to the pink
-colour. To help with that I used HSL values rather than RGB when drawing the
-shapes. If you don’t know about HSL you should take a look as it’s totally
-perfect for this kind of work. In short it allows you to set a hue (the H in
-HSL), a saturation (S) and the lightness (L) which means if you run the
-lightness from 0 upwards it goes from black to the hue (at the saturation)
-you’ve set. Neat! Once I had the canvas drawn out (which looks <a href="/static/lab/spikes/sprite.png">like
-this</a>, by the way) I used the value from the dot product to shift the background position on each face to match the correct lightness.</p>
+<p>This was totally fun to do. All I ended up doing was drawing out the triangle shape about 40 times into a canvas, running from black through to the pink colour. To help with that I used HSL values rather than RGB when drawing the shapes. If you don’t know about HSL you should take a look as it’s totally perfect for this kind of work. In short it allows you to set a hue (the H in HSL), a saturation (S) and the lightness (L) which means if you run the lightness from 0 upwards it goes from black to the hue (at the saturation) you’ve set. Neat! Once I had the canvas drawn out (which looks <a href="/static/lab/spikes/sprite.png">like this</a>, by the way) I used the value from the dot product to shift the background position on each face to match the correct lightness.</p>
 
-<h2 id="whats-the-point">What’s the Point?</h2>
+<h2 id="whats_the_point">What’s the Point?</h2>
 
-<p>Well there isn’t one, really. I wanted to see if it was possible to do
-something pretty cool but without much practical application in CSS. Mainly
-it’s about finding out where the boundaries are of the technology, which I
-don’t think I’ve done; I’m pretty certain it can take much more! This is, I
-think, because it uses the GPU so you are given quite a lot of punch to do the
-rendering. On the flip side I had to do all the lighting calculations in the
-JavaScript, which isn’t ideal.</p>
+<p>Well there isn’t one, really. I wanted to see if it was possible to do something pretty cool but without much practical application in CSS. Mainly it’s about finding out where the boundaries are of the technology, which I don’t think I’ve done; I’m pretty certain it can take much more! This is, I think, because it uses the GPU so you are given quite a lot of punch to do the rendering. On the flip side I had to do all the lighting calculations in the JavaScript, which isn’t ideal.</p>
 
-<p>To be honest if I were going to attempt something like this commercially I
-would be more inclined to do it using WebGL as it’s much better at this kind
-of stuff compared to CSS. With that said it’s great to know it can be done if
-required, and really I can’t help but smile at an experiment that pushes on
-the boundaries of what we do with CSS. If only to show that with a bit of
-creativity you can do something a little weird and unexpected.</p>
-</div></div>
+<p>To be honest if I were going to attempt something like this commercially I would be more inclined to do it using WebGL as it’s much better at this kind of stuff compared to CSS. With that said it’s great to know it can be done if required, and really I can’t help but smile at an experiment that pushes on the boundaries of what we do with CSS. If only to show that with a bit of creativity you can do something a little weird and unexpected.</p></div></div>
 
 </div>
 

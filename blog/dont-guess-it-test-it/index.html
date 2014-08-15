@@ -196,7 +196,7 @@
       </svg>
 
       <svg class="left-meta" width="607" height="290">
-        <use xlink:href="#color-block" filter="url(#blur-6)" transform="translate(607/2 145) scale(-0.5 0.5) translate(-607/2 -145)" />
+        <use xlink:href="#color-block" filter="url(#blur-6)" transform="translate(303 145) scale(-0.5 0.5) translate(-304 -145)" />
       </svg>
     
 
@@ -242,202 +242,98 @@
     </div>
   </div>
 
-  <div class="container"><div class="left column"><p>The talk is live so you can watch the video if you like, but I also wanted to
-provide a summary of the salient points in a post because I appreciate not
-everyone wants to watch a video. If you <em>do</em> watch the video, however, you can
-see me using DevTools to diagnose issues, which is very handy. I also cover
-other bits and pieces in more detail.</p>
-
+  <div class="container"><div class="left column"><p>The talk is live so you can watch the video if you like, but I also wanted to provide a summary of the salient points in a post because I appreciate not everyone wants to watch a video. If you <em>do</em> watch the video, however, you can see me using DevTools to diagnose issues, which is very handy. I also cover other bits and pieces in more detail.</p>
 <div class="video-container"><iframe src="http://player.vimeo.com/video/62081535?color=5d7575" width="100%" height="100%" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe></div>
+<h2 id="the_tldr_version">The TL;DR version</h2>
 
-<h2 id="the-tldr-version">The TL;DR version</h2>
-
-<p>Tools not rules. Really, just that. As <a href="http://twitter.com/jaffathecake">Jake
-Archibald</a> said to me when I was preparing
-the talk, many people want a quick fix to the problem of performance, just
-like a weight loss pill, but in reality what they really need is <em>exercise</em>.
-I’m advocating for the practice of using profilers, understanding what our
-code is doing, and fixing our actual bottlenecks.</p>
+<p>Tools not rules. Really, just that. As <a href="http://twitter.com/jaffathecake">Jake Archibald</a> said to me when I was preparing the talk, many people want a quick fix to the problem of performance, just like a weight loss pill, but in reality what they really need is <em>exercise</em>. I’m advocating for the practice of using profilers, understanding what our code is doing, and fixing our actual bottlenecks.</p>
 
 <p>Feel free to <a href="//aerotwist.com/presentations/dont-
-guess-it-test-it/#1">check out the slides</a>, but you will need to watch the video to see the “how to”
-bits.</p>
-
+guess-it-test-it/#1">check out the slides</a>, but you will need to watch the video to see the “how to” bits.</p>
 <aside class="boxout">
-<p># Want RSS?</p>
+<h1 id="want_rss">Want RSS?</h1>
 
-<p>Would you like an <a href="/blog/feed/">RSS feed of my articles</a>? Well, there you go!
-I promise the posts will be jolly entertaining, so it’s totally worth your
-while.
-</aside></p>
+<p>Would you like an <a href="/blog/feed/">RSS feed of my articles</a>? Well, there you go! I promise the posts will be jolly entertaining, so it’s totally worth your while. </aside></p>
 
-<h2 id="performance-advice-considered-addictive">Performance Advice Considered Addictive</h2>
+<h2 id="performance_advice_considered_addictive">Performance Advice Considered Addictive</h2>
 
-<p>So often people want to know if A is faster than B, or if C is “considered
-harmful”. This is problematic for a couple reasons:</p>
+<p>So often people want to know if A is faster than B, or if C is “considered harmful”. This is problematic for a couple reasons:</p>
 
 <ol>
-  <li>Things change as browser internals change</li>
-  <li>It will depend on your specific application: optimizing a game is very different to optimizing a web app that will be open in a tab for days.</li>
+<li>Things change as browser internals change</li>
+
+<li>It will depend on your specific application: optimizing a game is very different to optimizing a web app that will be open in a tab for days.</li>
 </ol>
 
-<p>In any case I’m acknowledging the fact that we all want our apps to go faster,
-and we rarely feel that we have the time to devote to profiling our code.
-Unfortunately as developers we’re responsible for the code we ship, and we
-have a duty to make it perform well. Code that works quickly (and correctly)
-is <em>exactly</em> what we’re paid to deliver.</p>
+<p>In any case I’m acknowledging the fact that we all want our apps to go faster, and we rarely feel that we have the time to devote to profiling our code. Unfortunately as developers we’re responsible for the code we ship, and we have a duty to make it perform well. Code that works quickly (and correctly) is <em>exactly</em> what we’re paid to deliver.</p>
 
-<h2 id="learn-to-love-the-devtools-frame-mode">Learn to love the DevTools frame mode</h2>
+<h2 id="learn_to_love_the_devtools_frame_mode">Learn to love the DevTools frame mode</h2>
 
-<p>Before we go much further, you should make sure you know what frame mode is in
-the DevTools timeline. Essentially it shows you the work that Chrome is having
-to do to run your app, and it handily includes a line marking 60fps. If your
-bars are going above that line, you’re busting your budget and your app is
-going to feel clunky. There’s a <a href="http://blog.chromium.org/2012/11/build-smoother-web-apps-with-
-chrome.html">Chromium Blog post about frame
-mode</a>, so check that out if you’ve never heard of it before.</p>
+<p>Before we go much further, you should make sure you know what frame mode is in the DevTools timeline. Essentially it shows you the work that Chrome is having to do to run your app, and it handily includes a line marking 60fps. If your bars are going above that line, you’re busting your budget and your app is going to feel clunky. There’s a <a href="http://blog.chromium.org/2012/11/build-smoother-web-apps-with-
+chrome.html">Chromium Blog post about frame mode</a>, so check that out if you’ve never heard of it before.</p>
 
-<h2 id="the-performance-cerberus">The Performance Cerberus</h2>
+<h2 id="the_performance_cerberus">The Performance Cerberus</h2>
 
-<p><a href="http://en.wikipedia.org/wiki/Cerberus">Cerberus</a> is a three-headed dog (a
-mythological one, don’t freak out) and is as mean as you can imagine. That
-fits our view of things here, since performance is a badass three-headed topic
-that will bite you in the rear end if you make it mad. Mind you, he guards the
-Underworld… Hmm… OK, let’s park that overstretched analogy right there, and
-take a look at the three bits of performance we’re interested in: <strong>Network</strong>,
-<strong>Compute</strong> and <strong>Render</strong>.</p>
+<p><a href="http://en.wikipedia.org/wiki/Cerberus">Cerberus</a> is a three-headed dog (a mythological one, don’t freak out) and is as mean as you can imagine. That fits our view of things here, since performance is a badass three-headed topic that will bite you in the rear end if you make it mad. Mind you, he guards the Underworld… Hmm… OK, let’s park that overstretched analogy right there, and take a look at the three bits of performance we’re interested in: <strong>Network</strong>, <strong>Compute</strong> and <strong>Render</strong>.</p>
 
 <h2 id="network">Network</h2>
 
-<p>60% of web traffic is images. That’s a huge amount of data. Your users have to
-<em>pay to download it</em> if they’re on a metered data plan each month (most users
-in the UK, as one example, are capped somewhere around the 1GB mark on mobile)
-and chances are your hosting is metered as well: you pay for users downloading
-files. As such you may want to look at the format in which you’re serving your
-images. WebP currently offers huge file size savings when compared to the
-equivalent quality (that quality bit’s important; you can always beat a codec
-by lowering your quality in another!) JPEG or PNG. If you run your own servers
-you could do much worse than looking at
-<a href="https://developers.google.com/speed/pagespeed/mod">mod_pagespeed</a>, since that
-magically optimizes your site on the fly, minimizing and re-encoding assets.</p>
+<p>60% of web traffic is images. That’s a huge amount of data. Your users have to <em>pay to download it</em> if they’re on a metered data plan each month (most users in the UK, as one example, are capped somewhere around the 1GB mark on mobile) and chances are your hosting is metered as well: you pay for users downloading files. As such you may want to look at the format in which you’re serving your images. WebP currently offers huge file size savings when compared to the equivalent quality (that quality bit’s important; you can always beat a codec by lowering your quality in another!) JPEG or PNG. If you run your own servers you could do much worse than looking at <a href="https://developers.google.com/speed/pagespeed/mod">mod_pagespeed</a>, since that magically optimizes your site on the fly, minimizing and re-encoding assets.</p>
 
 <blockquote>
-  <p>That fits our view of things here, since performance is a badass three-headed topic that will bite you in the rear end if you make it mad.</p>
+<p>That fits our view of things here, since performance is a badass three-headed topic that will bite you in the rear end if you make it mad.</p>
 </blockquote>
 
-<p>Secondly you might want to take a look at the number of requests your site
-makes. Unless your user is on SPDY or HTTP 2.0 then every file will need to be
-requested separately, and every request will potentially have a large latency
-on it. It’s worth remembering that bandwidth isn’t latency, so even if you’re
-on a 3G connection (or better), that doesn’t necessarily correlate to lower
-latency!</p>
+<p>Secondly you might want to take a look at the number of requests your site makes. Unless your user is on SPDY or HTTP 2.0 then every file will need to be requested separately, and every request will potentially have a large latency on it. It’s worth remembering that bandwidth isn’t latency, so even if you’re on a 3G connection (or better), that doesn’t necessarily correlate to lower latency!</p>
 
-<p>Finally, bear in mind that a request will keep the radio active on a mobile
-device. The radio is the second most draining item after the screen, so really
-we want to get it shut off as soon as we can. Otherwise your users will
-complain that your site destroys battery life, and that’s not a good complaint
-to have leveraged at you.</p>
+<p>Finally, bear in mind that a request will keep the radio active on a mobile device. The radio is the second most draining item after the screen, so really we want to get it shut off as soon as we can. Otherwise your users will complain that your site destroys battery life, and that’s not a good complaint to have leveraged at you.</p>
 
-<p><a href="http://igvita.com/">Ilya Grigorik</a> is on my team and provides so much good
-information on this topic. You should totally go and read his articles and
-slide decks.</p>
+<p><a href="http://igvita.com/">Ilya Grigorik</a> is on my team and provides so much good information on this topic. You should totally go and read his articles and slide decks.</p>
 
 <h2 id="compute">Compute</h2>
 
-<p>All our JavaScript runs inside an engine. In Chrome’s case the engine is V8,
-and like other engines in top-tier browsers, it’s incredibly fast. It’s fast
-because it watches your code and swaps it out at the function level with an
-optimized equivalent code.</p>
+<p>All our JavaScript runs inside an engine. In Chrome’s case the engine is V8, and like other engines in top-tier browsers, it’s incredibly fast. It’s fast because it watches your code and swaps it out at the function level with an optimized equivalent code.</p>
 
-<p>The first thing you want to avoid is your code being deoptimized, which is
-where the <em>old, slower code</em> has to be resubstituted back in for the faster
-version. There are many reasons why this can happen, and they change
-(reminder: nothing stays the same) so the best thing you can do is to run a
-tool called <code>d8</code>, which is a standalone version of V8 which will tell you if
-your JavaScript got deoptimized. For more info check out <a href="http://floitsch.blogspot.co.uk/2012/03/optimizing-
-for-v8-inlining.html">Optimizing for V8 -
-Inlining, deoptimizations</a>.</p>
+<p>The first thing you want to avoid is your code being deoptimized, which is where the <em>old, slower code</em> has to be resubstituted back in for the faster version. There are many reasons why this can happen, and they change (reminder: nothing stays the same) so the best thing you can do is to run a tool called <code>d8</code>, which is a standalone version of V8 which will tell you if your JavaScript got deoptimized. For more info check out <a href="http://floitsch.blogspot.co.uk/2012/03/optimizing-
+for-v8-inlining.html">Optimizing for V8 - Inlining, deoptimizations</a>.</p>
 
-<p>Secondly, since you don’t retain and release memory yourself in JavaScript,
-you’re at the mercy of the garbage collector. Why? Because memory usage from
-all your declared objects would grow and grow. You never manually release
-their memory, so the garbage collector has to come and clean them up when
-they’re not needed anymore. Unfortunately garbage collection (GC) is not free
-and blocks JavaScript execution while it tidies up. Chrome DevTools handily
-points out to you when GC has occurred, so you should take time to see if
-you’re generating a lot of garbage and see if your code is being paused for
-its collection.</p>
-
+<p>Secondly, since you don’t retain and release memory yourself in JavaScript, you’re at the mercy of the garbage collector. Why? Because memory usage from all your declared objects would grow and grow. You never manually release their memory, so the garbage collector has to come and clean them up when they’re not needed anymore. Unfortunately garbage collection (GC) is not free and blocks JavaScript execution while it tidies up. Chrome DevTools handily points out to you when GC has occurred, so you should take time to see if you’re generating a lot of garbage and see if your code is being paused for its collection.</p>
 <figure>
-  <img src="/static/blog/dont-guess-it-test-it/gc.png" />
+  <img src='/static/blog/dont-guess-it-test-it/gc.png' />
 </figure>
-
 <h2 id="render">Render</h2>
 
-<p>Your DOM becoming pixels on the screen can be one of the most costly parts of
-your app’s lifecycle. Crucially when <em>additional</em> painting needs to occur as
-part of interaction with your app can resulting the app slowing. UI
-interactions, scrolling, content injections all cause the page to visibly
-change, and those changes need to be painted to the screen.</p>
+<p>Your DOM becoming pixels on the screen can be one of the most costly parts of your app’s lifecycle. Crucially when <em>additional</em> painting needs to occur as part of interaction with your app can resulting the app slowing. UI interactions, scrolling, content injections all cause the page to visibly change, and those changes need to be painted to the screen.</p>
 
-<p>Painting also encapsulates the decoding (you send a PNG, we need a bitmap in
-memory) and resizing (you send it at 1000px wide for a 300px wide element) of
-your app’s images. Interestingly there’s a cache available for these decoded
-images, but if you have a lot of images being decoded soon enough some images
-will need to be dropped from the cache.</p>
+<p>Painting also encapsulates the decoding (you send a PNG, we need a bitmap in memory) and resizing (you send it at 1000px wide for a 300px wide element) of your app’s images. Interestingly there’s a cache available for these decoded images, but if you have a lot of images being decoded soon enough some images will need to be dropped from the cache.</p>
 
-<p>A quick study of the DevTools timeline will show you what’s going on, so again
-it’s worth checking those out.</p>
-
+<p>A quick study of the DevTools timeline will show you what’s going on, so again it’s worth checking those out.</p>
 <figure>
-  <img src="/static/blog/dont-guess-it-test-it/paints.png" />
+  <img src='/static/blog/dont-guess-it-test-it/paints.png' />
 </figure>
-
 <blockquote>
-  <p>Your DOM becoming pixels on the screen can be one of the most costly parts of your app’s lifecycle.</p>
+<p>Your DOM becoming pixels on the screen can be one of the most costly parts of your app’s lifecycle.</p>
 </blockquote>
 
-<p>The important thing with painting is first to reduce the size of the paint
-area. You can quickly assess that with a feature called Show Paint Rectangles
-in Chrome’s DevTools, which puts a red box around the areas that needed to be
-repainted. To switch it on head over to DevTools and hit the cog in the bottom
-right hand corner. From there choose “Show Paint Rectangles”.</p>
+<p>The important thing with painting is first to reduce the size of the paint area. You can quickly assess that with a feature called Show Paint Rectangles in Chrome’s DevTools, which puts a red box around the areas that needed to be repainted. To switch it on head over to DevTools and hit the cog in the bottom right hand corner. From there choose “Show Paint Rectangles”.</p>
 
-<p>If you see a full screen flash of red when you scrolled (as one example) the
-chances are you’re painting more than you thought you were going to. In any
-case reduce your paint area to the absolute minimum, and verify you’re only
-repainting the areas you meant to.</p>
-
+<p>If you see a full screen flash of red when you scrolled (as one example) the chances are you’re painting more than you thought you were going to. In any case reduce your paint area to the absolute minimum, and verify you’re only repainting the areas you meant to.</p>
 <figure>
-  <img src="/static/blog/dont-guess-it-test-it/paint-rects.png" />
+  <img src='/static/blog/dont-guess-it-test-it/paint-rects.png' />
 </figure>
-
-<p>Secondly, assuming you’re painting the minimum, check to see if you have
-expensive styles. You can do that with the Continuous Paint Mode in Canary’s
-DevTools, <a href="//aerotwist.com/blog/on-
-translate3d-and-layer-creation-hacks/">which I’ve talked about before</a>. Essentially it forces Chrome to
-repaint your page on every frame, and that means you can start toggling
-elements and styles off to see if and where you have a paint bottleneck.
-<a href="http://updates.html5rocks.com/2013/02/Profiling-Long-Paint-Times-with-
-DevTools-Continuous-Painting-Mode">Eberhard Gräther totally has your back
-here</a>.</p>
-
+<p>Secondly, assuming you’re painting the minimum, check to see if you have expensive styles. You can do that with the Continuous Paint Mode in Canary’s DevTools, <a href="//aerotwist.com/blog/on-
+translate3d-and-layer-creation-hacks/">which I’ve talked about before</a>. Essentially it forces Chrome to repaint your page on every frame, and that means you can start toggling elements and styles off to see if and where you have a paint bottleneck. <a href="http://updates.html5rocks.com/2013/02/Profiling-Long-Paint-Times-with-
+DevTools-Continuous-Painting-Mode">Eberhard Gräther totally has your back here</a>.</p>
 <figure>
-  <img src="/static/blog/dont-guess-it-test-it/cont-paint.png" />
+  <img src='/static/blog/dont-guess-it-test-it/cont-paint.png' />
 </figure>
-
 <h2 id="conclusion">Conclusion</h2>
 
-<p>Performance is a big deal, it’s what takes your app from mediocre to great,
-and we need to take it seriously. A great app means your users will be
-happier, which in turn leads to more sales and more good will towards you and
-your app.</p>
+<p>Performance is a big deal, it’s what takes your app from mediocre to great, and we need to take it seriously. A great app means your users will be happier, which in turn leads to more sales and more good will towards you and your app.</p>
 
-<p>Finally, always trust the profilers, and don’t commit specific rules to your
-head. They change.</p>
+<p>Finally, always trust the profilers, and don’t commit specific rules to your head. They change.</p>
 
-<p>Don’t guess it… you get the idea.</p>
-</div></div>
+<p>Don’t guess it… you get the idea.</p></div></div>
 
   <div class="footer-share container">
     Share this on: <span class="value"><a href="http://www.twitter.com/share?url=http://aerotwist.com/blog/dont-guess-it-test-it/">Twitter</a></span>
@@ -451,7 +347,7 @@ head. They change.</p>
       <use xlink:href="#color-block" filter="url(#blur-4)" transform="scale(-1.4 1.4) rotate(90)"/>
     </svg>
 
-    <svg class="right-shape" width="145.0" height="546.3">
+    <svg class="right-shape" width="145.0" height="546.3000000000001">
       <use xlink:href="#color-block" filter="url(#blur-8)" transform="scale(-0.9 0.9) rotate(90)"/>
     </svg>
   

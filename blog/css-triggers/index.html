@@ -204,7 +204,7 @@
       </svg>
 
       <svg class="left-meta" width="425" height="321">
-        <use xlink:href="#color-block" filter="url(#blur-6)" transform="translate(425/2 321/2) scale(-0.5 0.5) translate(-425/2 -321/2)" />
+        <use xlink:href="#color-block" filter="url(#blur-6)" transform="translate(212 160) scale(-0.5 0.5) translate(-213 -161)" />
       </svg>
     
 
@@ -251,109 +251,101 @@
   <div class="container"><div class="left column">
 <p class="livedemo"><a href="http://csstriggers.com/">Visit CSS Triggers</a></p>
 
-<p>A while ago, <a href="https://twitter.com/paul_irish">Paul Irish</a> and I were doing an event in San Francisco about performance. In Paul’s deck there was a grab of a doc we’d collaborated on that showed the <a href="https://docs.google.com/a/google.com/spreadsheet/pub?key=0ArK1Uipy0SbDdHVLc1ozTFlja1dhb25QNGhJMXN5MXc&amp;single=true&amp;gid=0&amp;output=html">top CSS properties by usage, along with their impact to browser workload</a>. The ‘impact’ part was incomplete, and manually created, but I guess in many ways that was the starting point for making CSS Triggers. Except this time I wanted it to be complete and automated…</p>
+<p>A while ago, <a href="https://twitter.com/paul_irish">Paul Irish</a> and I were doing an event in San Francisco about performance. In Paul’s deck there was a grab of a doc we’d collaborated on that showed the <a href="https://docs.google.com/a/google.com/spreadsheet/pub?key=0ArK1Uipy0SbDdHVLc1ozTFlja1dhb25QNGhJMXN5MXc&single=true&gid=0&output=html">top CSS properties by usage, along with their impact to browser workload</a>. The ‘impact’ part was incomplete, and manually created, but I guess in many ways that was the starting point for making CSS Triggers. Except this time I wanted it to be complete and automated…</p>
 
-<h2 id="building-the-data-set">Building the data set</h2>
+<h2 id="building_the_data_set">Building the data set</h2>
 
-<p>The first thing I knew I would want was a set of test pages that would allow me to check each CSS property individually and see what it triggered. But wait, I’m getting ahead of myself, how do I get all the CSS properties? After a bit of googling I found <a href="http://acuriousanimal.com/blog/2012/07/09/look-mom-no-jquery-getting-all-css-properties-of-a-dom-element-in-pure-javascript/">someone had tried something similar</a>. Their code was a bit much for my needs so I rewrote it and simplified things, and it turned out the final code to get the properties was actually not too tricky at all:
-</div></div></p>
+<p>The first thing I knew I would want was a set of test pages that would allow me to check each CSS property individually and see what it triggered. But wait, I’m getting ahead of myself, how do I get all the CSS properties? After a bit of googling I found <a href="http://acuriousanimal.com/blog/2012/07/09/look-mom-no-jquery-getting-all-css-properties-of-a-dom-element-in-pure-javascript/">someone had tried something similar</a>. Their code was a bit much for my needs so I rewrote it and simplified things, and it turned out the final code to get the properties was actually not too tricky at all: </div></div></p>
+<div class='highlight'><pre><code class='javascript'><span class='kd'>var</span> <span class='nx'>docEl</span> <span class='o'>=</span> <span class='nb'>document</span><span class='p'>.</span><span class='nx'>documentElement</span><span class='p'>;</span>
+<span class='kd'>var</span> <span class='nx'>properties</span> <span class='o'>=</span> <span class='nb'>window</span><span class='p'>.</span><span class='nx'>getComputedStyle</span><span class='p'>(</span><span class='nx'>docEl</span><span class='p'>,</span> <span class='kc'>null</span><span class='p'>);</span>
+<span class='kd'>var</span> <span class='nx'>prefix</span> <span class='o'>=</span> <span class='sr'>/\-webkit\-/</span><span class='p'>;</span>
+<span class='kd'>var</span> <span class='nx'>allCSSProperties</span> <span class='o'>=</span> <span class='p'>[];</span>
 
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">docEl</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">documentElement</span><span class="p">;</span>
-<span class="kd">var</span> <span class="nx">properties</span> <span class="o">=</span> <span class="nb">window</span><span class="p">.</span><span class="nx">getComputedStyle</span><span class="p">(</span><span class="nx">docEl</span><span class="p">,</span> <span class="kc">null</span><span class="p">);</span>
-<span class="kd">var</span> <span class="nx">prefix</span> <span class="o">=</span> <span class="sr">/\-webkit\-/</span><span class="p">;</span>
-<span class="kd">var</span> <span class="nx">allCSSProperties</span> <span class="o">=</span> <span class="p">[];</span>
+<span class='k'>for</span> <span class='p'>(</span><span class='kd'>var</span> <span class='nx'>s</span> <span class='o'>=</span> <span class='mi'>0</span><span class='p'>;</span> <span class='nx'>s</span> <span class='o'>&lt;</span> <span class='nx'>properties</span><span class='p'>.</span><span class='nx'>length</span><span class='p'>;</span> <span class='nx'>s</span><span class='o'>++</span><span class='p'>)</span> <span class='p'>{</span>
+  <span class='kd'>var</span> <span class='nx'>property</span> <span class='o'>=</span> <span class='nx'>properties</span><span class='p'>[</span><span class='nx'>s</span><span class='p'>];</span>
 
-<span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">s</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">s</span> <span class="o">&lt;</span> <span class="nx">properties</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">s</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-  <span class="kd">var</span> <span class="nx">property</span> <span class="o">=</span> <span class="nx">properties</span><span class="p">[</span><span class="nx">s</span><span class="p">];</span>
+  <span class='c1'>// Ignore prefixed properties.</span>
+  <span class='k'>if</span> <span class='p'>(</span><span class='nx'>prefix</span><span class='p'>.</span><span class='nx'>test</span><span class='p'>(</span><span class='nx'>property</span><span class='p'>))</span>
+    <span class='k'>continue</span><span class='p'>;</span>
 
-  <span class="c1">// Ignore prefixed properties.</span>
-  <span class="k">if</span> <span class="p">(</span><span class="nx">prefix</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="nx">property</span><span class="p">))</span>
-    <span class="k">continue</span><span class="p">;</span>
-
-  <span class="c1">// Check we don&#39;t duplicate.</span>
-  <span class="k">if</span> <span class="p">(</span><span class="nx">allCSSProperties</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="nx">property</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-    <span class="nx">allCSSProperties</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">property</span><span class="p">);</span>
-<span class="p">}</span></code></pre></div>
-
-<div class="container"><div class="left column">
-
+  <span class='c1'>// Check we don&#39;t duplicate.</span>
+  <span class='k'>if</span> <span class='p'>(</span><span class='nx'>allCSSProperties</span><span class='p'>.</span><span class='nx'>indexOf</span><span class='p'>(</span><span class='nx'>property</span><span class='p'>)</span> <span class='o'>==</span> <span class='o'>-</span><span class='mi'>1</span><span class='p'>)</span>
+    <span class='nx'>allCSSProperties</span><span class='p'>.</span><span class='nx'>push</span><span class='p'>(</span><span class='nx'>property</span><span class='p'>);</span>
+<span class='p'>}</span>
+</code></pre></div><div class="container"><div class="left column">
 <p>And now I had a list of properties…</p>
 
-<h2 id="test-files">Test files</h2>
+<h2 id="test_files">Test files</h2>
 
 <p>Next I created a node.js file that would output <a href="https://github.com/paullewis/CSS-Triggers/tree/master/suite">a suite of test files</a>, one for each property. Each file in the suite is pretty much the same, save for the property it manipulates. And. They. Look. Gorgeous.</p>
-
 <figure>
-  <img src="/static/blog/css-triggers/test.png" />
+  <img src='/static/blog/css-triggers/test.png' />
   <figcaption>My gorgeous test files. DON'T JUDGE ME.</figcaption>
 </figure>
-
 <blockquote>
-  <p>For each property I made sure that <code>will-change</code> was set (even if there’s no corresponding browser optimization to match, because whatevs) and that the value changes actually did trigger something.</p>
+<p>For each property I made sure that <code>will-change</code> was set (even if there’s no corresponding browser optimization to match, because whatevs) and that the value changes actually did trigger something.</p>
 </blockquote>
 
 <p>For each property I made sure that <a href="http://dev.opera.com/articles/css-will-change-property/"><code>will-change</code></a> was set (even if there’s no corresponding browser optimization to match, because whatevs) and that the value changes actually <em>did trigger something</em>. By that I mean there’s no point changing a property intended for tables if you have no tables, that kind of thing. I also tried to make sure there was a test of changing the value from its default to something else, and then another test changing it between two user-defined values, if that made sense for the property in question.</p>
 
-<h2 id="you-have-tests-you-run-them">You have tests, you run them…</h2>
+<h2 id="you_have_tests_you_run_them">You have tests, you run them…</h2>
 
 <p>OK, suite of tests all ready and working, I set about cloning <a href="http://www.chromium.org/developers/telemetry">Chrome’s Telemetry</a> and making a benchmark to run through all the files. Sounds simple, but Telemetry is a large codebase and I don’t pretend to understand Python super well. Anyways, I got there.</p>
 
 <p>The key with Telemetry, though, is that you can ask it to record a DevTools timeline of the page and then see which records it received. The way I built the test was that the CSS property change would be triggered by a specific <code>go()</code> function (rad naming, I know) so for each page in the set I essentially said:</p>
 
 <ul>
-  <li>Load it.</li>
-  <li>Switch on DevTools’ Timeline.</li>
-  <li><code>go()</code></li>
-  <li>Stop DevTools’ Timeline.</li>
-  <li>Tell me if you have Layout, Paint or Composite Records.</li>
+<li>Load it.</li>
+
+<li>Switch on DevTools’ Timeline.</li>
+
+<li><code>go()</code></li>
+
+<li>Stop DevTools’ Timeline.</li>
+
+<li>Tell me if you have Layout, Paint or Composite Records.</li>
 </ul>
 
 <p>With that, and a bit more data jiggery pokery, I ended up with <a href="http://csstriggers.com/data/data.json">a big ol’ data set</a>.</p>
 
-<h2 id="go-static-or--go-home">Go static or … go home?</h2>
+<h2 id="go_static_or__go_home">Go static or … go home?</h2>
 
 <p>Building the site was a relatively clear once I had the data: a big table with some details on what it means. But to generate it I wanted to use Jekyll, so I found myself writing more node.js stuff to transform the JSON I had over to its funky YAML front matter:</p>
+</div></div><div class='highlight'><pre><code class='python'><span class='n'>properties</span><span class='p'>:</span>
+ <span class='o'>-</span> <span class='n'>name</span><span class='p'>:</span> <span class='s'>&quot;align-content&quot;</span>
+   <span class='n'>chrome</span><span class='p'>:</span>
+      <span class='n'>initial</span><span class='p'>:</span>
+         <span class='n'>layout</span><span class='p'>:</span> <span class='s'>&quot;true&quot;</span>
+         <span class='n'>paint</span><span class='p'>:</span> <span class='s'>&quot;true&quot;</span>
+         <span class='n'>composite</span><span class='p'>:</span> <span class='s'>&quot;true&quot;</span>
+      <span class='n'>change</span><span class='p'>:</span>
+         <span class='n'>layout</span><span class='p'>:</span> <span class='s'>&quot;null&quot;</span>
+         <span class='n'>paint</span><span class='p'>:</span> <span class='s'>&quot;null&quot;</span>
+         <span class='n'>composite</span><span class='p'>:</span> <span class='s'>&quot;null&quot;</span>
+ <span class='o'>-</span> <span class='n'>name</span><span class='p'>:</span> <span class='s'>&quot;align-items&quot;</span>
+   <span class='n'>chrome</span><span class='p'>:</span>
+      <span class='n'>initial</span><span class='p'>:</span>
+         <span class='n'>layout</span><span class='p'>:</span> <span class='s'>&quot;true&quot;</span>
+         <span class='n'>paint</span><span class='p'>:</span> <span class='s'>&quot;true&quot;</span>
+         <span class='n'>composite</span><span class='p'>:</span> <span class='s'>&quot;true&quot;</span>
+      <span class='n'>change</span><span class='p'>:</span>
+         <span class='n'>layout</span><span class='p'>:</span> <span class='s'>&quot;null&quot;</span>
+         <span class='n'>paint</span><span class='p'>:</span> <span class='s'>&quot;null&quot;</span>
+         <span class='n'>composite</span><span class='p'>:</span> <span class='s'>&quot;null&quot;</span>
 
-</div></div>
-
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">properties</span><span class="p">:</span>
- <span class="o">-</span> <span class="n">name</span><span class="p">:</span> <span class="s">&quot;align-content&quot;</span>
-   <span class="n">chrome</span><span class="p">:</span>
-      <span class="n">initial</span><span class="p">:</span>
-         <span class="n">layout</span><span class="p">:</span> <span class="s">&quot;true&quot;</span>
-         <span class="n">paint</span><span class="p">:</span> <span class="s">&quot;true&quot;</span>
-         <span class="n">composite</span><span class="p">:</span> <span class="s">&quot;true&quot;</span>
-      <span class="n">change</span><span class="p">:</span>
-         <span class="n">layout</span><span class="p">:</span> <span class="s">&quot;null&quot;</span>
-         <span class="n">paint</span><span class="p">:</span> <span class="s">&quot;null&quot;</span>
-         <span class="n">composite</span><span class="p">:</span> <span class="s">&quot;null&quot;</span>
- <span class="o">-</span> <span class="n">name</span><span class="p">:</span> <span class="s">&quot;align-items&quot;</span>
-   <span class="n">chrome</span><span class="p">:</span>
-      <span class="n">initial</span><span class="p">:</span>
-         <span class="n">layout</span><span class="p">:</span> <span class="s">&quot;true&quot;</span>
-         <span class="n">paint</span><span class="p">:</span> <span class="s">&quot;true&quot;</span>
-         <span class="n">composite</span><span class="p">:</span> <span class="s">&quot;true&quot;</span>
-      <span class="n">change</span><span class="p">:</span>
-         <span class="n">layout</span><span class="p">:</span> <span class="s">&quot;null&quot;</span>
-         <span class="n">paint</span><span class="p">:</span> <span class="s">&quot;null&quot;</span>
-         <span class="n">composite</span><span class="p">:</span> <span class="s">&quot;null&quot;</span>
-
-  <span class="c"># etc, etc....</span></code></pre></div>
-
-<div class="container"><div class="left column">
+  <span class='c'># etc, etc....</span>
+</code></pre></div><div class="container"><div class="left column">
 <p>You may well notice a “chrome” key there in the data. That’s right. I’d like to expand this to other browser vendors, and I am more than happy to include more data and give developers a better overview. Sadly the tools don’t exist yet for many browsers, so here’s a request: <strong>if you’re a vendor, or you know what’s going on inside browsers besides Chrome, please <a href="https://github.com/paullewis/CSS-Triggers/issues">file a Pull Request</a></strong>. As I get data I will update the site.</p>
 
 <blockquote>
-  <p>I’d like to expand this to other browser vendors, and I am more than happy to include more data and give developers a better overview.</p>
+<p>I’d like to expand this to other browser vendors, and I am more than happy to include more data and give developers a better overview.</p>
 </blockquote>
 
-<h2 id="have-data-will-travel">Have data, will travel</h2>
+<h2 id="have_data_will_travel">Have data, will travel</h2>
 
 <p>I wanted to create a tool that would allow developers to more readily understand the ramifications of changing their styles. I’m pleased with the first release of <a href="http://csstriggers.com/">CSS Triggers</a>, and I hope many folks get good use out of it. I have plans to expand the site a bit more so that the reference has context, not just a load of data, but I’m not sure exactly when that will be.</p>
 
-<p>Putting together the site was fun, and involved a heck of a lot of tool and data wrangling, but in the end I like to think it was worth it. But then I <em>would</em> say that…
-</div></div></p>
-
+<p>Putting together the site was fun, and involved a heck of a lot of tool and data wrangling, but in the end I like to think it was worth it. But then I <em>would</em> say that… </div></div></p>
 
   <div class="footer-share container">
     Share this on: <span class="value"><a href="http://www.twitter.com/share?url=http://aerotwist.com/blog/css-triggers/">Twitter</a></span>

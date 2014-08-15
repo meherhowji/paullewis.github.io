@@ -204,7 +204,7 @@
       </svg>
 
       <svg class="left-meta" width="425" height="321">
-        <use xlink:href="#color-block" filter="url(#blur-6)" transform="translate(425/2 321/2) scale(-0.5 0.5) translate(-425/2 -321/2)" />
+        <use xlink:href="#color-block" filter="url(#blur-6)" transform="translate(212 160) scale(-0.5 0.5) translate(-213 -161)" />
       </svg>
     
 
@@ -250,45 +250,38 @@
 
   <div class="container"><div class="left column"><p><strong>Update (1st May 2014, pre caffeine):</strong> I’ve had feedback that my suggestion is bad because it makes you follow “a brain dead formula”. I wholeheartedly agree that password forms, as they stand today, are terrible and <a href="http://xkcd.com/936">engender terrible passwords</a>. This is about <em>reducing the friction</em> in today’s world by giving feedback, it’s <em>not</em> about trying to create a completely new way of collecting passwords. It’s related, but different. So with that said…</p>
 
-<h2 id="passwords-eh-annoying">Passwords, eh? Annoying.</h2>
+<h2 id="passwords_eh_annoying">Passwords, eh? Annoying.</h2>
 
 <p>Sure you can use an app like <a href="https://agilebits.com/onepassword">1Password</a>. In fact, in light of <a href="http://heartbleed.com/">Heartbleed</a>, that’s probably pretty wise, but password fields aren’t going away any time soon, and not everyone is going to rely on a generator.</p>
 
 <p>The thing is, whenever I create a password there’s always a list of criteria (numbers, letters, punctuation, prevailing wind direction) and when I hit submit the form normally tells me the password doesn’t meet them all. It’s annoying. I have to figure out what I put into my password, and where I (allegedly) failed.</p>
 
 <p>I think there’s a better way:</p>
-
-<iframe src="/static/design/better-password-form-fields/demo/index.html" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" width="100%" height="420" style="margin-bottom: 20px; box-shadow: 0 2px 2px rgba(0,0,0,0.3)">
+<iframe frameborder='0' height='420' marginheight='0' marginwidth='0' scrolling='no' src='/static/design/better-password-form-fields/demo/index.html' style='margin-bottom: 20px; box-shadow: 0 2px 2px rgba(0,0,0,0.3)' width='100%'>
 </iframe>
-
 <p class="livedemo"><a href="/static/design/better-password-form-fields/demo/index.html">Standalone version</a></p>
 
 <p>It’s deadly simple: as you enter the password the checklist lights up. The guessing game is gone, and you should have confidence that you’ve met all the criteria. <strong>These criteria, to reiterate, are suboptimal, but it’s the current state of the world.</strong></p>
 
-<h2 id="an-alternative-the-tooltip">An alternative: The tooltip</h2>
+<h2 id="an_alternative_the_tooltip">An alternative: The tooltip</h2>
 
 <p>I figured I’d also try designing an ‘inline’ approach, which I suspect would work much better on smaller screens than the first version:</p>
-
 <figure>
-  <img src="/static/design/better-password-form-fields/tooltip-step-1.png" />
+  <img src='/static/design/better-password-form-fields/tooltip-step-1.png' />
   <figcaption>The tooltip lights up as you meet each criterion.</figcaption>
 </figure>
-
 <p>I think a key part of this is that you spell out the criteria that you have for a valid password below, so there’s always that to refer to. But as you type each part of the tooltip lights up.</p>
 
 <p>I’d be the first to say that the various segments of the tooltip (particularly those for punctuation and the character count) <em>could</em> be clearer. That’s something for me to mull over, I guess, unless anyone has better ideas, in which case <a href="https://dribbble.com/shots/1531963-Password-fields">feel free to do a rebound</a>!</p>
-
 <figure>
-  <img src="/static/design/better-password-form-fields/tooltip-step-2.png" />
+  <img src='/static/design/better-password-form-fields/tooltip-step-2.png' />
   <figcaption>And now it tells you if the password matches...</figcaption>
 </figure>
-
-<h2 id="reduction-friction">Reduction Friction</h2>
+<h2 id="reduction_friction">Reduction Friction</h2>
 
 <p>For me, whether it’s performance or design, it’s not about getting a badge of honour (though they’re always nice) that says “ooh this loads quickly” or “isn’t it beautiful and fun to use?” but much more about recognising that <strong>we make things that people use</strong>. They’re busy, they want to get on with life and they most definitely do not want to wrestle with technology. The best thing we can do for those people is make things easier.</p>
 
-<p>Let’s make the web <strong>frictionless</strong>.</p>
-</div></div>
+<p>Let’s make the web <strong>frictionless</strong>.</p></div></div>
 
   <div class="footer-share container">
     Share this on: <span class="value"><a href="http://www.twitter.com/share?url=http://aerotwist.com/blog/better-password-form-fields/">Twitter</a></span>

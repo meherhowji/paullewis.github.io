@@ -204,7 +204,7 @@
       </svg>
 
       <svg class="left-meta" width="798" height="349">
-        <use xlink:href="#color-block" filter="url(#blur-6)" transform="translate(399 349/2) scale(-0.5 0.5) translate(-399 -349/2)" />
+        <use xlink:href="#color-block" filter="url(#blur-6)" transform="translate(399 174) scale(-0.5 0.5) translate(-399 -175)" />
       </svg>
     
 
@@ -251,312 +251,181 @@
   </div>
 
   <div class="container"><div class="left column"><aside class="boxout">
-<p>## A big fat warning</p>
+<h2 id="a_big_fat_warning">A big fat warning</h2>
 
-<p>Please bear in mind that what follows is a <em>terrible</em> idea for production code
-unless you have serious image handling problems. Even then, you probably
-shouldn’t do it; this is really a proof-of-concept.
-</aside></p>
+<p>Please bear in mind that what follows is a <em>terrible</em> idea for production code unless you have serious image handling problems. Even then, you probably shouldn’t do it; this is really a proof-of-concept. </aside></p>
 
-<h2 id="when-paint-meets-image">When paint meets image</h2>
+<h2 id="when_paint_meets_image">When paint meets image</h2>
 
-<p>When Chrome has been through the process of style calculations and layout, it
-must then rasterize the pixels for your page. In Chrome the rasterizer that
-does all the work is called Skia, and it takes a list of draw calls. Those
-draw calls are created by looking at the styles of the visible elements in
-your page, some of which will be images (or will use images as backgrounds.)</p>
+<p>When Chrome has been through the process of style calculations and layout, it must then rasterize the pixels for your page. In Chrome the rasterizer that does all the work is called Skia, and it takes a list of draw calls. Those draw calls are created by looking at the styles of the visible elements in your page, some of which will be images (or will use images as backgrounds.)</p>
 
-<p>Whenever Skia hits one of the draw calls that deals with an image it has to go
-off and get the encoded image (it came down the wire as a JPEG, PNG, WebP or
-GIF most likely) and decode it to a bitmap. It’s also probably going to have
-to resize it. This happens inline to all the other draw calls that need to
-take place, so if the decoding or resizing takes a long time you will see
-periods of unresponsiveness or checkerboarding in your sites and applications,
-which is undesirable to say the least.</p>
-
+<p>Whenever Skia hits one of the draw calls that deals with an image it has to go off and get the encoded image (it came down the wire as a JPEG, PNG, WebP or GIF most likely) and decode it to a bitmap. It’s also probably going to have to resize it. This happens inline to all the other draw calls that need to take place, so if the decoding or resizing takes a long time you will see periods of unresponsiveness or checkerboarding in your sites and applications, which is undesirable to say the least.</p>
 <aside class="boxout">
-<p>## Checkerboarding? What’s that?!</p>
+<h2 id="checkerboarding_whats_that">Checkerboarding? What’s that?!</h2>
 
-<p>If you’re not familiar with checkerboarding as a term, think about what
-happens when you scroll quickly on your mobile or tablet, and you see blocks
-of the page missing. It’s kind of like the Photoshop transparency grid.</p>
+<p>If you’re not familiar with checkerboarding as a term, think about what happens when you scroll quickly on your mobile or tablet, and you see blocks of the page missing. It’s kind of like the Photoshop transparency grid.</p>
 
-<p>See, you <strong>did</strong> know what checkerboarding was!
-</aside></p>
+<p>See, you <strong>did</strong> know what checkerboarding was! </aside></p>
 
-<p>So I had the idea of seeing if I could beat the browser at its own game. The
-question I was asking myself was: is there any way I as the developer can be
-in control of image decoding and resizing? What are the trade-offs if I go
-offroad and try and do something that the browser already does for me
-automatically?</p>
+<p>So I had the idea of seeing if I could beat the browser at its own game. The question I was asking myself was: is there any way I as the developer can be in control of image decoding and resizing? What are the trade-offs if I go offroad and try and do something that the browser already does for me automatically?</p>
 
 <blockquote>
-  <p>The question I was asking myself was: is there any way I as the developer can be in control of image decoding and resizing?</p>
+<p>The question I was asking myself was: is there any way I as the developer can be in control of image decoding and resizing?</p>
 </blockquote>
 
 <p>But let’s take a proper look at the problem we’re facing.</p>
 
-<h2 id="decoding-and-resizing">Decoding and Resizing</h2>
+<h2 id="decoding_and_resizing">Decoding and Resizing</h2>
 
-<p>Whenever we scroll or interact with the page a whole series of complex action
-takes place under the hood, and the thing we care about the most is that
-Chrome may end up deciding that it has to paint a new area of the page.</p>
-
+<p>Whenever we scroll or interact with the page a whole series of complex action takes place under the hood, and the thing we care about the most is that Chrome may end up deciding that it has to paint a new area of the page.</p>
 <figure>
-  <img src="/static/blog/one-weird-trick/expensiveimages.png" />
+  <img src='/static/blog/one-weird-trick/expensiveimages.png' />
 </figure>
+<p>When this happens and painting involves an image, Chrome retrieves the encoded contents of the image file and decodes it from its original JPEG, GIF, PNG or WebP format to a bitmap in memory. Interestingly you can decode at a non- natural size for most algorithms, i.e. bigger or smaller than the size at which the image was saved. But many times resizing is necessary, especially when an image is used in responsive design and set to a percentage of its container element, or when the user pinches and zooms.</p>
 
-<p>When this happens and painting involves an image, Chrome retrieves the encoded
-contents of the image file and decodes it from its original JPEG, GIF, PNG or
-WebP format to a bitmap in memory. Interestingly you can decode at a non-
-natural size for most algorithms, i.e. bigger or smaller than the size at
-which the image was saved. But many times resizing is necessary, especially
-when an image is used in responsive design and set to a percentage of its
-container element, or when the user pinches and zooms.</p>
+<p>Decoding and resizing are both expensive operations. If rasterization requires several images to be decoded or resized you may well see huge spikes in the time it takes for a frame to complete.</p>
 
-<p>Decoding and resizing are both expensive operations. If rasterization requires
-several images to be decoded or resized you may well see huge spikes in the
-time it takes for a frame to complete.</p>
+<p>Chrome, of course, tries to reduce the work by caching the decoded and resized versions of images. The specifics of what gets cached – the decoded image, resized forms of the image – and how big the cache is get complicated as it varies by the internal architecture (let’s call those single-threaded or multi-threaded painting) that Chrome is using.</p>
 
-<p>Chrome, of course, tries to reduce the work by caching the decoded and resized
-versions of images. The specifics of what gets cached – the decoded image,
-resized forms of the image – and how big the cache is get complicated as it
-varies by the internal architecture (let’s call those single-threaded or
-multi-threaded painting) that Chrome is using.</p>
-
-<p>Whether or not you see jank or checkerboarding while a large image is being
-decoded depends on the architecture Chrome is running in (and that’s not
-something that you choose as a developer), so let’s take a brief look at them
-and see how it affects things.</p>
-
+<p>Whether or not you see jank or checkerboarding while a large image is being decoded depends on the architecture Chrome is running in (and that’s not something that you choose as a developer), so let’s take a brief look at them and see how it affects things.</p>
 <aside class="boxout">
-<p>## What’s Jank?!</p>
+<h2 id="whats_jank">What’s Jank?!</h2>
 
-<p>You should watch Nat Duca and Tom Wiltzius’s <a href="https://www.youtube.com/watch?v=n8ep4leoN9A">Google I/O Talk on
-Jank</a> and how to bust it.
-</aside></p>
+<p>You should watch Nat Duca and Tom Wiltzius’s <a href="https://www.youtube.com/watch?v=n8ep4leoN9A">Google I/O Talk on Jank</a> and how to bust it. </aside></p>
 
-<h2 id="single-threaded-painting">Single-threaded painting</h2>
+<h2 id="singlethreaded_painting">Single-threaded painting</h2>
 
-<p>In this mode painting is handled by the main thread of the page, and is the
-approach primarily used on today’s desktop version of Chrome.</p>
+<p>In this mode painting is handled by the main thread of the page, and is the approach primarily used on today’s desktop version of Chrome.</p>
 
-<p>Since rasterization and, by extension, image decoding and resizing, takes
-place on the main thread, all other activity on the main thread is blocked.
-All of this ends up feeling to your users like the page judders a lot, or
-worse, that it locked up for a long period of time.</p>
+<p>Since rasterization and, by extension, image decoding and resizing, takes place on the main thread, all other activity on the main thread is blocked. All of this ends up feeling to your users like the page judders a lot, or worse, that it locked up for a long period of time.</p>
 
-<p>If you’re making something image heavy like a gallery, or just something with
-a lot of images appearing on screen at once you may well feel the problem more
-acutely.</p>
+<p>If you’re making something image heavy like a gallery, or just something with a lot of images appearing on screen at once you may well feel the problem more acutely.</p>
 
-<h2 id="multi-threaded-painting">Multi-threaded painting</h2>
+<h2 id="multithreaded_painting">Multi-threaded painting</h2>
 
-<p>In this mode painting is handled in a different thread entirely, which means
-that the main thread is free to carry on running JavaScript, handling layout
-and style calculations. This is the mode used on Android. The upside of this
-approach is that scrolling, JavaScript and the like can all happen while
-painting takes place.</p>
+<p>In this mode painting is handled in a different thread entirely, which means that the main thread is free to carry on running JavaScript, handling layout and style calculations. This is the mode used on Android. The upside of this approach is that scrolling, JavaScript and the like can all happen while painting takes place.</p>
 
-<p>The downside is that the rasterization calls are still executed as a
-sequential list, even if they <em>are</em> handled by a separate thread, and if we
-have to pause to decode and resize an image then no other painting – like for
-non-image elements – is going to take place. Image handling is still one
-rasterization job in the list and if an image takes a long time to decode or
-resize you will end up seeing checkerboards until Chrome reaches the end of
-the list and rasterization is complete.</p>
+<p>The downside is that the rasterization calls are still executed as a sequential list, even if they <em>are</em> handled by a separate thread, and if we have to pause to decode and resize an image then no other painting – like for non-image elements – is going to take place. Image handling is still one rasterization job in the list and if an image takes a long time to decode or resize you will end up seeing checkerboards until Chrome reaches the end of the list and rasterization is complete.</p>
 
-<h2 id="so-that-one-weird-trick-you-mentioned">So that one weird trick you mentioned…</h2>
+<h2 id="so_that_one_weird_trick_you_mentioned">So that one weird trick you mentioned…</h2>
 
-<p>Have you ever browsed the web with images switched off? Sure everything looks
-worse because you don’t have images on, but you will quickly see how much of
-an effect images have on the runtime performance of your pages.</p>
+<p>Have you ever browsed the web with images switched off? Sure everything looks worse because you don’t have images on, but you will quickly see how much of an effect images have on the runtime performance of your pages.</p>
 
 <blockquote>
-  <p>Have you ever browsed the web with images switched off? Sure everything looks worse because you don’t have images on, but you will quickly see how much of an effect images have on the runtime performance of your pages.</p>
+<p>Have you ever browsed the web with images switched off? Sure everything looks worse because you don’t have images on, but you will quickly see how much of an effect images have on the runtime performance of your pages.</p>
 </blockquote>
 
-<p>What if, instead of letting the browser handle decoding, we did it ourselves,
-in JavaScript and outside of the normal rasterization flow? Perhaps if we do
-that we can isolate the image decodes and resizes, leaving Chrome to rasterize
-the rest of the elements and not be blocked on handling images. That should
-mean that we can interact with the page and scroll, and hopefully maintain a
-silky smooth 60fps at all times.</p>
+<p>What if, instead of letting the browser handle decoding, we did it ourselves, in JavaScript and outside of the normal rasterization flow? Perhaps if we do that we can isolate the image decodes and resizes, leaving Chrome to rasterize the rest of the elements and not be blocked on handling images. That should mean that we can interact with the page and scroll, and hopefully maintain a silky smooth 60fps at all times.</p>
 
-<p>On the downside we’re about to start handling images ourselves, which is
-something that Chrome normally does for us automatically, and that should be a
-huge red flag to us. On the upside, if Chrome isn’t blocked on image handling,
-we may well be able to avoid that unsightly checkerboarding and jank.</p>
+<p>On the downside we’re about to start handling images ourselves, which is something that Chrome normally does for us automatically, and that should be a huge red flag to us. On the upside, if Chrome isn’t blocked on image handling, we may well be able to avoid that unsightly checkerboarding and jank.</p>
 
 <p>Going with JavaScript for image decoding, our approach should look like this:</p>
 
 <ol>
-  <li>Create a pool of Web Workers.</li>
-  <li>Take the images that we’re interested in having painted and put placeholders into the DOM.</li>
-  <li>Pass the url of the images to a worker from the pool for decoding.</li>
-  <li>Have the worker download the image as a binary file using an XHR and then decode it using a JavaScript-based decoder.</li>
-  <li>Pass the decoded bitmap image data back to the main thread. (With <a href="http://updates.html5rocks.com/2011/12/Transferable-Objects-Lightning-Fast">transferables</a> this is nice and fast.)</li>
-  <li>Use the bitmap image data to fill in a <code>&lt;canvas&gt;</code> element at the correct dimensions.</li>
-  <li>Replace the placeholders with the <code>&lt;canvas&gt;</code> elements.</li>
+<li>Create a pool of Web Workers.</li>
+
+<li>Take the images that we’re interested in having painted and put placeholders into the DOM.</li>
+
+<li>Pass the url of the images to a worker from the pool for decoding.</li>
+
+<li>Have the worker download the image as a binary file using an XHR and then decode it using a JavaScript-based decoder.</li>
+
+<li>Pass the decoded bitmap image data back to the main thread. (With <a href="http://updates.html5rocks.com/2011/12/Transferable-Objects-Lightning-Fast">transferables</a> this is nice and fast.)</li>
+
+<li>Use the bitmap image data to fill in a <code>&lt;canvas&gt;</code> element at the correct dimensions.</li>
+
+<li>Replace the placeholders with the <code>&lt;canvas&gt;</code> elements.</li>
 </ol>
 
 <p>Of course nothing sells the idea better than a demo:</p>
 
-<p class="livedemo"><a href="https://dl.dropboxusercontent.com/u/2272348/codez/resizes/index.html">See it
-running</a></p>
+<p class="livedemo"><a href="https://dl.dropboxusercontent.com/u/2272348/codez/resizes/index.html">See it running</a></p>
 
-<p>The thing to notice is that when <strong>you’re scrolling or interacting</strong> you’ll
-see that the page remains smooth when you’re using workers, even when the
-images are very large. In fact, depending on the number of workers you have,
-you can often maintain 60fps!</p>
+<p>The thing to notice is that when <strong>you’re scrolling or interacting</strong> you’ll see that the page remains smooth when you’re using workers, even when the images are very large. In fact, depending on the number of workers you have, you can often maintain 60fps!</p>
 
-<p>You may well be wondering how many workers you should use, but it really
-depends on the platform you’re running on and how much CPU time is available.
-This is one risk amongst many of doing something like this: a lot of the
-heuristics that Chrome has available for figuring out the amount of resources
-to put to something like this are not going to be surfaced through JavaScript
-to you, so at best you’re going to be guessing.</p>
+<p>You may well be wondering how many workers you should use, but it really depends on the platform you’re running on and how much CPU time is available. This is one risk amongst many of doing something like this: a lot of the heuristics that Chrome has available for figuring out the amount of resources to put to something like this are not going to be surfaced through JavaScript to you, so at best you’re going to be guessing.</p>
 
-<p>Finally, in my demo I’m making use of the excellent <a href="https://github.com/notmasteryet/jpgjs">jpgjs
-library</a>, but you would need to have
-the right decoder for the images you’re working with.</p>
+<p>Finally, in my demo I’m making use of the excellent <a href="https://github.com/notmasteryet/jpgjs">jpgjs library</a>, but you would need to have the right decoder for the images you’re working with.</p>
 
-<h2 id="the-benefits-and-costs">The benefits and costs</h2>
+<h2 id="the_benefits_and_costs">The benefits and costs</h2>
 
 <p>With this approach we get a few immediate benefits:</p>
 
 <ul>
-  <li>We get to decide how many workers are used for decoding.</li>
-  <li>We get to decide if and when the images are decoded and painted.</li>
-  <li>We know when an image has decoded and are able to fade it in smoothly.</li>
+<li>We get to decide how many workers are used for decoding.</li>
+
+<li>We get to decide if and when the images are decoded and painted.</li>
+
+<li>We know when an image has decoded and are able to fade it in smoothly.</li>
 </ul>
 
 <p>On the downside we now have a few headaches:</p>
 
 <ul>
-  <li>This works today, but if image handling changes and improves significantly you’re locked into your homegrown solution which may well be suboptimal.</li>
-  <li>We have to manually decide the number of workers in our pool. That was, of course, a benefit, but as I mentioned earlier, the lack of heuristics means that you have control, yes, but you are operating blind.</li>
-  <li>We are now keeping the image data in the JavaScript heap, so we have to decide if and when we might want to purge that information. The last thing you want is to keep adding image data without ever releasing it!</li>
-  <li>We need to have a process for deciding when an image should be decoded.</li>
+<li>This works today, but if image handling changes and improves significantly you’re locked into your homegrown solution which may well be suboptimal.</li>
+
+<li>We have to manually decide the number of workers in our pool. That was, of course, a benefit, but as I mentioned earlier, the lack of heuristics means that you have control, yes, but you are operating blind.</li>
+
+<li>We are now keeping the image data in the JavaScript heap, so we have to decide if and when we might want to purge that information. The last thing you want is to keep adding image data without ever releasing it!</li>
+
+<li>We need to have a process for deciding when an image should be decoded.</li>
 </ul>
-
 <aside class="boxout">
-<p>## Should I even do this?</p>
+<h2 id="should_i_even_do_this">Should I even do this?</h2>
 
-<p>I’ve already said it, but to be super clear, when you take the liberty of
-“going offroad” and doing something on behalf of the browser, you have to take
-extra care to handle things properly!</p>
+<p>I’ve already said it, but to be super clear, when you take the liberty of “going offroad” and doing something on behalf of the browser, you have to take extra care to handle things properly!</p>
 
-<p>Often there can be edge and corner cases that can bite you, so always profile
-to make sure you’re doing the right thing.
-</aside></p>
+<p>Often there can be edge and corner cases that can bite you, so always profile to make sure you’re doing the right thing. </aside></p>
 
-<h2 id="right-but-isnt-using-javascript-to-decode-images-slower">Right, but isn’t using JavaScript to decode images slower?</h2>
+<h2 id="right_but_isnt_using_javascript_to_decode_images_slower">Right, but isn’t using JavaScript to decode images slower?</h2>
 
-<p>Yes, no doubt it is. But it’s not clear by how much, as that will depend on a
-number of factors such as the platform in question and what else is being done
-in the browser at the same time.</p>
+<p>Yes, no doubt it is. But it’s not clear by how much, as that will depend on a number of factors such as the platform in question and what else is being done in the browser at the same time.</p>
 
-<p>In any case, the <em>real trade-off</em> we’re making is to have more control over
-<em>when and how</em> images are handled, rather than relying on Chrome to do it for
-us. That, of course, comes with costs and risks, and certainly anything
-executed in JavaScript (even with V8’s function recompilation) is going to be
-slower than hand-tuned C++!</p>
+<p>In any case, the <em>real trade-off</em> we’re making is to have more control over <em>when and how</em> images are handled, rather than relying on Chrome to do it for us. That, of course, comes with costs and risks, and certainly anything executed in JavaScript (even with V8’s function recompilation) is going to be slower than hand-tuned C++!</p>
 
 <blockquote>
-  <p>In any case, the real trade-off we’re making is to have more control over when and how images are handled, rather than relying on Chrome to do it for us.</p>
+<p>In any case, the real trade-off we’re making is to have more control over when and how images are handled, rather than relying on Chrome to do it for us.</p>
 </blockquote>
 
-<p>With that said, we’re seeing exciting improvements through
-<a href="http://asmjs.org/">asm.js</a> and
-<a href="http://www.chromium.org/nativeclient/pnacl">PNaCl</a> where it’s possible to
-ship exceptionally fast JS, so who knows, maybe one day it’ll be less of an
-issue.</p>
+<p>With that said, we’re seeing exciting improvements through <a href="http://asmjs.org/">asm.js</a> and <a href="http://www.chromium.org/nativeclient/pnacl">PNaCl</a> where it’s possible to ship exceptionally fast JS, so who knows, maybe one day it’ll be less of an issue.</p>
 
-<h2 id="what-about-parser-lookahead">What about parser lookahead?</h2>
+<h2 id="what_about_parser_lookahead">What about parser lookahead?</h2>
 
-<p>Typically when the browser receives HTML it does a lookahead and starts
-requesting images and other assets it sees that its going to need. Any
-approach like that that relies entirely on JavaScript is going to sacrifice
-that lookahead because we’re adding in elements after the fact. Again, that
-doesn’t mean it’s to be avoided, but it’s important to know the trade-offs
-you’re making.</p>
+<p>Typically when the browser receives HTML it does a lookahead and starts requesting images and other assets it sees that its going to need. Any approach like that that relies entirely on JavaScript is going to sacrifice that lookahead because we’re adding in elements after the fact. Again, that doesn’t mean it’s to be avoided, but it’s important to know the trade-offs you’re making.</p>
 
-<p>This method of injecting images with JavaScript is likely to be more suitable
-for anyone who is already constructing portions of the DOM dynamically, and
-it’s far less suitable when you’re simply serving static content on the first
-request to the server.</p>
+<p>This method of injecting images with JavaScript is likely to be more suitable for anyone who is already constructing portions of the DOM dynamically, and it’s far less suitable when you’re simply serving static content on the first request to the server.</p>
 
-<h2 id="hey-the-images-looks-a-bit-jaggy-when-the-worker-decodes-them">Hey, the images looks a bit jaggy when the worker decodes them!</h2>
+<h2 id="hey_the_images_looks_a_bit_jaggy_when_the_worker_decodes_them">Hey, the images looks a bit jaggy when the worker decodes them!</h2>
 
-<p>Yes, they do in the demo. This is because the decoding and resizing is less
-sophisticated than in Chrome. Chrome uses <a href="http://en.wikipedia.org/wiki/Lanczos_resampling">Lanczos
-resampling</a> to make sure that
-images displayed at non-natural sizes, i.e. bigger or smaller than the
-original, look as awesome as possible. In my demo I’m simply decoding to the
-final display size, which isn’t as good.</p>
+<p>Yes, they do in the demo. This is because the decoding and resizing is less sophisticated than in Chrome. Chrome uses <a href="http://en.wikipedia.org/wiki/Lanczos_resampling">Lanczos resampling</a> to make sure that images displayed at non-natural sizes, i.e. bigger or smaller than the original, look as awesome as possible. In my demo I’m simply decoding to the final display size, which isn’t as good.</p>
 
-<p>You can see in the side-by-side comparison image below particularly around the
-white advert on the side of the track. You will need to click on the image to
-see the full size version showing all the decoding warts!</p>
-
+<p>You can see in the side-by-side comparison image below particularly around the white advert on the side of the track. You will need to click on the image to see the full size version showing all the decoding warts!</p>
 <figure>
-  <img src="/static/blog/one-weird-trick/chromevsworker.jpg" />
+  <img src='/static/blog/one-weird-trick/chromevsworker.jpg' />
 </figure>
-
-<p>There are things one could look to do: implement resampling in the worker, or
-decoding at a larger size then scale the canvas down using CSS. In both cases
-there is an additional computational cost, so you be sure there’s a
-significant improvement before committing to it.</p>
+<p>There are things one could look to do: implement resampling in the worker, or decoding at a larger size then scale the canvas down using CSS. In both cases there is an additional computational cost, so you be sure there’s a significant improvement before committing to it.</p>
 
 <blockquote>
-  <p>Every worker requires CPU time, and on a constrained device like mobiles or tablets that is a precious resource you don’t want to exhaust.</p>
+<p>Every worker requires CPU time, and on a constrained device like mobiles or tablets that is a precious resource you don’t want to exhaust.</p>
 </blockquote>
 
-<h2 id="performance-tuning">Performance tuning</h2>
+<h2 id="performance_tuning">Performance tuning</h2>
 
-<p>As I mentioned before you need to manually control the number of workers you
-have on the go at once. Every worker requires CPU time, and on a constrained
-device like mobiles or tablets that is a precious resource you don’t want to
-exhaust.</p>
+<p>As I mentioned before you need to manually control the number of workers you have on the go at once. Every worker requires CPU time, and on a constrained device like mobiles or tablets that is a precious resource you don’t want to exhaust.</p>
 
-<p>Beyond the number of workers you also want to have a tactic for when you even
-request the image decode work to take place. In Chrome decoding and resizing
-happen lazily and as a dependency for the paint, but since we’ve just gone
-offroad we have to handle things ourselves. What you choose to do is down to
-the application you’re building, but much as you don’t want to just blindly
-keep the image data around forever, so you will also want to be sure you’re
-only having the workers process images when absolutely necessary.</p>
+<p>Beyond the number of workers you also want to have a tactic for when you even request the image decode work to take place. In Chrome decoding and resizing happen lazily and as a dependency for the paint, but since we’ve just gone offroad we have to handle things ourselves. What you choose to do is down to the application you’re building, but much as you don’t want to just blindly keep the image data around forever, so you will also want to be sure you’re only having the workers process images when absolutely necessary.</p>
 
-<h2 id="why-doesnt-the-browser-do-this-for-me-automatically">Why doesn’t the browser do this for me automatically?</h2>
+<h2 id="why_doesnt_the_browser_do_this_for_me_automatically">Why doesn’t the browser do this for me automatically?</h2>
 
-<p>Interestingly there has been a <a href="http://lists.w3.org/Archives/Public/www-style/2013May/0080.html">discussion on www-style on the W3C mailing
-lists</a> about
-a <code>display: optional</code> CSS property that would allow the browser to
-deprioritize the painting of certain elements and deal with them separately as
-time allows. That would mean, for an image-heavy application like a gallery,
-that the rest of the page can be rasterized (hopefully quickly), and that the
-images will be handled separately and show up whenever they’ve decoded and
-resized. Essentially it would make native to the browser the behavior I’ve
-hacked together in my demo.</p>
+<p>Interestingly there has been a <a href="http://lists.w3.org/Archives/Public/www-style/2013May/0080.html">discussion on www-style on the W3C mailing lists</a> about a <code>display: optional</code> CSS property that would allow the browser to deprioritize the painting of certain elements and deal with them separately as time allows. That would mean, for an image-heavy application like a gallery, that the rest of the page can be rasterized (hopefully quickly), and that the images will be handled separately and show up whenever they’ve decoded and resized. Essentially it would make native to the browser the behavior I’ve hacked together in my demo.</p>
 
-<p>So far there hasn’t been any conclusion reached, but if you’re interested in
-contributing and giving the idea some support you totally should!</p>
+<p>So far there hasn’t been any conclusion reached, but if you’re interested in contributing and giving the idea some support you totally should!</p>
 
 <h2 id="conclusion">Conclusion</h2>
 
-<p>Taking control of image handling from the browser is without doubt an extreme
-move. As always you should regard performance as a feature, and one as
-advanced as this should be weighed against all the additional code that will
-need to be written and then, more importantly, maintained.</p>
+<p>Taking control of image handling from the browser is without doubt an extreme move. As always you should regard performance as a feature, and one as advanced as this should be weighed against all the additional code that will need to be written and then, more importantly, maintained.</p>
 
-<p>Decoding images in JavaScript is undoubtedly slower than decoding in C++, but
-we gain control, and since the image handling is outside of the normal
-rasterization path, we can proceed with rasterizing anything that <em>isn’t</em> an
-image. Handling images yourself may be the difference between having a janky,
-juddery app and a super slick, high performance one, but it comes with risks,
-so take care!</p>
-</div></div>
+<p>Decoding images in JavaScript is undoubtedly slower than decoding in C++, but we gain control, and since the image handling is outside of the normal rasterization path, we can proceed with rasterizing anything that <em>isn’t</em> an image. Handling images yourself may be the difference between having a janky, juddery app and a super slick, high performance one, but it comes with risks, so take care!</p></div></div>
 
   <div class="footer-share container">
     Share this on: <span class="value"><a href="http://www.twitter.com/share?url=http://aerotwist.com/blog/one-weird-trick/">Twitter</a></span>
@@ -566,7 +435,7 @@ so take care!</p>
   <div class="clear"></div>
 
   
-    <svg class="left-shape" style="margin-left: -331.55px" width="488.6" height="1117.2">
+    <svg class="left-shape" style="margin-left: -331.55px" width="488.59999999999997" height="1117.1999999999998">
       <use xlink:href="#color-block" filter="url(#blur-4)" transform="scale(-1.4 1.4) rotate(90)"/>
     </svg>
 

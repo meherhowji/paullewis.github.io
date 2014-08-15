@@ -158,199 +158,117 @@
   
 
   <div class="container"><div class="left column">
-<p>## Introduction</p>
+<h2 id="introduction">Introduction</h2>
 
 <p>I’ve previously given you <a href="../getting-started-
-with-three-js/">an introduction to Three.js</a>. If you’ve not read that you might want to as it’s the
-foundation on which I will be building during this article.</p>
+with-three-js/">an introduction to Three.js</a>. If you’ve not read that you might want to as it’s the foundation on which I will be building during this article.</p>
 
-<p>What I want to do is discuss shaders. WebGL is brilliant, and as I’ve said
-before <a href="https://github.com/mrdoob/three.js/">Three.js</a> (and other libraries)
-do a fantastic job of abstracting away the difficulties for you. But there
-will be times you want to achieve a specific effect, or you will want to dig a
-little deeper into how that amazing stuff appeared on your screen, and shaders
-will almost certainly be a part of that equation. Also if you’re like me you
-may well want to go from the basic stuff in the last tutorial to something a
-little more tricky. I’ll work on the basis that you’re using Three.js, since
-it does a lot of the donkey work for us in terms of getting the shader going.</p>
+<p>What I want to do is discuss shaders. WebGL is brilliant, and as I’ve said before <a href="https://github.com/mrdoob/three.js/">Three.js</a> (and other libraries) do a fantastic job of abstracting away the difficulties for you. But there will be times you want to achieve a specific effect, or you will want to dig a little deeper into how that amazing stuff appeared on your screen, and shaders will almost certainly be a part of that equation. Also if you’re like me you may well want to go from the basic stuff in the last tutorial to something a little more tricky. I’ll work on the basis that you’re using Three.js, since it does a lot of the donkey work for us in terms of getting the shader going.</p>
 
-<p>I’ll say up front as well that quite a lot of this will be me explaining the
-context for shaders, and that there will be a second part of this guide where
-we will get into slightly more advanced territory. The reason for this is that
-shaders are unusual at first sight and take a bit of explaining.</p>
+<p>I’ll say up front as well that quite a lot of this will be me explaining the context for shaders, and that there will be a second part of this guide where we will get into slightly more advanced territory. The reason for this is that shaders are unusual at first sight and take a bit of explaining.</p>
 
-<h2 id="our-two-shaders">Our Two Shaders</h2>
+<h2 id="our_two_shaders">Our Two Shaders</h2>
 
-<p>WebGL does not offer the use of the Fixed Pipeline, which is a shorthand way
-of saying that it doesn’t give you any means of rendering your stuff out of
-the box. What it <em>does</em> offer, however, is the Programmable Pipeline, which is
-more powerful but also more difficult to understand and use. In short the
-Programmable Pipeline means as the programmer you take responsibility for
-getting the vertices and so forth rendered to the screen. Shaders are a part
-of this pipeline, and there are two types of them:</p>
+<p>WebGL does not offer the use of the Fixed Pipeline, which is a shorthand way of saying that it doesn’t give you any means of rendering your stuff out of the box. What it <em>does</em> offer, however, is the Programmable Pipeline, which is more powerful but also more difficult to understand and use. In short the Programmable Pipeline means as the programmer you take responsibility for getting the vertices and so forth rendered to the screen. Shaders are a part of this pipeline, and there are two types of them:</p>
 
 <ol>
-  <li>Vertex shaders</li>
-  <li>Fragment shaders</li>
+<li>Vertex shaders</li>
+
+<li>Fragment shaders</li>
 </ol>
 
-<p>Both of which, I’m sure you’ll agree, mean absolutely nothing by themselves.
-What you should know about them is that they both run entirely on your
-graphics card’s GPU. This means that we want to offload all that we can to
-them, leaving our CPU to do other work. A modern GPU is heavily optimised for
-the functions that shaders require so it’s great to be able to use it.</p>
+<p>Both of which, I’m sure you’ll agree, mean absolutely nothing by themselves. What you should know about them is that they both run entirely on your graphics card’s GPU. This means that we want to offload all that we can to them, leaving our CPU to do other work. A modern GPU is heavily optimised for the functions that shaders require so it’s great to be able to use it.</p>
 
-<h2 id="vertex-shaders">Vertex Shaders</h2>
+<h2 id="vertex_shaders">Vertex Shaders</h2>
 
-<p>Take a standard primitive shape, like a sphere. It’s made up of vertices,
-right? A vertex shader is given every single one of these vertices in turn and
-can mess around with them. It’s up to the vertex shader what it actually does
-with each one, but it has one responsibility: it must at some point set
-something called <code>gl_Position</code>, a 4D float vector, which is the final
-position of the vertex on screen. In and of itself that’s quite an interesting
-process, because we’re actually talking about getting a 3D position (a vertex
-with x,y,z) onto, or projected, to a 2D screen. Thankfully for us if we’re
-using something like Three.js we will have a shorthand way of setting the
-<code>gl_Position</code> without things getting too heavy.</p>
+<p>Take a standard primitive shape, like a sphere. It’s made up of vertices, right? A vertex shader is given every single one of these vertices in turn and can mess around with them. It’s up to the vertex shader what it actually does with each one, but it has one responsibility: it must at some point set something called <code>gl_Position</code>, a 4D float vector, which is the final position of the vertex on screen. In and of itself that’s quite an interesting process, because we’re actually talking about getting a 3D position (a vertex with x,y,z) onto, or projected, to a 2D screen. Thankfully for us if we’re using something like Three.js we will have a shorthand way of setting the <code>gl_Position</code> without things getting too heavy.</p>
 
-<h2 id="fragment-shaders">Fragment Shaders</h2>
+<h2 id="fragment_shaders">Fragment Shaders</h2>
 
-<p>So we have our object with its vertices, and we’ve projected them to the 2D
-screen, but what about the colours we use? What about texturing and lighting?
-That’s exactly what the fragment shader is there for.</p>
+<p>So we have our object with its vertices, and we’ve projected them to the 2D screen, but what about the colours we use? What about texturing and lighting? That’s exactly what the fragment shader is there for.</p>
 
-<p>Very much like the vertex shader, the fragment shader also only has one must-
-do job: it must set or discard the <code>gl_FragColor</code> variable, another 4D float
-vector, which the final colour of our fragment. But what is a fragment? Think
-of three vertices which make a triangle. Each pixel within that triangle needs
-to be drawn out. A fragment is the data provided by those three vertices for
-the purpose of drawing each pixel in that triangle. Because of this the
-fragments receive interpolated values from their constituent vertices. If one
-vertex is coloured red, and its neighbour is blue we would see the colour
-values interpolate from red, through purple, to blue.</p>
+<p>Very much like the vertex shader, the fragment shader also only has one must- do job: it must set or discard the <code>gl_FragColor</code> variable, another 4D float vector, which the final colour of our fragment. But what is a fragment? Think of three vertices which make a triangle. Each pixel within that triangle needs to be drawn out. A fragment is the data provided by those three vertices for the purpose of drawing each pixel in that triangle. Because of this the fragments receive interpolated values from their constituent vertices. If one vertex is coloured red, and its neighbour is blue we would see the colour values interpolate from red, through purple, to blue.</p>
 
-<h2 id="shader-variables">Shader Variables</h2>
+<h2 id="shader_variables">Shader Variables</h2>
 
-<p>When talking about variables there are three declarations you can make:
-<strong>Uniforms</strong>, <strong>Attributes</strong> and <strong>Varyings</strong>. When I first heard of those
-three I was very confused since they don’t match anything else I’d ever worked
-with. But here’s how you can think of them:</p>
+<p>When talking about variables there are three declarations you can make: <strong>Uniforms</strong>, <strong>Attributes</strong> and <strong>Varyings</strong>. When I first heard of those three I was very confused since they don’t match anything else I’d ever worked with. But here’s how you can think of them:</p>
 
 <ol>
-  <li><strong>Uniforms</strong> are sent to <strong>both</strong> vertex shaders and fragment shaders and contain values that stay the same across the entire frame being rendered. A good example of this might be a light’s position.</li>
-  <li><strong>Attributes</strong> are values that are applied to individual vertices. Attributes are <strong>only</strong> available to the vertex shader. This could be something like each vertex having a distinct colour. Attributes have a one-to-one relationship with vertices.</li>
-  <li><strong>Varying</strong>s are variables declared in the vertex shader that we want to share with the fragment shader. To do this we make sure we declare a varying variable of the same type and name in both the vertex shader and the fragment shader. A classic use of this would be a vertex’s normal since this can be used in the lighting calculations.</li>
+<li><strong>Uniforms</strong> are sent to <strong>both</strong> vertex shaders and fragment shaders and contain values that stay the same across the entire frame being rendered. A good example of this might be a light’s position.</li>
+
+<li><strong>Attributes</strong> are values that are applied to individual vertices. Attributes are <strong>only</strong> available to the vertex shader. This could be something like each vertex having a distinct colour. Attributes have a one-to-one relationship with vertices.</li>
+
+<li><strong>Varying</strong>s are variables declared in the vertex shader that we want to share with the fragment shader. To do this we make sure we declare a varying variable of the same type and name in both the vertex shader and the fragment shader. A classic use of this would be a vertex’s normal since this can be used in the lighting calculations.</li>
 </ol>
 
-<p>In the second part of this article we’ll use all three types so you can get a
-feel for how they are applied for real.</p>
+<p>In the second part of this article we’ll use all three types so you can get a feel for how they are applied for real.</p>
 
-<p>Now we’ve talked about vertex shaders and fragment shaders and the types of
-variables they deal with, it’s now worth looking at the simplest shaders we
-can create.</p>
+<p>Now we’ve talked about vertex shaders and fragment shaders and the types of variables they deal with, it’s now worth looking at the simplest shaders we can create.</p>
 
-<h2 id="bonjourno-world">Bonjourno World</h2>
+<h2 id="bonjourno_world">Bonjourno World</h2>
 
 <p>Here, then, is the Hello World of vertex shaders:</p>
+</div></div><div class='highlight'><pre><code class='glsl'><span class='cm'>/**</span>
+<span class='cm'> * Multiply each vertex by the</span>
+<span class='cm'> * model-view matrix and the</span>
+<span class='cm'> * projection matrix (both provided</span>
+<span class='cm'> * by Three.js) to get a final</span>
+<span class='cm'> * vertex position</span>
+<span class='cm'> */</span>
+<span class='k'>void</span> <span class='n'>main</span><span class='p'>()</span> <span class='p'>{</span>
+  <span class='n'>gl_Position</span> <span class='o'>=</span> <span class='n'>projectionMatrix</span> <span class='o'>*</span>
+                <span class='n'>modelViewMatrix</span> <span class='o'>*</span>
+                <span class='k'>vec4</span><span class='p'>(</span><span class='n'>position</span><span class='p'>,</span><span class='mf'>1.0</span><span class='p'>);</span>
+<span class='p'>}</span>
+</code></pre></div><div class="container"><div class="left column">
+<p>and here’s the same for the fragment shader: </div></div></p>
+<div class='highlight'><pre><code class='glsl'><span class='cm'>/**</span>
+<span class='cm'> * Set the colour to a lovely pink.</span>
+<span class='cm'> * Note that the color is a 4D Float</span>
+<span class='cm'> * Vector, R,G,B and A and each part</span>
+<span class='cm'> * runs from 0.0 to 1.0</span>
+<span class='cm'> */</span>
+<span class='k'>void</span> <span class='n'>main</span><span class='p'>()</span> <span class='p'>{</span>
+  <span class='n'>gl_FragColor</span> <span class='o'>=</span> <span class='k'>vec4</span><span class='p'>(</span><span class='mf'>1.0</span><span class='p'>,</span>  <span class='c1'>// R</span>
+                      <span class='mf'>0.0</span><span class='p'>,</span>  <span class='c1'>// G</span>
+                      <span class='mf'>1.0</span><span class='p'>,</span>  <span class='c1'>// B</span>
+                      <span class='mf'>1.0</span><span class='p'>);</span> <span class='c1'>// A</span>
+<span class='p'>}</span>
+</code></pre></div><div class="container"><div class="left column">
+<p>That’s really all there is to it. If you were to use that you would see an ‘unlit’ pink shape on your screen. Not too complicated though, right?</p>
 
-</div></div>
+<p>In the vertex shader we are sent a couple of uniforms by Three.js. These two uniforms are 4D matrices, called the Model-View Matrix and the Projection Matrix. You don’t desperately need to know exactly how these work, although it’s always best to understand how things do what they do if you can. The short version is that they are how the 3D position of the vertex is actually projected to the final 2D position on the screen.</p>
 
-<div class="highlight"><pre><code class="language-glsl" data-lang="glsl"><span class="cm">/**</span>
-<span class="cm"> * Multiply each vertex by the</span>
-<span class="cm"> * model-view matrix and the</span>
-<span class="cm"> * projection matrix (both provided</span>
-<span class="cm"> * by Three.js) to get a final</span>
-<span class="cm"> * vertex position</span>
-<span class="cm"> */</span>
-<span class="k">void</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
-  <span class="n">gl_Position</span> <span class="o">=</span> <span class="n">projectionMatrix</span> <span class="o">*</span>
-                <span class="n">modelViewMatrix</span> <span class="o">*</span>
-                <span class="k">vec4</span><span class="p">(</span><span class="n">position</span><span class="p">,</span><span class="mf">1.0</span><span class="p">);</span>
-<span class="p">}</span></code></pre></div>
+<p>I’ve actually left them out of the snippet above because Three.js adds them to the top of your shader code itself so you don’t need to worry about doing it. Truth be told it actually adds a lot more than that, such as light data, vertex colours and vertex normals. If you were doing this without Three.js you would have to create and set all those uniforms and attributes yourself. True story.</p>
 
-<div class="container"><div class="left column">
-<p>and here’s the same for the fragment shader:
-</div></div></p>
+<h2 id="using_a_meshshadermaterial">Using a MeshShaderMaterial</h2>
 
-<div class="highlight"><pre><code class="language-glsl" data-lang="glsl"><span class="cm">/**</span>
-<span class="cm"> * Set the colour to a lovely pink.</span>
-<span class="cm"> * Note that the color is a 4D Float</span>
-<span class="cm"> * Vector, R,G,B and A and each part</span>
-<span class="cm"> * runs from 0.0 to 1.0</span>
-<span class="cm"> */</span>
-<span class="k">void</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
-  <span class="n">gl_FragColor</span> <span class="o">=</span> <span class="k">vec4</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span>  <span class="c1">// R</span>
-                      <span class="mf">0.0</span><span class="p">,</span>  <span class="c1">// G</span>
-                      <span class="mf">1.0</span><span class="p">,</span>  <span class="c1">// B</span>
-                      <span class="mf">1.0</span><span class="p">);</span> <span class="c1">// A</span>
-<span class="p">}</span></code></pre></div>
-
-<div class="container"><div class="left column">
-<p>That’s really all there is to it. If you were to use that you would see an
-‘unlit’ pink shape on your screen. Not too complicated though, right?</p>
-
-<p>In the vertex shader we are sent a couple of uniforms by Three.js. These two
-uniforms are 4D matrices, called the Model-View Matrix and the Projection
-Matrix. You don’t desperately need to know exactly how these work, although
-it’s always best to understand how things do what they do if you can. The
-short version is that they are how the 3D position of the vertex is actually
-projected to the final 2D position on the screen.</p>
-
-<p>I’ve actually left them out of the snippet above because Three.js adds them to
-the top of your shader code itself so you don’t need to worry about doing it.
-Truth be told it actually adds a lot more than that, such as light data,
-vertex colours and vertex normals. If you were doing this without Three.js you
-would have to create and set all those uniforms and attributes yourself. True
-story.</p>
-
-<h2 id="using-a-meshshadermaterial">Using a MeshShaderMaterial</h2>
-
-<p>OK, so we have a shader set up, but how do we use it with Three.js? It turns
-out that it’s terribly easy. It’s rather like this:
-</div></div></p>
-
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="cm">/**</span>
-<span class="cm"> * Assume we have jQuery to hand</span>
-<span class="cm"> * and pull out from the DOM the</span>
-<span class="cm"> * two snippets of text for</span>
-<span class="cm"> * each of our shaders</span>
-<span class="cm"> */</span>
-<span class="kd">var</span> <span class="nx">vShader</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;vertexshader&#39;</span><span class="p">);</span>
-<span class="kd">var</span> <span class="nx">fShader</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;fragmentshader&#39;</span><span class="p">);</span>
-<span class="kd">var</span> <span class="nx">shaderMaterial</span> <span class="o">=</span>
-  <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">ShaderMaterial</span><span class="p">({</span>
-    <span class="nx">vertexShader</span><span class="o">:</span>   <span class="nx">vShader</span><span class="p">.</span><span class="nx">text</span><span class="p">(),</span>
-    <span class="nx">fragmentShader</span><span class="o">:</span> <span class="nx">fShader</span><span class="p">.</span><span class="nx">text</span><span class="p">()</span>
-  <span class="p">});</span></code></pre></div>
-
-<div class="container"><div class="left column">
+<p>OK, so we have a shader set up, but how do we use it with Three.js? It turns out that it’s terribly easy. It’s rather like this: </div></div></p>
+<div class='highlight'><pre><code class='javascript'><span class='cm'>/**</span>
+<span class='cm'> * Assume we have jQuery to hand</span>
+<span class='cm'> * and pull out from the DOM the</span>
+<span class='cm'> * two snippets of text for</span>
+<span class='cm'> * each of our shaders</span>
+<span class='cm'> */</span>
+<span class='kd'>var</span> <span class='nx'>vShader</span> <span class='o'>=</span> <span class='nx'>$</span><span class='p'>(</span><span class='s1'>&#39;vertexshader&#39;</span><span class='p'>);</span>
+<span class='kd'>var</span> <span class='nx'>fShader</span> <span class='o'>=</span> <span class='nx'>$</span><span class='p'>(</span><span class='s1'>&#39;fragmentshader&#39;</span><span class='p'>);</span>
+<span class='kd'>var</span> <span class='nx'>shaderMaterial</span> <span class='o'>=</span>
+  <span class='k'>new</span> <span class='nx'>THREE</span><span class='p'>.</span><span class='nx'>ShaderMaterial</span><span class='p'>({</span>
+    <span class='nx'>vertexShader</span><span class='o'>:</span>   <span class='nx'>vShader</span><span class='p'>.</span><span class='nx'>text</span><span class='p'>(),</span>
+    <span class='nx'>fragmentShader</span><span class='o'>:</span> <span class='nx'>fShader</span><span class='p'>.</span><span class='nx'>text</span><span class='p'>()</span>
+  <span class='p'>});</span>
+</code></pre></div><div class="container"><div class="left column">
 <p class="livedemo"><a href="/static/tutorials/an-introduction-to-shaders-part-1/demo/">See it running</a></p>
 
-<p>From there Three.js will compile and run your shaders attached to the mesh to
-which you give that material. It doesn’t get much easier than that really.
-Well it probably does, but we’re talking about 3D running in your browser so I
-figure you expect a certain amount of complexity.</p>
+<p>From there Three.js will compile and run your shaders attached to the mesh to which you give that material. It doesn’t get much easier than that really. Well it probably does, but we’re talking about 3D running in your browser so I figure you expect a certain amount of complexity.</p>
 
-<p>We can actually add two more properties to our MeshShaderMaterial: uniforms
-and attributes. They can both take vectors, integers or floats but as I
-mentioned before uniforms are the same for the whole frame, i.e. for all
-vertices, so they tend to be single values. Attributes, however, are per-
-vertex variables, so they are expected to be an array. There should be a one-
-to-one relationship between the number of values in the attributes array and
-the number of vertices in the mesh.</p>
+<p>We can actually add two more properties to our MeshShaderMaterial: uniforms and attributes. They can both take vectors, integers or floats but as I mentioned before uniforms are the same for the whole frame, i.e. for all vertices, so they tend to be single values. Attributes, however, are per- vertex variables, so they are expected to be an array. There should be a one- to-one relationship between the number of values in the attributes array and the number of vertices in the mesh.</p>
 
 <h2 id="conclusion">Conclusion</h2>
 
-<p>I’ll stop there for now as we’ve actually covered a rather large amount, and
-yet in many ways we’ve only just scratched the surface. In <a href="../an-introduction-to-shaders-part-2/">the next guide
-</a> I’m going provide a more advanced
-shader to which I will be passing through some attributes and uniforms as well
-as doing a bit of fake lighting.</p>
+<p>I’ll stop there for now as we’ve actually covered a rather large amount, and yet in many ways we’ve only just scratched the surface. In <a href="../an-introduction-to-shaders-part-2/">the next guide</a> I’m going provide a more advanced shader to which I will be passing through some attributes and uniforms as well as doing a bit of fake lighting.</p>
 
-<p>I’ve <a href="/static/tutorials/an-introduction-to-shaders-part-1/sample.zip">wrapped up the source code</a> in this lab article so you have
-it as a reference. If you’ve enjoyed this let me know via <a href="http://twitter.com/aerotwist">Twitter</a> - it makes for a happy Paul.
-</div></div></p>
-
+<p>I’ve <a href="/static/tutorials/an-introduction-to-shaders-part-1/sample.zip">wrapped up the source code</a> in this lab article so you have it as a reference. If you’ve enjoyed this let me know via <a href="http://twitter.com/aerotwist">Twitter</a> - it makes for a happy Paul. </div></div></p>
 
 </div>
 

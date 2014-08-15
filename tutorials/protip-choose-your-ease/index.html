@@ -217,68 +217,61 @@
   <div class="container"><div class="left column"><p>Easing is a basic building block for interaction work. In case it’s completely new to you, you can think of it as how motion <em>feels</em>.</p>
 
 <p>Most things in the real world exhibit some form of easing, where they perhaps start slow and accelerate and slow down again. Very few things start immediately, move linearly, then stop abruptly. In fact, the most obvious thing that fits that description is a robot, which is almost the <em>definition</em> of something artificial or unnatural. Including easing in our work, then, makes it feel more natural and real.</p>
-
-<iframe src="/static/tutorials/protip-choose-your-ease/ease.html" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" width="100%" height="400" style="margin-bottom: 20px; box-shadow: 0 2px 2px rgba(0,0,0,0.3)">
+<iframe frameborder='0' height='400' marginheight='0' marginwidth='0' scrolling='no' src='/static/tutorials/protip-choose-your-ease/ease.html' style='margin-bottom: 20px; box-shadow: 0 2px 2px rgba(0,0,0,0.3)' width='100%'>
 </iframe>
-
-<h2 id="remapping-time">Remapping time.</h2>
+<h2 id="remapping_time">Remapping time.</h2>
 
 <p>In its most basic form easing is a simple remapping function. Let’s assume we want to move a box from left to right over – say – 1 second. One option is simply to divide the distance by the time and move an equal amount each frame. That is linear motion, which we just decided was robotic and weird. But we can take the linear value of how far we are through the motion (a number between 0 and 1) and plug into an easing equation and have it remapped to something awesomer!</p>
 
 <p>There are a bunch of easing equations you can use, but generally they fall into three groups: in, out and in-out.</p>
 
-<h3 id="ease-in">Ease In</h3>
+<h3 id="ease_in">Ease In</h3>
 
 <p>These start slow and get faster as they go, coming to and abrupt stop at the end. Essentially they “ease in” to the motion and the graph looks like this:</p>
-
 <figure>
-  <img src="/static/tutorials/protip-choose-your-ease/ease-in.jpg" />
+  <img src='/static/tutorials/protip-choose-your-ease/ease-in.jpg' />
   <figcaption>An ease in curve</figcaption>
 </figure>
-
-<h3 id="ease-out">Ease Out</h3>
+<h3 id="ease_out">Ease Out</h3>
 
 <p>These start quickly and slow down at the end of the motion, coming to a nice easy settle. As the name implies, they “ease out” of the motion.</p>
-
 <figure>
-  <img src="/static/tutorials/protip-choose-your-ease/ease-out.jpg" />
+  <img src='/static/tutorials/protip-choose-your-ease/ease-out.jpg' />
   <figcaption>An ease out curve</figcaption>
 </figure>
-
-<h3 id="ease-in-out">Ease In-Out</h3>
+<h3 id="ease_inout">Ease In-Out</h3>
 
 <p>The mummy-and-daddy-love-each-other combination of the above, these start slow and end slow. Bit like a car accelerating and decelerating.</p>
-
 <figure>
-  <img src="/static/tutorials/protip-choose-your-ease/ease-in-out.jpg" />
+  <img src='/static/tutorials/protip-choose-your-ease/ease-in-out.jpg' />
   <figcaption>An ease in-out curve</figcaption>
 </figure>
-
-<h2 id="easing-in-interfaces">Easing in interfaces</h2>
+<h2 id="easing_in_interfaces">Easing in interfaces</h2>
 
 <p>Now that we’ve defined our eases, you’ll likely want to know which is the right kind for interaction work.</p>
 
 <ul>
-  <li><strong>For anything that is in direct response to a user action, like an expanding UI widget, you should ease out</strong>. The reasoning is pretty simple: you want to start fast because it gives the perception of responsiveness. Ease outs will give you that and give you a nice settle. Ease ins and in-outs don’t and the user will feel like they’re willing the animation to get done.</li>
-  <li><strong>Expand fast, contract slow(er)</strong>. I typically roll with around 200ms for outward animation and 300ms for returns. This is personal preference, but I find that it’s a decent balance. Getting the animation complete to get to the interactivity on the way out is paramount, but you want <em>some</em> animation so it feels polished. Appearing instead of animating is fine, and if it comes down to it, <em>no animation on the way out</em> is way better than a slow one. On the way back (where the user isn’t interacting anymore) we can afford to be a little gentler.</li>
-  <li><strong>Don’t use an overly aggressive ease</strong>. Younger Paul was a big fan of an exponential ease outs, which has a pretty mean looking curve. It works, but it also has a kind of “HERE’S YOUR CHUFFING COMPONENT, NOW GO AWAY” feel to it… maybe a reflection on younger Paul. Anyway, nowadays I tend to find a quintic ease out is a rather dandy compromise, but like all of this stuff, have a play around and see what matches your project’s personality.</li>
-</ul>
+<li><strong>For anything that is in direct response to a user action, like an expanding UI widget, you should ease out</strong>. The reasoning is pretty simple: you want to start fast because it gives the perception of responsiveness. Ease outs will give you that and give you a nice settle. Ease ins and in-outs don’t and the user will feel like they’re willing the animation to get done.</li>
 
+<li><strong>Expand fast, contract slow(er)</strong>. I typically roll with around 200ms for outward animation and 300ms for returns. This is personal preference, but I find that it’s a decent balance. Getting the animation complete to get to the interactivity on the way out is paramount, but you want <em>some</em> animation so it feels polished. Appearing instead of animating is fine, and if it comes down to it, <em>no animation on the way out</em> is way better than a slow one. On the way back (where the user isn’t interacting anymore) we can afford to be a little gentler.</li>
+
+<li><strong>Don’t use an overly aggressive ease</strong>. Younger Paul was a big fan of an exponential ease outs, which has a pretty mean looking curve. It works, but it also has a kind of “HERE’S YOUR CHUFFING COMPONENT, NOW GO AWAY” feel to it… maybe a reflection on younger Paul. Anyway, nowadays I tend to find a quintic ease out is a rather dandy compromise, but like all of this stuff, have a play around and see what matches your project’s personality.</li>
+</ul>
 <figure>
-  <img src="/static/tutorials/protip-choose-your-ease/quintic-ease-out.jpg" />
+  <img src='/static/tutorials/protip-choose-your-ease/quintic-ease-out.jpg' />
   <figcaption>A quintic ease out curve</figcaption>
 </figure>
-
 <h2 id="resources">Resources</h2>
 
 <p>There are some libraries and tools I heartily recommend you take a look at:</p>
 
 <ul>
-  <li><a href="http://www.greensock.com/gsap-js/">GSAP</a>. This is <em>the</em> go-to library from back in the Flash days that has received a complete JavaScript port. It has a loads of additional functionality, and all the easing you could want plus some bonkers ones (<a href="http://codepen.io/rhernando/details/tgEBn">slow mo anyone</a>?)</li>
-  <li><a href="https://github.com/sole/tween.js/">Tween.js</a>. You should also take a look at <a href="https://twitter.com/supersole">Soledad Penadés</a>’s library. It has a lightweight, no-nonsense approach to tweening that I really warm to.</li>
-  <li><a href="http://matthewlein.com/ceaser/">Ceaser</a>. If you want to play around with different easing curves, see them in action and get the corresponding CSS cubic bezier curve, <a href="https://twitter.com/matthewlein">Matthew Lein</a> has you covered. There is no finer tool.</li>
-</ul>
-</div></div>
+<li><a href="http://www.greensock.com/gsap-js/">GSAP</a>. This is <em>the</em> go-to library from back in the Flash days that has received a complete JavaScript port. It has a loads of additional functionality, and all the easing you could want plus some bonkers ones (<a href="http://codepen.io/rhernando/details/tgEBn">slow mo anyone</a>?)</li>
+
+<li><a href="https://github.com/sole/tween.js/">Tween.js</a>. You should also take a look at <a href="https://twitter.com/supersole">Soledad Penadés</a>‘s library. It has a lightweight, no-nonsense approach to tweening that I really warm to.</li>
+
+<li><a href="http://matthewlein.com/ceaser/">Ceaser</a>. If you want to play around with different easing curves, see them in action and get the corresponding CSS cubic bezier curve, <a href="https://twitter.com/matthewlein">Matthew Lein</a> has you covered. There is no finer tool.</li>
+</ul></div></div>
 
 </div>
 

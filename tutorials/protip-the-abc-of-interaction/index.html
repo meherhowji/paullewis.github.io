@@ -225,13 +225,12 @@
 <p>In most cases acknowledgment comes in one of two forms:</p>
 
 <ol>
-  <li><strong>Visual confirmation the user’s choices</strong>. This might seem obvious, but you should make it super clear to the user what the current status of the UI is. If they make some kind of gesture or choice it should be super clear that you have registered it correctly. Apple has faced this problem recently in iOS 7.1 where some users are unclear as to <a href="http://ismyshiftkeyonornot.com/">whether or not their shift key is pressed</a>. This is a classic case of users asking “did it do what I expected?” and that’s what we need to avoid.</li>
-  <li><strong>Validate the user’s choices</strong>. If you can validate the user’s input quickly and easily, do it. It’s better than making a round trip to the server side to just come back with errors. That said, you <em>absolutely should</em> validate the data on the server side every time, just do it on the client side <em>as well</em> if at all possible. It’s faster.</li>
+<li><strong>Visual confirmation the user’s choices</strong>. This might seem obvious, but you should make it super clear to the user what the current status of the UI is. If they make some kind of gesture or choice it should be super clear that you have registered it correctly. Apple has faced this problem recently in iOS 7.1 where some users are unclear as to <a href="http://ismyshiftkeyonornot.com/">whether or not their shift key is pressed</a>. This is a classic case of users asking “did it do what I expected?” and that’s what we need to avoid.</li>
+
+<li><strong>Validate the user’s choices</strong>. If you can validate the user’s input quickly and easily, do it. It’s better than making a round trip to the server side to just come back with errors. That said, you <em>absolutely should</em> validate the data on the server side every time, just do it on the client side <em>as well</em> if at all possible. It’s faster.</li>
 </ol>
-
-<iframe src="/static/tutorials/protip-the-abc-of-interaction/widget-base.html" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" width="100%" height="430" style="margin-bottom: 20px; box-shadow: 0 2px 2px rgba(0,0,0,0.3)">
+<iframe frameborder='0' height='430' marginheight='0' marginwidth='0' scrolling='no' src='/static/tutorials/protip-the-abc-of-interaction/widget-base.html' style='margin-bottom: 20px; box-shadow: 0 2px 2px rgba(0,0,0,0.3)' width='100%'>
 </iframe>
-
 <p>In this example I simply disable the send button until an option is selected. The alternative would be to only notify the user that they need to choose an option when they press the button. The problem with that is it’s annoying; it’s like being sent to the naughty corner because you didn’t infer the magic ritual you needed to perform.</p>
 
 <p>At this point the widget doesn’t actually send anything to the server side, but that comes next, yo.</p>
@@ -247,54 +246,57 @@
 <p>In fact, most decisions in life outside of a browser are far more nuanced. If you’re helping someone and you hit a snag you probably do several things:</p>
 
 <ul>
-  <li>Try the thing again a few times.</li>
-  <li>Explain to the person that you’re helping that something isn’t quite as you expected.</li>
-  <li>Offer to try again later, try something different, or simply give up.</li>
+<li>Try the thing again a few times.</li>
+
+<li>Explain to the person that you’re helping that something isn’t quite as you expected.</li>
+
+<li>Offer to try again later, try something different, or simply give up.</li>
 </ul>
 
 <p>First up, “trying something different” doesn’t really map that well because hopefully you should <em>know</em> what you’re supposed to be doing, so let’s park that and look at the other bits in more detail.</p>
 
-<h3 id="try-again-a-few-times">Try again a few times</h3>
+<h3 id="try_again_a_few_times">Try again a few times</h3>
 
 <p>If in our example you were posting the user’s choice over to the server side you could set a relatively short timeout and, in the event of failure, attempt to send the data again several times. You wouldn’t want to keep trying forever, but there’s definitely something to be said for it. On mobile, where patchy connections are pretty much a given, it may introduce a little more perceived reliability to your app.</p>
 
-<h3 id="talk-to-the-user">Talk to the user</h3>
+<h3 id="talk_to_the_user">Talk to the user</h3>
 
 <p>When you sit back and consider an action in detail, you will almost certainly find that there are several points of potential failure. In our example here are the immediate ones that spring to my mind:</p>
 
 <ul>
-  <li>The user is offline.</li>
-  <li>The user is online but the connection is patchy.</li>
-  <li>The user is online and the server side is slow to respond or entirely unresponsive.</li>
+<li>The user is offline.</li>
+
+<li>The user is online but the connection is patchy.</li>
+
+<li>The user is online and the server side is slow to respond or entirely unresponsive.</li>
 </ul>
 
 <p>Now I’m not saying that you want to tell the user exactly what’s going on in gory detail when you run into issues, but what you <em>do</em> want to do is look at these points of failure and figure out what you need to tell the user and when.</p>
 
 <p>Let’s teach our widget some communication skills:</p>
-
-<iframe src="/static/tutorials/protip-the-abc-of-interaction/widget-send.html" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" width="100%" height="430" style="margin-bottom: 20px; box-shadow: 0 2px 2px rgba(0,0,0,0.3)">
+<iframe frameborder='0' height='430' marginheight='0' marginwidth='0' scrolling='no' src='/static/tutorials/protip-the-abc-of-interaction/widget-send.html' style='margin-bottom: 20px; box-shadow: 0 2px 2px rgba(0,0,0,0.3)' width='100%'>
 </iframe>
-
 <p>You can see here when you click on the send button I drop in a swirly “I’m doing something” animation for some immediate acknowledgment. But after a few seconds of inaction from the server a timeout is triggered that tells the user that it’s taking longer than expected to get a response. It’s jolly British about it, too, which is a frightfully good thing.</p>
 
-<h3 id="give-the-user-some-sane-options">Give the user some sane options</h3>
+<h3 id="give_the_user_some_sane_options">Give the user some sane options</h3>
 
 <p>When something fails, or looks like it’s going to, we can do a few things:</p>
 
 <ol>
-  <li><strong>Offer to store the data offline and attempt to post again later</strong>. Whether this is a suitable option is really going to depend on the nature of your app, but remembering the user’s choice might provide a much better user experience.</li>
-  <li><strong>Offer to retry</strong>. Sometimes the user will know why something failed, and they may just want to give it another go.</li>
-  <li><strong>Quit and call it a day.</strong> Of course, occasionally it’s just not worth the hassle and they will just want to quit. (That doesn’t mean you can’t store their choices and entry for future attempts.)</li>
+<li><strong>Offer to store the data offline and attempt to post again later</strong>. Whether this is a suitable option is really going to depend on the nature of your app, but remembering the user’s choice might provide a much better user experience.</li>
+
+<li><strong>Offer to retry</strong>. Sometimes the user will know why something failed, and they may just want to give it another go.</li>
+
+<li><strong>Quit and call it a day.</strong> Of course, occasionally it’s just not worth the hassle and they will just want to quit. (That doesn’t mean you can’t store their choices and entry for future attempts.)</li>
 </ol>
 
 <p>It’s entirely your call as to what you choose to do, of course, but hopefully you can see “success” and “fail”, or “let’s just hope it all works out” approaches generally miss an opportunity to offer a better experience.</p>
 
-<h2 id="this-is-not-just-a-developer-concern">This is not just a developer concern</h2>
+<h2 id="this_is_not_just_a_developer_concern">This is not just a developer concern</h2>
 
 <p>Perhaps your gut reaction to this is that developers should be dealing with this, but I wholeheartedly disagree. The “what happens when this goes wrong?” question is something that spans UX, design and development: UX should be deciding what the process and messaging should be, designers should be ensuring that it looks and feels right, and developers should be crafting code and ensuring all eventualities are covered.</p>
 
-<p>Like all interaction work, it’s a team sport.</p>
-</div></div>
+<p>Like all interaction work, it’s a team sport.</p></div></div>
 
 </div>
 

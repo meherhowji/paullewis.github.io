@@ -204,7 +204,7 @@
       </svg>
 
       <svg class="left-meta" width="595" height="340">
-        <use xlink:href="#color-block" filter="url(#blur-6)" transform="translate(595/2 170) scale(-0.5 0.5) translate(-595/2 -170)" />
+        <use xlink:href="#color-block" filter="url(#blur-6)" transform="translate(297 170) scale(-0.5 0.5) translate(-298 -170)" />
       </svg>
     
 
@@ -249,115 +249,98 @@
   <div class="container"><div class="left column"><p>The other day I was reading through <a href="http://frontendbabel.info/articles/webpage-rendering-101/">What Every Frontend Developer Should Know About Webpage Rendering</a> and I came away feeling like it missed out some crucial points. The article emphasizes CSS selector matching, layout (or reflow for Gecko-based browsers like Firefox), and being careful about forced synchronous layouts aka <a href="http://wilsonpage.co.uk/preventing-layout-thrashing/">Layout Thrashing</a>. All of these things, I should say, are <em>good</em> things for us to be aware of, but for me it doesn’t cover everything we need to know about page rendering. For the most part we’ll be trying to get to 60fps in our work, and that normally means understanding what the browser’s doing and optimizing for it.</p>
 
 <p>I did a session at this year’s Google I/O where I step through the pipeline in a fair amount of detail. If you prefer watching over reading then here’s the session video:</p>
-
-<iframe width="100%" height="420" src="//www.youtube.com/embed/WrA85a4ZIaM?vq=hd720" frameborder="0" allowfullscreen="allowfullscreen" style="margin-bottom: 20px; box-shadow: 0 2px 2px rgba(0,0,0,0.3)">
+<iframe allowfullscreen='allowfullscreen' frameborder='0' height='420' src='//www.youtube.com/embed/WrA85a4ZIaM?vq=hd720' style='margin-bottom: 20px; box-shadow: 0 2px 2px rgba(0,0,0,0.3)' width='100%'>
 </iframe>
-
 <p>The render pipeline part <a href="https://www.youtube.com/watch?v=WrA85a4ZIaM#t=970">starts around 16 minutes in</a>, in case you want to skip to it.</p>
 
-<h2 id="what-developers-need-to-know-about-webpage-rendering">What Developers Need To Know About Webpage Rendering</h2>
+<h2 id="what_developers_need_to_know_about_webpage_rendering">What Developers Need To Know About Webpage Rendering</h2>
 
 <p>From a developer’s point of view there are <em>four</em> major areas we care about:</p>
 
-<h3 id="recalculate-style">1. Recalculate Style</h3>
+<h3 id="1_recalculate_style">1. Recalculate Style</h3>
 
 <p>This is the first part that the article looked at, and it pertains to selector matching and figuring out which styles apply to which parts of the DOM.</p>
-
 <figure>
-  <img src="/static/blog/pixels-are-expensive/recalc-style.jpg" />
+  <img src='/static/blog/pixels-are-expensive/recalc-style.jpg' />
   <figcaption>The browser figuring out which CSS applies to which elements.</figcaption>
 </figure>
-
 <p>Normally, however, <em>this is super fast</em> unless you have a DOM tree with thousands upon thousands of elements and you change a large part of said tree, either directly or through cascade (like – say – by adding a class to the body that affects all its children).</p>
 
 <blockquote>
-  <p>For the most part optimizing selector matching is going to give minimal returns.</p>
+<p>For the most part optimizing selector matching is going to give minimal returns.</p>
 </blockquote>
 
 <p>For the most part optimizing selector matching is going to give minimal returns. Not when you factor in what happens next…</p>
 
-<h3 id="layout">2. Layout</h3>
+<h3 id="2_layout">2. Layout</h3>
 
 <p>Once we know what styles apply to the DOM we have a render tree, which is what we want to paint. To us it looks essentially like the DOM with things missing (the stuff we don’t need to draw) and other things added (like pseudo elements).</p>
-
 <figure>
-  <img src="/static/blog/pixels-are-expensive/render-tree.jpg" />
+  <img src='/static/blog/pixels-are-expensive/render-tree.jpg' />
   <figcaption>The render tree: the stuff we need to paint.</figcaption>
 </figure>
-
 <blockquote>
-  <p>If I change the dimensions of <code>&lt;body&gt;</code>, then chances are the things inside of it will also need to change.</p>
+<p>If I change the dimensions of <code>&lt;body&gt;</code>, then chances are the things inside of it will also need to change.</p>
 </blockquote>
 
 <p>In layout we figure out the geometry of the page, i.e. where each element is on the page. This is where things can start to get a little more computationally expensive as the way elements are laid out is contingent; where one element lives is normally affected by another. If I change the dimensions of <code>&lt;body&gt;</code>, then chances are the things inside of it will also need to change.</p>
 
 <p>Now this is also where things get interesting. Let’s say you change a layout property, something that alters the geometry of the page (paddings, margins, positions, text size, borders), what happens then? Well here’s a video I made that shows the Chrome DevTools Timeline when you alter the geometry of an element. In this case I change its height:</p>
-
-<iframe width="100%" height="420" src="//www.youtube.com/embed/qEG0QkCCK6A?vq=hd720" frameborder="0" allowfullscreen="allowfullscreen" style="margin-bottom: 20px; box-shadow: 0 2px 2px rgba(0,0,0,0.3)">
+<iframe allowfullscreen='allowfullscreen' frameborder='0' height='420' src='//www.youtube.com/embed/qEG0QkCCK6A?vq=hd720' style='margin-bottom: 20px; box-shadow: 0 2px 2px rgba(0,0,0,0.3)' width='100%'>
 </iframe>
-
 <p>The thing to notice is that the bars are shooting way past the 60fps line, and that we spend around ~23ms figuring out the geometry changes in each frame. This is true whether the animation is triggered by JavaScript or CSS as the layout work still needs to get done. When we’re aiming to achieve 60fps we have ~16ms to get <em>everything</em> done, and we just went over that in one task. Oops.</p>
 
 <p>As something of a bonus point here, you definitely want to <a href="http://wilsonpage.co.uk/preventing-layout-thrashing/">avoid layout thrashing</a>, or forced synchronous layouts, which is where you cause a browser to do layout / reflows unnecessarily. That’s just going to make matters even worse.</p>
 
 <p>With that said, however, from that video you’ll hopefully <em>also</em> see that although we spend ~23ms in layout we spend a whopping <strong>~600ms</strong> painting the changed pixels.</p>
 
-<h3 id="paint">3. Paint</h3>
+<h3 id="3_paint">3. Paint</h3>
 
 <p>Now we know where the elements are we need to fill in their pixels, and <em>this</em> is where you’re going to spend the vast majority of your time. If you trigger paint you’re going to <em>feel it</em>. Well, your users definitely will when your site struggles along. Here’s another sample where I cause paints (no layout changes here) by changing an element from gray to glorious hot pink:</p>
-
-<iframe width="100%" height="420" src="//www.youtube.com/embed/yDl_ZcYj4N4?vq=hd720" frameborder="0" allowfullscreen="allowfullscreen" style="margin-bottom: 20px; box-shadow: 0 2px 2px rgba(0,0,0,0.3)">
+<iframe allowfullscreen='allowfullscreen' frameborder='0' height='420' src='//www.youtube.com/embed/yDl_ZcYj4N4?vq=hd720' style='margin-bottom: 20px; box-shadow: 0 2px 2px rgba(0,0,0,0.3)' width='100%'>
 </iframe>
-
 <p>The kinds of properties that trigger paint are anything “visual” like color, background or shadows. There’s a bunch of them, but the thing is if you <strong>change a layout property</strong> you are almost certainly going to trigger paint. If the geometry of the page changed, some of the pixels get dirtied and need to be repainted.</p>
 
 <p>Once we’re done painting we are on to the final part.</p>
 
-<h3 id="composite">4. Composite</h3>
+<h3 id="4_composite">4. Composite</h3>
 
 <blockquote>
-  <p>We sometimes separate elements out into distinct layers, called compositor layers.</p>
+<p>We sometimes separate elements out into distinct layers, called compositor layers.</p>
 </blockquote>
 
 <p>By default we paint elements into a single layer in memory, which for us as developers we can think of in a similar way to Photoshop’s canvas. If you change a pixel with a brush it’s destructive, you can’t get back at the original pixels. (There’s an undo in Photoshop… L.O.L.)</p>
 
 <p>To get around this problem, in a very similar way to Photoshop and other art packages, we sometimes separate elements out into distinct layers, called compositor layers. That way if we have to paint an element ideally we don’t want to have to paint anything else. I’ve written about <a href="http://aerotwist.com/blog/on-translate3d-and-layer-creation-hacks/">the rules that are currently in use for ‘promoting’ an element</a> to its own layer before, but stick around as there’s a totally new way, which I will explain shortly! <code>:-O</code></p>
-
 <figure>
-  <img src="/static/blog/pixels-are-expensive/layers.jpg" />
+  <img src='/static/blog/pixels-are-expensive/layers.jpg' />
   <figcaption>An artist's impression... Fine, <strong>my</strong> impression of a page's compositor layers.</figcaption>
 </figure>
-
 <p>When we’re done with these layers we smush them all back together, which is compositing.</p>
 
-<h2 id="avoiding-performance-bottlenecks">Avoiding performance bottlenecks</h2>
+<h2 id="avoiding_performance_bottlenecks">Avoiding performance bottlenecks</h2>
 
 <p>A while back I wrote <a href="http://www.html5rocks.com/en/tutorials/speed/high-performance-animations/">an article with Paul Irish on HTML5 Rocks</a> explaining how you can get high performance animations, or in this case, how you can exploit the pipeline to make sure you hit 60fps. What it boils down to is <em>only changing properties that trigger compositing</em> rather than layout or paint:</p>
-
 <figure>
-  <img src="/static/blog/pixels-are-expensive/high-perf-anims.jpg" />
+  <img src='/static/blog/pixels-are-expensive/high-perf-anims.jpg' />
   <figcaption>The properties you can change without triggering layout or paint.</figcaption>
 </figure>
-
 <p>This is the list of the most common transforms (along with opacity) but in theory it should work for any of them. You will need to put elements onto their own compositor layer, though. The newest and shiniest way of doing that is <code>will-change</code>, which, for certain keywords, like <code>opacity</code> or <code>transform</code> will cause Chrome and Firefox to make the appropriate optimizations under the hood. In the case of these two keywords, for Chrome at least, means making compositor layers.</p>
 
 <p>If you’re new to <code>will-change</code>, <a href="https://twitter.com/SaraSoueidan">Sara Soueidan</a> recently wrote up a post about it on <a href="http://dev.opera.com/articles/css-will-change-property/">dev.Opera</a>. If you can’t rely on that for your work, and that includes the current version of Chrome, then you’re talking old skool hacks like <code>-webkit-backface-visibility: hidden</code> or the perennial fave, <code>-webkit-transform: translateZ(0);</code> (ohai null transform layer hack!), and you’ll be on your way again.</p>
 
 <p>When we stick to compositor operations, we see super light frames and we get 60fps!</p>
-
-<iframe width="100%" height="420" src="//www.youtube.com/embed/F5OwoQnptHY?vq=hd720" frameborder="0" allowfullscreen="allowfullscreen" style="margin-bottom: 20px; box-shadow: 0 2px 2px rgba(0,0,0,0.3)">
+<iframe allowfullscreen='allowfullscreen' frameborder='0' height='420' src='//www.youtube.com/embed/F5OwoQnptHY?vq=hd720' style='margin-bottom: 20px; box-shadow: 0 2px 2px rgba(0,0,0,0.3)' width='100%'>
 </iframe>
-
 <p>For the curious, the reason that we see transparent frames is because we’re still tracking to 60fps, even if the workload completes earlier than 16ms. In those cases we fill the Timeline bars with empty space. Ooh space!</p>
 
-<h2 id="tools-not-rules-and-a-brighter-future">Tools, Not Rules and a brighter future</h2>
+<h2 id="tools_not_rules_and_a_brighter_future">Tools, Not Rules and a brighter future</h2>
 
 <p>Things are always changing, including the pipeline I’ve explained. The thoroughly spiffing news is that your developer tools will always be up-to-date and truthy, so if you’re not used to spending a lot of huggle time, all-up-n-cosy with your tools, change that. They’ll love you back.</p>
 
 <p>The really good news is that things are also getting much faster. At this year’s Google I/O we showed <a href="https://www.youtube.com/watch?v=wtLJPvx7-ys#t=1800">fast, fluid, continous animations at 60fps in Chrome on Android</a>, and that’s something that continues to be really important to the Chrome team. I know it’s also really important for other browser vendors, too.</p>
 
-<p>I hope to some day say that all you need to care about is writing ‘sane’ code, whether it triggers layout, paint or anything else, and that you can let the browser do the work, but until then, <em>this</em> is what every frontend developer should know about webpage rendering.</p>
-</div></div>
+<p>I hope to some day say that all you need to care about is writing ‘sane’ code, whether it triggers layout, paint or anything else, and that you can let the browser do the work, but until then, <em>this</em> is what every frontend developer should know about webpage rendering.</p></div></div>
 
   <div class="footer-share container">
     Share this on: <span class="value"><a href="http://www.twitter.com/share?url=http://aerotwist.com/blog/pixels-are-expensive/">Twitter</a></span>
@@ -367,7 +350,7 @@
   <div class="clear"></div>
 
   
-    <svg class="left-shape" style="margin-left: -323.0px" width="476.0" height="833.0">
+    <svg class="left-shape" style="margin-left: -323.0px" width="475.99999999999994" height="833.0">
       <use xlink:href="#color-block" filter="url(#blur-4)" transform="scale(-1.4 1.4) rotate(90)"/>
     </svg>
 

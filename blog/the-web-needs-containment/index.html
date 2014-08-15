@@ -245,126 +245,93 @@
   </div>
 
   <div class="container"><div class="left column">
-<p>## Documents: they’re not a kind of app.</p>
+<h2 id="documents_theyre_not_a_kind_of_app">Documents: they’re not a kind of app.</h2>
 
 <p>MVC frameworks are the de facto way to structure a web app. A quick tally of <a href="http://todomvc.com/">TodoMVC</a> shows about <strong>50</strong> or so different flavors of MVC framework that you can use for your next project. That’s great and everything, but let me ask you this: <em>how do you semantically declare a view in your HTML?</em> And I don’t mean for the sake of screen readers and accessibility (though that would be good!) but to declare your intent to the browser? How does Chrome, Firefox, Safari, Opera or IE <em>know</em> that it’s dealing with a view? Because if the browser doesn’t know <strong>it can’t optimize for it</strong>.</p>
 
-<p>Today, of course, we have HTML and styling that’s grown up out of the primitive of the <code>document</code>. That’s no bad thing, but now we’re trying to build apps and that is increasingly like trying to teach an old dog new tricks. Today our rendering model assumes that if I change an element somewhere in the tree, that change will cascade down to child elements and potentially affect all of them. Those changes will also propagate back <em>up</em> the tree as well (yay!) and the entire document may need to be laid out.
-</div></div></p>
-
-<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="c">&lt;!-- This is so legit --&gt;</span>
-<span class="nt">&lt;section</span> <span class="na">class=</span><span class="s">&quot;view isolatedforlayoutandpaint ipromise&quot;</span><span class="nt">&gt;</span>
+<p>Today, of course, we have HTML and styling that’s grown up out of the primitive of the <code>document</code>. That’s no bad thing, but now we’re trying to build apps and that is increasingly like trying to teach an old dog new tricks. Today our rendering model assumes that if I change an element somewhere in the tree, that change will cascade down to child elements and potentially affect all of them. Those changes will also propagate back <em>up</em> the tree as well (yay!) and the entire document may need to be laid out. </div></div></p>
+<div class='highlight'><pre><code class='html'><span class='c'>&lt;!-- This is so legit --&gt;</span>
+<span class='nt'>&lt;section</span> <span class='na'>class=</span><span class='s'>&quot;view isolatedforlayoutandpaint ipromise&quot;</span><span class='nt'>&gt;</span>
   This is a document section desperately trying to be a view.
 
   It isn&#39;t.
 
   It&#39;s a SECTION of a DOCUMENT.
-<span class="nt">&lt;/section&gt;</span></code></pre></div>
-
-<div class="container"><div class="left column">
-
+<span class='nt'>&lt;/section&gt;</span>
+</code></pre></div><div class="container"><div class="left column">
 <p>If we’re making an MVC app and we want to have – say – five different views, all of which are at the root. They probably have subviews like lists and whatnot, this being an app and everything. Naturally we want (and expect) the browser to contain those views for styling, layout and paint. This would be great for performance, but also our sanity. But since we can’t declare a view we can’t benefit from that!</p>
 
-<h2 id="no-views-and-insane-z-ordering">No views… and insane z ordering!</h2>
+<h2 id="no_views_and_insane_z_ordering">No views… and insane z ordering!</h2>
 
 <blockquote>
-  <p>You simply have to just go the whole hog and learn how everything plays out (or should play out, bugs notwithstanding) and then massage your CSS to get things working.</p>
+<p>You simply have to just go the whole hog and learn how everything plays out (or should play out, bugs notwithstanding) and then massage your CSS to get things working.</p>
 </blockquote>
 
 <p>Relatedly, things like stacking contexts and z-indexes are deeply confusing and end up horrible to manage. Behaviors change depending on whether an element is set to <code>position: absolute</code>, <code>static</code>, <code>fixed</code> or <code>relative</code>.</p>
 
 <p>You simply have to just go the whole hog and learn how everything plays out (or <em>should</em> play out, bugs notwithstanding) and then massage your CSS to get things working. <a href="http://philipwalton.com/articles/what-no-one-told-you-about-z-index/">And then there’s some weird crap about opacity</a>.</p>
 
-<h2 id="sup-flash">Sup, Flash!</h2>
+<h2 id="sup_flash">Sup, Flash!</h2>
 
 <p>Here’s something you may or may not know: Flash had (and still does have) the notion of self-contained views: <a href="http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/display/DisplayObject.html"><code>DisplayObject</code>s</a>. These are the base class of virtually everything on screen, and they behave like views! If you create two <code>DisplayObject</code>s (or one of its subclasses like <code>Sprite</code>, <code>MovieClip</code> or <code>Bitmap</code>) you can easily move them around and know they won’t affect each other.</p>
-
 <figure>
-  <img src="/static/blog/the-web-needs-containment/flash-movieclip.png" />
+  <img src='/static/blog/the-web-needs-containment/flash-movieclip.png' />
   <figcaption>Creating a MovieClip like it's 1999</figcaption>
 </figure>
-
 <p>You can also have parent-child relationships, so you if you go all meme on it (“Yo dawg, I heard you like <code>DisplayObject</code>s, so I put a <code>DisplayObject</code> in your <code>DisplayObject</code> so you can’t object to displayin’ <code>DisplayObject</code>z”) you can build trees of these <strong>self-contained</strong> items. Internally each has a <em>consistent and predictable</em> z ordering, i.e. they are all stacking contexts, and, since the stage is effectively a <code>DisplayObject</code> you also have z ordering there, too.</p>
 
 <p>To be clear, I’m not saying I want develop in Flash again; the web has better accessibility and multi-device support, <em>but</em> that doesn’t mean we should discard what it does well!</p>
 
-<h2 id="broaden-the-horizon">Broaden the horizon</h2>
+<h2 id="broaden_the_horizon">Broaden the horizon</h2>
 
 <p>But let’s not get bogged down in Flash, eh? It’s still a bit raw for some folks and I’m pretty certain their pitchforks are just lying around begging to be sharpened. Instead let’s take a look a little bit further afield and see whether other platforms outside of the web have the notion of containment / views and, for giggles, sane z ordering:</p>
-
-<table class="left-highlight">
-  <thead>
-    <tr>
-      <th> </th>
-      <th>iOS</th>
-      <th>Android</th>
-      <th>Flash</th>
-      <th>Windows</th>
-      <th>Web</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Containment</td>
-      <td>Yes</td>
-      <td>Yes</td>
-      <td>Yes</td>
-      <td>Yes</td>
-      <td>No</td>
-    </tr>
-    <tr>
-      <td>Sane Z Ordering</td>
-      <td>Yes</td>
-      <td>Yes</td>
-      <td>Yes</td>
-      <td>Yes</td>
-      <td>No</td>
-    </tr>
-  </tbody>
-</table>
-
+<table class="left-highlight"><thead><tr><th></th><th>iOS</th><th>Android</th><th>Flash</th><th>Windows</th><th>Web</th></tr></thead><tbody><tr><td style="text-align: left;">Containment</td><td style="text-align: left;">Yes</td><td style="text-align: left;">Yes</td><td style="text-align: left;">Yes</td><td style="text-align: left;">Yes</td><td style="text-align: left;">No</td></tr>
+<tr><td style="text-align: left;">Sane Z Ordering</td><td style="text-align: left;">Yes</td><td style="text-align: left;">Yes</td><td style="text-align: left;">Yes</td><td style="text-align: left;">Yes</td><td style="text-align: left;">No</td></tr>
+</tbody></table>
 <p>Yeahhhhhh… all these other platforms have the basic notion of a view, and from there we find clear z ordering. Android and Windows both stand out to me as having an optional flexible layout model, something that is de facto on the web of course. But, crucially, when you change something inside one of your “views” on the web, the chances are <strong>everything else</strong> is going to be affected.</p>
 
 <p>In a <a href="../bad-benchmark-right-result/">previous blog post discussing benchmarks</a> I had this chart showing how style calculation times escalate proportionally to the number of affected elements:</p>
-
 <figure>
-  <img src="/static/blog/bad-benchmark-right-result/strings.png" />
+  <img src='/static/blog/bad-benchmark-right-result/strings.png' />
 </figure>
-
 <p>If we want to maintain smooth framerates we need to avoid this work, and doubly so if the developer <em>never intended</em> for all those elements to be affected by a change. That chart doesn’t account for layout or paint, both of which would also increase. Oh and on mobile handsets times would increase by <strong>~6-8x</strong>.</p>
 
 <blockquote>
-  <p>We are applying hacks to cajole the browser into treating elements like self-contained views.</p>
+<p>We are applying hacks to cajole the browser into treating elements like self-contained views.</p>
 </blockquote>
 
 <p>Of course today there are implementation-specific criteria you can apply to your elements that get them to act as <a href="http://wilsonpage.co.uk/introducing-layout-boundaries/">Layout Boundaries</a>, but these are not always simple to apply and they are tied to the implementation. It’s the same with <code>translateZ(0)</code> and chums; we are applying hacks to cajole the browser into treating elements like self-contained views.</p>
 
-<h2 id="but-web-components-paul-they-shall-fix-our-woes">But… Web Components, Paul! They shall fix our woes!</h2>
+<h2 id="but_web_components_paul_they_shall_fix_our_woes">But… Web Components, Paul! They shall fix our woes!</h2>
 
 <p>You might think so, right? Component implies full containment? Not so.</p>
 
 <p>I actually think this should be a default for Web Components because if you include a 3rd party component it would be reassuring to think it can’t hose your entire page whenever it requires layout or paint. But as of today, because there is no API or spec for such a behavior, that’s not the case.</p>
 
-<h2 id="iframes-do-all-this-right">iframes do all this, right?</h2>
+<h2 id="iframes_do_all_this_right">iframes do all this, right?</h2>
 
 <p>Yes they do, and that’s how <a href="http://www.sencha.com/blog/the-making-of-fastbook-an-html5-love-story">Sencha made Fastbook</a>, but I think there are problems with that approach:</p>
 
 <ul>
-  <li>We “lose” styling information, scripts and so forth so now we have to either pump them in or have the frame request them directly. Ewww!</li>
-  <li>Communication is done with <code>postMessage</code>, which is neither fun nor a view-like API. We aren’t able to dig into its guts from the outside very easily. You could argue that’s a good thing, but I’d say it’d be frustrating for many people, and it’s something I think should be decided by a developer.</li>
-  <li><code>iframe</code>s are getting, at least from a Chrome perspective, additional plumbing to take them <a href="http://www.chromium.org/developers/design-documents/oop-iframes">out of process</a>, something you would probably not expect to be applied to a view. This appears to be for when <code>iframe</code> content is cross-origin, but there may end up being other same-origin cases where it also applies, it’s not totally clear.</li>
+<li>We “lose” styling information, scripts and so forth so now we have to either pump them in or have the frame request them directly. Ewww!</li>
+
+<li>Communication is done with <code>postMessage</code>, which is neither fun nor a view-like API. We aren’t able to dig into its guts from the outside very easily. You could argue that’s a good thing, but I’d say it’d be frustrating for many people, and it’s something I think should be decided by a developer.</li>
+
+<li><code>iframe</code>s are getting, at least from a Chrome perspective, additional plumbing to take them <a href="http://www.chromium.org/developers/design-documents/oop-iframes">out of process</a>, something you would probably not expect to be applied to a view. This appears to be for when <code>iframe</code> content is cross-origin, but there may end up being other same-origin cases where it also applies, it’s not totally clear.</li>
 </ul>
 
 <p>That said, if you <em>do</em> want to get view-like isolation today, chances are an <code>iframe</code> is your best bet, even if it is a bit of a square-peg-in-a-round-hole scenario.</p>
 
-<h2 id="lazy-block-layout-css-containment-and-will-animate">Lazy block layout, css-containment and will-animate</h2>
+<h2 id="lazy_block_layout_csscontainment_and_willanimate">Lazy block layout, css-containment and will-animate</h2>
 
 <p>Thankfully there are some movements towards containment, or at least damage limitation when we have paint or layout invalidations, so allow me to illuminate:</p>
 
 <ul>
-  <li><strong><a href="https://docs.google.com/a/google.com/document/d/1-tbcMJV8wNbX2g5ehNIcE_1W7Kj_B3g9w1BrUgHnh3U/edit">Lazy Block Layout</a></strong>: this takes the approach of  restricting fine-grain layout to <strong>only what can be seen in the viewport</strong>, thus much reducing the time spent in layout. (It estimates the layout for elements outside of the current viewport.) Generally I think this is A Good Thing™, because not everything is a web app and we still have documents that this will benefit. For apps, however, this still doesn’t provide complete containment, it just reduces layout cost globally.</li>
-  <li><strong><a href="http://dev.w3.org/csswg/css-containment/">CSS Containment</a></strong>: this property allows you to guarantee a boundary around an element for both layout and paint, assuming you opt for a value of <code>strict</code>. For me this is a lot closer to the notion of a self-contained view. The spec is still in draft as far as I know, but I’m hopeful it will see the light of day.</li>
-  <li><strong><a href="http://lists.w3.org/Archives/Public/www-style/2013Nov/0414.html">will-animate</a></strong>: this sucker, proposed by Benoit Girard at Mozilla, is hot off the press, and a declarative way for developers to say that an element is going to change visually. That may be position (left, top et al) or it may be the element’s contents. This is a huge leap forward when it comes to telling the browser that it should expect, and therefore optimize for, visual changes. That puts the boot in on the browser having to infer intended behavior, which is splendid. And terrific. And marvelous.</li>
+<li><strong><a href="https://docs.google.com/a/google.com/document/d/1-tbcMJV8wNbX2g5ehNIcE_1W7Kj_B3g9w1BrUgHnh3U/edit">Lazy Block Layout</a></strong>: this takes the approach of restricting fine-grain layout to <strong>only what can be seen in the viewport</strong>, thus much reducing the time spent in layout. (It estimates the layout for elements outside of the current viewport.) Generally I think this is A Good Thing™, because not everything is a web app and we still have documents that this will benefit. For apps, however, this still doesn’t provide complete containment, it just reduces layout cost globally.</li>
+
+<li><strong><a href="http://dev.w3.org/csswg/css-containment/">CSS Containment</a></strong>: this property allows you to guarantee a boundary around an element for both layout and paint, assuming you opt for a value of <code>strict</code>. For me this is a lot closer to the notion of a self-contained view. The spec is still in draft as far as I know, but I’m hopeful it will see the light of day.</li>
+
+<li><strong><a href="http://lists.w3.org/Archives/Public/www-style/2013Nov/0414.html">will-animate</a></strong>: this sucker, proposed by Benoit Girard at Mozilla, is hot off the press, and a declarative way for developers to say that an element is going to change visually. That may be position (left, top et al) or it may be the element’s contents. This is a huge leap forward when it comes to telling the browser that it should expect, and therefore optimize for, visual changes. That puts the boot in on the browser having to infer intended behavior, which is splendid. And terrific. And marvelous.</li>
 </ul>
 
 <h2 id="conclusion">Conclusion</h2>
@@ -373,9 +340,7 @@
 
 <p>The web needs containment (or views if you want to call them that) because it’s eminently browser-optimizable. Much more than that, however, it’s a sane way to build apps.</p>
 
-<p>Why else would we have so many MVC frameworks?
-</div></div></p>
-
+<p>Why else would we have so many MVC frameworks? </div></div></p>
 
   <div class="footer-share container">
     Share this on: <span class="value"><a href="http://www.twitter.com/share?url=http://aerotwist.com/blog/the-web-needs-containment/">Twitter</a></span>
@@ -385,7 +350,7 @@
   <div class="clear"></div>
 
   
-    <svg class="left-shape" style="margin-left: -307.8px" width="453.6" height="1106.0">
+    <svg class="left-shape" style="margin-left: -307.8px" width="453.59999999999997" height="1106.0">
       <use xlink:href="#color-block" filter="url(#blur-4)" transform="scale(-1.4 1.4) rotate(90)"/>
     </svg>
 

@@ -210,7 +210,7 @@
       </svg>
 
       <svg class="left-meta" width="690" height="349">
-        <use xlink:href="#color-block" filter="url(#blur-6)" transform="translate(345 349/2) scale(-0.5 0.5) translate(-345 -349/2)" />
+        <use xlink:href="#color-block" filter="url(#blur-6)" transform="translate(345 174) scale(-0.5 0.5) translate(-345 -175)" />
       </svg>
     
 
@@ -257,128 +257,101 @@
   <div class="container"><div class="left column">
 <p>The other day <a href="https://developer.apple.com/library/safari/documentation/AudioVideo/Reference/WebKitCSSMatrixClassReference/WebKitCSSMatrix/WebKitCSSMatrix.html">WebKitCSSMatrix</a> was pointed out to me. If you’ve never come across it it’s a really useful way of manipulating matrices for 3D transforms. It’s available in Chrome, Safari and Opera. Firefox doesn’t seem to have the corresponding <code>Moz-</code> or unprefixed version, and <a href="http://twitter.com/ChrisLove">Chris Love</a> informs me that Internet Explorer has <code>MSCSSMatrix</code>.</p>
 
-<p>In short you create one of these matrices and then you can manipulate it like so:
-</div></div></p>
+<p>In short you create one of these matrices and then you can manipulate it like so: </div></div></p>
+<div class='highlight'><pre><code class='javascript'><span class='c1'>// make an identity matrix</span>
+<span class='kd'>var</span> <span class='nx'>matrix</span> <span class='o'>=</span> <span class='k'>new</span> <span class='nx'>WebKitCSSMatrix</span><span class='p'>();</span>
 
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="c1">// make an identity matrix</span>
-<span class="kd">var</span> <span class="nx">matrix</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">WebKitCSSMatrix</span><span class="p">();</span>
+<span class='c1'>// access any of the 16 components</span>
+<span class='c1'>// in the 4x4 matrix. Let&#39;s change</span>
+<span class='c1'>// the Y translation to 20.</span>
+<span class='nx'>matrix</span><span class='p'>.</span><span class='nx'>m42</span> <span class='o'>=</span> <span class='mi'>20</span><span class='p'>;</span>
 
-<span class="c1">// access any of the 16 components</span>
-<span class="c1">// in the 4x4 matrix. Let&#39;s change</span>
-<span class="c1">// the Y translation to 20.</span>
-<span class="nx">matrix</span><span class="p">.</span><span class="nx">m42</span> <span class="o">=</span> <span class="mi">20</span><span class="p">;</span>
+<span class='c1'>// or use some built-in functions</span>
+<span class='nx'>matrix</span> <span class='o'>=</span> <span class='nx'>matrix</span><span class='p'>.</span><span class='nx'>translate</span><span class='p'>(</span><span class='mi'>0</span><span class='p'>,</span> <span class='mi'>20</span><span class='p'>)</span>
 
-<span class="c1">// or use some built-in functions</span>
-<span class="nx">matrix</span> <span class="o">=</span> <span class="nx">matrix</span><span class="p">.</span><span class="nx">translate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
-
-<span class="c1">// although they make a new matrix</span>
-<span class="c1">// which is bad for GC...</span></code></pre></div>
-
-<div class="container"><div class="left column">
-<p>Now you have this matrix all you need to do is apply it to an element’s transform:
-</div></div></p>
-
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">div</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">WebkitTransform</span> <span class="o">=</span> <span class="nx">matrix</span><span class="p">;</span></code></pre></div>
-
-<div class="container"><div class="left column">
-<p>If you want to change the matrix’s components after apply it you <em>can</em> do that, but you need to set the element’s transform again once you do. Sadly, you can’t just grab the current <code>WebkitTransform</code> and manipulate it (shame, I know) because you’ll just
-get a string to work with.</p>
+<span class='c1'>// although they make a new matrix</span>
+<span class='c1'>// which is bad for GC...</span>
+</code></pre></div><div class="container"><div class="left column">
+<p>Now you have this matrix all you need to do is apply it to an element’s transform: </div></div></p>
+<div class='highlight'><pre><code class='javascript'><span class='nx'>div</span><span class='p'>.</span><span class='nx'>style</span><span class='p'>.</span><span class='nx'>WebkitTransform</span> <span class='o'>=</span> <span class='nx'>matrix</span><span class='p'>;</span>
+</code></pre></div><div class="container"><div class="left column">
+<p>If you want to change the matrix’s components after apply it you <em>can</em> do that, but you need to set the element’s transform again once you do. Sadly, you can’t just grab the current <code>WebkitTransform</code> and manipulate it (shame, I know) because you’ll just get a string to work with.</p>
 
 <p>There was also a comment from a Chrome engineer on a <a href="https://code.google.com/p/chromium/issues/detail?id=322222#c4">Chrome bug</a> that I found interesting:</p>
 
 <blockquote class="quote">
-  <p>[They should be] us[ing]: style.webkitTransform = new WebKitCSSMatrix(“matrix(blah, blah)”) or using the attributes to set only the pieces of the matrix they need w/o going through the CSS Parser.</p>
+<p>[They should be] us[ing]: style.webkitTransform = new WebKitCSSMatrix(“matrix(blah, blah)”) or using the attributes to set only the pieces of the matrix they need w/o going through the CSS Parser.</p>
 </blockquote>
 
-<p>This was suggesting the use of <code>CSSMatrix</code> in contrast to the (virtually-always-used) alternative of creating strings all over the place like so:
-</div></div></p>
-
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">div</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">WebkitTransform</span> <span class="o">=</span> <span class="s2">&quot;translate3d(&quot;</span> <span class="o">+</span> <span class="nx">x</span> <span class="o">+</span> <span class="s2">&quot;px, &quot;</span> <span class="o">+</span> <span class="nx">y</span> <span class="o">+</span> <span class="s2">&quot;px, &quot;</span> <span class="o">+</span> <span class="nx">z</span> <span class="o">+</span> <span class="s2">&quot;px)&quot;</span><span class="p">.</span></code></pre></div>
-
-<div class="container"><div class="left column">
+<p>This was suggesting the use of <code>CSSMatrix</code> in contrast to the (virtually-always-used) alternative of creating strings all over the place like so: </div></div></p>
+<div class='highlight'><pre><code class='javascript'><span class='nx'>div</span><span class='p'>.</span><span class='nx'>style</span><span class='p'>.</span><span class='nx'>WebkitTransform</span> <span class='o'>=</span> <span class='s2'>&quot;translate3d(&quot;</span> <span class='o'>+</span> <span class='nx'>x</span> <span class='o'>+</span> <span class='s2'>&quot;px, &quot;</span> <span class='o'>+</span> <span class='nx'>y</span> <span class='o'>+</span> <span class='s2'>&quot;px, &quot;</span> <span class='o'>+</span> <span class='nx'>z</span> <span class='o'>+</span> <span class='s2'>&quot;px)&quot;</span><span class='p'>.</span>
+</code></pre></div><div class="container"><div class="left column">
 <p>I bounced over to Twitter all excited, because from a developer point of view this is clearly way freakin’ awesomer than the string gymnastics.</p>
-
 <figure>
-  <img src="/static/blog/bad-benchmark-right-result/paul.png" />
+  <img src='/static/blog/bad-benchmark-right-result/paul.png' />
 </figure>
-
-<h2 id="the-benchmark">The benchmark</h2>
+<h2 id="the_benchmark">The benchmark</h2>
 
 <p><a href="http://twitter.com/relativeedge">Kris Gustaveson</a> responded to my initial tweet with a query:</p>
-
 <figure>
-  <img src="/static/blog/bad-benchmark-right-result/kris.png" />
+  <img src='/static/blog/bad-benchmark-right-result/kris.png' />
 </figure>
-
 <p>Sure enough, when I visited the <a href="http://jsperf.com/webkitcssmatrix-vs-translate3d">benchmark in question</a> I saw exactly the same thing as Kris. Roughly speaking it appeared <strong>70% slower</strong> to use <code>WebKitCSSMatrix</code> than to create strings. On the other side I had the comment in the bug, which definitely indicated that using a matrix <em>should</em> be faster than passing in a string. The theory being that internally we can detect the use of the matrix and can bypass the CSS string parser.</p>
 
 <h2 id="scrutiny">Scrutiny</h2>
 
 <p>It shouldn’t have taken me an hour to figure it out why the jsPerf benchmark was squiffy, but it did. The clue lay in the benchmark’s preparation code. See if you can figure it out faster than I did.</p>
-
 <figure>
-  <img src="/static/blog/bad-benchmark-right-result/prepcode.png" />
+  <img src='/static/blog/bad-benchmark-right-result/prepcode.png' />
 </figure>
-
 <p>In case you couldn’t see it, here’s what I (eventually) realised: the element doesn’t exist in the render tree, so any style changes <em>will be ignored</em>. This test is therefore akin to checking whether it’s faster to set a property of an object with a string or another object!</p>
 
 <p>When the element has been added to the DOM and exists in the render tree, we can actually test how <code>CSSMatrix</code> compares to using strings because we can measure the time spent in recalculating the styles. In theory using the matrix should be way faster (no CSS string parsing, yo.)</p>
-
 <aside class="boxout">
-<p># Render Tree? You lost me!</p>
+<h1 id="render_tree_you_lost_me">Render Tree? You lost me!</h1>
 
 <p>The render tree is all the stuff that needs to be painted in the page. If an element doesn’t exist there (which if won’t if it’s set to <code>display: none</code>, for example) then it will be ignored for rendering.</p>
 
-<p>If you want to learn more check out my talk on <a href="http://vimeo.com/77591536">Rendering Performance for Developers</a>.
-</aside></p>
+<p>If you want to learn more check out my talk on <a href="http://vimeo.com/77591536">Rendering Performance for Developers</a>. </aside></p>
 
 <p>In the end I created my own quick tests (<a href="http://jsbin.com/ukomILOP/3/edit">one using strings</a>, one using <a href="http://jsbin.com/EMaxuma/3/edit">CSSMatrix</a>) that animated 1,000 <em>visible</em> DOM elements, all in the hope of clearing matters up.</p>
 
 <p>But all was not as it seemed… (Ooh, feel that tension.)</p>
 
-<h2 id="the-right-result">The right result</h2>
+<h2 id="the_right_result">The right result</h2>
 
 <blockquote>
-  <p>What is already a budget buster for desktop would be an fps killer on mobile.</p>
+<p>What is already a budget buster for desktop would be an fps killer on mobile.</p>
 </blockquote>
 
 <p>I’m on a decent Macbook Air and I was seeing ~20ms of recalc style for 1,000 elements in both the string and <code>CSSMatrix</code> versions. On mobile that would be in the region of 6-8x, so basically what is already a budget buster for desktop would be an fps killer on mobile.</p>
 
 <p>The chart below shows the cost of Recalculate Style and time spent in JavaScript vs the number of DOM elements <strong>when you use strings</strong>:</p>
-
 <figure>
-  <img src="/static/blog/bad-benchmark-right-result/strings.png" />
+  <img src='/static/blog/bad-benchmark-right-result/strings.png' />
 </figure>
-
 <p>But now see what it looks like for <strong><code>CSSMatrix</code></strong>:</p>
-
 <figure>
-  <img src="/static/blog/bad-benchmark-right-result/webkitcssmatrix.png" />
+  <img src='/static/blog/bad-benchmark-right-result/webkitcssmatrix.png' />
 </figure>
-
 <p>There are two things to notice here:</p>
 
-<p>1.The JavaScript cost of using <code>CSSMatrix</code> is really high in Chrome. I did a little digging here and it’s definitely where you go and assign the matrix to the element’s transform.
-2.Probably related, but when I used <a href="http://addyosmani.com/blog/devtools-flame-charts/">the Chrome DevTools flame chart</a> I noticed that a <code>toString()</code> method was being called inside my <code>requestAnimationFrame</code> callback. That wasn’t from me, so it appears internally Chrome calls <code>toString</code> on the matrix and passes it over to the CSS parser, which is exactly what we were hoping to avoid.</p>
+<p>1.The JavaScript cost of using <code>CSSMatrix</code> is really high in Chrome. I did a little digging here and it’s definitely where you go and assign the matrix to the element’s transform. 2.Probably related, but when I used <a href="http://addyosmani.com/blog/devtools-flame-charts/">the Chrome DevTools flame chart</a> I noticed that a <code>toString()</code> method was being called inside my <code>requestAnimationFrame</code> callback. That wasn’t from me, so it appears internally Chrome calls <code>toString</code> on the matrix and passes it over to the CSS parser, which is exactly what we were hoping to avoid.</p>
 
 <p>Therefore because we’re essentially bouncing down to a string here the Recalculate Style cost is virtually identical to setting a string directly. But for some reason (must confess here, I don’t fully understand), <strong>the JavaScript cost of <code>CSSMatrix</code> is higher than using a string</strong>.</p>
-
 <aside class="boxout">
-<p># But Paul, surely this is a microbenchmark?</p>
+<h1 id="but_paul_surely_this_is_a_microbenchmark">But Paul, surely this is a microbenchmark?</h1>
 
 <p>Sort of. Ask anyone who does animations at 60fps, or authors an animation library and they will tell you pretty quickly that this stuff matters. Sure, if you only do a small bit of animation now and then, or you’re just setting a transform as a one-off this entire discussion is probably overkill.</p>
 
-<p>But if you <em>do</em> need high performance animations everywhere – and bear in mind on mobile these numbers will be way larger – then you need every little bit of help you can get!
-</aside></p>
+<p>But if you <em>do</em> need high performance animations everywhere – and bear in mind on mobile these numbers will be way larger – then you need every little bit of help you can get! </aside></p>
 
 <h2 id="conclusion">Conclusion</h2>
 
 <p>For me this was an interesting journey. Having to rationalize seemingly contrary claims was fun, and actually getting to the bottom of it was satisfying, even if the conclusion was the same: use strings not <code>CSSMatrix</code>. I’ve filed <a href="http://crbug.com/324107">a bug with all my findings</a> (where Eric Seidel, one of our engineers has confirmed the <code>toString()</code> theory… can I call that my String Theory? No? Too confusing. Gotcha.) and my hope is that our engineers will be able to allow <code>CSSMatrix</code> to be faster than it is today.</p>
 
 <p><strong>But here’s a super critical point: if you benchmark visual APIs, make certain they operate on <em>visible</em> DOM elements that reside in the render tree.</strong></p>
-
 </div></div>
-
 
   <div class="footer-share container">
     Share this on: <span class="value"><a href="http://www.twitter.com/share?url=http://aerotwist.com/blog/bad-benchmark-right-result/">Twitter</a></span>
@@ -388,7 +361,7 @@ get a string to work with.</p>
   <div class="clear"></div>
 
   
-    <svg class="left-shape" style="margin-left: -331.55px" width="488.6" height="966.0">
+    <svg class="left-shape" style="margin-left: -331.55px" width="488.59999999999997" height="965.9999999999999">
       <use xlink:href="#color-block" filter="url(#blur-4)" transform="scale(-1.4 1.4) rotate(90)"/>
     </svg>
 

@@ -202,7 +202,7 @@
       </svg>
 
       <svg class="left-meta" width="861" height="291">
-        <use xlink:href="#color-block" filter="url(#blur-6)" transform="translate(861/2 291/2) scale(-0.5 0.5) translate(-861/2 -291/2)" />
+        <use xlink:href="#color-block" filter="url(#blur-6)" transform="translate(430 145) scale(-0.5 0.5) translate(-431 -146)" />
       </svg>
     
 
@@ -247,129 +247,110 @@
   </div>
 
   <div class="container"><div class="left column"><p><strong>Update:</strong> some folks are saying the link to the app isn’t obvious. The app is at <a href="http://weight.aerotwist.com">http://weight.aerotwist.com</a> and if you can’t check on your mobile device, here are some screen grabs:</p>
-
 <figure>
-  <img src="/static/blog/making-a-60fps-mobile-app/screens.jpg" />
+  <img src='/static/blog/making-a-60fps-mobile-app/screens.jpg' />
 </figure>
-
 <p>So with that out of the way…</p>
 
-<h2 id="the-plan">The Plan</h2>
+<h2 id="the_plan">The Plan</h2>
 
-<p>The plan to keep me nice and relevant was very simple: create a mobile web
-app. As someone who trains regularly I decided to create an app to track my
-weight. There are many examples of native apps that do this, so I thought I’d
-give it a go! I also had a few additional goals in mind:</p>
+<p>The plan to keep me nice and relevant was very simple: create a mobile web app. As someone who trains regularly I decided to create an app to track my weight. There are many examples of native apps that do this, so I thought I’d give it a go! I also had a few additional goals in mind:</p>
 
 <ul>
-  <li><strong>60fps at all times</strong>. I wanted to prove that the web doesn’t have to be juddery, janky and slow. At least on a modern smartphone.</li>
-  <li><strong>Do one thing really well</strong>. In this case allow someone to track their weight. There are some similar apps on Google Play and the Apple App Store and they do this one thing.</li>
-  <li><strong>Offline support</strong>. I don’t see why an app like this should require a connection beyond the initial download.</li>
-  <li><strong>Flat UI</strong>. It’s all the rage and I wanted to give it a whirl.</li>
+<li><strong>60fps at all times</strong>. I wanted to prove that the web doesn’t have to be juddery, janky and slow. At least on a modern smartphone.</li>
+
+<li><strong>Do one thing really well</strong>. In this case allow someone to track their weight. There are some similar apps on Google Play and the Apple App Store and they do this one thing.</li>
+
+<li><strong>Offline support</strong>. I don’t see why an app like this should require a connection beyond the initial download.</li>
+
+<li><strong>Flat UI</strong>. It’s all the rage and I wanted to give it a whirl.</li>
 </ul>
 
-<p>So with that all laid out, here are the things I thought went well, things
-that didn’t and what I learned through the whole experience.</p>
+<p>So with that all laid out, here are the things I thought went well, things that didn’t and what I learned through the whole experience.</p>
 
-<h2 id="getting-to-60fps">Getting to 60fps</h2>
+<h2 id="getting_to_60fps">Getting to 60fps</h2>
 
 <p><strong>Getting the app to run at 60fps was extremely important to me</strong>. Despite some difficulties I achieved it for the newest phones. (I got very close depending for older handsets.) I actually developed it against a Galaxy Nexus, on which it ran just fine, though I don’t think it quite hit 60fps.</p>
 
-<p>Interestingly the problem you’re going to have if you measure it in DevTools
-(which is exactly what I did) is that the act of observing <em>changes</em> the
-observed. More crucially, because I’m often right up to the 60fps limit,
-adding the overhead of DevTools busts my frame budget. If you simply look at
-the app when DevTools is capturing and when it isn’t you can actually see the
-performance difference. Without DevTools capturing things are far smoother.</p>
+<p>Interestingly the problem you’re going to have if you measure it in DevTools (which is exactly what I did) is that the act of observing <em>changes</em> the observed. More crucially, because I’m often right up to the 60fps limit, adding the overhead of DevTools busts my frame budget. If you simply look at the app when DevTools is capturing and when it isn’t you can actually see the performance difference. Without DevTools capturing things are far smoother.</p>
 
 <blockquote>
-  <p>Getting the app to run at 60fps was extremely important to me.</p>
+<p>Getting the app to run at 60fps was extremely important to me.</p>
 </blockquote>
 
-<p>The slightly lower overhead method I used to verify that I was getting 60fps
-was <a href="https://github.com/johnmccutchan/adb_trace">adb_trace</a>, which is
-maintained by my colleague John Mccutchan. It lets you grab a trace in a very
-similar much as you would with about:tracing in desktop Chrome.</p>
+<p>The slightly lower overhead method I used to verify that I was getting 60fps was <a href="https://github.com/johnmccutchan/adb_trace">adb_trace</a>, which is maintained by my colleague John Mccutchan. It lets you grab a trace in a very similar much as you would with about:tracing in desktop Chrome.</p>
 
-<p>In any case there is rarely any perceptible lag and, while that’s not a
-scientific measurement, it’s a pretty fine empirical measurement while you’re
-adding features.</p>
+<p>In any case there is rarely any perceptible lag and, while that’s not a scientific measurement, it’s a pretty fine empirical measurement while you’re adding features.</p>
 
-<h1 id="try-the-app">Try the app</h1>
+<h1 id="try_the_app">Try the app</h1>
 
-<p>Feel free to try out <a href="http://weight.aerotwist.com">the app</a>. It works on Nexus
-devices running Chrome, and on iPhones.</p>
+<p>Feel free to try out <a href="http://weight.aerotwist.com">the app</a>. It works on Nexus devices running Chrome, and on iPhones.</p>
 
-<p>Sadly there seems to be a bug with the Samsung and HTC handsets, which I hope
-to work around soon, that causes the <code>&lt;canvas&gt;</code> to go crazy :(</p>
+<p>Sadly there seems to be a bug with the Samsung and HTC handsets, which I hope to work around soon, that causes the <code>&lt;canvas&gt;</code> to go crazy :(</p>
 
 <p>It’s also not styled for desktop or tablet, so bear that in mind!</p>
 
-<p>So how to get to 60fps? Here are some of the tactics I employed, most of which
-you will recognise if you’ve read my other blog posts or articles on HTML5
-Rocks:</p>
+<p>So how to get to 60fps? Here are some of the tactics I employed, most of which you will recognise if you’ve read my other blog posts or articles on HTML5 Rocks:</p>
 
 <ol>
-  <li>I made my <code>&lt;canvas&gt;</code> elements larger than 256px. This triggers the hardware path for Chrome. Some people are <a href="//aerotwist.com/blog/it-should-just-work">frustrated by that</a>, but remember that just because something is using the GPU doesn’t <em>magically make it faster</em>. Some things are faster on the CPU. In this case my app wasn’t, so I bumped my <code>&lt;canvas&gt;</code> elements’ dimensions up.</li>
-  <li>I promoted each “view” of my app to their own layer with <code>-webkit-transform: translateZ(0)</code>. I knew that I didn’t want them grouped to a single bitmap under the hood and that I would be using <code>opacity</code> to fade them in. I could’ve probably avoided the belt-and-braces of the <code>transform</code> because a transition on <code>opacity</code> should trigger a layer creation, but if nothing else it’ll remind me when I come back to the code.</li>
-  <li>I initially placed my canvas elements on semi-transparent layers so you could see the underlying views. That caused my composite times to go through the roof. They’re still extremely high as-is anyway, but by placing them on fully opaque backgrounds it seemed to reduce them somewhat.</li>
-  <li>I only transitioned views on opacity to avoid paint.</li>
-  <li>I used the <code>&lt;canvas&gt;</code> for visually updating items. As it happened I designed the app so that a <code>&lt;canvas&gt;</code> would make the most sense, but generally in my experience updating DOM elements such that a paint is required slows things down enormously. This appears to be due to the paint workload and limited texture bandwidth available for updating bitmaps on the GPU. It’s a shame, but doubtless over time this will get better.</li>
-  <li>I didn’t use any MVC libraries. (For what it’s worth I used <a href="http://www.paulirish.com/2011/requestanimationframe-for-smart-animating/">Paul Irish’s rAF polyfill</a> and a <a href="https://github.com/typekit/webfontloader">font loader lib</a>.) The reason is pretty simple: most libraries would’ve been a hammer to crack a nut for such a small app, and, crucially, I wanted to be absolutely certain that if there was a performance issue it was <em>me</em> and not <em>them</em>.</li>
+<li>I made my <code>&lt;canvas&gt;</code> elements larger than 256px. This triggers the hardware path for Chrome. Some people are <a href="//aerotwist.com/blog/it-should-just-work">frustrated by that</a>, but remember that just because something is using the GPU doesn’t <em>magically make it faster</em>. Some things are faster on the CPU. In this case my app wasn’t, so I bumped my <code>&lt;canvas&gt;</code> elements’ dimensions up.</li>
+
+<li>I promoted each “view” of my app to their own layer with <code>-webkit-transform: translateZ(0)</code>. I knew that I didn’t want them grouped to a single bitmap under the hood and that I would be using <code>opacity</code> to fade them in. I could’ve probably avoided the belt-and-braces of the <code>transform</code> because a transition on <code>opacity</code> should trigger a layer creation, but if nothing else it’ll remind me when I come back to the code.</li>
+
+<li>I initially placed my canvas elements on semi-transparent layers so you could see the underlying views. That caused my composite times to go through the roof. They’re still extremely high as-is anyway, but by placing them on fully opaque backgrounds it seemed to reduce them somewhat.</li>
+
+<li>I only transitioned views on opacity to avoid paint.</li>
+
+<li>I used the <code>&lt;canvas&gt;</code> for visually updating items. As it happened I designed the app so that a <code>&lt;canvas&gt;</code> would make the most sense, but generally in my experience updating DOM elements such that a paint is required slows things down enormously. This appears to be due to the paint workload and limited texture bandwidth available for updating bitmaps on the GPU. It’s a shame, but doubtless over time this will get better.</li>
+
+<li>I didn’t use any MVC libraries. (For what it’s worth I used <a href="http://www.paulirish.com/2011/requestanimationframe-for-smart-animating/">Paul Irish’s rAF polyfill</a> and a <a href="https://github.com/typekit/webfontloader">font loader lib</a>.) The reason is pretty simple: most libraries would’ve been a hammer to crack a nut for such a small app, and, crucially, I wanted to be absolutely certain that if there was a performance issue it was <em>me</em> and not <em>them</em>.</li>
 </ol>
 
-<h2 id="other-stuff-that-worked-out-fine">Other stuff that worked out fine</h2>
+<h2 id="other_stuff_that_worked_out_fine">Other stuff that worked out fine</h2>
 
-<p>AppCache turned out to be no major issue to work with, because a) I was
-briefed by <a href="https://twitter.com/jaffathecake">Jake Archibald</a> and b) it was a
-single page app. With that said I <em>still</em> managed to get myself locked in,
-especially so on iOS, and no amount of pleading would get the cache to purge.</p>
+<p>AppCache turned out to be no major issue to work with, because a) I was briefed by <a href="https://twitter.com/jaffathecake">Jake Archibald</a> and b) it was a single page app. With that said I <em>still</em> managed to get myself locked in, especially so on iOS, and no amount of pleading would get the cache to purge.</p>
 
-<p>I ended up removing the app from my home screen, killing both the app and
-Mobile Safari and purging its cache <em>all</em> in an attempt to force the issue. I
-dread to think what a normal user would have to do to make an AppCached app to
-play out well.</p>
+<p>I ended up removing the app from my home screen, killing both the app and Mobile Safari and purging its cache <em>all</em> in an attempt to force the issue. I dread to think what a normal user would have to do to make an AppCached app to play out well.</p>
 
 <blockquote>
-  <p>I dread to think what a normal user would have to do to make an AppCached app to play out well.</p>
+<p>I dread to think what a normal user would have to do to make an AppCached app to play out well.</p>
 </blockquote>
 
-<p>The flat UI stuff seems to have gone down well with most people. I’ve had a
-lot of nice remarks (thanks!) so that’s a nice outcome.</p>
+<p>The flat UI stuff seems to have gone down well with most people. I’ve had a lot of nice remarks (thanks!) so that’s a nice outcome.</p>
 
-<h2 id="things-that-didnt-play-out-well">Things that didn’t play out well</h2>
+<h2 id="things_that_didnt_play_out_well">Things that didn’t play out well</h2>
 
 <p>In no particular order:</p>
 
 <ol>
-  <li>I hate that we don’t have any orientation lock for the web. If you make a native app it’s the easiest thing in the world to specify supported orientations. Try doing that for the web. I think we need that ability.</li>
-  <li>Despite building for Chrome on Android differences in GPU drivers appear to cause issues on some Samsung and HTC devices. Run that sucker on a Nexus device and it’s fine. Same goes for iPhones 4S and 5. (As an aside I didn’t realise how insanely cheap the Nexus 4 is, having never been much of an Android guy. Thinking my next smartphone might not be iPhone 5 now.)</li>
-  <li>It felt like a real shame that I had to change my design. especially dropping some of the semi-transparent stuff, but when push came to shove, better performance won.</li>
+<li>I hate that we don’t have any orientation lock for the web. If you make a native app it’s the easiest thing in the world to specify supported orientations. Try doing that for the web. I think we need that ability.</li>
+
+<li>Despite building for Chrome on Android differences in GPU drivers appear to cause issues on some Samsung and HTC devices. Run that sucker on a Nexus device and it’s fine. Same goes for iPhones 4S and 5. (As an aside I didn’t realise how insanely cheap the Nexus 4 is, having never been much of an Android guy. Thinking my next smartphone might not be iPhone 5 now.)</li>
+
+<li>It felt like a real shame that I had to change my design. especially dropping some of the semi-transparent stuff, but when push came to shove, better performance won.</li>
 </ol>
 
-<h2 id="things-i-learned">Things I Learned</h2>
+<h2 id="things_i_learned">Things I Learned</h2>
 
-<p>Overall then here’s what I thought. (I know this post is list heavy, but stuff
-it let’s have one more!)</p>
+<p>Overall then here’s what I thought. (I know this post is list heavy, but stuff it let’s have one more!)</p>
 
 <ol>
-  <li>DevTools Overrides are super useful as a first step for rapid prototyping of features and styling.</li>
-  <li>You simply can’t build a meaningful mobile experience without frequently testing and profiling on the <em>actual</em> devices you support. That is challenging for most people as they can’t buy every device under the sun. I have no good answer here!</li>
-  <li>You don’t always need a ton of libraries for a small app.</li>
-  <li>It’s remarkably difficult to build a 60fps app; you can shoot yourself in the foot very easily. I had to wrangle the app a lot to get there.</li>
-  <li>No matter how many features you include or exclude there will always be someone who wants one other “small feature” to be added. Fact.</li>
+<li>DevTools Overrides are super useful as a first step for rapid prototyping of features and styling.</li>
+
+<li>You simply can’t build a meaningful mobile experience without frequently testing and profiling on the <em>actual</em> devices you support. That is challenging for most people as they can’t buy every device under the sun. I have no good answer here!</li>
+
+<li>You don’t always need a ton of libraries for a small app.</li>
+
+<li>It’s remarkably difficult to build a 60fps app; you can shoot yourself in the foot very easily. I had to wrangle the app a lot to get there.</li>
+
+<li>No matter how many features you include or exclude there will always be someone who wants one other “small feature” to be added. Fact.</li>
 </ol>
 
-<h2 id="a-final-thought">A final thought</h2>
+<h2 id="a_final_thought">A final thought</h2>
 
-<p>Once I’d finished I noticed that I was comparing my app to the native ones on
-my iPhone. In fact I’ve started using it as my primary weight tracker, not
-because I built it, but because it’s genuinely useful to me.</p>
+<p>Once I’d finished I noticed that I was comparing my app to the native ones on my iPhone. In fact I’ve started using it as my primary weight tracker, not because I built it, but because it’s genuinely useful to me.</p>
 
-<p>So really, when performance issues disappear you are left not with lingering
-thoughts on <em>how the app was built</em>, but rather the <em>user’s experience</em>, and
-that’s ultimately what matters.</p>
-</div></div>
+<p>So really, when performance issues disappear you are left not with lingering thoughts on <em>how the app was built</em>, but rather the <em>user’s experience</em>, and that’s ultimately what matters.</p></div></div>
 
   <div class="footer-share container">
     Share this on: <span class="value"><a href="http://www.twitter.com/share?url=http://aerotwist.com/blog/making-a-60fps-mobile-app/">Twitter</a></span>
@@ -379,7 +360,7 @@ that’s ultimately what matters.</p>
   <div class="clear"></div>
 
   
-    <svg class="left-shape" style="margin-left: -276.45px" width="407.4" height="1205.4">
+    <svg class="left-shape" style="margin-left: -276.45px" width="407.4" height="1205.3999999999999">
       <use xlink:href="#color-block" filter="url(#blur-4)" transform="scale(-1.4 1.4) rotate(90)"/>
     </svg>
 

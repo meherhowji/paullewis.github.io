@@ -208,7 +208,7 @@
       </svg>
 
       <svg class="left-meta" width="690" height="349">
-        <use xlink:href="#color-block" filter="url(#blur-6)" transform="translate(345 349/2) scale(-0.5 0.5) translate(-345 -349/2)" />
+        <use xlink:href="#color-block" filter="url(#blur-6)" transform="translate(345 174) scale(-0.5 0.5) translate(-345 -175)" />
       </svg>
     
 
@@ -255,28 +255,21 @@
   <div class="container"><div class="left column"><h2 id="idiot">Idiot</h2>
 
 <p>I don’t mind being called an idiot. Heck, on a daily basis one or more of my colleagues will troll me in such terms (I’m looking at you, <a href="https://twitter.com/paul_kinlan">Kinlan</a> and <a href="http://twitter.com/gauntface">Gaunt</a>). But there’s something oddly stark about seeing it in a tweet from someone you don’t know:</p>
-
 <figure>
-  <img src="/static/blog/new-site-same-old-priorities/sonniesedge.png" />
+  <img src='/static/blog/new-site-same-old-priorities/sonniesedge.png' />
 </figure>
-
-<p>I confess, the three column design on the old site wasn’t great. Well, it was fine
-when I started and I didn’t have lots of content. But as I get older I seem to be
-getting more verbose, and the old site didn’t scale well for that. Then there was the fact that the text
-size was too small. Sure enough it became something of a readability nightmare.</p>
-
+<p>I confess, the three column design on the old site wasn’t great. Well, it was fine when I started and I didn’t have lots of content. But as I get older I seem to be getting more verbose, and the old site didn’t scale well for that. Then there was the fact that the text size was too small. Sure enough it became something of a readability nightmare.</p>
 <figure>
-  <img src="/static/blog/new-site-same-old-priorities/old-site.png" />
+  <img src='/static/blog/new-site-same-old-priorities/old-site.png' />
   <figcaption>The old site in all its triple-column glory</figcaption>
 </figure>
-
 <p>So actually, calling me an idiot is pretty much fine. The key to success is not avoiding failure, though. It’s about learning from it and adapting.</p>
 
 <blockquote>
-  <p>The key to success is not avoiding failure, though. It’s about learning from it and adapting.</p>
+<p>The key to success is not avoiding failure, though. It’s about learning from it and adapting.</p>
 </blockquote>
 
-<h2 id="new-site">New site</h2>
+<h2 id="new_site">New site</h2>
 
 <p>After a lot of trial and error I finally arrived at this design. What I’d like to tell you is that there’s some deep motif embedded in the very fabric and feel of the site. To be honest, having shoveled crap for agencies for nearly a decade I reckon I could do a pretty good stab at post-rationalizing it. Shall I try? Yes.</p>
 
@@ -289,33 +282,36 @@ size was too small. Sure enough it became something of a readability nightmare.<
 <p>I also made heavy use of SVG, which has been interesting in and of itself. All the vector shapes around the site are SVG, and that was for two reasons:</p>
 
 <ol>
-  <li>I wanted to prove to myself that SVG doesn’t have to be butt ugly or revolve around <a href="http://commons.wikimedia.org/wiki/File:Ghostscript_Tiger.svg">that ruddy tiger</a>.</li>
-  <li>It saves me having to create Hi-DPI images for retina etc. There’s now some Sony handset that has a <code>devicePixelRatio</code> of 3, so we’re screwed whichever way you look at it for raster imagery. I’m rocking the vector wherever I can.</li>
+<li>I wanted to prove to myself that SVG doesn’t have to be butt ugly or revolve around <a href="http://commons.wikimedia.org/wiki/File:Ghostscript_Tiger.svg">that ruddy tiger</a>.</li>
+
+<li>It saves me having to create Hi-DPI images for retina etc. There’s now some Sony handset that has a <code>devicePixelRatio</code> of 3, so we’re screwed whichever way you look at it for raster imagery. I’m rocking the vector wherever I can.</li>
 </ol>
 
-<h2 id="same-old-priorities">Same Old Priorities</h2>
+<h2 id="same_old_priorities">Same Old Priorities</h2>
 
 <p>One of the main reasons I wanted to redo the site was to deemphasize some of the stuff that was on the site before. The content is still around (unless I nuked it by accident) but my emphasis has shifted away from creative coding, and more towards writing for the blog or giving talks on rendering performance and tooling.</p>
 
 <p>It’s not that I don’t want to do creative coding, I still love it, but my <em>main</em> priority in the past 18 months has been to help developers with front-end performance. So that’s the emphasis I wanted to bring.</p>
 
-<h2 id="practical-notes">Practical notes</h2>
+<h2 id="practical_notes">Practical notes</h2>
 
 <blockquote>
-  <p>Present me would like to remind future me, and by extension present you, that media queries based on devices is <em>a terrible idea</em>.</p>
+<p>Present me would like to remind future me, and by extension present you, that media queries based on devices is <em>a terrible idea</em>.</p>
 </blockquote>
 
 <ul>
-  <li>Present me would like to remind future me, and by extension present you, that media queries based on devices is <em>a terrible idea</em>. Not a bad one, a terrible one. For this site I thankfully chose to start mobile first and break whenever the content started to look very wrong. At which point I fixed it and then moved on. This way no matter which device views the site, now or in the future, things should look reasonable.</li>
-  <li>JavaScript is all but gone from the site, Google Analytics notwithstanding. Turns out I don’t need any for a static content site. Shocking, I know. No templating (outside of Jekyll, which is generating this thing.) or showbiz coding… You know what, some of the showbiz is likely to come back as soon as I have time. Time! Haha! What a lark he’s having.</li>
-  <li>There is a neat Python script called <a href="https://github.com/aaronsw/html2text">html2text</a>, which I used to grab my old site content and convert it over to markdown. Even so, converting and tidying took a decent amount of time, and I don’t exactly have a wealth of content on here.</li>
-  <li>The shapes on the blog are generated through <a href="/lab/poly-maker/">a little experiment I made</a>.</li>
+<li>Present me would like to remind future me, and by extension present you, that media queries based on devices is <em>a terrible idea</em>. Not a bad one, a terrible one. For this site I thankfully chose to start mobile first and break whenever the content started to look very wrong. At which point I fixed it and then moved on. This way no matter which device views the site, now or in the future, things should look reasonable.</li>
+
+<li>JavaScript is all but gone from the site, Google Analytics notwithstanding. Turns out I don’t need any for a static content site. Shocking, I know. No templating (outside of Jekyll, which is generating this thing.) or showbiz coding… You know what, some of the showbiz is likely to come back as soon as I have time. Time! Haha! What a lark he’s having.</li>
+
+<li>There is a neat Python script called <a href="https://github.com/aaronsw/html2text">html2text</a>, which I used to grab my old site content and convert it over to markdown. Even so, converting and tidying took a decent amount of time, and I don’t exactly have a wealth of content on here.</li>
+
+<li>The shapes on the blog are generated through <a href="/lab/poly-maker/">a little experiment I made</a>.</li>
 </ul>
 
 <p>So there you go. I hope you like the new look. If you don’t, feel free to <a href="https://twitter.com/aerotwist">call me an idiot on Twitter</a>.</p>
 
-<p><code>&lt;3</code></p>
-</div></div>
+<p><code>&lt;3</code></p></div></div>
 
   <div class="footer-share container">
     Share this on: <span class="value"><a href="http://www.twitter.com/share?url=http://aerotwist.com/blog/new-site-same-old-priorities/">Twitter</a></span>
@@ -325,7 +321,7 @@ size was too small. Sure enough it became something of a readability nightmare.<
   <div class="clear"></div>
 
   
-    <svg class="left-shape" style="margin-left: -331.55px" width="488.6" height="966.0">
+    <svg class="left-shape" style="margin-left: -331.55px" width="488.59999999999997" height="965.9999999999999">
       <use xlink:href="#color-block" filter="url(#blur-4)" transform="scale(-1.4 1.4) rotate(90)"/>
     </svg>
 
