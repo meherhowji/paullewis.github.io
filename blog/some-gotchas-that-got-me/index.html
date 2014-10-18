@@ -1,0 +1,404 @@
+<!doctype html>
+<html itemscope itemtype="http://schema.org/Article">
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="author" content="Paul Lewis" />
+  <meta name="viewport" content="width=device-width">
+
+  
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="//aerotwist.com/blog/feed/">
+  
+
+  
+  <meta itemprop="name" content="Gotchas">
+  <meta itemprop="description" content="I&#39;ve been building a web app recently and I&#39;ve had one of those builds. You know, one of the ones where you seem to stumble across a bunch of bugs or bonkers behaviours that cause you to question the sanity of absolutely everyone involved with web development.">
+
+    
+
+  
+
+  <style>
+    
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 400;
+      src: local('Lato Regular'), local('Lato-Regular'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qIIYRU-oROkIk8vfvxw6QvesZW2xOQ-xsNqO47m55DA.woff) format('woff');
+    }
+    
+
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 700;
+      src: local('Lato Bold'), local('Lato-Bold'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qdgUG4U09HnJwhYI-uK18wLUuEpTyoUstqEm5AMlJo4.woff) format('woff');
+    }
+  </style>
+
+  <link rel="stylesheet" media="screen" href="/css/aerotwist.css" />
+  <title>Aerotwist - Gotchas</title>
+  
+</head>
+
+
+<!--
+                              __          .__          __
+  _____    ___________  _____/  |___  _  _|__| _______/  |_
+  \__  \ _/ __ \_  __ \/  _ \   __\ \/ \/ /  |/  ___/\   __\
+   / __ \\  ___/|  | \(  <_> )  |  \     /|  |\___ \  |  |
+  (____  /\___  >__|   \____/|__|   \/\_/ |__/____  > |__|
+       \/     \/                                  \/
+
+  Giant ascii art embedded in every page of your site is how you
+  show other people that YOU CARE. Mainly I care about developers,
+  which is what I presume you are if you're all about viewing
+  the source. Clearly you're my kind of person.
+
+  This is v3, it's run through Jekyll, it's been fun to build,
+  there's always more to do, and you may notice that aside from
+  Google Analytics there is no JavaScript. None.
+
+  That's one way of many you keep your pages fast. I care about
+  keeping this site fast because your time is precious and I need
+  to get out of your way.
+
+  <3'z
+
+  Paul
+-->
+
+
+  <body class="blog">
+
+    <header>
+      <div class="container">
+        <div id="logo">
+  <a href="/">
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="100%" height="100%">
+    <g>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#6EBAD3" points="30.6,47.73 64.92,47.73 19.97,76.52"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ED95C0" points="48.198,0 53.008,14.06 39.31,24.76"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#880043" points="39.31,24.76 64.92,48 30.6,48"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#DA0A7A" points="39.31,24.76 64.92,48 53.008,14.06"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#0B7DAD" points="30.6,48 64.92,48 48,58.69"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#BDDEE8" points="47.76,58.69 64.92,47.73 75.14,76.73"></polygon>
+    </g>
+    </svg>
+  </a>
+</div>
+
+        <nav>
+  <ul>
+    
+      
+        <li><a href="/">Home</a></li>
+      
+    
+      
+        <li class="active"><a href="/blog/"> Blog</a></li>
+      
+    
+      
+        <li><a href="/tutorials/">Tutorials</a></li>
+      
+    
+      
+        <li><a href="/lab/">Lab</a></li>
+      
+    
+  </ul>
+
+  <svg id="left-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#AAAAAA" stroke-width="1" />
+    </svg>
+
+  <svg id="right-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#6EBAD3" stroke-opacity="0.3" stroke-width="1" />
+    </svg>
+</nav>
+
+      </div>
+    </header>
+    <section>
+
+      <div class="content">
+
+  
+  <svg version="1.1" class="shape-reference" xmlns="http://www.w3.org/2000/svg" width="425" height="321">
+  <defs>
+    <filter id="blur-8">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="8" />
+    </filter>
+    <filter id="blur-6">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="6" />
+    </filter>
+    <filter id="blur-4">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="4" />
+    </filter>
+  </defs>
+
+  <g id="color-block">
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#181726" stroke="#181726" stroke-width="0.6" points="40,249 87,230 123,278"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#303d5d" stroke="#303d5d" stroke-width="0.6" points="40,249 77,162 87,230"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#5f3a71" stroke="#5f3a71" stroke-width="0.6" points="154,188 87,230 77,162"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#5d2154" stroke="#5d2154" stroke-width="0.6" points="87,230 154,188 163,218"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#301530" stroke="#301530" stroke-width="0.6" points="123,278 87,230 163,218"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#25081c" stroke="#25081c" stroke-width="0.6" points="123,278 163,218 189,276"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#4e062e" stroke="#4e062e" stroke-width="0.6" points="189,276 163,218 214,223"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#2b0116" stroke="#2b0116" stroke-width="0.6" points="249,281 189,276 214,223"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#340620" stroke="#340620" stroke-width="0.6" points="269,252 249,281 214,223"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#160511" stroke="#160511" stroke-width="0.6" points="249,281 269,252 289,267"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#34132f" stroke="#34132f" stroke-width="0.6" points="289,267 269,252 314,209"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#2c1933" stroke="#2c1933" stroke-width="0.6" points="340,249 289,267 314,209"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#3f3056" stroke="#3f3056" stroke-width="0.6" points="314,209 337,187 340,249"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#6d3c7b" stroke="#6d3c7b" stroke-width="0.6" points="337,187 314,209 285,160"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#7d4e97" stroke="#7d4e97" stroke-width="0.6" points="285,160 337,147 337,187"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#936aaa" stroke="#936aaa" stroke-width="0.6" points="337,147 285,160 336,119"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#7d87b7" stroke="#7d87b7" stroke-width="0.6" points="337,147 336,119 381,140"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#5d6aa5" stroke="#5d6aa5" stroke-width="0.6" points="337,187 337,147 381,140"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#8f9fc5" stroke="#8f9fc5" stroke-width="0.6" points="336,119 356,97 381,140"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#b1aecf" stroke="#b1aecf" stroke-width="0.6" points="336,119 336,88 356,97"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#c5aacf" stroke="#c5aacf" stroke-width="0.6" points="336,119 276,84 336,88"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#c788be" stroke="#c788be" stroke-width="0.6" points="258,133 276,84 336,119"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#e383be" stroke="#e383be" stroke-width="0.6" points="258,133 231,102 276,84"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f550a6" stroke="#f550a6" stroke-width="0.6" points="258,133 185,141 231,102"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#fb1c8d" stroke="#fb1c8d" stroke-width="0.6" points="185,141 258,133 184,167"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ca1b84" stroke="#ca1b84" stroke-width="0.6" points="184,167 154,188 185,141"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#971968" stroke="#971968" stroke-width="0.6" points="163,218 154,188 184,167"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#940c58" stroke="#940c58" stroke-width="0.6" points="163,218 184,167 214,223"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#aa065c" stroke="#aa065c" stroke-width="0.6" points="273,200 214,223 184,167"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#600e40" stroke="#600e40" stroke-width="0.6" points="269,252 214,223 273,200"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#551c4a" stroke="#551c4a" stroke-width="0.6" points="269,252 273,200 314,209"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#7c2c71" stroke="#7c2c71" stroke-width="0.6" points="314,209 273,200 285,160"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#b32c8b" stroke="#b32c8b" stroke-width="0.6" points="273,200 258,133 285,160"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#d61280" stroke="#d61280" stroke-width="0.6" points="273,200 184,167 258,133"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#b261a9" stroke="#b261a9" stroke-width="0.6" points="285,160 258,133 336,119"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#b63492" stroke="#b63492" stroke-width="0.6" points="185,141 154,188 107,143"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#d376b6" stroke="#d376b6" stroke-width="0.6" points="107,143 172,68 185,141"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f57ebd" stroke="#f57ebd" stroke-width="0.6" points="185,141 172,68 231,102"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#fcc0df" stroke="#fcc0df" stroke-width="0.6" points="172,68 203,40 231,102"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f9cde5" stroke="#f9cde5" stroke-width="0.6" points="231,102 203,40 276,55"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ebb5d8" stroke="#ebb5d8" stroke-width="0.6" points="276,84 231,102 276,55"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#efd5e9" stroke="#efd5e9" stroke-width="0.6" points="276,84 276,55 284,55"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ead0e5" stroke="#ead0e5" stroke-width="0.6" points="276,84 284,55 302,65"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#dbc2dd" stroke="#dbc2dd" stroke-width="0.6" points="276,84 302,65 336,88"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#854995" stroke="#854995" stroke-width="0.6" points="154,188 77,162 107,143"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#cbcce1" stroke="#cbcce1" stroke-width="0.6" points="356,97 336,88 348,53"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#c1cee1" stroke="#c1cee1" stroke-width="0.6" points="385,93 356,97 348,53"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#8fb0cd" stroke="#8fb0cd" stroke-width="0.6" points="381,140 356,97 385,93"/>
+  </g>
+</svg>
+
+  
+
+  <div class="masthead hatched">
+
+    
+      <svg class="behind-meta" width="425" height="321">
+        <use xlink:href="#color-block" />
+      </svg>
+
+      <svg class="left-meta" width="425" height="321">
+        <use xlink:href="#color-block" filter="url(#blur-6)" transform="translate(212 160) scale(-0.5 0.5) translate(-213 -161)" />
+      </svg>
+    
+
+    <div class="container">
+      <h2>Gotchas</h2>
+      <p>I've been building a web app recently and I've had one of those builds. You know, one of the ones where you seem to stumble across a bunch of bugs or bonkers behaviours that cause you to question the sanity of absolutely everyone involved with web development.</p>
+    </div>
+
+  </div>
+
+  <div class="container">
+    <div class="meta">
+
+      <ul>
+        <li class="last-updated">
+          <span class="name">Last updated:</span>
+          <span class="value">18 Oct 2014</span>
+        </li>
+
+        <li>
+          <span class="name">Est. Read Time:</span>
+          <span class="value">4 mins</span>
+        </li>
+
+        <li class="share">
+          <span class="name">Share this:</span>
+          <span class="value"><a href="http://www.twitter.com/share?url=http://aerotwist.com/blog/some-gotchas-that-got-me/">Twitter</a></span>
+          <span class="value"><a href="https://plus.google.com/share?url=http://aerotwist.com/blog/some-gotchas-that-got-me/">Google+</a></span>
+        </li>
+        <li class="tags">
+          <span class="name">Tagged:</span>
+          <span class="value">
+          
+            #gotchas, 
+          
+            #lesigh, 
+          
+            #web
+          
+          </span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="container"><div class="left column">
+<p>In the interests of perhaps helping someone else, here are some of the things I’ve hit:</p>
+
+<h2 id="1_fixed_position_isnt_always_well_fixed">1. Fixed position isn’t always, well, fixed.</h2>
+
+<p>I tend to work on the basis that <code>position:fixed</code> sticks things to the viewport. That’s what the spec says anyway:</p>
+
+<blockquote class="quote">
+<p>Fixed positioning is similar to absolute positioning. The only difference is that for a fixed positioned box, the containing block is established by the viewport.</p>
+</blockquote>
+
+<p>Turns out that’s not true if an ancestor of the <code>position:fixed</code> element has a <code>transform</code> applied to it. If it does then browsers seem to redefine what “viewport” means, and in particular it seems to mean “the element that has the transform”.</p>
+</div></div><div class='highlight'><pre><code class='css'><span class='nc'>.container</span> <span class='p'>{</span>
+  <span class='k'>width</span><span class='o'>:</span> <span class='m'>300px</span><span class='p'>;</span>
+  <span class='k'>height</span><span class='o'>:</span> <span class='m'>200px</span><span class='p'>;</span>
+
+  <span class='c'>/* Applying this makes the</span>
+<span class='c'>     fixed position child 300x200px */</span>
+  <span class='n'>transform</span><span class='o'>:</span> <span class='n'>translateY</span><span class='p'>(</span><span class='m'>10px</span><span class='p'>);</span>
+<span class='p'>}</span>
+
+<span class='nc'>.container__fixed-position-child</span> <span class='p'>{</span>
+  <span class='k'>position</span><span class='o'>:</span> <span class='k'>fixed</span><span class='p'>;</span>
+  <span class='k'>width</span><span class='o'>:</span> <span class='m'>100</span><span class='o'>%</span><span class='p'>;</span>
+  <span class='k'>height</span><span class='o'>:</span> <span class='m'>100</span><span class='o'>%</span><span class='p'>;</span>
+  <span class='k'>background</span><span class='o'>:</span> <span class='nb'>blue</span><span class='p'>;</span>
+  <span class='k'>left</span><span class='o'>:</span> <span class='m'>0</span><span class='p'>;</span>
+  <span class='k'>top</span><span class='o'>:</span> <span class='m'>0</span><span class='p'>;</span>
+<span class='p'>}</span>
+</code></pre></div><div class="container"><div class="left column">
+<p>In my head the viewport is the initial containing block, not something else, but there’s a <a href="https://code.google.com/p/chromium/issues/detail?id=20574">bug open for Chrome</a>, and apparently the spec language needs clarification.</p>
+
+<p>Personally I’d make <code>position: fixed</code> viewport-centric, because its current behavior is bonkers and I don’t think the spec language is vague, but maybe I missed something. Here’s a demo of <a href="http://jsbin.com/kodoho/quiet">borked fixed positioning</a>, in case you want to see it for yourself.</p>
+
+<p>Oh, <a href="http://jsbin.com/semome/2/quiet">it also applies to <code>will-change</code></a>.</p>
+
+<h2 id="2_body_scrolling_is_impossible_to_stop">2. Body scrolling is impossible to stop</h2>
+
+<p>Let’s say you have a child element that takes over the full viewport with <code>position: fixed</code> (assuming it can… sigh.) and that the element has <code>overflow: scroll</code> because its content is longer than the viewport. Totally legit for an app with – say – a details view.</p>
+
+<blockquote>
+<p>You can’t cancel scroll events, either, so there’s no evt.preventDefault() shenanigans that can save you.</p>
+</blockquote>
+
+<p>When the child element reaches the limits of its scrollable area, like when the user has scrolled to the top or bottom, the scroll event bubbles up and the body starts scrolling. Even if you tell it not to, seemingly. You can’t cancel <code>scroll</code> events, either, so there’s no <code>evt.preventDefault()</code> shenanigans that can save you.</p>
+
+<p>An idea: how about we don’t put anything directly on the <code>body</code> element? Instead set <code>html</code> and <code>body</code> to <code>height: 100%</code> and set <code>overflow: hidden</code> and <em>then</em> create a new container element with <code>overflow: scroll</code> that acts as a replacement for the <code>body</code>. Now when your child element does its takeover you can set the container to <code>overflow: hidden</code>! (You can’t just do this to the body on the fly because it seems to change the scroll value when you change <code>overflow</code> and it snaps to the top of the page.)</p>
+
+<p>Problems with this approach are two-fold:</p>
+
+<ul>
+<li><strong>The container element doesn’t get compositor-supported fast scrolling in all browsers</strong>. That means slow scrolling and paints on every scroll change. Which generally means you just killed performance.</li>
+
+<li><strong>It looks weird on mobile.</strong> On mobile the address bar either disappears (Chrome on Android) or collapses (Mobile Safari) and this behavior is based on the scroll position of the body. Since we just killed that the bar stays there and you’re in an uncanny valley.</li>
+</ul>
+
+<p>Seems to me that this is a good reason to have <a href="https://groups.google.com/a/chromium.org/forum/#!msg/blink-dev/IpBdJEppjzE/V1Biy1D4v-kJ"><code>beforescroll</code></a>.</p>
+
+<h2 id="3_popstate_causes_scrolls">3. Popstate causes scrolls</h2>
+
+<p>This one I did not expect. If you’re using the HTML5 history gubbins, like <code>pushState</code> and all that, then the browser stores the scroll position whenever you use it. Then if the user clicks back or forward then the scroll position is restored. There’s nothing you can do about it. If you’re using the URL to toggle UI elements then it’s super jarring to have the page jump around the place.</p>
+
+<blockquote>
+<p>I was all like you can totally capture the scroll position before the browser changes it in <code>popstate</code> then, when it’s done, just, you know, set the value back with <code>window.scrollTo</code>. Haha no.</p>
+</blockquote>
+
+<p>I did have an epiphany, I was all like you can totally capture the scroll position before the browser changes it in <code>popstate</code> then, when it’s done, just, you know, set the value back with <code>window.scrollTo</code>. Haha no. Firefox takes it upon itself to restore the scroll position <em>before</em> <code>popstate</code> fires, so you have no idea what to restore it to.</p>
+
+<p>Probably another thing that could benefit from <code>beforescroll</code>, i.e. “Dear browser, please do not jump all over the place, I got this.”</p>
+
+<h2 id="4_theres_no_form_of_clipping_that_seems_to_be_accelerated">4. There’s no form of clipping that seems to be accelerated</h2>
+
+<p>You know me, I jabber on about performance a lot. I’ve specifically advocated to sticking to compositor-friendly animations like transform and opacity changes. But occasionally you need to do something which involves something more complex like clipping, where – say – a box expands or contracts and you don’t want the contents to flow out. Think a card expansion effect like Google+‘s, that’s the one.</p>
+
+<p>Options for this are:</p>
+
+<ol>
+<li>Have a container element with <code>overflow: hidden</code> and transition <code>width</code>, <code>height</code>, <code>left</code>, and <code>top</code>. Changing those properties <a href="http://csstriggers.com">triggers layout and paint</a> so that’s a no-no today.</li>
+
+<li>Use <code>clip: rect()</code>, or its newer cousin, <code>clip-path</code>. Both of these trigger paint, which is unfortunate as again its difficult to guarantee 60fps when you do that.</li>
+</ol>
+
+<p>On the basis that there’s an <a href="https://www.opengl.org/wiki/Scissor_Test">OpenGL scissor test</a>, I’d hoped there was something of an exploitable fast-path here where clip gets mapped to scissor tests for elements with their own compositor layer. Bummer.</p>
+
+<h2 id="conclusions">Conclusions</h2>
+
+<p>These are only a few of the issues I hit building my current project, and there have been others I’ve worked around. But generally I find it’s these kinds of problems that cause developers to go offroad and reimplement things like scrolling, the DOM, or painting themselves. In my view that’s invariably a bad idea.</p>
+
+<p>I also feel like these deficiencies in the platform make it too difficult to make convincing web apps today, and if that’s what we’re trying to make then we should solve those problems, because they <em>are</em> solvable.</p>
+</div></div>
+
+  <div class="footer-share container">
+    Share this on: <span class="value"><a href="http://www.twitter.com/share?url=http://aerotwist.com/blog/some-gotchas-that-got-me/">Twitter</a></span>
+    <span class="value"><a href="https://plus.google.com/share?url=http://aerotwist.com/blog/some-gotchas-that-got-me/">Google+</a></span>
+  </div>
+
+  <div class="clear"></div>
+
+  
+    <svg class="left-shape" style="margin-left: -304.95px" width="449.4" height="595.0">
+      <use xlink:href="#color-block" filter="url(#blur-4)" transform="scale(-1.4 1.4) rotate(90)"/>
+    </svg>
+
+    <svg class="right-shape" width="160.5" height="382.5">
+      <use xlink:href="#color-block" filter="url(#blur-8)" transform="scale(-0.9 0.9) rotate(90)"/>
+    </svg>
+  
+
+</div>
+
+
+    </section>
+
+    <footer>
+
+      <div class="container">
+        <div class="bio panel">
+          <h2>Hello!</h2>
+          <p>My name is Paul. I work at <a href="http://www.google.com/" title="Some cloud company in the USA, I think.">Google</a> on the Chrome Developer Relations team as an advocate. I help developers improve the performance of their sites and apps.</p>
+
+          <p>You can find me on <a href="http://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a></p>
+        </div>
+
+        <div class="get-in-touch panel">
+          <h2>Get in touch</h2>
+          <p>I don’t bite. Honestly. You can find me on <a href="http://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a>, and I like hearing from people (pretty handy given my job, really) so say hi.</p>
+        </div>
+
+        <div class="subscribe panel">
+          <h2>Subscribe</h2>
+          <p>You should totally get the <a href="/blog/feed/">RSS feed</a>, or whatever it is you kids are using these days (I miss Reader.)</p>
+        </div>
+
+        <p class="disclaimer">Except as otherwise noted, the content of this page is licensed under the Creative Commons Attribution 3.0 License, and code samples are licensed under the Apache 2.0 License.</p>
+      </div>
+    </footer>
+
+    <script type="text/javascript" async="true">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-13024693-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+  </body>
+</html>

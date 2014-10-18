@@ -4,10 +4,29 @@
 
     <title>Aerotwist Blog</title>
     <description>Pretty much whatever comes into my head.</description>
-    <lastBuildDate>2014-08-15 11:55:05 +0100</lastBuildDate>
+    <lastBuildDate>2014-10-18 15:11:09 +0100</lastBuildDate>
     <language>en</language>
     <generator>Aerotwist Blog</generator>
     <atom:link href="http://aerotwist.com/feed/" rel="self" type="application/rss+xml" />
+    
+      
+      <item>
+        <title>Gotchas</title>
+        <description>
+          <![CDATA[I've been building a web app recently and I've had one of those builds. You know, one of the ones where you seem to stumble across a bunch of bugs or bonkers behaviours that cause you to question the sanity of absolutely everyone involved with web development.]]>
+        </description>
+        <pubDate>Sat, 18 Oct 2014 00:00:00 +0000</pubDate>
+        <link>http://aerotwist.com/blog/some-gotchas-that-got-me</link>
+        <guid isPermaLink="true">/blog/some-gotchas-that-got-me</guid>
+        
+        <category>gotchas</category>
+        
+        <category>lesigh</category>
+        
+        <category>web</category>
+        
+      </item>
+      
     
       
       <item>
