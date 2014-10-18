@@ -330,13 +330,15 @@
 <li>Use <code>clip: rect()</code>, or its newer cousin, <code>clip-path</code>. Both of these trigger paint, which is unfortunate as again its difficult to guarantee 60fps when you do that.</li>
 </ol>
 
-<p>On the basis that there’s an <a href="https://www.opengl.org/wiki/Scissor_Test">OpenGL scissor test</a> I’d hoped there might be something here where <code>clip</code> gets mapped to a scissor test, perhaps only for elements with their own compositor layer. Seemingly not. Bummer.</p>
+<p>On the basis that there’s an <a href="https://www.opengl.org/wiki/Scissor_Test">OpenGL scissor test</a>, I’d hoped <code>clip</code> might get mapped to a scissor test for elements with their own compositor layer. Seemingly not. Bummer.</p>
 
 <h2 id="conclusions">Conclusions</h2>
 
 <p>These are only a few of the issues I hit building my current project, and there have been others I’ve worked around. But generally I find it’s these kinds of problems that cause developers to go offroad and reimplement things like scrolling, the DOM, or painting themselves. In my view that’s invariably a bad idea.</p>
 
 <p>I also feel like these deficiencies in the platform make it too difficult to make convincing web apps today, and if that’s what we’re trying to make then we should solve those problems, because they <em>are</em> solvable.</p>
+
+<p>And mostly, what I think we need, is more control.</p>
 </div></div>
 
   <div class="footer-share container">
