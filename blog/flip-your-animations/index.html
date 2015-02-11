@@ -319,10 +319,10 @@
 <p>We can use that window of time to do all that <code>getBoundingClientRect</code> work (or <code>getComputedStyle</code> if that’s your poison) in JavaScript, and from there we make sure that we’re reducing the animation down to nice-and-fast, compositor-friendly, look-ma-no-paints <code>transform</code> and <code>opacity</code> changes. (Why just those? Check out my <a href="/blog/pixels-are-expensive/">Pixels are Expensive</a> post.)</p>
 
 <blockquote>
-<p>Animations that can be reduced down to transform and opacity changes are the perfect fit.</p>
+<p>Animations that can be remapped to transform and opacity changes are the perfect fit.</p>
 </blockquote>
 
-<p>Animations that <em>can</em> be reduced down to <code>transform</code> and <code>opacity</code> changes are the perfect fit. If you’re already limiting to those properties in your JS or CSS animations then you’re probably good to go; this technique works best when you’re changing layout properties (like width and height, left and top) and you want to remap them to cheaper properties.</p>
+<p>Animations that <em>can</em> be remapped to <code>transform</code> and <code>opacity</code> changes are the perfect fit. If you’re already limiting to those properties in your JS or CSS animations then you’re probably good to go; this technique works best when you’re changing layout properties (like width and height, left and top) and you want to remap them to cheaper properties.</p>
 
 <p>Sometimes you will need to rethink your animations to fit this model, and on many occasions I’ve separated and animated elements individually just so that I can animate them without distortion, and <strong>FLIP</strong> as much as possible. You may feel like that’s overkill, but to me it’s not, and for two reasons:</p>
 
