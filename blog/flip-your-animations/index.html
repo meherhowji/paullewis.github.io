@@ -330,6 +330,16 @@
 <li><strong>Native app devs do this.</strong> Of course this is a sliding scale and subjective, but I’ve heard many times of native developers spending days on end getting the transitions on their apps <em>just right</em>. For them those touches are a differentiator and, as we get faster loading sites through Service Worker, we’re going to be in the same boat. People will judge our sites based on how well they feel when they’re running.</li>
 </ol>
 
+<h1 id="some_caveats">Some caveats</h1>
+
+<p>There are a couple of things to bear in mind if you FLIP:</p>
+
+<ol>
+<li><strong>Don’t exceed the 100ms window.</strong> It’s important to remember that you shouldn’t exceed that window, because your app will appear non-responsive if you do. Keep an eye on it through DevTools to know if you’re busting that budget.</li>
+
+<li><strong>Orchestrate your animations carefully.</strong> Imagine, if you will, that you’re running one of these animations all transformy and opacity-y and then you decide to do another, which requires a bunch of precalculation. That’s going to interrupt the animation that’s in flight, which is bad. The key here is to make sure your precalculation work is done in idle or the “response window” I talked about.</li>
+</ol>
+
 <h1 id="flip_on_as_it_were">FLIP on, as it were…</h1>
 
 <p>I’ve come to love <strong>FLIP</strong> as a way of thinking about animations, because it’s a good match of JavaScript and CSS. Calculate in JavaScript, but let CSS handle the animations for you. You don’t have to use CSS to do the animations, though, you could just as easily use the Web Animations API or JavaScript itself, whatever’s easiest. The main point is that you’re reducing the per-frame complexity and cost (which normally means <code>transform</code> and <code>opacity</code>) to try and give the user the best possible experience.</p>
