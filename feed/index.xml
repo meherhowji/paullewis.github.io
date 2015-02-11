@@ -4,10 +4,25 @@
 
     <title>Aerotwist</title>
     <description>Pretty much whatever comes into my head.</description>
-    <lastBuildDate>2014-12-21 20:56:52 +0000</lastBuildDate>
+    <lastBuildDate>2015-02-11 12:23:58 +0000</lastBuildDate>
     <language>en</language>
     <generator>Aerotwist</generator>
     <atom:link href="http://aerotwist.com/feed/" rel="self" type="application/rss+xml" />
+    
+      <item>
+        <title>FLIP Your Animations</title>
+        <description>
+          <![CDATA[Animations in your web app should run at 60fps. Not always easy to achieve that,and it really depends on what you're trying to do, but I'm here to help. With FLIP.]]>
+        </description>
+        <pubDate>Wed, 11 Feb 2015 00:00:00 +0000</pubDate>
+        <link>http://aerotwist.com/blog/flip-your-animations</link>
+        <guid isPermaLink="true">/blog/flip-your-animations</guid>
+        
+        <category>performance</category>
+        
+        <category>transitions</category>
+        
+      </item>
     
       <item>
         <title>Some Gotchas That Got Me</title>

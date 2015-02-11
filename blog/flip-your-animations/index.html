@@ -1,0 +1,407 @@
+<!doctype html>
+<html itemscope itemtype="http://schema.org/Article">
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="author" content="Paul Lewis" />
+  <meta name="viewport" content="width=device-width">
+  <meta name="theme-color" content="#880043">
+
+  
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="//aerotwist.com/blog/feed/">
+  
+
+  
+  <meta itemprop="name" content="FLIP Your Animations">
+  <meta itemprop="description" content="Animations in your web app should run at 60fps. Not always easy to achieve that,and it really depends on what you&#39;re trying to do, but I&#39;m here to help. With FLIP.">
+
+    
+
+  
+
+  <style>
+    
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 400;
+      src: local('Lato Regular'), local('Lato-Regular'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qIIYRU-oROkIk8vfvxw6QvesZW2xOQ-xsNqO47m55DA.woff) format('woff');
+    }
+    
+
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 700;
+      src: local('Lato Bold'), local('Lato-Bold'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qdgUG4U09HnJwhYI-uK18wLUuEpTyoUstqEm5AMlJo4.woff) format('woff');
+    }
+  </style>
+
+  <link rel="stylesheet" media="screen" href="/css/aerotwist.css" />
+  <title>Aerotwist - FLIP Your Animations</title>
+  
+</head>
+
+
+<!--
+                              __          .__          __
+  _____    ___________  _____/  |___  _  _|__| _______/  |_
+  \__  \ _/ __ \_  __ \/  _ \   __\ \/ \/ /  |/  ___/\   __\
+   / __ \\  ___/|  | \(  <_> )  |  \     /|  |\___ \  |  |
+  (____  /\___  >__|   \____/|__|   \/\_/ |__/____  > |__|
+       \/     \/                                  \/
+
+  Giant ascii art embedded in every page of your site is how you
+  show other people that YOU CARE. Mainly I care about developers,
+  which is what I presume you are if you're all about viewing
+  the source. Clearly you're my kind of person.
+
+  This is v3, it's run through Jekyll, it's been fun to build,
+  there's always more to do, and you may notice that aside from
+  Google Analytics there is no JavaScript. None.
+
+  That's one way of many you keep your pages fast. I care about
+  keeping this site fast because your time is precious and I need
+  to get out of your way.
+
+  <3'z
+
+  Paul
+-->
+
+
+  <body class="blog">
+
+    <header>
+      <div class="container">
+        <div id="logo">
+  <a href="/">
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="100%" height="100%">
+    <g>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#6EBAD3" points="30.6,47.73 64.92,47.73 19.97,76.52"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ED95C0" points="48.198,0 53.008,14.06 39.31,24.76"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#880043" points="39.31,24.76 64.92,48 30.6,48"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#DA0A7A" points="39.31,24.76 64.92,48 53.008,14.06"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#0B7DAD" points="30.6,48 64.92,48 48,58.69"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#BDDEE8" points="47.76,58.69 64.92,47.73 75.14,76.73"></polygon>
+    </g>
+    </svg>
+  </a>
+</div>
+
+        <nav>
+  <ul>
+    
+      
+        <li><a href="/">Home</a></li>
+      
+    
+      
+        <li class="active"><a href="/blog/"> Blog</a></li>
+      
+    
+      
+        <li><a href="/tutorials/">Tutorials</a></li>
+      
+    
+      
+        <li><a href="/lab/">Lab</a></li>
+      
+    
+  </ul>
+
+  <svg id="left-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#AAAAAA" stroke-width="1" />
+    </svg>
+
+  <svg id="right-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#6EBAD3" stroke-opacity="0.3" stroke-width="1" />
+    </svg>
+</nav>
+
+      </div>
+    </header>
+    <section>
+
+      <div class="content">
+
+  
+  <svg version="1.1" class="shape-reference" xmlns="http://www.w3.org/2000/svg" width="780" height="293">
+  <defs>
+    <filter id="blur-8">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="8" />
+    </filter>
+    <filter id="blur-6">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="6" />
+    </filter>
+    <filter id="blur-4">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="4" />
+    </filter>
+  </defs>
+
+  <g id="color-block">
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#615c99" stroke="#615c99" stroke-width="0.6" points="40,133 161,127 179,197"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#9691be" stroke="#9691be" stroke-width="0.6" points="161,127 40,133 183,81"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#bb81b9" stroke="#bb81b9" stroke-width="0.6" points="293,124 161,127 183,81"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#934092" stroke="#934092" stroke-width="0.6" points="293,124 179,197 161,127"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#982879" stroke="#982879" stroke-width="0.6" points="179,197 293,124 309,168"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#5b1849" stroke="#5b1849" stroke-width="0.6" points="297,233 179,197 309,168"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#610839" stroke="#610839" stroke-width="0.6" points="417,221 297,233 309,168"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#a10455" stroke="#a10455" stroke-width="0.6" points="417,221 309,168 395,160"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#a50c60" stroke="#a50c60" stroke-width="0.6" points="417,221 395,160 494,148"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#7d1354" stroke="#7d1354" stroke-width="0.6" points="417,221 494,148 517,197"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#390926" stroke="#390926" stroke-width="0.6" points="491,253 417,221 517,197"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#360f2c" stroke="#360f2c" stroke-width="0.6" points="491,253 517,197 567,210"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#5b2153" stroke="#5b2153" stroke-width="0.6" points="517,197 564,173 567,210"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#86266e" stroke="#86266e" stroke-width="0.6" points="517,197 494,148 564,173"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#b43995" stroke="#b43995" stroke-width="0.6" points="494,148 516,107 564,173"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#d84da2" stroke="#d84da2" stroke-width="0.6" points="494,148 413,117 516,107"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#e61a8a" stroke="#e61a8a" stroke-width="0.6" points="494,148 395,160 413,117"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f42591" stroke="#f42591" stroke-width="0.6" points="395,160 293,124 413,117"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#d61482" stroke="#d61482" stroke-width="0.6" points="309,168 293,124 395,160"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f95eae" stroke="#f95eae" stroke-width="0.6" points="293,124 410,83 413,117"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f39acb" stroke="#f39acb" stroke-width="0.6" points="293,124 314,48 410,83"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#e0a8d0" stroke="#e0a8d0" stroke-width="0.6" points="293,124 183,81 314,48"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ec75b8" stroke="#ec75b8" stroke-width="0.6" points="413,117 410,83 516,107"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#efb2d7" stroke="#efb2d7" stroke-width="0.6" points="410,83 485,40 516,107"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#eacae2" stroke="#eacae2" stroke-width="0.6" points="516,107 485,40 589,55"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ca9bc8" stroke="#ca9bc8" stroke-width="0.6" points="516,107 589,55 589,124"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#a952a1" stroke="#a952a1" stroke-width="0.6" points="564,173 516,107 589,124"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#77498e" stroke="#77498e" stroke-width="0.6" points="564,173 589,124 663,170"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#4d3a69" stroke="#4d3a69" stroke-width="0.6" points="661,205 564,173 663,170"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#482852" stroke="#482852" stroke-width="0.6" points="567,210 564,173 661,205"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#3e4972" stroke="#3e4972" stroke-width="0.6" points="661,205 663,170 704,162"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#5672a8" stroke="#5672a8" stroke-width="0.6" points="663,170 699,99 704,162"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#7e86b7" stroke="#7e86b7" stroke-width="0.6" points="699,99 663,170 644,103"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#aeb4d2" stroke="#aeb4d2" stroke-width="0.6" points="699,99 644,103 677,76"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#b9c5db" stroke="#b9c5db" stroke-width="0.6" points="677,76 693,71 699,99"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#c1d1e2" stroke="#c1d1e2" stroke-width="0.6" points="699,99 693,71 740,57"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#a7c3d9" stroke="#a7c3d9" stroke-width="0.6" points="730,109 699,99 740,57"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#6d93bb" stroke="#6d93bb" stroke-width="0.6" points="704,162 699,99 730,109"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#c4c1da" stroke="#c4c1da" stroke-width="0.6" points="644,103 636,65 677,76"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#b6a3ca" stroke="#b6a3ca" stroke-width="0.6" points="589,124 636,65 644,103"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#cebad8" stroke="#cebad8" stroke-width="0.6" points="589,124 589,55 636,65"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#846eab" stroke="#846eab" stroke-width="0.6" points="589,124 644,103 663,170"/>
+  </g>
+</svg>
+
+  
+
+  <div class="masthead hatched">
+
+    
+      <svg class="behind-meta" width="780" height="293">
+        <use xlink:href="#color-block" />
+      </svg>
+
+      <svg class="left-meta" width="780" height="293">
+        <use xlink:href="#color-block" filter="url(#blur-6)" transform="translate(390 146) scale(-0.5 0.5) translate(-390 -147)" />
+      </svg>
+    
+
+    <div class="container">
+      <h2>FLIP Your Animations</h2>
+      <p>Animations in your web app should run at 60fps. Not always easy to achieve that, and it really depends on what you're trying to do, but I'm here to help. With FLIP.</p>
+    </div>
+
+  </div>
+
+  <div class="container">
+    <div class="meta">
+
+      <ul>
+        <li class="last-updated">
+          <span class="name">Last updated:</span>
+          <span class="value">11 Feb 2015</span>
+        </li>
+
+        <li>
+          <span class="name">Est. Read Time:</span>
+          <span class="value">4 mins</span>
+        </li>
+
+        <li class="share">
+          <span class="name">Share this:</span>
+          <span class="value"><a href="http://www.twitter.com/share?url=http://aerotwist.com/blog/flip-your-animations/">Twitter</a></span>
+          <span class="value"><a href="https://plus.google.com/share?url=http://aerotwist.com/blog/flip-your-animations/">Google+</a></span>
+        </li>
+        <li class="tags">
+          <span class="name">Tagged:</span>
+          <span class="value">
+          
+            #performance, 
+          
+            #transitions
+          
+          </span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="container"><div class="left column">
+<p>Recently I’ve had the pleasure of being part of the team that built building the <a href="https://events.google.com/io2015/">Google I/O 2015 website</a>, and last year I built the <a href="https://developer.chrome.com/devsummit/">Chrome Dev Summit site</a>. On both sites we used <strong>FLIP</strong>, which is essentially a principle, and not a framework or a library. It is a way of thinking about animations, and attempting to keep them as cheap as possible for the browser which, all being well, should translate over to 60fps animations.</p>
+
+<p>If you prefer watching to reading, this is my talk from Chrome Dev Summit, where I explain <strong>FLIP</strong> (without naming it explicitly) in lots of detail:</p>
+<iframe allowfullscreen='allowfullscreen' frameborder='0' height='420' src='//www.youtube.com/embed/RCFQu0hK6bU?vq=hd720' style='margin-bottom: 20px; box-shadow: 0 2px 2px rgba(0,0,0,0.3)' width='100%'>
+</iframe>
+<h1 id="the_general_approach">The general approach</h1>
+
+<p>What we’re trying and do is to turn animations on their head (flip, see? Gosh darnit, I’m so funneh) and, instead of animating “straight ahead” and potentially doing expensive calculations on every single frame we <em>precalculate</em> the animation dynamically and let it play out cheaply.</p>
+
+<p><strong>FLIP</strong> stands for <strong>F</strong>irst, <strong>L</strong>ast, <strong>I</strong>nvert, <strong>P</strong>lay.</p>
+
+<p>Let’s break it down:</p>
+
+<ul>
+<li><strong>First</strong>: the initial state of the element(s) involved in the transition.</li>
+
+<li><strong>Last</strong>: the final state of the element(s).</li>
+
+<li><strong>Invert</strong>: here’s the fun bit. You figure out from the first and last how the element has changed, so – say – its width, height, opacity. Next you apply <code>transform</code>s and <code>opacity</code> changes to reverse, or invert, them. If the element has moved 90px down between First and Last, you would apply a transform of -90px in Y. This makes the elements appear as though they’re still in the First position but, crucially, they’re not.</li>
+
+<li><strong>Play</strong>: switch on transitions for any of the properties you changed, and then remove the inversion changes. Because the element or elements are in their final position removing the transforms and opacities will ease them from their faux First position, out to the Last position.</li>
+</ul>
+
+<p>Ta daaaaa!</p>
+
+<p>Here’s the same outline in code:</p>
+</div></div><div class='highlight'><pre><code class='javascript'><span class='c1'>// Get the first position.</span>
+<span class='kd'>var</span> <span class='nx'>first</span> <span class='o'>=</span> <span class='nx'>el</span><span class='p'>.</span><span class='nx'>getBoundingClientRect</span><span class='p'>();</span>
+
+<span class='c1'>// Now set the element to the last position.</span>
+<span class='nx'>el</span><span class='p'>.</span><span class='nx'>classList</span><span class='p'>.</span><span class='nx'>add</span><span class='p'>(</span><span class='s1'>&#39;totes-at-the-end&#39;</span><span class='p'>);</span>
+
+<span class='c1'>// Read again. This forces a sync layout, so be careful.</span>
+<span class='kd'>var</span> <span class='nx'>last</span> <span class='o'>=</span> <span class='nx'>el</span><span class='p'>.</span><span class='nx'>getBoundingClientRect</span><span class='p'>();</span>
+
+<span class='c1'>// You can do this for other computed styles as well, if needed.</span>
+<span class='c1'>// Just be sure to stick to compositor-only props like transform</span>
+<span class='c1'>// and opacity where possible.</span>
+<span class='kd'>var</span> <span class='nx'>difference</span> <span class='o'>=</span> <span class='nx'>first</span><span class='p'>.</span><span class='nx'>top</span> <span class='o'>-</span> <span class='nx'>last</span><span class='p'>.</span><span class='nx'>top</span><span class='p'>;</span>
+
+<span class='c1'>// Invert.</span>
+<span class='nx'>el</span><span class='p'>.</span><span class='nx'>style</span><span class='p'>.</span><span class='nx'>transform</span> <span class='o'>=</span> <span class='s1'>&#39;translateY(&#39;</span> <span class='o'>+</span> <span class='nx'>difference</span> <span class='o'>+</span> <span class='s1'>&#39;px)&#39;</span><span class='p'>;</span>
+
+<span class='c1'>// Switch on animations.</span>
+<span class='nx'>el</span><span class='p'>.</span><span class='nx'>classList</span><span class='p'>.</span><span class='nx'>add</span><span class='p'>(</span><span class='s1'>&#39;animate-on-transforms&#39;</span><span class='p'>);</span>
+
+<span class='c1'>// Wait for the next frame so we know all the style changes have taken hold.</span>
+<span class='nx'>requestAnimationFrame</span><span class='p'>(</span><span class='kd'>function</span><span class='p'>()</span> <span class='p'>{</span>
+
+  <span class='c1'>// GO GO GOOOOOO!</span>
+  <span class='nx'>el</span><span class='p'>.</span><span class='nx'>style</span><span class='p'>.</span><span class='nx'>transform</span> <span class='o'>=</span> <span class='s1'>&#39;&#39;</span><span class='p'>;</span>
+<span class='p'>});</span>
+</code></pre></div><div class="container"><div class="left column">
+<h1 id="what_is_it_good_for">What is it good for?</h1>
+
+<blockquote>
+<p>There is a window of 100ms after someone interacts with your site where you’re able to do work without them noticing.</p>
+</blockquote>
+
+<p>It’s absolutely superb for times where you are responding to user input and then animating something in response. So, for example, in the case of Chrome Dev Summit, I was expanding cards that the user tapped on.</p>
+
+<p>The reason you can afford to do the precalculation is because there is a window of 100ms after someone interacts with your site where you’re able to do work without them noticing. If you’re inside that window users will feel like the site responded instantly! It’s only when things are moving that you need to maintain the 60fps.</p>
+<figure>
+  <img alt='Taking advantage of user perception.' src='/static/blog/flip-your-animations/window.jpg' />
+  <figcaption>Taking advantage of user perception.</figcaption>
+</figure>
+<p>We can use that window of time to do all that <code>getBoundingClientRect</code> work (or <code>getComputedStyle</code> if that’s your poison) in JavaScript, and from there we make sure that we’re reducing the animation down to nice-and-fast, compositor-friendly, look-ma-no-paints <code>transform</code> and <code>opacity</code> changes. (Why just those? Check out my <a href="/blog/pixels-are-expensive/">Pixels are Expensive</a> post.)</p>
+
+<blockquote>
+<p>Animations that can be reduced down to transform and opacity changes are the perfect fit.</p>
+</blockquote>
+
+<p>Animations that <em>can</em> be reduced down to <code>transform</code> and <code>opacity</code> changes are the perfect fit. If your animation can’t because it involves – say – an element’s dimensions changing, either through clipping or directly though width and height, then your content may get distorted or behave weirdly. Certainly in the case of clipping it will paint, which is often the fastest known way to kill your fps. Erk.</p>
+
+<p>Sometimes you will need to rethink your animations to fit this model, and on many occasions I’ve separated and animated elements individually just so that I can animate them without distortion, and <strong>FLIP</strong> as much as possible. You may feel like that’s overkill, but to me it’s not, and for two reasons:</p>
+
+<ol>
+<li><strong>People want this.</strong> My colleague and friend <a href="http://paul.kinlan.me/what-news-readers-want/">Paul Kinlan recently ran a survey on what people want from a news app</a>. The most popular answer (which was a surprise to him, at least) wasn’t offline support, sync, notifications, or anything like that. It was <em>smooth navigation</em>. Smooth, like no jank, no stutter, no judder. (/me mutters something about #perfmatters.)</li>
+
+<li><strong>Native app devs do this.</strong> Of course this is a sliding scale and subjective, but I’ve heard many times of native developers spending days on end getting the transitions on their apps <em>just right</em>. For them those touches are a differentiator and, as we get faster loading sites through Service Worker, we’re going to be in the same boat. People will judge our sites based on how well they feel when they’re running.</li>
+</ol>
+
+<h1 id="flip_on_as_it_were">FLIP on, as it were…</h1>
+
+<p>I’ve come to love <strong>FLIP</strong> as a way of thinking about animations, because it’s a good match of JavaScript and CSS. Calculate in JavaScript, but let CSS handle the animations for you. You don’t have to use CSS to do the animations, though, you could just as easily use the Web Animations API or JavaScript itself, whatever’s easiest. The main point is that you’re reducing the per-frame complexity and cost (which normally means <code>transform</code> and <code>opacity</code>) to try and give the user the best possible experience.</p>
+
+<p>I have more to tell you about <strong>FLIP</strong> and a broader, unified model of performance, but that’s going to be the next blog post or so I’d say!</p>
+
+<p>So, uhh, <strong>FLIP</strong> on.</p>
+</div></div>
+
+  <div class="footer-share container">
+    Share this on: <span class="value"><a href="http://www.twitter.com/share?url=http://aerotwist.com/blog/flip-your-animations/">Twitter</a></span>
+    <span class="value"><a href="https://plus.google.com/share?url=http://aerotwist.com/blog/flip-your-animations/">Google+</a></span>
+  </div>
+
+  <div class="clear"></div>
+
+  
+    <svg class="left-shape" style="margin-left: -278.34999999999997px" width="410.2" height="1092.0">
+      <use xlink:href="#color-block" filter="url(#blur-4)" transform="scale(-1.4 1.4) rotate(90)"/>
+    </svg>
+
+    <svg class="right-shape" width="146.5" height="702.0">
+      <use xlink:href="#color-block" filter="url(#blur-8)" transform="scale(-0.9 0.9) rotate(90)"/>
+    </svg>
+  
+
+</div>
+
+
+    </section>
+
+    <footer>
+
+      <div class="container">
+        <div class="bio panel">
+          <h2>Hello!</h2>
+          <p>My name is Paul. I work at <a href="http://www.google.com/" title="Some cloud company in the USA, I think.">Google</a> on the Chrome Developer Relations team as an advocate. I help developers improve the performance of their sites and apps.</p>
+
+          <p>You can find me on <a href="http://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a></p>
+        </div>
+
+        <div class="get-in-touch panel">
+          <h2>Get in touch</h2>
+          <p>I don’t bite. Honestly. You can find me on <a href="http://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a>, and I like hearing from people (pretty handy given my job, really) so say hi.</p>
+        </div>
+
+        <div class="subscribe panel">
+          <h2>Subscribe</h2>
+          <p>You should totally get the <a href="/blog/feed/">RSS feed</a>, or whatever it is you kids are using these days (I miss Reader.)</p>
+        </div>
+
+        <p class="disclaimer">Except as otherwise noted, the content of this page is licensed under the Creative Commons Attribution 3.0 License, and code samples are licensed under the Apache 2.0 License.</p>
+      </div>
+    </footer>
+
+    <script async="true">
+
+    /**
+     * Snow effect, from: HTML5 Rocks
+     * https://github.com/html5rocks/www.html5rocks.com/blob/9318b5755c8c17a4bd1761bca6b1b491e7fd17b8/content/index.html
+     */
+    !function(){function j(){f=c.clientWidth,g=c.clientHeight,d.width=f,d.height=g,e.fillStyle="#FFF";var a=i;i=f>300,!a&&i&&requestAnimFrame(n)}function n(){if(e.clearRect(0,0,f,g),i){for(h=0;b>h;h++)m=l[h],m.y+=m.vy,m.x+=m.vx,e.globalAlpha=m.o,e.beginPath(),e.arc(m.x,m.y,m.r,0,2*Math.PI,!1),e.closePath(),e.fill(),m.y>g&&m.reset();requestAnimFrame(n)}}var a=(new Date).getMonth();if(11===a){var b=300,c=document.querySelector(".masthead");if(c){var d=document.createElement("canvas"),e=d.getContext("2d"),f=c.clientWidth,g=c.clientHeight,h=0,i=!1,k=function(){this.x=0,this.y=0,this.vy=0,this.vx=0,this.r=0,this.reset()};k.prototype.reset=function(){this.x=Math.random()*f,this.y=Math.random()*-g,this.vy=1+3*Math.random(),this.vx=.5-Math.random(),this.r=1+2*Math.random(),this.o=.5+.5*Math.random()},d.style.position="absolute",d.style.left=d.style.top="0";var m,l=[];for(h=0;b>h;h++)m=new k,m.reset(),l.push(m);window.requestAnimFrame=function(){return window.requestAnimationFrame||window.webkitRequestAnimationFrame||window.mozRequestAnimationFrame||function(a){window.setTimeout(a,1e3/60)}}(),j(),window.addEventListener("resize",j,!1),c.appendChild(d)}}}();
+    </script>
+
+    <script type="text/javascript" async="true">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-13024693-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+  </body>
+</html>
