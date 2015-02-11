@@ -337,7 +337,7 @@
 <ol>
 <li><strong>Don’t exceed the 100ms window.</strong> It’s important to remember that you shouldn’t exceed that window, because your app will appear non-responsive if you do. Keep an eye on it through DevTools to know if you’re busting that budget.</li>
 
-<li><strong>Orchestrate your animations carefully.</strong> Imagine, if you will, that you’re running one of these animations all transformy and opacity-y and then you decide to do another, which requires a bunch of precalculation. That’s going to interrupt the animation that’s in flight, which is bad. The key here is to make sure your precalculation work is done in idle or the “response window” I talked about.</li>
+<li><strong>Orchestrate your animations carefully.</strong> Imagine, if you will, that you’re running one of these animations all transformy and opacity-y and then you decide to do another, which requires a bunch of precalculation. That’s going to interrupt the animation that’s in flight, which is bad. The key here is to make sure your precalculation work is done in idle or the “response window” I talked about, and that two animations don’t stomp over each other.</li>
 </ol>
 
 <h1 id="flip_on_as_it_were">FLIP on, as it were…</h1>
