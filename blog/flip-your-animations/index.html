@@ -223,7 +223,7 @@
 
         <li>
           <span class="name">Est. Read Time:</span>
-          <span class="value">9 mins</span>
+          <span class="value">10 mins</span>
         </li>
 
         <li class="share">
@@ -346,9 +346,9 @@
 <p>There is a window of 100ms after someone interacts with your site where you’re able to do work without them noticing.</p>
 </blockquote>
 
-<p>It’s absolutely superb for times where you are responding to user input and then animating something in response. So, for example, in the case of Chrome Dev Summit, I was expanding cards that the user tapped on.</p>
+<p>It’s absolutely superb for times where you are responding to user input and then animating something in response. So, for example, in the case of Chrome Dev Summit, I was expanding cards that the user tapped on. Often the start and end locations and dimensions of the elements aren’t known, because – say – the site is responsive and things move around. This will help you because it’s explicitly measuring elements and giving you the correct values at runtime.</p>
 
-<p>The reason you can afford to do the precalculation is because there is a window of 100ms after someone interacts with your site where you’re able to do work without them noticing. If you’re inside that window users will feel like the site responded instantly! It’s only when things are moving that you need to maintain 60fps.</p>
+<p>The reason you can afford to do this relatively expensive precalculation is because there is a window of 100ms after someone interacts with your site where you’re able to do work without them noticing. If you’re inside that window users will feel like the site responded instantly! It’s only when things are moving that you need to maintain 60fps.</p>
 <figure>
   <img alt='Taking advantage of user perception.' src='/static/blog/flip-your-animations/window.jpg' />
   <figcaption>Taking advantage of user perception.</figcaption>
