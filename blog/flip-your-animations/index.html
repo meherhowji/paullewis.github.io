@@ -286,10 +286,10 @@
 <span class='c1'>// You can do this for other computed styles as well, if needed.</span>
 <span class='c1'>// Just be sure to stick to compositor-only props like transform</span>
 <span class='c1'>// and opacity where possible.</span>
-<span class='kd'>var</span> <span class='nx'>difference</span> <span class='o'>=</span> <span class='nx'>first</span><span class='p'>.</span><span class='nx'>top</span> <span class='o'>-</span> <span class='nx'>last</span><span class='p'>.</span><span class='nx'>top</span><span class='p'>;</span>
+<span class='kd'>var</span> <span class='nx'>invert</span> <span class='o'>=</span> <span class='nx'>first</span><span class='p'>.</span><span class='nx'>top</span> <span class='o'>-</span> <span class='nx'>last</span><span class='p'>.</span><span class='nx'>top</span><span class='p'>;</span>
 
 <span class='c1'>// Invert.</span>
-<span class='nx'>el</span><span class='p'>.</span><span class='nx'>style</span><span class='p'>.</span><span class='nx'>transform</span> <span class='o'>=</span> <span class='s1'>&#39;translateY(&#39;</span> <span class='o'>+</span> <span class='nx'>difference</span> <span class='o'>+</span> <span class='s1'>&#39;px)&#39;</span><span class='p'>;</span>
+<span class='nx'>el</span><span class='p'>.</span><span class='nx'>style</span><span class='p'>.</span><span class='nx'>transform</span> <span class='o'>=</span> <span class='s1'>&#39;translateY(&#39;</span> <span class='o'>+</span> <span class='nx'>invert</span> <span class='o'>+</span> <span class='s1'>&#39;px)&#39;</span><span class='p'>;</span>
 
 <span class='c1'>// Switch on animations.</span>
 <span class='nx'>el</span><span class='p'>.</span><span class='nx'>classList</span><span class='p'>.</span><span class='nx'>add</span><span class='p'>(</span><span class='s1'>&#39;animate-on-transforms&#39;</span><span class='p'>);</span>
@@ -300,8 +300,45 @@
   <span class='c1'>// GO GO GOOOOOO!</span>
   <span class='nx'>el</span><span class='p'>.</span><span class='nx'>style</span><span class='p'>.</span><span class='nx'>transform</span> <span class='o'>=</span> <span class='s1'>&#39;&#39;</span><span class='p'>;</span>
 <span class='p'>});</span>
+
+<span class='c1'>// Capture the end with transitionend</span>
+<span class='nx'>el</span><span class='p'>.</span><span class='nx'>addEventListener</span><span class='p'>(</span><span class='s1'>&#39;transitionend&#39;</span><span class='p'>,</span> <span class='nx'>tidyUpAnimations</span><span class='p'>);</span>
 </code></pre></div><div class="container"><div class="left column">
-<p>If you want a more “in-production” context <a href="https://github.com/GoogleChrome/devsummit/blob/master/src/static/scripts/components/card.js#L263-296">check out the source for cards on the Chrome Dev Summit site</a>.</p>
+<p>However, you can also do this with the upcoming <a href="http://w3c.github.io/web-animations/">Web Animations API</a>, which can make things even easier:</p>
+</div></div><div class='highlight'><pre><code class='javascript'><span class='c1'>// Get the first position.</span>
+<span class='kd'>var</span> <span class='nx'>first</span> <span class='o'>=</span> <span class='nx'>el</span><span class='p'>.</span><span class='nx'>getBoundingClientRect</span><span class='p'>();</span>
+
+<span class='c1'>// Move it to the end.</span>
+<span class='nx'>el</span><span class='p'>.</span><span class='nx'>classList</span><span class='p'>.</span><span class='nx'>add</span><span class='p'>(</span><span class='s1'>&#39;totes-at-the-end&#39;</span><span class='p'>);</span>
+
+<span class='c1'>// Get the last position.</span>
+<span class='kd'>var</span> <span class='nx'>last</span> <span class='o'>=</span> <span class='nx'>el</span><span class='p'>.</span><span class='nx'>getBoundingClientRect</span><span class='p'>();</span>
+
+<span class='c1'>// Invert.</span>
+<span class='kd'>var</span> <span class='nx'>invert</span> <span class='o'>=</span> <span class='nx'>first</span><span class='p'>.</span><span class='nx'>top</span> <span class='o'>-</span> <span class='nx'>last</span><span class='p'>.</span><span class='nx'>top</span><span class='p'>;</span>
+<span class='nx'>el</span><span class='p'>.</span><span class='nx'>style</span><span class='p'>.</span><span class='nx'>transform</span> <span class='o'>=</span> <span class='s1'>&#39;translateY(&#39;</span> <span class='o'>+</span> <span class='nx'>invert</span> <span class='o'>+</span> <span class='s1'>&#39;px)&#39;</span><span class='p'>;</span>
+
+<span class='c1'>// Go from the inverted position to last.</span>
+<span class='kd'>var</span> <span class='nx'>moveTopAnimation</span> <span class='o'>=</span> <span class='k'>new</span> <span class='nx'>Animation</span><span class='p'>(</span><span class='nx'>el</span><span class='p'>,</span>
+<span class='p'>[</span>
+  <span class='p'>{</span> <span class='nx'>transform</span><span class='o'>:</span> <span class='s1'>&#39;translateY(&#39;</span> <span class='o'>+</span> <span class='nx'>invert</span> <span class='o'>+</span> <span class='s1'>&#39;px)&#39;</span> <span class='p'>},</span>
+  <span class='p'>{</span> <span class='nx'>transform</span><span class='o'>:</span> <span class='s1'>&#39;translateY(0)&#39;</span> <span class='p'>}</span>
+<span class='p'>],</span>
+<span class='p'>{</span>
+  <span class='nx'>duration</span><span class='o'>:</span> <span class='mi'>300</span><span class='p'>,</span>
+  <span class='nx'>easing</span><span class='o'>:</span> <span class='s1'>&#39;cubic-bezier(0,0,0.32,1)&#39;</span><span class='p'>,</span>
+  <span class='nx'>fill</span><span class='o'>:</span> <span class='s1'>&#39;forwards&#39;</span>
+<span class='p'>});</span>
+
+<span class='c1'>// GO GO GOOOOOO!</span>
+<span class='kd'>var</span> <span class='nx'>player</span> <span class='o'>=</span> <span class='nb'>document</span><span class='p'>.</span><span class='nx'>timeline</span><span class='p'>.</span><span class='nx'>play</span><span class='p'>(</span><span class='nx'>moveTopAnimation</span><span class='p'>);</span>
+
+<span class='c1'>// Do any tidy up at the end of the animation.</span>
+<span class='nx'>player</span><span class='p'>.</span><span class='nx'>addEventListener</span><span class='p'>(</span><span class='s1'>&#39;finish&#39;</span><span class='p'>,</span> <span class='nx'>tidyUpAnimations</span><span class='p'>);</span>
+</code></pre></div><div class="container"><div class="left column">
+<p>Right now you’ll need the <a href="https://github.com/web-animations/web-animations-js">Web Animations API polyfill</a> to use the code above, though, but it’s pretty lightweight and does make life a lot easier!</p>
+
+<p>If you want a more “in-production” context for <strong>FLIP</strong> <a href="https://github.com/GoogleChrome/devsummit/blob/master/src/static/scripts/components/card.js#L263-296">check out the source for cards on the Chrome Dev Summit site</a>.</p>
 
 <h1 id="what_is_it_good_for">What is it good for?</h1>
 
