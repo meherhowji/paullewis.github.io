@@ -316,22 +316,15 @@
 
 <span class='c1'>// Invert.</span>
 <span class='kd'>var</span> <span class='nx'>invert</span> <span class='o'>=</span> <span class='nx'>first</span><span class='p'>.</span><span class='nx'>top</span> <span class='o'>-</span> <span class='nx'>last</span><span class='p'>.</span><span class='nx'>top</span><span class='p'>;</span>
-<span class='nx'>el</span><span class='p'>.</span><span class='nx'>style</span><span class='p'>.</span><span class='nx'>transform</span> <span class='o'>=</span> <span class='s1'>&#39;translateY(&#39;</span> <span class='o'>+</span> <span class='nx'>invert</span> <span class='o'>+</span> <span class='s1'>&#39;px)&#39;</span><span class='p'>;</span>
 
 <span class='c1'>// Go from the inverted position to last.</span>
-<span class='kd'>var</span> <span class='nx'>moveTopAnimation</span> <span class='o'>=</span> <span class='k'>new</span> <span class='nx'>Animation</span><span class='p'>(</span><span class='nx'>el</span><span class='p'>,</span>
-<span class='p'>[</span>
+<span class='kd'>var</span> <span class='nx'>player</span> <span class='o'>=</span> <span class='nx'>el</span><span class='p'>.</span><span class='nx'>animate</span><span class='p'>([</span>
   <span class='p'>{</span> <span class='nx'>transform</span><span class='o'>:</span> <span class='s1'>&#39;translateY(&#39;</span> <span class='o'>+</span> <span class='nx'>invert</span> <span class='o'>+</span> <span class='s1'>&#39;px)&#39;</span> <span class='p'>},</span>
   <span class='p'>{</span> <span class='nx'>transform</span><span class='o'>:</span> <span class='s1'>&#39;translateY(0)&#39;</span> <span class='p'>}</span>
-<span class='p'>],</span>
-<span class='p'>{</span>
+<span class='p'>],</span> <span class='p'>{</span>
   <span class='nx'>duration</span><span class='o'>:</span> <span class='mi'>300</span><span class='p'>,</span>
   <span class='nx'>easing</span><span class='o'>:</span> <span class='s1'>&#39;cubic-bezier(0,0,0.32,1)&#39;</span><span class='p'>,</span>
-  <span class='nx'>fill</span><span class='o'>:</span> <span class='s1'>&#39;forwards&#39;</span>
 <span class='p'>});</span>
-
-<span class='c1'>// GO GO GOOOOOO!</span>
-<span class='kd'>var</span> <span class='nx'>player</span> <span class='o'>=</span> <span class='nb'>document</span><span class='p'>.</span><span class='nx'>timeline</span><span class='p'>.</span><span class='nx'>play</span><span class='p'>(</span><span class='nx'>moveTopAnimation</span><span class='p'>);</span>
 
 <span class='c1'>// Do any tidy up at the end of the animation.</span>
 <span class='nx'>player</span><span class='p'>.</span><span class='nx'>addEventListener</span><span class='p'>(</span><span class='s1'>&#39;finish&#39;</span><span class='p'>,</span> <span class='nx'>tidyUpAnimations</span><span class='p'>);</span>
