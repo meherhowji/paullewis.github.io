@@ -252,45 +252,50 @@
   <div class="container"><div class="left column">
 <p>In the interests of perhaps helping someone else, here are some of the things I’ve hit:</p>
 
-<h2 id="1_fixed_position_isnt_always_well_fixed">1. Fixed position isn’t always, well, fixed</h2>
+<h2 id="fixed-position-isnt-always-well-fixed">1. Fixed position isn’t always, well, fixed</h2>
 
 <p>I tend to work on the basis that <code>position:fixed</code> sticks things to the viewport. That’s what the spec says anyway:</p>
 
 <blockquote class="quote">
-<p>Fixed positioning is similar to absolute positioning. The only difference is that for a fixed positioned box, the containing block is established by the viewport.</p>
+  <p>Fixed positioning is similar to absolute positioning. The only difference is that for a fixed positioned box, the containing block is established by the viewport.</p>
 </blockquote>
 
 <p>Turns out that’s not true if an ancestor of the <code>position:fixed</code> element has a <code>transform</code> applied to it. If it does then browsers seem to redefine what “viewport” means, and in particular it seems to mean “the element that has the transform”.</p>
-</div></div><div class='highlight'><pre><code class='css'><span class='nc'>.container</span> <span class='p'>{</span>
-  <span class='k'>width</span><span class='o'>:</span> <span class='m'>300px</span><span class='p'>;</span>
-  <span class='k'>height</span><span class='o'>:</span> <span class='m'>200px</span><span class='p'>;</span>
 
-  <span class='c'>/* Applying this makes the</span>
-<span class='c'>     fixed position child 300x200px */</span>
-  <span class='n'>transform</span><span class='o'>:</span> <span class='n'>translateY</span><span class='p'>(</span><span class='m'>10px</span><span class='p'>);</span>
-<span class='p'>}</span>
+</div></div>
 
-<span class='nc'>.container__fixed-position-child</span> <span class='p'>{</span>
-  <span class='k'>position</span><span class='o'>:</span> <span class='k'>fixed</span><span class='p'>;</span>
-  <span class='k'>width</span><span class='o'>:</span> <span class='m'>100</span><span class='o'>%</span><span class='p'>;</span>
-  <span class='k'>height</span><span class='o'>:</span> <span class='m'>100</span><span class='o'>%</span><span class='p'>;</span>
-  <span class='k'>background</span><span class='o'>:</span> <span class='nb'>blue</span><span class='p'>;</span>
-  <span class='k'>left</span><span class='o'>:</span> <span class='m'>0</span><span class='p'>;</span>
-  <span class='k'>top</span><span class='o'>:</span> <span class='m'>0</span><span class='p'>;</span>
-<span class='p'>}</span>
-</code></pre></div><div class="container"><div class="left column">
+<div class="highlight"><pre><code class="language-css" data-lang="css"><span class="nc">.container</span> <span class="p">{</span>
+  <span class="k">width</span><span class="o">:</span> <span class="m">300px</span><span class="p">;</span>
+  <span class="k">height</span><span class="o">:</span> <span class="m">200px</span><span class="p">;</span>
+
+  <span class="c">/* Applying this makes the</span>
+<span class="c">     fixed position child 300x200px */</span>
+  <span class="n">transform</span><span class="o">:</span> <span class="n">translateY</span><span class="p">(</span><span class="m">10px</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="nc">.container__fixed-position-child</span> <span class="p">{</span>
+  <span class="k">position</span><span class="o">:</span> <span class="k">fixed</span><span class="p">;</span>
+  <span class="k">width</span><span class="o">:</span> <span class="m">100%</span><span class="p">;</span>
+  <span class="k">height</span><span class="o">:</span> <span class="m">100%</span><span class="p">;</span>
+  <span class="k">background</span><span class="o">:</span> <span class="nb">blue</span><span class="p">;</span>
+  <span class="k">left</span><span class="o">:</span> <span class="m">0</span><span class="p">;</span>
+  <span class="k">top</span><span class="o">:</span> <span class="m">0</span><span class="p">;</span>
+<span class="p">}</span></code></pre></div>
+
+<div class="container"><div class="left column">
+
 <p>In my head the viewport is the initial containing block, not something else, but there’s a <a href="https://code.google.com/p/chromium/issues/detail?id=20574">bug open for Chrome</a>, and apparently the spec language needs clarification.</p>
 
 <p>Personally I’d make <code>position: fixed</code> viewport-centric, because I think its current behavior is a little bonkers and I’m not sure the spec language is vague, but maybe I missed something. Here’s a demo of <a href="http://jsbin.com/kodoho/quiet">translates affecting fixed positioning</a>, in case you want to see it for yourself.</p>
 
 <p>Oh, <a href="http://jsbin.com/semome/2/quiet">it also applies to <code>will-change</code></a>.</p>
 
-<h2 id="2_body_scrolling_is_impossible_to_stop">2. Body scrolling is impossible to stop</h2>
+<h2 id="body-scrolling-is-impossible-to-stop">2. Body scrolling is impossible to stop</h2>
 
 <p>Let’s say you have a child element that takes over the full viewport with <code>position: fixed</code> (assuming it can… sigh.) and that the element has <code>overflow: scroll</code> because its content is longer than the viewport. Totally legit for an app with – say – a details view.</p>
 
 <blockquote>
-<p>You can’t cancel scroll events, either, so there’s no evt.preventDefault() shenanigans that can save you.</p>
+  <p>You can’t cancel scroll events, either, so there’s no evt.preventDefault() shenanigans that can save you.</p>
 </blockquote>
 
 <p>When the child element reaches the limits of its scrollable area, like when the user has scrolled to the top or bottom, the scroll event bubbles up and the body starts scrolling. Even if you tell it not to, seemingly. You can’t cancel <code>scroll</code> events, either, so there’s no <code>evt.preventDefault()</code> shenanigans that can save you.</p>
@@ -300,35 +305,33 @@
 <p>Problems with this approach are two-fold:</p>
 
 <ul>
-<li><strong>The container element doesn’t get compositor-supported fast scrolling in all browsers</strong>. That means slow scrolling and paints on every scroll change. Which generally means you just killed performance.</li>
-
-<li><strong>It looks weird on mobile.</strong> On mobile the address bar either disappears (Chrome on Android) or collapses (Mobile Safari) and this behavior is based on the scroll position of the body. Since we just killed that the bar stays there and you’re in an uncanny valley.</li>
+  <li><strong>The container element doesn’t get compositor-supported fast scrolling in all browsers</strong>. That means slow scrolling and paints on every scroll change. Which generally means you just killed performance.</li>
+  <li><strong>It looks weird on mobile.</strong> On mobile the address bar either disappears (Chrome on Android) or collapses (Mobile Safari) and this behavior is based on the scroll position of the body. Since we just killed that the bar stays there and you’re in an uncanny valley.</li>
 </ul>
 
 <p>Seems to me that this is a good reason to have <a href="https://groups.google.com/a/chromium.org/forum/#!msg/blink-dev/IpBdJEppjzE/V1Biy1D4v-kJ"><code>beforescroll</code></a>.</p>
 
-<h2 id="3_popstate_causes_scrolls">3. Popstate causes scrolls</h2>
+<h2 id="popstate-causes-scrolls">3. Popstate causes scrolls</h2>
 
 <p>This one I did not expect. If you’re using the HTML5 history gubbins, like <code>pushState</code> and all that, then the browser stores the scroll position whenever you use it. Then if the user clicks back or forward then the scroll position is restored. There’s nothing you can do about it. If you’re using the URL to toggle UI elements then it’s super jarring to have the page jump around the place.</p>
 
 <blockquote>
-<p>I was all like you can totally capture the scroll position before the browser changes it in <code>popstate</code> then, when it’s done, just, you know, set the value back with <code>window.scrollTo</code>. Haha no.</p>
+  <p>I was all like you can totally capture the scroll position before the browser changes it in <code>popstate</code> then, when it’s done, just, you know, set the value back with <code>window.scrollTo</code>. Haha no.</p>
 </blockquote>
 
 <p>I did have an epiphany, I was all like you can totally capture the scroll position before the browser changes it in <code>popstate</code> then, when it’s done, just, you know, set the value back with <code>window.scrollTo</code>. Haha no. Firefox takes it upon itself to restore the scroll position <em>before</em> <code>popstate</code> fires, so you have no idea what to restore it to.</p>
 
 <p>Probably another thing that could benefit from <code>beforescroll</code>, i.e. “Dear browser, please do not jump all over the place, I got this.”</p>
 
-<h2 id="4_there_seems_to_be_no_form_of_clipping_thats_accelerated">4. There seems to be no form of clipping that’s accelerated</h2>
+<h2 id="there-seems-to-be-no-form-of-clipping-thats-accelerated">4. There seems to be no form of clipping that’s accelerated</h2>
 
-<p>You know me, I jabber on about performance a lot. I’ve specifically advocated to sticking to compositor-friendly animations like transform and opacity changes. But occasionally you need to do something which involves something more complex like clipping, where – say – a box expands or contracts and you don’t want the contents to flow out. Think a card expansion effect like the ones on Google+‘s native app. Yeah, that’s the one.</p>
+<p>You know me, I jabber on about performance a lot. I’ve specifically advocated to sticking to compositor-friendly animations like transform and opacity changes. But occasionally you need to do something which involves something more complex like clipping, where – say – a box expands or contracts and you don’t want the contents to flow out. Think a card expansion effect like the ones on Google+’s native app. Yeah, that’s the one.</p>
 
 <p>Options for this are:</p>
 
 <ol>
-<li>Have a container element with <code>overflow: hidden</code> and transition <code>width</code>, <code>height</code>, <code>left</code>, and <code>top</code>. Changing those properties <a href="http://csstriggers.com">triggers layout and paint</a> so that’s a performance no-no.</li>
-
-<li>Use <code>clip: rect()</code>, or its newer cousin, <code>clip-path</code>. Both of these trigger paint, which is unfortunate as again its difficult to guarantee 60fps when you do that.</li>
+  <li>Have a container element with <code>overflow: hidden</code> and transition <code>width</code>, <code>height</code>, <code>left</code>, and <code>top</code>. Changing those properties <a href="http://csstriggers.com">triggers layout and paint</a> so that’s a performance no-no.</li>
+  <li>Use <code>clip: rect()</code>, or its newer cousin, <code>clip-path</code>. Both of these trigger paint, which is unfortunate as again its difficult to guarantee 60fps when you do that.</li>
 </ol>
 
 <p>On the basis that there’s an <a href="https://www.opengl.org/wiki/Scissor_Test">OpenGL scissor test</a>, I’d hoped <code>clip</code> might get mapped to a scissor test for elements with their own compositor layer. Seemingly not. Bummer.</p>
@@ -340,7 +343,9 @@
 <p>I also feel like these deficiencies in the platform make it very difficult to make convincing web apps today, and if that’s what we’re trying to make then we should solve these problems, because they <em>are</em> solvable.</p>
 
 <p>And mostly, what I think we need to do to solve them, is have more control.</p>
+
 </div></div>
+
 
   <div class="footer-share container">
     Share this on: <span class="value"><a href="http://www.twitter.com/share?url=http://aerotwist.com/blog/some-gotchas-that-got-me/">Twitter</a></span>
@@ -350,7 +355,7 @@
   <div class="clear"></div>
 
   
-    <svg class="left-shape" style="margin-left: -276.45px" width="407.4" height="1205.3999999999999">
+    <svg class="left-shape" style="margin-left: -276.45px" width="407.4" height="1205.4">
       <use xlink:href="#color-block" filter="url(#blur-4)" transform="scale(-1.4 1.4) rotate(90)"/>
     </svg>
 

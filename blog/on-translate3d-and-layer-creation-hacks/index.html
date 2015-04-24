@@ -239,66 +239,108 @@
     </div>
   </div>
 
-  <div class="container"><div class="left column"><h2 id="the_go_faster_hack">The “go faster” hack!</h2>
+  <div class="container"><div class="left column"><h2 id="the-go-faster-hack">The “go faster” hack!</h2>
 
-<p>So you know that magic bullet hack for Chrome (and other WebKit ports) that makes things really zippy? You know, <code>-webkit-transform: translateZ(0);</code> or its good friend <code>-webkit-transform: translate3d(0,0,0);</code>? Sometimes it’s called the null transform hack. A lot of developers apply it to their elements to give their pages a speed boost so I wanted to take a quick peek behind the scenes (from a Chrome perspective) and see why it works.</p>
+<p>So you know that magic bullet hack for Chrome (and other WebKit ports) that
+makes things really zippy? You know, <code>-webkit-transform: translateZ(0);</code> or
+its good friend <code>-webkit-transform: translate3d(0,0,0);</code>? Sometimes it’s
+called the null transform hack. A lot of developers apply it to their elements
+to give their pages a speed boost so I wanted to take a quick peek behind the
+scenes (from a Chrome perspective) and see why it works.</p>
 
 <p>The <code>translate3d</code> hack, then, does two things:</p>
 
 <ul>
-<li>It switches on the hardware compositing mode in Chrome, assuming it’s supported for the platform you’re on and isn’t on already.</li>
-
-<li>It creates a new layer with its <em>own backing surface</em> in Chrome.</li>
+  <li>It switches on the hardware compositing mode in Chrome, assuming it’s supported for the platform you’re on and isn’t on already.</li>
+  <li>It creates a new layer with its <em>own backing surface</em> in Chrome.</li>
 </ul>
 
-<p>Hardware compositing is generally a good thing because it means the GPU will assist Chrome in putting together the page rather than everything happening on the CPU.</p>
+<p>Hardware compositing is generally a good thing because it means the GPU will
+assist Chrome in putting together the page rather than everything happening on
+the CPU.</p>
 
-<p>To the second point, not all newly created layers get a new backing surface (a graphics context into which layers are drawn), some layers happily share a backing surface. But in certain circumstances, like when you apply a 3D transform to an element, it gets one of its own. For the morbidly curious, here are the criteria that Chrome uses to determine if a layer needs its own backing surface:</p>
+<p>To the second point, not all newly created layers get a new backing surface (a
+graphics context into which layers are drawn), some layers happily share a
+backing surface. But in certain circumstances, like when you apply a 3D
+transform to an element, it gets one of its own. For the morbidly curious,
+here are the criteria that Chrome uses to determine if a layer needs its own
+backing surface:</p>
 
 <ul>
-<li>The layer has 3D or perspective transform CSS properties.</li>
-
-<li>The layer is used by <code>&lt;video&gt;</code> element using accelerated video decoding.</li>
-
-<li>The layer is used by a <code>&lt;canvas&gt;</code> element with a 3D context or accelerated 2D context.</li>
-
-<li>The layer is used for a composited plugin, e.g. Flash or Silverlight.</li>
-
-<li>The layer uses a CSS animation for its opacity or uses an animated webkit transform.</li>
-
-<li>The layer uses accelerated CSS filters.</li>
-
-<li>The layer has a descendant that is a compositing layer.</li>
-
-<li>The layer has a sibling with a lower z-index which has a compositing layer (in other words the layer is rendered on top of a composited layer).</li>
+  <li>The layer has 3D or perspective transform CSS properties.</li>
+  <li>The layer is used by <code>&lt;video&gt;</code> element using accelerated video decoding.</li>
+  <li>The layer is used by a <code>&lt;canvas&gt;</code> element with a 3D context or accelerated 2D context.</li>
+  <li>The layer is used for a composited plugin, e.g. Flash or Silverlight.</li>
+  <li>The layer uses a CSS animation for its opacity or uses an animated webkit transform.</li>
+  <li>The layer uses accelerated CSS filters.</li>
+  <li>The layer has a descendant that is a compositing layer.</li>
+  <li>The layer has a sibling with a lower z-index which has a compositing layer (in other words the layer is rendered on top of a composited layer).</li>
 </ul>
 
 <blockquote>
-<p>Where things get really messy is on mobile devices, because they have comparatively limited VRAM, and it becomes easy to exhaust that and end up with excruciatingly poor rendering performance.</p>
+  <p>Where things get really messy is on mobile devices, because they have comparatively limited VRAM, and it becomes easy to exhaust that and end up with excruciatingly poor rendering performance.</p>
 </blockquote>
 
-<p>Each backing surface is essentially a texture that needs to be uploaded to, and composited by, the GPU. Compositing is the process where each of the individual textures uploaded to the GPU is drawn out in turn, and results in one final picture: your page. A major benefit of this is on subsequent frames, where if all you do is move layers around or change their opacity, the GPU can handle all the work directly, leaving the CPU side of things free to do something else.</p>
+<p>Each backing surface is essentially a texture that needs to be uploaded to,
+and composited by, the GPU. Compositing is the process where each of the
+individual textures uploaded to the GPU is drawn out in turn, and results in
+one final picture: your page. A major benefit of this is on subsequent frames,
+where if all you do is move layers around or change their opacity, the GPU can
+handle all the work directly, leaving the CPU side of things free to do
+something else.</p>
 
-<p>On a hefty desktop device with a ton of video memory (VRAM) you’ll likely be able to create a <em>lot</em> of newly backed layers without problems. On laptops you’ll possibly have some hiccups, but generally speaking you’ll need to make a lot of layers before you see any snags. Where things get really messy is on <strong>mobile devices</strong>, because they have comparatively limited VRAM, and it becomes easy to exhaust that and end up with excruciatingly poor rendering performance.</p>
+<p>On a hefty desktop device with a ton of video memory (VRAM) you’ll likely be
+able to create a <em>lot</em> of newly backed layers without problems. On laptops
+you’ll possibly have some hiccups, but generally speaking you’ll need to make
+a lot of layers before you see any snags. Where things get really messy is on
+<strong>mobile devices</strong>, because they have comparatively limited VRAM, and it
+becomes easy to exhaust that and end up with excruciatingly poor rendering
+performance.</p>
 
-<p>To make matters worse, not all devices are quick to transfer the textures from the CPU side over to the GPU for compositing. Now there are potentially a lot of textures, each taking a long time to get pushed to the GPU.</p>
+<p>To make matters worse, not all devices are quick to transfer the textures from
+the CPU side over to the GPU for compositing. Now there are potentially a lot
+of textures, each taking a long time to get pushed to the GPU.</p>
 
-<h2 id="making_layers_considered_dangerous">“Making layers considered dangerous”</h2>
+<h2 id="making-layers-considered-dangerous">“Making layers considered dangerous”</h2>
 
-<p>While using 3D transforms can be really tempting, especially if you’re seeing problems with respect to rendering performance, force-hacking layer creation may not be the right solution. Equally it’s not something to shy away from, either, you just need to be aware of the trade-offs that you might be making along the way. The important thing is to test your page and adjust accordingly.</p>
+<p>While using 3D transforms can be really tempting, especially if you’re seeing
+problems with respect to rendering performance, force-hacking layer creation
+may not be the right solution. Equally it’s not something to shy away from,
+either, you just need to be aware of the trade-offs that you might be making
+along the way. The important thing is to test your page and adjust
+accordingly.</p>
 
-<p>In order to test your pages you should first try the frame mode in DevTools’s Timeline panel.</p>
+<p>In order to test your pages you should first try the frame mode in DevTools’s
+Timeline panel.</p>
+
 <figure>
-  <img src='/static/blog/on-translate3d-and-layer-creation-hacks/devtools.png' />
+  <img src="/static/blog/on-translate3d-and-layer-creation-hacks/devtools.png" />
 </figure>
-<p>If you notice that you’re breaking through your frame budget take a step back and see why that is. A lot of the time, in my experience, the reason is either paint or garbage collection. I’m not going to go into garbage collection here, I’ll save that for another day, but let’s talk briefly about how you can assess the paint work that’s going on.</p>
 
-<p>You’ll notice the paint records have dimensions next to them, and if you roll over them Chrome handily pops a blue rectangle atop the page. The first thing to say is that if you’re doing a full screen paint, that’s probably very expensive and the first thing you should try to fix. If that’s not your problem you’ve perhaps got expensive styles and you should look to minimize their impact. That’s where the new Continuous Paint mode in DevTools comes in handy. Eberhard Gräther, the engineer who built the feature, has written an <a href="http://updates.html5rocks.com/2013/02/Profiling-Long-
-Paint-Times-with-DevTools-Continuous-Painting-Mode">excellent article</a> on how to profile long paints using it and other features of Chrome’s DevTools.</p>
+<p>If you notice that you’re breaking through your frame budget take a step back and see why
+that is. A lot of the time, in my experience, the reason is either paint or
+garbage collection. I’m not going to go into garbage collection here, I’ll
+save that for another day, but let’s talk briefly about how you can assess the
+paint work that’s going on.</p>
 
-<p>Ultimately <code>translate3d</code>, like any layer creation criterion, can really boost performance. But it needs to be used wisely, and you should really make sure that it’s actually going to solve whatever is slowing down your page.</p>
+<p>You’ll notice the paint records have dimensions next to them, and if you roll
+over them Chrome handily pops a blue rectangle atop the page. The first thing
+to say is that if you’re doing a full screen paint, that’s probably very
+expensive and the first thing you should try to fix. If that’s not your
+problem you’ve perhaps got expensive styles and you should look to minimize
+their impact. That’s where the new Continuous Paint mode in DevTools comes in
+handy. Eberhard Gräther, the engineer who built the feature, has written an
+<a href="http://updates.html5rocks.com/2013/02/Profiling-Long-
+Paint-Times-with-DevTools-Continuous-Painting-Mode">excellent article</a> on how to profile long
+paints using it and other features of Chrome’s DevTools.</p>
 
-<p>Finally, like all performance advice, things change so <strong>don’t guess it, test it</strong>.</p></div></div>
+<p>Ultimately <code>translate3d</code>, like any layer creation criterion, can really boost
+performance. But it needs to be used wisely, and you should really make sure
+that it’s actually going to solve whatever is slowing down your page.</p>
+
+<p>Finally, like all performance advice, things change so <strong>don’t guess it, test
+it</strong>.</p>
+</div></div>
 
   <div class="footer-share container">
     Share this on: <span class="value"><a href="http://www.twitter.com/share?url=http://aerotwist.com/blog/on-translate3d-and-layer-creation-hacks/">Twitter</a></span>

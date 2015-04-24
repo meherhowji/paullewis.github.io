@@ -253,22 +253,26 @@
 
   <div class="container"><div class="left column"><p>Let’s dive in with page load performance. It’s all the rage, loading stuff…</p>
 
-<h2 id="page_load_performance">Page Load Performance</h2>
+<h2 id="page-load-performance">Page Load Performance</h2>
 
 <p>Clearly loading stuff quickly is a fine idea, what with everyone being on a cellular connection nowadays. (They’re not, but it’s actually a good assumption if you want to encourage yourself to make things fast.)</p>
 
 <p>Our first port of call in our mission to go faster is <a href="https://developers.google.com/speed/pagespeed/insights/">PageSpeed Insights</a> (PSI), and the process is dizgustingly simple: enter your URL and look at what it tells you do:</p>
+
 <figure>
-  <img alt='PageSpeed Insights' src='/static/blog/my-performance-audit-workflow/psi.png' />
+  <img src="/static/blog/my-performance-audit-workflow/psi.png" alt="PageSpeed Insights" />
   <figcaption>PageSpeed Insights... so complex</figcaption>
 </figure>
+
 <p>Now the thing to bear in mind about PSI is that it’s distilling down a collection of very good (and broad) set of rules and seeing how your site measures up. It doesn’t really care about context or what you chose to do or not do as a team. As such I just tend to see PSI as a checklist of things that are somewhere between “a good idea” and “crucial”, and I don’t aim for a score of 100 across the board.</p>
 
 <p>The reason I’m not going to pin all my hopes on a PSI score of 100 is that it may make my development more difficult. Inlining CSS and JavaScript to pages is one recommendation that it makes, but I think more context is required here. What about caching? What about the actual CSS and JS that it wants inlined? There may be some reasons I have for not doing that like, perhaps, 3rd party, dynamic resources that I just want to link in. It requires a judgement call sometimes.</p>
+
 <figure>
-  <img alt='PageSpeed Insights' src='/static/blog/my-performance-audit-workflow/psi-speed.png' />
+  <img src="/static/blog/my-performance-audit-workflow/psi-speed.png" alt="PageSpeed Insights" />
   <figcaption>PageSpeed Insights, sometimes we disgree, my friend.</figcaption>
 </figure>
+
 <p>With that said, it still makes <em>very solid recommendations</em> and if it tells you to do something I would say either do it or have a pretty solid reason for not.</p>
 
 <p>In terms of scores I aim for over <strong>85</strong> for mobile and over <strong>90</strong> on desktop.</p>
@@ -276,78 +280,83 @@
 <h3 id="ux">UX</h3>
 
 <p>PSI also includes some new checks on UX issues, like legibility, viewports and touch targets. Screwing up UX I am less forgiving of, and so if anything is picked up I’d say the advice should be heeded. Not pure performance, no, but arguably a form of performance is getting out of the person’s way so they can actually do the thing they came to your site to do. Having terrible interactions is unacceptable.</p>
+
 <figure>
-  <img alt='PageSpeed Insights UX testing' src='/static/blog/my-performance-audit-workflow/psi-ux.png' />
+  <img src="/static/blog/my-performance-audit-workflow/psi-ux.png" alt="PageSpeed Insights UX testing" />
   <figcaption>I am feeling a distinct lack of issues, and therefore win.</figcaption>
 </figure>
-<h3 id="moar_page_load">Moar Page Load</h3>
+
+<h3 id="moar-page-load">Moar Page Load</h3>
 
 <p>What you actually need is two tools for page performance, not one! If you’ve never visited <a href="http://www.webpagetest.org/">WebPageTest</a> (WPT) then you’re really missing out. Much as with PSI you can simply drop in your URL thusly:</p>
+
 <figure>
-  <img alt='WebPageTest' src='/static/blog/my-performance-audit-workflow/wpt-form.png' />
+  <img src="/static/blog/my-performance-audit-workflow/wpt-form.png" alt="WebPageTest" />
   <figcaption>WebPageTest. Configure, fix, repeat.</figcaption>
 </figure>
+
 <p>You should also note, however, that there are a bunch of other numbers and settings, like where in the world you want your site tested from, how many runs you want it to do, and whether you care about initial load or repeat views. For a first pass I typically roll with the defaults (Dulles, Chrome, 1 run, initial + repeat) and see how I’m doing. If I am nearing the end of a project and I fancy getting much more reliable data than a single run can provide I’ll go for 5 or 10 runs, and WPT will give me median values.</p>
+
 <aside class="boxout">
-<h1 id="outliers">Outliers</h1>
+<p># Outliers</p>
 
 <p>Why the median? I’ll be completely honest and say before spending more time with performance stuff I’d totally forgotten my school maths and would’ve been quite happy to use an average. But that would be misleading, which we can discover by way of an example.</p>
 
-<p>Let’s assume we have a bunch of numbers like so: <strong>1, 2, 3, 3, 4, 5, 2000</strong> and we now want to gain a sense of what a “typical” value is. If you take the average you will get <strong>just over 288</strong>, which is clearly skewed by that outlier of 2,000. The median – essentially the value in the middle of the ordered set of numbers – is <strong>3</strong>, which we intuit as much more representative. That’s a good thing when you’re looking at performance numbers; you normally want to know the “typical” values. </aside></p>
+<p>Let’s assume we have a bunch of numbers like so: <strong>1, 2, 3, 3, 4, 5, 2000</strong> and we now want to gain a sense of what a “typical” value is. If you take the average you will get <strong>just over 288</strong>, which is clearly skewed by that outlier of 2,000. The median – essentially the value in the middle of the ordered set of numbers – is <strong>3</strong>, which we intuit as much more representative. That’s a good thing when you’re looking at performance numbers; you normally want to know the “typical” values.
+</aside></p>
 
 <p>The WPT results are badass. You get a waterfall showing all assets, along with the connectivity data (DNS resolution, transfer time, etc), which can be super useful as you try and get a handle of what the heck is going on with your site.</p>
+
 <figure>
-  <img alt='WebPageTest Waterfall' src='/static/blog/my-performance-audit-workflow/wpt-waterfall.png' />
+  <img src="/static/blog/my-performance-audit-workflow/wpt-waterfall.png" alt="WebPageTest Waterfall" />
   <figcaption>WebPageTest's waterfall. Loading less is normally good.</figcaption>
 </figure>
+
 <p>Now, there are things I’m particularly interested in when I look at the results. For one the grading in the top right corner:</p>
+
 <figure>
-  <img alt='WebPageTest Grading' src='/static/blog/my-performance-audit-workflow/wpt-grading.png' />
+  <img src="/static/blog/my-performance-audit-workflow/wpt-grading.png" alt="WebPageTest Grading" />
   <figcaption>WebPageTest's gradings. Does not correlate to self esteem.</figcaption>
 </figure>
+
 <p>If you’re not getting A’s across the board then there may be something there you want to fix.</p>
 
 <p>Next I take a look at the table, and note how long the page is taking to load (document complete vs. actual load). Obviously you want those numbers to be as low as possible, but there’s something we can check that should give us an idea of <em>perceived</em> performance. Since browsers progressively render web pages, we should care about not just when everything was “done” but how quickly we got the majority of the content to screen. That’s where <a href="https://sites.google.com/a/webpagetest.org/docs/using-webpagetest/metrics/speed-index">Speed Index</a> comes in. To quote the docs:</p>
 
 <blockquote class="quote">
-<p>The Speed Index is the average time at which visible parts of the page are displayed. It is expressed in milliseconds and dependent on size of the view port.</p>
+  <p>The Speed Index is the average time at which visible parts of the page are displayed.  It is expressed in milliseconds and dependent on size of the view port.</p>
 </blockquote>
 
 <p>In short it indicates, in milliseconds, how long a real person would have to wait to have a meaningful form of your page on their screen by measuring not just the end point but how complete the rendering was along the way.</p>
 
 <p><a href="https://twitter.com/paul_irish">Paul Irish</a> has, in the past, recommended a goal of less than 1,000, and you will not hear <em>this</em> Paul disagree.</p>
 
-<h2 id="runtime_performance">Runtime Performance</h2>
+<h2 id="runtime-performance">Runtime Performance</h2>
 
 <p>This is going to fall into two categories: memory and everything else. I’m actually not going to dive into the dirty details of either, largely because I’ve written up a very handy <a href="http://calendar.perfplanet.com/2013/the-runtime-performance-checklist/">Runtime Performance Checklist</a>, which summarizes all the common culprits and how you should diagnose and fix them. Mostly this step involves Chrome DevTools, because it has all the gear you need to succeed… it rhymes, it must be true!</p>
 
 <p>But here’s in a nutshell what I’m on the hunt for:</p>
 
 <ul>
-<li><strong>Large invalidations of element styles (recalculate styles) and geometry (layout).</strong> It’s expensive to mess with the DOM and render trees, especially as they get larger, so if you can avoid it (heyo class changes on the body element) then do.</li>
-
-<li><strong>Repeated layout and style changes inside a single frame</strong> aka Layout Thrashing. Doing the above repeatedly inside a single frame is bonkers, but people do it. They do. Honest.</li>
-
-<li><strong>Animation of layout properties.</strong> Browsers can’t typically recalculate geometry, repaint and composite inside a single frame, so if you animate – say – the width of elements, prepare for your runtime performance to suffer.</li>
-
-<li><strong>Large paint areas aka Paint Storms.</strong> These are typically triggered per frame of an interaction like scrolling or touch / click and, most of the time you will want to promote an element with a <a href="//aerotwist.com/blog/on-translate3d-and-layer-creation-hacks/">dirty transform hack</a>, or wait until <a href="//aerotwist.com/blog/bye-bye-layer-hacks/">will-change</a> has landed.</li>
-
-<li><strong>Expensive painting.</strong> Most people have heard that box shadows are expensive, and yeah that’s kind of true (today anyway, who knows about tomorrow), but actually a single shadow is kind of neither here nor there normally. The key is actually the size of the area (see above) and how much expensive painting that triggers. Not all styles are created equal, so if you have to paint it’s better to make it cheap.</li>
-
-<li><strong>Badly written touch and scroll handlers.</strong> If you don’t have to handle scrolls and touch input, don’t. I know it might be nice to mimic the OS with your scrolly touch physics, but chances are the overhead will kill the fps. Some day I hope to say this one is irrelevant, but today it can be a big deal. In any case, if you have to: debounce, bind late and as close to the target as possible, then unbind ASAP.</li>
-
-<li><strong>Memory churn.</strong> You should expect a sawtooth memory graph on a normal day, but the rate at which memory grows and how often it triggers GC should be warning bells.</li>
+  <li><strong>Large invalidations of element styles (recalculate styles) and geometry (layout).</strong> It’s expensive to mess with the DOM and render trees, especially as they get larger, so if you can avoid it (heyo class changes on the body element) then do.</li>
+  <li><strong>Repeated layout and style changes inside a single frame</strong> aka Layout Thrashing. Doing the above repeatedly inside a single frame is bonkers, but people do it. They do. Honest.</li>
+  <li><strong>Animation of layout properties.</strong> Browsers can’t typically recalculate geometry, repaint and composite inside a single frame, so if you animate – say – the width of elements, prepare for your runtime performance to suffer.</li>
+  <li><strong>Large paint areas aka Paint Storms.</strong> These are typically triggered per frame of an interaction like scrolling or touch / click and, most of the time you will want to promote an element with a <a href="//aerotwist.com/blog/on-translate3d-and-layer-creation-hacks/">dirty transform hack</a>, or wait until <a href="//aerotwist.com/blog/bye-bye-layer-hacks/">will-change</a> has landed.</li>
+  <li><strong>Expensive painting.</strong> Most people have heard that box shadows are expensive, and yeah that’s kind of true (today anyway, who knows about tomorrow), but actually a single shadow is kind of neither here nor there normally. The key is actually the size of the area (see above) and how much expensive painting that triggers. Not all styles are created equal, so if you have to paint it’s better to make it cheap.</li>
+  <li><strong>Badly written touch and scroll handlers.</strong> If you don’t have to handle scrolls and touch input, don’t. I know it might be nice to mimic the OS with your scrolly touch physics, but chances are the overhead will kill the fps. Some day I hope to say this one is irrelevant, but today it can be a big deal. In any case, if you have to: debounce, bind late and as close to the target as possible, then unbind ASAP.</li>
+  <li><strong>Memory churn.</strong> You should expect a sawtooth memory graph on a normal day, but the rate at which memory grows and how often it triggers GC should be warning bells.</li>
 </ul>
 
 <p>So that’s my checklist. I go through and see what I can figure out about each one of them, and then prescribe some fixes if there are any. There normally are, although sometimes it’s a case of not doing a particular thing or, if it must be done, at least it’s done in the full knowledge that performance will be taking a hit.</p>
 
 <p>My goal here: <strong>60fps, all the time, everywhere</strong>. It’s possible on desktop if you design and build in the right way. For mobile it’s a lot more difficult, but not impossible (depending on what you do. In any case things are getting better (<a href="https://groups.google.com/a/chromium.org/forum/#!topic/blink-dev/bxIPxpzLprQ">in Chrome land</a> anyway) so hopefully in the medium- to long-term this will be less of a thing.</p>
 
-<h2 id="go_forth_and_optimize">Go forth and optimize</h2>
+<h2 id="go-forth-and-optimize">Go forth and optimize</h2>
 
 <p>Looking at this workflow the most obvious thing I’d say is that it’s very manual work, and it’s crying out for automation. You have to bear in mind that I normally do this stuff in response to direct requests (normally colleagues, it’s not something I can scale to the web at large!) for auditing and so were this my own project I might well invest time to automate.</p>
 
-<p>Even if I did, though, I don’t really think the tooling is there yet, but that’s a topic for another day…</p></div></div>
+<p>Even if I did, though, I don’t really think the tooling is there yet, but that’s a topic for another day…</p>
+</div></div>
 
   <div class="footer-share container">
     Share this on: <span class="value"><a href="http://www.twitter.com/share?url=http://aerotwist.com/blog/my-performance-audit-workflow/">Twitter</a></span>
@@ -357,7 +366,7 @@
   <div class="clear"></div>
 
   
-    <svg class="left-shape" style="margin-left: -316.34999999999997px" width="466.2" height="932.4">
+    <svg class="left-shape" style="margin-left: -316.35px" width="466.2" height="932.4">
       <use xlink:href="#color-block" filter="url(#blur-4)" transform="scale(-1.4 1.4) rotate(90)"/>
     </svg>
 

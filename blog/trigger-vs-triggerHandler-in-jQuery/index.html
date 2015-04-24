@@ -255,30 +255,42 @@
 <p>The jQuery docs explain it (emphasis added by yours truly):</p>
 
 <blockquote class="quote">
-<p>Note: For both plain objects and DOM objects other than window, if a triggered event name matches the name of a property on the object, <strong>jQuery will attempt to invoke the property as a method</strong> if no event handler calls <code>event.preventDefault()</code>. If this behavior is not desired, use <code>.triggerHandler()</code> instead.</p>
+  <p>Note: For both plain objects and DOM objects other than window, if a triggered event name matches the name of a property on the object, <strong>jQuery will attempt to invoke the property as a method</strong> if no event handler calls <code>event.preventDefault()</code>. If this behavior is not desired, use <code>.triggerHandler()</code> instead.</p>
 </blockquote>
 
 <p>I think it’s pretty easy to get this wrong, because the jQuery API isn’t clear on the distinction between <code>trigger</code> and <code>triggerHandler</code> through its function naming, and because – at least in my view – it does something unexpected in <code>trigger</code> by calling functions on objects. It overreaches from jQuery events and into actual host-provided functions. I’m told it’s down to perennial favourites <code>submit</code> and <code>click</code>, which have jQuery events and equivalent browser functions of the same name.</p>
 
 <p>If you’re curious, this is the offending code:</p>
-</div></div><div class='highlight'><pre><code class='javascript'><span class='c1'>// This will break in newer versions of Chrome.</span>
-<span class='nx'>$</span><span class='p'>(</span><span class='nx'>element</span><span class='p'>).</span><span class='nx'>trigger</span><span class='p'>(</span><span class='s1'>&#39;animate&#39;</span><span class='p'>);</span>
-</code></pre></div><div class="container"><div class="left column">
+
+</div></div>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="c1">// This will break in newer versions of Chrome.</span>
+<span class="nx">$</span><span class="p">(</span><span class="nx">element</span><span class="p">).</span><span class="nx">trigger</span><span class="p">(</span><span class="s1">&#39;animate&#39;</span><span class="p">);</span></code></pre></div>
+
+<div class="container"><div class="left column">
+
 <p>jQuery fires its own event handlers for <code>animate</code> but then it also calls the <em>browser’s</em> <code>animate</code> function on <code>HTMLElement</code> as well.</p>
 
 <p>Before <a href="http://dev.w3.org/fxtf/web-animations/">Web Animations</a> started shipping, trying to call an <code>animate</code> function on elements would’ve been just fine here (because no <code>animate</code> function actually existed), but <a href="http://dev.w3.org/fxtf/web-animations/#extensions-to-the-element-interface">now we have one</a> there’s a problem. The <code>animate</code> function from Web Animations expects a parameter containing properties to animate, a parameter which jQuery doesn’t provide. Oops.</p>
 
 <p>Incidentally, the same would happen if you called:</p>
-</div></div><div class='highlight'><pre><code class='javascript'><span class='nx'>$</span><span class='p'>(</span><span class='nx'>element</span><span class='p'>).</span><span class='nx'>trigger</span><span class='p'>(</span><span class='s1'>&#39;appendChild&#39;</span><span class='p'>);</span>
-</code></pre></div><div class="container"><div class="left column">
+
+</div></div>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">$</span><span class="p">(</span><span class="nx">element</span><span class="p">).</span><span class="nx">trigger</span><span class="p">(</span><span class="s1">&#39;appendChild&#39;</span><span class="p">);</span></code></pre></div>
+
+<div class="container"><div class="left column">
+
 <p>You actually want <code>triggerHandler</code>, which is just like <code>trigger</code> but without the “call the browser’s function” bit.</p>
 
-<h2 id="read_the_manual_probably">Read The Manual, Probably…</h2>
+<h2 id="read-the-manual-probably">Read The Manual, Probably…</h2>
 
 <p>It may seem obvious once you understand jQuery’s distinction, but the combination of jQuery’s function naming and assumption that properties are functions to call is something of a footgun.</p>
 
 <p>At least there’s an safety catch via <code>triggerHandler</code>; just be sure to use it!</p>
+
 </div></div>
+
 
   <div class="footer-share container">
     Share this on: <span class="value"><a href="http://www.twitter.com/share?url=http://aerotwist.com/blog/trigger-vs-triggerHandler-in-jQuery/">Twitter</a></span>
@@ -288,7 +300,7 @@
   <div class="clear"></div>
 
   
-    <svg class="left-shape" style="margin-left: -316.34999999999997px" width="466.2" height="932.4">
+    <svg class="left-shape" style="margin-left: -316.35px" width="466.2" height="932.4">
       <use xlink:href="#color-block" filter="url(#blur-4)" transform="scale(-1.4 1.4) rotate(90)"/>
     </svg>
 

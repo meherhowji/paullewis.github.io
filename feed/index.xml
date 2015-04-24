@@ -4,10 +4,23 @@
 
     <title>Aerotwist</title>
     <description>Pretty much whatever comes into my head.</description>
-    <lastBuildDate>2015-03-03 17:11:01 -0800</lastBuildDate>
+    <lastBuildDate>2015-04-24 13:26:27 +0100</lastBuildDate>
     <language>en</language>
     <generator>Aerotwist</generator>
     <atom:link href="http://aerotwist.com/feed/" rel="self" type="application/rss+xml" />
+    
+      <item>
+        <title>Moar Performance!</title>
+        <description>
+          <![CDATA[It's been a while since I posted an update, so I wanted to give a brief breakdown of what I've been up to. As a huge spoiler it's... wait for it... performance stuff. But this is cool: I have three new resources just for you!]]>
+        </description>
+        <pubDate>Fri, 24 Apr 2015 00:00:00 +0000</pubDate>
+        <link>http://aerotwist.com/blog/moar-performance</link>
+        <guid isPermaLink="true">/blog/moar-performance</guid>
+        
+        <category>performance</category>
+        
+      </item>
     
       <item>
         <title>FLIP Your Animations</title>
@@ -651,3 +664,4 @@
     
   </channel>
 </rss>
+

@@ -163,99 +163,118 @@
 
 <p>I had what I thought was a fairly simple idea: what if I took a song and mapped its frequencies in a dial? The whole song would equate to 360° and each slice of the song’s “pie” would be coloured up according to the active frequencies at that point in the song. That was the rough idea, and given I had a 10 hour flight to San Francisco looming, I thought I would see what I could get done.</p>
 
-<h2 id="audio_analysis">Audio Analysis</h2>
+<h2 id="audio-analysis">Audio Analysis</h2>
 
 <p>This is actually super easy to do with the Web Audio API. It has an FFT analyser built right in, and given the Web Audio API acts like a node graph, it’s simple to set up:</p>
-</div></div><div class='highlight'><pre><code class='javascript'><span class='c1'>// Create the context</span>
-<span class='kd'>var</span> <span class='nx'>audioContext</span> <span class='o'>=</span> <span class='k'>new</span> <span class='nx'>AudioContext</span><span class='p'>();</span>
 
-<span class='c1'>// Now create our nodes</span>
-<span class='kd'>var</span> <span class='nx'>analyser</span> <span class='o'>=</span> <span class='nx'>audioContext</span><span class='p'>.</span><span class='nx'>createAnalyser</span><span class='p'>();</span>
-<span class='kd'>var</span> <span class='nx'>sourceNode</span> <span class='o'>=</span> <span class='nx'>audioContext</span><span class='p'>.</span><span class='nx'>createBufferSource</span><span class='p'>();</span>
+</div></div>
 
-<span class='c1'>// Then hook them together</span>
-<span class='nx'>sourceNode</span><span class='p'>.</span><span class='nx'>connect</span><span class='p'>(</span><span class='nx'>analyser</span><span class='p'>);</span>
-<span class='nx'>analyser</span><span class='p'>.</span><span class='nx'>connect</span><span class='p'>(</span><span class='nx'>audioContext</span><span class='p'>.</span><span class='nx'>destination</span><span class='p'>);</span>
-</code></pre></div><div class="container"><div class="left column">
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="c1">// Create the context</span>
+<span class="kd">var</span> <span class="nx">audioContext</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">AudioContext</span><span class="p">();</span>
+
+<span class="c1">// Now create our nodes</span>
+<span class="kd">var</span> <span class="nx">analyser</span> <span class="o">=</span> <span class="nx">audioContext</span><span class="p">.</span><span class="nx">createAnalyser</span><span class="p">();</span>
+<span class="kd">var</span> <span class="nx">sourceNode</span> <span class="o">=</span> <span class="nx">audioContext</span><span class="p">.</span><span class="nx">createBufferSource</span><span class="p">();</span>
+
+<span class="c1">// Then hook them together</span>
+<span class="nx">sourceNode</span><span class="p">.</span><span class="nx">connect</span><span class="p">(</span><span class="nx">analyser</span><span class="p">);</span>
+<span class="nx">analyser</span><span class="p">.</span><span class="nx">connect</span><span class="p">(</span><span class="nx">audioContext</span><span class="p">.</span><span class="nx">destination</span><span class="p">);</span></code></pre></div>
+
+<div class="container"><div class="left column">
+
 <p>Now all you do is tell the sound to play and, during the rendering, you ask for the current data from the analyser:</p>
-</div></div><div class='highlight'><pre><code class='javascript'><span class='c1'>// Get the frequency data out of the analyser</span>
-<span class='c1'>// and shove it in arrayBuffer.</span>
-<span class='nx'>analyser</span><span class='p'>.</span><span class='nx'>getByteFrequencyData</span><span class='p'>(</span><span class='nx'>arrayBuffer</span><span class='p'>);</span>
-</code></pre></div><div class="container"><div class="left column">
+
+</div></div>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="c1">// Get the frequency data out of the analyser</span>
+<span class="c1">// and shove it in arrayBuffer.</span>
+<span class="nx">analyser</span><span class="p">.</span><span class="nx">getByteFrequencyData</span><span class="p">(</span><span class="nx">arrayBuffer</span><span class="p">);</span></code></pre></div>
+
+<div class="container"><div class="left column">
+
 <p>One thing I didn’t realise at first was that a <code>bufferSourceNode</code> (which I call <code>sourceNode</code> in my code) are sort-of “one-shot nodes”, which you specifically <em>can’t re-use</em>. They’re kind of a view onto the audio data (which you can, of course, re-use), but the general idea is that you make one, use it, and <a href="https://www.youtube.com/watch?v=J5Xu9UcOdj0">fuggedabowdit</a>. Anyway, just thought I’d mention that.</p>
 
-<h2 id="rendering_the_dial">Rendering the dial</h2>
+<h2 id="rendering-the-dial">Rendering the dial</h2>
 
 <p>This is where the majority of my time went. The idea behind a lot of my creative coding is that I don’t really know what I’m <em>actually</em> trying to make, I’ll just try some stuff and see where it takes me. I have to have something that I think is a solid idea before I get going, of course, and up to this point I knew roughly what I wanted to make and I’d focused on having the data ready.</p>
 
 <p>During the coding I actually thought to take screenshots (which I normally forget) just so I could show you a little bit of the process. Here’s what the rendering looked like at various points:</p>
+
 <figure>
-  <img alt='So white!' src='/static/lab/music-dna/dial-1.png' />
+  <img src="/static/lab/music-dna/dial-1.png" alt="So white!" />
   <figcaption>So white!</figcaption>
 </figure>
+
 <p>Basically at this point the rendering worked and that was about it. My overriding concern was to make sure that the rough shape and size was correct. But it clearly needed, uhhh, more love.</p>
+
 <figure>
-  <img alt='Randomized colouring.' src='/static/lab/music-dna/dial-2.png' />
+  <img src="/static/lab/music-dna/dial-2.png" alt="Randomized colouring." />
   <figcaption>Randomized colouring.</figcaption>
 </figure>
+
 <p>I figured out pretty quickly that I wanted colour rather than an all-white output. I tried a couple of things here:</p>
 
 <ul>
-<li><strong>Completely random colouring</strong>. Just pick a random hue and go crazy! Wooo! Looked awful.</li>
-
-<li><strong>Hue-based colouring, both single cycle and multi-cycle</strong>. So here for the single-cycle I just mapped the angle of where I’m rendering to the hue, which is easy because both a circle and HSL values are in the range of 0 to 360. For the multi-cycle I just wrapped around a few times (which is the picture above) and it looked hideous.</li>
+  <li><strong>Completely random colouring</strong>. Just pick a random hue and go crazy! Wooo! Looked awful.</li>
+  <li><strong>Hue-based colouring, both single cycle and multi-cycle</strong>. So here for the single-cycle I just mapped the angle of where I’m rendering to the hue, which is easy because both a circle and HSL values are in the range of 0 to 360. For the multi-cycle I just wrapped around a few times (which is the picture above) and it looked hideous.</li>
 </ul>
+
 <figure>
-  <img alt='Single hue cycle, getting nearer...' src='/static/lab/music-dna/dial-3.png' />
+  <img src="/static/lab/music-dna/dial-3.png" alt="Single hue cycle, getting nearer..." />
   <figcaption>Single hue cycle, getting nearer...</figcaption>
 </figure>
+
 <p>Eventually I settled it down to a single cycle, which you can see above. I also added a couple of other things:</p>
 
 <ul>
-<li><strong>A threshold</strong>. Part of the problem of the early versions was that the data kind of overwhelmed the visualization. There was simply too much getting rendered. By adding a threshold to the whole thing only a few key frequencies per slice actually make the cut.</li>
-
-<li><strong>Some contrast</strong>. I decided that another issue was that I was seeing a lot of small dots, and it needed some contrast. Entirely at random (<code>if (Math.random() &gt; 0.999) ...</code>) I promote some dots to being bigger splodges. A side effect of this is that as more data gets past the threshold we get more splodges. That means the louder areas are glowier and niiiiice!</li>
+  <li><strong>A threshold</strong>. Part of the problem of the early versions was that the data kind of overwhelmed the visualization. There was simply too much getting rendered. By adding a threshold to the whole thing only a few key frequencies per slice actually make the cut.</li>
+  <li><strong>Some contrast</strong>. I decided that another issue was that I was seeing a lot of small dots, and it needed some contrast. Entirely at random (<code>if (Math.random() &gt; 0.999) ...</code>) I promote some dots to being bigger splodges. A side effect of this is that as more data gets past the threshold we get more splodges. That means the louder areas are glowier and niiiiice!</li>
 </ul>
+
 <figure>
-  <img alt='More colours, but too much noise.' src='/static/lab/music-dna/dial-2b.png' />
+  <img src="/static/lab/music-dna/dial-2b.png" alt="More colours, but too much noise." />
   <figcaption>More colours, but too much noise.</figcaption>
 </figure>
+
 <p>And then…</p>
+
 <figure>
-  <img alt='The final look.' src='/static/lab/music-dna/dial-4.png' />
+  <img src="/static/lab/music-dna/dial-4.png" alt="The final look." />
   <figcaption>The final look.</figcaption>
 </figure>
+
 <p>Finally after some <a href="https://github.com/paullewis/music-dna/blob/master/audio-renderer.js#L62-77">serious number fishing</a> (sport of Kings and Queens) I managed to settle on something that I thought looked pretty.</p>
 
-<h2 id="an_accessibility_concern">An accessibility concern</h2>
+<h2 id="an-accessibility-concern">An accessibility concern</h2>
 
 <p>I got called out by <a href="https://plus.google.com/u/0/103580453482564328019/posts">Sven Schwedas</a> about the fact that I had failed to offer an <code>&lt;form&gt;</code> for people who couldn’t use the default drag-and-drop functionality.</p>
+
 <figure>
-  <img alt='Sven Schwedas called me out' src='/static/lab/music-dna/accessibility.png' />
+  <img src="/static/lab/music-dna/accessibility.png" alt="Sven Schwedas called me out" />
   <figcaption>Got that one wrong, Lewis. Well done.</figcaption>
 </figure>
+
 <p>My initial response was, in honesty, frustration, not because I don’t care about accessibility (far from it), but because my <em>main aim</em> had been to create a fun little doodle. Fixing it was trivial but, actually, <em>I was wrong not to include accessibility in my thinking from the start</em>.</p>
 
 <p>I’ve said that accessibility (like security and performance) <a href="//aerotwist.com/blog/web-components-and-three-unsexy-pillars/">need to be an underpinning attitude to development</a>, so I should’ve applied it to my own work. Hopefully I’ll get that right next time.</p>
 
-<h2 id="next_steps">Next steps</h2>
+<h2 id="next-steps">Next steps</h2>
 
 <p>There’s been a lot of fantastic feedback from the people who have played with Music DNA. I already felt like I wanted to do more with it, but the feedback has entirely validated those ideas. So what’s next?</p>
 
 <ul>
-<li><strong>High Resolution Save</strong>. The idea of getting a <em>print quality</em> output from the visualization is super appealing to me. I have no idea if it’s going to be possible, because of the sheer memory weight of creating large canvas elements, but I intend to find out!</li>
-
-<li><strong>Multi-track Visualizations</strong>. I was asked if it could be extended to cover multiple tracks. I think that’s a super neat idea; it would be awesome to get a dial (or collection of dials) for a whole album. I think being realistic it’s more like once we have…</li>
-
-<li><strong>Offline mode</strong>. It’s nice to be able to listen to the track and watch the visualization appear, but I think a nice addition would be to analyze a file and spit out the graphic much more quickly, for which we need to process the audio as quickly as possible and for which we have the offline audio context. Unfortunately the offline audio context in Chrome has bugs around JavaScript nodes (boooo!) so I’m toying with other approaches.</li>
-
-<li><strong>Normalized analysis</strong>. I had to pick values for the audio gain and so on that favours professionally mastered pop and electronic. The downside is it doesn’t work as well for quiet or loud music, and I think there’s something I can do to have the analyser adapt to the volume of the audio. We’ll see.</li>
-
-<li><strong>Integration with [insert music service here]</strong>. I would <em>love</em> this, but I doubt it’ll be possible. Well, <a href="http://soundcloud.com">Soundcloud</a> seems like the most likely, but I would personally be super excited if there was some way I could get integrated with Google Music, Spotify or another streaming service.</li>
+  <li><strong>High Resolution Save</strong>. The idea of getting a <em>print quality</em> output from the visualization is super appealing to me. I have no idea if it’s going to be possible, because of the sheer memory weight of creating large canvas elements, but I intend to find out!</li>
+  <li><strong>Multi-track Visualizations</strong>. I was asked if it could be extended to cover multiple tracks. I think that’s a super neat idea; it would be awesome to get a dial (or collection of dials) for a whole album. I think being realistic it’s more like once we have…</li>
+  <li><strong>Offline mode</strong>. It’s nice to be able to listen to the track and watch the visualization appear, but I think a nice addition would be to analyze a file and spit out the graphic much more quickly, for which we need to process the audio as quickly as possible and for which we have the offline audio context. Unfortunately the offline audio context in Chrome has bugs around JavaScript nodes (boooo!) so I’m toying with other approaches.</li>
+  <li><strong>Normalized analysis</strong>. I had to pick values for the audio gain and so on that favours professionally mastered pop and electronic. The downside is it doesn’t work as well for quiet or loud music, and I think there’s something I can do to have the analyser adapt to the volume of the audio. We’ll see.</li>
+  <li><strong>Integration with [insert music service here]</strong>. I would <em>love</em> this, but I doubt it’ll be possible. Well, <a href="http://soundcloud.com">Soundcloud</a> seems like the most likely, but I would personally be super excited if there was some way I could get integrated with Google Music, Spotify or another streaming service.</li>
 </ul>
 
 <p>I’ve filed <a href="https://github.com/paullewis/music-dna/issues">bugs for all of them</a>. Onwards!</p>
+
 </div></div>
+
+
 
 </div>
 

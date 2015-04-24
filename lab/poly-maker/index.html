@@ -169,100 +169,130 @@
 
 <p><strong>I wrote it as a prototype, you can totally break it. Do I look like I mind? I do not.</strong></p>
 
-<h2 id="building_the_shape">Building the shape</h2>
+<h2 id="building-the-shape">Building the shape</h2>
 
 <p>We start with four points needed to build a <a href="http://en.wikipedia.org/wiki/B%C3%A9zier_curve">cubic bezier curve</a>:</p>
-<figure>
-  <img src='/static/lab/poly-maker/step1.png' />
-</figure>
-<p>Essentially we can now interpolate between the points to get to a curve. Well, I say curve, but it really depends on how many steps we use in the interpolation. In my case I think I default to about 10 steps so you can see straight lines in my “curve”.</p>
-<aside class="boxout">
-<h1 id="lerping">Lerping</h1>
 
-<p>Linear Interpolation (lerping for short) is the process of moving from one point to another and it’s the way in which I create the curve. The best explanation I’ve seen of this and other similar mathematical concepts was covered by <a href="http://acko.net">Steven Wittens</a> at <a href="http://www.youtube.com/watch?v=ONN3jBly364">Full Frontal Conference in 2012</a>. </aside></p>
+<figure>
+  <img src="/static/lab/poly-maker/step1.png" />
+</figure>
+
+<p>Essentially we can now interpolate between the points to get to a curve. Well, I say curve, but it really depends on how many steps we use in the interpolation. In my case I think I default to about 10 steps so you can see straight lines in my “curve”.</p>
+
+<aside class="boxout">
+<p># Lerping</p>
+
+<p>Linear Interpolation (lerping for short) is the process of moving from one point
+to another and it’s the way in which I create the curve. The best explanation I’ve seen of this and other similar mathematical concepts was covered by <a href="http://acko.net">Steven Wittens</a> at <a href="http://www.youtube.com/watch?v=ONN3jBly364">Full Frontal Conference in 2012</a>.
+</aside></p>
 
 <p>Now that we have a curve we can shoot out lines perpendicular to the curve at each of the interpolation points.</p>
+
 <figure>
-  <img src='/static/lab/poly-maker/step2.png' />
+  <img src="/static/lab/poly-maker/step2.png" />
 </figure>
+
 <p>Along those lines we can place some points. The green ones are our shape’s contour points, the blue ones are inside the shape.</p>
+
 <figure>
-  <img src='/static/lab/poly-maker/step3.png' />
+  <img src="/static/lab/poly-maker/step3.png" />
 </figure>
+
 <p>Next let’s add a bit of jitter to our points so it’s not as uniform:</p>
+
 <figure>
-  <img src='/static/lab/poly-maker/step4.png' />
+  <img src="/static/lab/poly-maker/step4.png" />
 </figure>
+
 <p>Now comes the interesting bit where we have to use <a href="http://en.wikipedia.org/wiki/Delaunay_triangulation">Delauney Triangulation</a> to connect the points into triangles. I can’t tell you how much I <em>didn’t want to code it up</em>, so I won’t. Instead I will just point out that there’s a perfectly decent library called <a href="https://code.google.com/p/poly2tri/">poly2tri</a> that has a JavaScript port. Wheel reinvention: avoided.</p>
 
 <p>Once we run that against our points we get a bunch o’ triangles:</p>
+
 <figure>
-  <img src='/static/lab/poly-maker/step5.png' />
+  <img src="/static/lab/poly-maker/step5.png" />
 </figure>
+
 <h2 id="coloring">Coloring</h2>
 
 <p>Next up: coloring the shape. All I did was create a box with a gradient: color1 -&gt; color2 -&gt; color1 in the X axis, white -&gt; black in the Y axis. That gives us a block like this:</p>
+
 <figure>
-  <img src='/static/lab/poly-maker/colors.png' />
+  <img src="/static/lab/poly-maker/colors.png" />
 </figure>
+
 <p>Then it was just a case of looking up the color for the triangle, which I did by figuring out the coordinates of the triangle’s center and mapping that to our block.</p>
 
-<p>Now query the block at that pixel and we have our triangle’s color. It gives a lit look. I’m such a cheat. Do I look like I care? I do not. </div></div></p>
-<div class='highlight'><pre><code class='javascript'><span class='nx'>lookUpColor_</span><span class='o'>:</span> <span class='kd'>function</span><span class='p'>(</span><span class='nx'>point1</span><span class='p'>,</span> <span class='nx'>point2</span><span class='p'>,</span> <span class='nx'>point3</span><span class='p'>)</span> <span class='p'>{</span>
+<p>Now query the block at that pixel and we have our triangle’s color. It gives a lit look. I’m such a cheat. Do I look like I care? I do not.
+</div></div></p>
 
-  <span class='c1'>// colorData_ is the image data for the color block</span>
-  <span class='kd'>var</span> <span class='nx'>data</span> <span class='o'>=</span> <span class='k'>this</span><span class='p'>.</span><span class='nx'>colorData_</span><span class='p'>.</span><span class='nx'>data</span><span class='p'>;</span>
-  <span class='kd'>var</span> <span class='nx'>cx</span> <span class='o'>=</span> <span class='p'>((</span><span class='nx'>point1</span><span class='p'>.</span><span class='nx'>x</span> <span class='o'>+</span> <span class='nx'>point2</span><span class='p'>.</span><span class='nx'>x</span> <span class='o'>+</span> <span class='nx'>point3</span><span class='p'>.</span><span class='nx'>x</span><span class='p'>)</span> <span class='o'>/</span> <span class='mi'>3</span><span class='p'>);</span>
-  <span class='kd'>var</span> <span class='nx'>cy</span> <span class='o'>=</span> <span class='p'>((</span><span class='nx'>point1</span><span class='p'>.</span><span class='nx'>y</span> <span class='o'>+</span> <span class='nx'>point2</span><span class='p'>.</span><span class='nx'>y</span> <span class='o'>+</span> <span class='nx'>point3</span><span class='p'>.</span><span class='nx'>y</span><span class='p'>)</span> <span class='o'>/</span> <span class='mi'>3</span><span class='p'>);</span>
-  <span class='kd'>var</span> <span class='nx'>x</span> <span class='o'>=</span> <span class='nb'>Math</span><span class='p'>.</span><span class='nx'>floor</span><span class='p'>(</span><span class='nx'>cx</span><span class='p'>);</span>
-  <span class='kd'>var</span> <span class='nx'>y</span> <span class='o'>=</span> <span class='nb'>Math</span><span class='p'>.</span><span class='nx'>floor</span><span class='p'>(</span><span class='nx'>cy</span><span class='p'>);</span>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">lookUpColor_</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">point1</span><span class="p">,</span> <span class="nx">point2</span><span class="p">,</span> <span class="nx">point3</span><span class="p">)</span> <span class="p">{</span>
 
-  <span class='c1'>// look up the pixel color</span>
-  <span class='kd'>var</span> <span class='nx'>pixel</span> <span class='o'>=</span> <span class='p'>(</span><span class='nx'>y</span> <span class='o'>*</span> <span class='k'>this</span><span class='p'>.</span><span class='nx'>colorData_</span><span class='p'>.</span><span class='nx'>width</span> <span class='o'>+</span> <span class='nx'>x</span><span class='p'>)</span> <span class='o'>*</span> <span class='mi'>4</span><span class='p'>;</span>
+  <span class="c1">// colorData_ is the image data for the color block</span>
+  <span class="kd">var</span> <span class="nx">data</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">colorData_</span><span class="p">.</span><span class="nx">data</span><span class="p">;</span>
+  <span class="kd">var</span> <span class="nx">cx</span> <span class="o">=</span> <span class="p">((</span><span class="nx">point1</span><span class="p">.</span><span class="nx">x</span> <span class="o">+</span> <span class="nx">point2</span><span class="p">.</span><span class="nx">x</span> <span class="o">+</span> <span class="nx">point3</span><span class="p">.</span><span class="nx">x</span><span class="p">)</span> <span class="o">/</span> <span class="mi">3</span><span class="p">);</span>
+  <span class="kd">var</span> <span class="nx">cy</span> <span class="o">=</span> <span class="p">((</span><span class="nx">point1</span><span class="p">.</span><span class="nx">y</span> <span class="o">+</span> <span class="nx">point2</span><span class="p">.</span><span class="nx">y</span> <span class="o">+</span> <span class="nx">point3</span><span class="p">.</span><span class="nx">y</span><span class="p">)</span> <span class="o">/</span> <span class="mi">3</span><span class="p">);</span>
+  <span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">cx</span><span class="p">);</span>
+  <span class="kd">var</span> <span class="nx">y</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">cy</span><span class="p">);</span>
 
-  <span class='c1'>// cast to hex</span>
-  <span class='kd'>var</span> <span class='nx'>red</span> <span class='o'>=</span> <span class='nx'>data</span><span class='p'>[</span><span class='nx'>pixel</span><span class='p'>].</span><span class='nx'>toString</span><span class='p'>(</span><span class='mi'>16</span><span class='p'>);</span>
-  <span class='kd'>var</span> <span class='nx'>green</span> <span class='o'>=</span> <span class='nx'>data</span><span class='p'>[</span><span class='nx'>pixel</span> <span class='o'>+</span> <span class='mi'>1</span><span class='p'>].</span><span class='nx'>toString</span><span class='p'>(</span><span class='mi'>16</span><span class='p'>);</span>
-  <span class='kd'>var</span> <span class='nx'>blue</span> <span class='o'>=</span> <span class='nx'>data</span><span class='p'>[</span><span class='nx'>pixel</span> <span class='o'>+</span> <span class='mi'>2</span><span class='p'>].</span><span class='nx'>toString</span><span class='p'>(</span><span class='mi'>16</span><span class='p'>);</span>
+  <span class="c1">// look up the pixel color</span>
+  <span class="kd">var</span> <span class="nx">pixel</span> <span class="o">=</span> <span class="p">(</span><span class="nx">y</span> <span class="o">*</span> <span class="k">this</span><span class="p">.</span><span class="nx">colorData_</span><span class="p">.</span><span class="nx">width</span> <span class="o">+</span> <span class="nx">x</span><span class="p">)</span> <span class="o">*</span> <span class="mi">4</span><span class="p">;</span>
 
-  <span class='c1'>// pad out if we need to</span>
-  <span class='k'>if</span> <span class='p'>(</span><span class='nx'>red</span><span class='p'>.</span><span class='nx'>length</span> <span class='o'>&lt;</span> <span class='mi'>2</span><span class='p'>)</span>
-    <span class='nx'>red</span> <span class='o'>=</span> <span class='s1'>&#39;0&#39;</span> <span class='o'>+</span> <span class='nx'>red</span><span class='p'>;</span>
+  <span class="c1">// cast to hex</span>
+  <span class="kd">var</span> <span class="nx">red</span> <span class="o">=</span> <span class="nx">data</span><span class="p">[</span><span class="nx">pixel</span><span class="p">].</span><span class="nx">toString</span><span class="p">(</span><span class="mi">16</span><span class="p">);</span>
+  <span class="kd">var</span> <span class="nx">green</span> <span class="o">=</span> <span class="nx">data</span><span class="p">[</span><span class="nx">pixel</span> <span class="o">+</span> <span class="mi">1</span><span class="p">].</span><span class="nx">toString</span><span class="p">(</span><span class="mi">16</span><span class="p">);</span>
+  <span class="kd">var</span> <span class="nx">blue</span> <span class="o">=</span> <span class="nx">data</span><span class="p">[</span><span class="nx">pixel</span> <span class="o">+</span> <span class="mi">2</span><span class="p">].</span><span class="nx">toString</span><span class="p">(</span><span class="mi">16</span><span class="p">);</span>
 
-  <span class='k'>if</span> <span class='p'>(</span><span class='nx'>green</span><span class='p'>.</span><span class='nx'>length</span> <span class='o'>&lt;</span> <span class='mi'>2</span><span class='p'>)</span>
-    <span class='nx'>green</span> <span class='o'>=</span> <span class='s1'>&#39;0&#39;</span> <span class='o'>+</span> <span class='nx'>green</span><span class='p'>;</span>
+  <span class="c1">// pad out if we need to</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">red</span><span class="p">.</span><span class="nx">length</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="nx">red</span> <span class="o">=</span> <span class="s1">&#39;0&#39;</span> <span class="o">+</span> <span class="nx">red</span><span class="p">;</span>
 
-  <span class='k'>if</span> <span class='p'>(</span><span class='nx'>blue</span><span class='p'>.</span><span class='nx'>length</span> <span class='o'>&lt;</span> <span class='mi'>2</span><span class='p'>)</span>
-    <span class='nx'>blue</span> <span class='o'>=</span> <span class='s1'>&#39;0&#39;</span> <span class='o'>+</span> <span class='nx'>blue</span><span class='p'>;</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">green</span><span class="p">.</span><span class="nx">length</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="nx">green</span> <span class="o">=</span> <span class="s1">&#39;0&#39;</span> <span class="o">+</span> <span class="nx">green</span><span class="p">;</span>
 
-  <span class='k'>return</span> <span class='s1'>&#39;#&#39;</span> <span class='o'>+</span> <span class='nx'>red</span> <span class='o'>+</span> <span class='nx'>green</span> <span class='o'>+</span> <span class='nx'>blue</span><span class='p'>;</span>
-<span class='p'>}</span>
-</code></pre></div><div class="container"><div class="left column">
+  <span class="k">if</span> <span class="p">(</span><span class="nx">blue</span><span class="p">.</span><span class="nx">length</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="nx">blue</span> <span class="o">=</span> <span class="s1">&#39;0&#39;</span> <span class="o">+</span> <span class="nx">blue</span><span class="p">;</span>
+
+  <span class="k">return</span> <span class="s1">&#39;#&#39;</span> <span class="o">+</span> <span class="nx">red</span> <span class="o">+</span> <span class="nx">green</span> <span class="o">+</span> <span class="nx">blue</span><span class="p">;</span>
+<span class="p">}</span></code></pre></div>
+
+<div class="container"><div class="left column">
 <p>Now when we apply that to all our triangles we get our colored shape:</p>
+
 <figure>
-  <img src='/static/lab/poly-maker/step6.png' />
+  <img src="/static/lab/poly-maker/step6.png" />
 </figure>
-<h2 id="adding_a_shadow">Adding a shadow</h2>
+
+<h2 id="adding-a-shadow">Adding a shadow</h2>
 
 <p>This was just a little touch I wanted to add to the whole process, and it’s rather simple thanks to other peoples’ work. For this I basically create a circle with a gradient in its center (from black to transparent), which looks like this:</p>
-<figure>
-  <img src='/static/lab/poly-maker/shadow-1.png' />
-</figure>
-<p>Then I applied a scale transform to squish it down to an ellipse:</p>
-<figure>
-  <img src='/static/lab/poly-maker/shadow-2.png' />
-</figure>
-<p>That looks close, but it’s a bit sharp and it’s in need of a blur, not something natively available to canvas contexts. But thanks to <a href="http://www.quasimondo.com/">Mario Klingemann</a> there is a <a href="http://www.quasimondo.com/BoxBlurForCanvas/FastBlurDemo.html">freely available block of code to apply blurs</a>! So I chucked that on.</p>
-<figure>
-  <img src='/static/lab/poly-maker/shadow-3.png' />
-</figure>
-<h2 id="finished_product">Finished product</h2>
 
-<p>After that it was just a bit of positioning and using <a href="http://twitter.com/supersole">Soledad Penadés</a>‘s <a href="https://github.com/sole/tween.js/">Tween.js library</a> to do some easing of the triangles into position!</p>
 <figure>
-  <img src='/static/lab/poly-maker/final.png' />
+  <img src="/static/lab/poly-maker/shadow-1.png" />
 </figure>
-<p>And we’re done! </div></div></p>
+
+<p>Then I applied a scale transform to squish it down to an ellipse:</p>
+
+<figure>
+  <img src="/static/lab/poly-maker/shadow-2.png" />
+</figure>
+
+<p>That looks close, but it’s a bit sharp and it’s in need of a blur, not something natively available to canvas contexts. But thanks to <a href="http://www.quasimondo.com/">Mario Klingemann</a> there is a <a href="http://www.quasimondo.com/BoxBlurForCanvas/FastBlurDemo.html">freely available block of code to apply blurs</a>! So I chucked that on.</p>
+
+<figure>
+  <img src="/static/lab/poly-maker/shadow-3.png" />
+</figure>
+
+<h2 id="finished-product">Finished product</h2>
+
+<p>After that it was just a bit of positioning and using <a href="http://twitter.com/supersole">Soledad Penadés</a>’s <a href="https://github.com/sole/tween.js/">Tween.js library</a> to do some easing of the triangles into position!</p>
+
+<figure>
+  <img src="/static/lab/poly-maker/final.png" />
+</figure>
+
+<p>And we’re done!
+</div></div></p>
+
 
 </div>
 

@@ -251,78 +251,152 @@
     </div>
   </div>
 
-  <div class="container"><div class="left column"><h2 id="starter_for_ten">Starter for Ten</h2>
+  <div class="container"><div class="left column"><h2 id="starter-for-ten">Starter for Ten</h2>
 
-<p>I’ve had a couple of conversations on Twitter and G+ in the past couple of days that have got me thinking. The first was with <a href="https://twitter.com/brucel">Bruce Lawson</a>, advocate at large for Opera:</p>
+<p>I’ve had a couple of conversations on Twitter and G+ in the past couple of
+days that have got me thinking. The first was with <a href="https://twitter.com/brucel">Bruce
+Lawson</a>, advocate at large for Opera:</p>
+
 <figure>
-  <img src='/static/blog/it-should-just-work/brucel.png' />
+  <img src="/static/blog/it-should-just-work/brucel.png" />
 </figure>
-<p>My response was terse, only because Twitter is limited to 140 characters, and I can rarely condense my thoughts well enough:</p>
+
+<p>My response was terse, only because Twitter is limited to 140 characters, and
+I can rarely condense my thoughts well enough:</p>
+
 <figure>
-  <img src='/static/blog/it-should-just-work/paullewis1.png' />
+  <img src="/static/blog/it-should-just-work/paullewis1.png" />
 </figure>
-<p>I even went so far as to include an analogy, which means I’ve probably lost my marbles:</p>
+
+<p>I even went so far as to include an analogy, which means I’ve probably lost my
+marbles:</p>
+
 <figure>
-  <img src='/static/blog/it-should-just-work/paullewis2.png' />
+  <img src="/static/blog/it-should-just-work/paullewis2.png" />
 </figure>
-<p>But I actually think Bruce is right, to some degree. Why on earth should I care about how the browser implements the specifications? Surely the whole point of offering me the abstractions of HTML, CSS, JavaScript and APIs is exactly so I can live without having to actually building this stuff myself? I’d do a miserable job of most of it at any rate.</p>
+
+<p>But I actually think Bruce is right, to some degree. Why on earth should I
+care about how the browser implements the specifications? Surely the whole
+point of offering me the abstractions of HTML, CSS, JavaScript and APIs is
+exactly so I can live without having to actually building this stuff myself?
+I’d do a miserable job of most of it at any rate.</p>
+
 <aside class="boxout">
-<h1 id="new_here_want_rss">New here? Want RSS?</h1>
+<p># New here? Want RSS?</p>
 
-<p>Would you like an <a href="/blog/feed/">RSS feed of my articles</a>? Problem solved! </aside></p>
+<p>Would you like an <a href="/blog/feed/">RSS feed of my articles</a>? Problem solved!
+</aside></p>
 
-<h2 id="then_there_was_the_canvas_thing">Then there was the canvas thing…</h2>
+<h2 id="then-there-was-the-canvas-thing">Then there was the canvas thing…</h2>
 
-<p>Recently, I’ve been building a little mobile web app at work (more on that in a future post, I suspect) and I ran into a performance bottleneck with the <code>&lt;canvas&gt;</code> element. I’m in an extremely privileged position of being able to wander over to Chrome engineers and ask what’s up. Having spent a bit of time looking at a <a href="http://dev.chromium.org/developers/how-tos/trace-event-
-profiling-tool">trace</a> (which is scary but badass for profiling) the solution arrived: “Oh, the canvas is smaller than 256 pixels. Yeah, that’ll be using the software path.” A quick hack later and the performance was roughly 10x and back under my self-imposed 16ms performance boundary. I <a href="https://plus.google.com/+aerotwist/posts/G7x687iopN3">shared this snippet of info</a> and <a href="https://twitter.com/mrdoob">Ricardo Cabello</a> called it:</p>
+<p>Recently, I’ve been building a little mobile web app at work (more on that in
+a future post, I suspect) and I ran into a performance bottleneck with the
+<code>&lt;canvas&gt;</code> element. I’m in an extremely privileged position of being able to
+wander over to Chrome engineers and ask what’s up. Having spent a bit of time
+looking at a <a href="http://dev.chromium.org/developers/how-tos/trace-event-
+profiling-tool">trace</a> (which is scary but badass for profiling) the solution
+arrived: “Oh, the canvas is smaller than 256 pixels. Yeah, that’ll be using
+the software path.” A quick hack later and the performance was roughly 10x and
+back under my self-imposed 16ms performance boundary. I <a href="https://plus.google.com/+aerotwist/posts/G7x687iopN3">shared this snippet
+of info</a> and <a href="https://twitter.com/mrdoob">Ricardo
+Cabello</a> called it:</p>
+
 <figure>
-  <img src='/static/blog/it-should-just-work/ricardo.png' />
+  <img src="/static/blog/it-should-just-work/ricardo.png" />
 </figure>
-<p>The implicit objection seems to be: don’t offer an abstraction if it’s not optimal for my use-case.</p>
+
+<p>The implicit objection seems to be: don’t offer an abstraction if it’s not
+optimal for my use-case.</p>
 
 <blockquote>
-<p>The implicit objection seems to be: don’t offer an abstraction if it’s not optimal for my use-case.</p>
+  <p>The implicit objection seems to be: don’t offer an abstraction if it’s not optimal for my use-case.</p>
 </blockquote>
 
-<h2 id="i_kind_of_see_it_vs_i_kind_of_dont">I kind of see it vs. I kind of don’t</h2>
+<h2 id="i-kind-of-see-it-vs-i-kind-of-dont">I kind of see it vs. I kind of don’t</h2>
 
-<p>Since those two remarks cropped up, both of which have come from very experienced developers for whom I have plenty of time, I’ve been pondering it a little. What should our expectations be? How does this play out in a cross- browser web?</p>
+<p>Since those two remarks cropped up, both of which have come from very
+experienced developers for whom I have plenty of time, I’ve been pondering it
+a little. What should our expectations be? How does this play out in a cross-
+browser web?</p>
 
-<p>Firstly, I believe we should expect compliance with published specifications. That’s a pretty straightforward one, especially nowadays. But I do not believe we should impose expectations on <em>how</em> specifications are implemented. Of course we all want the fastest possible performance – and certainly healthy competition between browser vendors should help to push that – but as <a href="https://twitter.com/slightlylate">Alex Russell</a> said to me recently: “the browser has the right to deprioritise your code at any point.” Because your code isn’t the only thing the browser has on at any given time, it has to deal with things as gracefully as possible, which sometimes (sadly) means a less-than- optimal experience in some cases.</p>
+<p>Firstly, I believe we should expect compliance with published specifications.
+That’s a pretty straightforward one, especially nowadays. But I do not believe
+we should impose expectations on <em>how</em> specifications are implemented. Of
+course we all want the fastest possible performance – and certainly healthy
+competition between browser vendors should help to push that – but as <a href="https://twitter.com/slightlylate">Alex
+Russell</a> said to me recently: “the browser
+has the right to deprioritise your code at any point.” Because your code isn’t
+the only thing the browser has on at any given time, it has to deal with
+things as gracefully as possible, which sometimes (sadly) means a less-than-
+optimal experience in some cases.</p>
 
-<p>The clear solution here would be to specify the implementation, right? Then we all know where we’re at. Except that the reason implementation isn’t specified is that it just makes no sense. No two browsers are alike, so how would you even do that? It would also preclude alternative approaches that would drive innovation. Like I said, as a general purpose engine there are heuristics to how a browser executes beyond what we’d <em>like it to do</em>. And if the end result is correct and on-spec that’s I think the most we should expect.</p>
+<p>The clear solution here would be to specify the implementation, right? Then we
+all know where we’re at. Except that the reason implementation isn’t specified
+is that it just makes no sense. No two browsers are alike, so how would you
+even do that? It would also preclude alternative approaches that would drive
+innovation. Like I said, as a general purpose engine there are heuristics to
+how a browser executes beyond what we’d <em>like it to do</em>. And if the end result
+is correct and on-spec that’s I think the most we should expect.</p>
 
 <p>Sort of.</p>
 
-<p>On the other side I don’t see why anyone should have to memorise a pixel value for a canvas to be hardware accelerated, especially if it’s what they want and it’s possible to have it under certain circumstances. That’s frustrating for anyone, and a value like 256px is likely to change at any time should the engineer(s) responsible make it so.</p>
+<p>On the other side I don’t see why anyone should have to memorise a pixel value
+for a canvas to be hardware accelerated, especially if it’s what they want and
+it’s possible to have it under certain circumstances. That’s frustrating for
+anyone, and a value like 256px is likely to change at any time should the
+engineer(s) responsible make it so.</p>
 
-<p>Also a magic value like that sounds awfully like a <em>rule</em> and not at all like <em>profiling your application</em>, which should ring an alarm bell for every developer. I should really do a presentation on <a href="//aerotwist.com/blog/dont-guess-it-test-it/">tools, not rules</a>, that would totally help here.</p>
+<p>Also a magic value like that sounds awfully like a <em>rule</em> and not at all like
+<em>profiling your application</em>, which should ring an alarm bell for every
+developer. I should really do a presentation on <a href="//aerotwist.com/blog/dont-guess-it-test-it/">tools, not
+rules</a>, that would totally
+help here.</p>
 
-<p>The interesting aside in this case is that there may be times when hardware accelerated canvas in Chrome would perform less well than its software counterpart, so to repeat myself ad nauseam, <strong>always profile your code</strong>.</p>
+<p>The interesting aside in this case is that there may be times when hardware
+accelerated canvas in Chrome would perform less well than its software
+counterpart, so to repeat myself ad nauseam, <strong>always profile your code</strong>.</p>
 
-<h2 id="it_works_vs_its_awesome">It Works vs. It’s Awesome</h2>
+<h2 id="it-works-vs-its-awesome">It Works vs. It’s Awesome</h2>
 
-<p>The genius of the web is that everyone can create and publish content. If you have access to a computer the chances are you can, in the simplest case, use a text editor to create a file and host it somewhere on the Internet easily. Of course that’s the thinnest end of the wedge and, as our industry is maturing, we’re getting more advanced tooling, more capable browsers and, in turn, more advanced sites and applications.</p>
+<p>The genius of the web is that everyone can create and publish content. If you
+have access to a computer the chances are you can, in the simplest case, use a
+text editor to create a file and host it somewhere on the Internet easily. Of
+course that’s the thinnest end of the wedge and, as our industry is maturing,
+we’re getting more advanced tooling, more capable browsers and, in turn, more
+advanced sites and applications.</p>
 
 <blockquote>
-<p>The genius of the web is that everyone can create and publish content.</p>
+  <p>The genius of the web is that everyone can create and publish content.</p>
 </blockquote>
 
-<p>We are also facing new challenges (to us at any rate; some are quite old in other industries) that come with those capabilities, particularly with respect to performance. We have a black box of functionality in the browser, one that abstracts us from the dirty details, and yet here we are trying to get things downloaded and running at 60fps on a host of devices and browsers.</p>
+<p>We are also facing new challenges (to us at any rate; some are quite old in
+other industries) that come with those capabilities, particularly with respect
+to performance. We have a black box of functionality in the browser, one that
+abstracts us from the dirty details, and yet here we are trying to get things
+downloaded and running at 60fps on a host of devices and browsers.</p>
 
-<p>It’s a challenge for browser vendors to implement abstractions well; it’s a challenge for developers to use those abstractions well.</p>
+<p>It’s a challenge for browser vendors to implement abstractions well; it’s a
+challenge for developers to use those abstractions well.</p>
+
 <aside class="boxout">
-<h1 id="antipatterns_yo">Antipatterns, yo.</h1>
+<p># Antipatterns, yo.
+Whenever I talk to developers about rendering performance (something that is happening with increasingly frequency, yay!) they immediately ask whether what I advise for Chrome is an antipattern for any other browser. The answer is almost invariably no. Avoiding paint work, which is what I nearly always end up advising, is good for everyone. Not painting is not painting, no matter how good the algorithm.</p>
 
-<p>Whenever I talk to developers about rendering performance (something that is happening with increasingly frequency, yay!) they immediately ask whether what I advise for Chrome is an antipattern for any other browser. The answer is almost invariably no. Avoiding paint work, which is what I nearly always end up advising, is good for everyone. Not painting is not painting, no matter how good the algorithm.</p>
+<p>As my now-non-existent-since-becoming-a-father lazy days around the house
+confirm, doing nothing is significantly easier than doing anything at all!
+</aside></p>
 
-<p>As my now-non-existent-since-becoming-a-father lazy days around the house confirm, doing nothing is significantly easier than doing anything at all! </aside></p>
+<h2 id="good-code-vs-targeted-code">Good Code vs. Targeted Code</h2>
 
-<h2 id="good_code_vs_targeted_code">Good Code vs. Targeted Code</h2>
+<p>Ultimately it’s a compromise. We should expect to write good, clean code that
+runs well, without any browser-specific tweaks.</p>
 
-<p>Ultimately it’s a compromise. We should expect to write good, clean code that runs well, without any browser-specific tweaks.</p>
-
-<p>But I genuinely believe that if we want to get the very best out of the web platform, move from good to great, and get the very best performance we will need to understand as much as we can about how browsers execute our code. And sometimes, perhaps frustratingly, that’s going to mean catering for specific implementations.</p></div></div>
+<p>But I genuinely believe that if we want to get the very best out of the web
+platform, move from good to great, and get the very best performance we will
+need to understand as much as we can about how browsers execute our code. And
+sometimes, perhaps frustratingly, that’s going to mean catering for specific
+implementations.</p>
+</div></div>
 
   <div class="footer-share container">
     Share this on: <span class="value"><a href="http://www.twitter.com/share?url=http://aerotwist.com/blog/it-should-just-work/">Twitter</a></span>
@@ -332,7 +406,7 @@ profiling-tool">trace</a> (which is scary but badass for profiling) the solution
   <div class="clear"></div>
 
   
-    <svg class="left-shape" style="margin-left: -338.2px" width="498.4" height="837.1999999999999">
+    <svg class="left-shape" style="margin-left: -338.2px" width="498.4" height="837.2">
       <use xlink:href="#color-block" filter="url(#blur-4)" transform="scale(-1.4 1.4) rotate(90)"/>
     </svg>
 

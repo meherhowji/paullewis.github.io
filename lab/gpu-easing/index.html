@@ -162,25 +162,54 @@
 
 <h2 id="synopsis">Synopsis</h2>
 
-<p>Easing equations have been around for a long time. In fact pretty much any site with any animation on it is probably using them. They were made by <a href="http://www.robertpenner.com">Robert Penner</a> for use in Flash, but since they’re open source you’ll find them everywhere. Anyway I decided it’d be interesting to get them running in a WebGL vertex shader and to see what I could get away with.</p>
+<p>Easing equations have been around for a long time. In fact pretty much any
+site with any animation on it is probably using them. They were made by
+<a href="http://www.robertpenner.com">Robert Penner</a> for use in Flash, but since
+they’re open source you’ll find them everywhere. Anyway I decided it’d be
+interesting to get them running in a WebGL vertex shader and to see what I
+could get away with.</p>
 
-<h2 id="easeily_does_it">Ease-ily Does It</h2>
+<h2 id="ease-ily-does-it">Ease-ily Does It</h2>
 
-<p>If you’ve never come across easing equations, here’s a short breakdown of what they do. Each equation takes a start value, and end value, a duration and a time. As you increase the time value the equation will return a number between the start to the end values, and the way it gets from one to the other gives you different feels. The simplest one just runs linearly from start to end, more complex ones provide elasticity and bouncing.</p>
+<p>If you’ve never come across easing equations, here’s a short breakdown of what
+they do. Each equation takes a start value, and end value, a duration and a
+time. As you increase the time value the equation will return a number between
+the start to the end values, and the way it gets from one to the other gives
+you different feels. The simplest one just runs linearly from start to end,
+more complex ones provide elasticity and bouncing.</p>
 
-<p>It occurred to me that all the operations could be done in a vertex shader and that all the JavaScript would need to do would be to send through an updated time value. Actually it needs to do a bit more than that otherwise it wouldn’t be all that flexible, but the principle’s there. The maths could be moved away from the JavaScript, which is the important thing.</p>
+<p>It occurred to me that all the operations could be done in a vertex shader and
+that all the JavaScript would need to do would be to send through an updated
+time value. Actually it needs to do a bit more than that otherwise it wouldn’t
+be all that flexible, but the principle’s there. The maths could be moved away
+from the JavaScript, which is the important thing.</p>
 
-<h2 id="getting_in_a_mesh">Getting in a Mesh</h2>
+<h2 id="getting-in-a-mesh">Getting in a Mesh</h2>
 
-<p><a href="https://github.com/mrdoob/Three.js">Three.js</a> supports the loading of 3D models in JSON format, and there’s an exporter for <a href="http://www.blender.org">Blender</a> which will do just that. I started with the helix, which is a cylinder that I subdivided down its length so that I actually had vertices to mess around with.</p>
+<p><a href="https://github.com/mrdoob/Three.js">Three.js</a> supports the loading of 3D
+models in JSON format, and there’s an exporter for
+<a href="http://www.blender.org">Blender</a> which will do just that. I started with the
+helix, which is a cylinder that I subdivided down its length so that I
+actually had vertices to mess around with.</p>
 
-<p>Then for a bit of a laugh I tried exporting and using the monkey mesh from Blender. It ended up being mildly creepy but oddly entertaining to watch it ease back and forth from a mesh to a mess.</p>
+<p>Then for a bit of a laugh I tried exporting and using the monkey mesh from
+Blender. It ended up being mildly creepy but oddly entertaining to watch it
+ease back and forth from a mesh to a mess.</p>
 
-<h2 id="from_bug_to_feature">From Bug To Feature</h2>
+<h2 id="from-bug-to-feature">From Bug To Feature</h2>
 
-<p>If you tick the ‘extra crazy’ option in the experiment you see an additional effect, which is something I stumbled upon. I was busy integrating the monkey mesh so you could switch between the two and totally screwed something up and ended up with that effect. Once I resolved the bug that was causing it I decided to bring it back as an option. One of the many reasons I love to experiment is that you end up with cool stuff happening when you least expect it.</p>
+<p>If you tick the ‘extra crazy’ option in the experiment you see an additional
+effect, which is something I stumbled upon. I was busy integrating the monkey
+mesh so you could switch between the two and totally screwed something up and
+ended up with that effect. Once I resolved the bug that was causing it I
+decided to bring it back as an option. One of the many reasons I love to
+experiment is that you end up with cool stuff happening when you least expect
+it.</p>
 
-<p>You can find <a href="http://github.com/paullewis/WebGLEasing">the source code for this</a> and my other experiments on <a href="http://github.com/paullewis">GitHub</a>. Oooh, how exciting!</p></div></div>
+<p>You can find <a href="http://github.com/paullewis/WebGLEasing">the source code for
+this</a> and my other experiments on
+<a href="http://github.com/paullewis">GitHub</a>. Oooh, how exciting!</p>
+</div></div>
 
 </div>
 

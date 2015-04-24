@@ -218,66 +218,76 @@
   <div class="container"><div class="left column">
 <p>Everyone has a name for them: the excellent <a href="https://twitter.com/philhawksworth">Phil Hawksworth</a> calls them “delighters”, my friend <a href="https://twitter.com/tomdotquitter">Tom Knowles</a> and I call them “showbiz coding.” They are little bits of UI that do something unexpected and fun.</p>
 
-<p>I’m going to jump to my favourite kind: <strong>3D effects</strong>. They give your UI some depth and, much as with the <a href="http://en.wikipedia.org/wiki/The_Spanish_Inquisition_(Monty_Python">Spanish Inquisition</a>, nobody expects those suckers. They also have the advantage of being GPU accelerated effects, provided all you do is scale, rotate and translate (or skew, if that’s your bag).</p>
+<p>I’m going to jump to my favourite kind: <strong>3D effects</strong>. They give your UI some depth and, much as with the [Spanish Inquisition](http://en.wikipedia.org/wiki/The_Spanish_Inquisition_(Monty_Python), nobody expects those suckers. They also have the advantage of being GPU accelerated effects, provided all you do is scale, rotate and translate (or skew, if that’s your bag).</p>
 
-<h2 id="basic_3d">Basic 3D</h2>
+<h2 id="basic-3d">Basic 3D</h2>
 
 <p>The easiest way to give the impression of depth is through a combination of <code>box-shadow</code>, <code>scale</code> and <code>transform</code>:</p>
-<iframe frameborder='0' height='400' marginheight='0' marginwidth='0' scrolling='no' src='/static/tutorials/protip-nobody-expects-3d/depth-shadow.html' style='margin-bottom: 20px; box-shadow: 0 2px 2px rgba(0,0,0,0.3)' width='100%'>
+
+<iframe src="/static/tutorials/protip-nobody-expects-3d/depth-shadow.html" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" width="100%" height="400" style="margin-bottom: 20px; box-shadow: 0 2px 2px rgba(0,0,0,0.3)">
 </iframe>
+
 <p>The effect is pretty neat and pretty simple to code. The expanding shadow is what your eyes expect to see for an object moving away from a surface, and it also moves down a little bit, adding to the effect. Of course anything that moves nearer to you gets bigger, so there’s a slight scaling up of the box itself.</p>
 
 <p>Code-wise it looks like this:</p>
-</div></div><div class='highlight'><pre><code class='css'><span class='nc'>.box</span> <span class='p'>{</span>
-  <span class='n'>transition</span><span class='o'>:</span> <span class='n'>all</span> <span class='m'>500</span><span class='n'>ms</span> <span class='n'>cubic</span><span class='o'>-</span><span class='n'>bezier</span><span class='p'>(</span><span class='m'>0</span><span class='o'>.</span><span class='m'>190</span><span class='o'>,</span> <span class='m'>1</span><span class='o'>.</span><span class='m'>000</span><span class='o'>,</span> <span class='m'>0</span><span class='o'>.</span><span class='m'>220</span><span class='o'>,</span> <span class='m'>1</span><span class='o'>.</span><span class='m'>000</span><span class='p'>);</span>
 
-  <span class='n'>box</span><span class='o'>-</span><span class='n'>shadow</span><span class='o'>:</span> <span class='m'>0</span> <span class='m'>1px</span> <span class='m'>1px</span> <span class='n'>rgba</span><span class='p'>(</span><span class='m'>0</span><span class='o'>,</span><span class='m'>0</span><span class='o'>,</span><span class='m'>0</span><span class='o'>,</span><span class='m'>0</span><span class='o'>.</span><span class='m'>3</span><span class='p'>);</span>
-  <span class='n'>transform</span><span class='o'>:</span> <span class='n'>translateY</span><span class='p'>(</span><span class='m'>0</span><span class='p'>)</span> <span class='n'>scale</span><span class='p'>(</span><span class='m'>0</span><span class='o'>.</span><span class='m'>95</span><span class='o'>,</span> <span class='m'>0</span><span class='o'>.</span><span class='m'>95</span><span class='p'>);</span>
-<span class='p'>}</span>
+</div></div>
 
-<span class='nc'>.box.active</span> <span class='p'>{</span>
-  <span class='n'>box</span><span class='o'>-</span><span class='n'>shadow</span><span class='o'>:</span> <span class='m'>0</span> <span class='m'>11px</span> <span class='m'>18px</span> <span class='n'>rgba</span><span class='p'>(</span><span class='m'>0</span><span class='o'>,</span><span class='m'>0</span><span class='o'>,</span><span class='m'>0</span><span class='o'>,</span><span class='m'>0</span><span class='o'>.</span><span class='m'>2</span><span class='p'>);</span>
-  <span class='n'>transform</span><span class='o'>:</span> <span class='n'>translateY</span><span class='p'>(</span><span class='m'>-20px</span><span class='p'>)</span> <span class='n'>scale</span><span class='p'>(</span><span class='m'>1</span><span class='o'>,</span> <span class='m'>1</span><span class='p'>);</span>
-<span class='p'>}</span>
-</code></pre></div><div class="container"><div class="left column">
+<div class="highlight"><pre><code class="language-css" data-lang="css"><span class="nc">.box</span> <span class="p">{</span>
+  <span class="n">transition</span><span class="o">:</span> <span class="n">all</span> <span class="m">500</span><span class="n">ms</span> <span class="n">cubic</span><span class="o">-</span><span class="n">bezier</span><span class="p">(</span><span class="m">0</span><span class="o">.</span><span class="m">190</span><span class="o">,</span> <span class="m">1</span><span class="o">.</span><span class="m">000</span><span class="o">,</span> <span class="m">0</span><span class="o">.</span><span class="m">220</span><span class="o">,</span> <span class="m">1</span><span class="o">.</span><span class="m">000</span><span class="p">);</span>
+
+  <span class="n">box</span><span class="o">-</span><span class="n">shadow</span><span class="o">:</span> <span class="m">0</span> <span class="m">1px</span> <span class="m">1px</span> <span class="n">rgba</span><span class="p">(</span><span class="m">0</span><span class="o">,</span><span class="m">0</span><span class="o">,</span><span class="m">0</span><span class="o">,</span><span class="m">0</span><span class="o">.</span><span class="m">3</span><span class="p">);</span>
+  <span class="n">transform</span><span class="o">:</span> <span class="n">translateY</span><span class="p">(</span><span class="m">0</span><span class="p">)</span> <span class="n">scale</span><span class="p">(</span><span class="m">0</span><span class="o">.</span><span class="m">95</span><span class="o">,</span> <span class="m">0</span><span class="o">.</span><span class="m">95</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="nc">.box.active</span> <span class="p">{</span>
+  <span class="n">box</span><span class="o">-</span><span class="n">shadow</span><span class="o">:</span> <span class="m">0</span> <span class="m">11px</span> <span class="m">18px</span> <span class="n">rgba</span><span class="p">(</span><span class="m">0</span><span class="o">,</span><span class="m">0</span><span class="o">,</span><span class="m">0</span><span class="o">,</span><span class="m">0</span><span class="o">.</span><span class="m">2</span><span class="p">);</span>
+  <span class="n">transform</span><span class="o">:</span> <span class="n">translateY</span><span class="p">(</span><span class="m">-20px</span><span class="p">)</span> <span class="n">scale</span><span class="p">(</span><span class="m">1</span><span class="o">,</span> <span class="m">1</span><span class="p">);</span>
+<span class="p">}</span></code></pre></div>
+
+<div class="container"><div class="left column">
+
 <p>Neat huh? The only downer is that the use of <code>box-shadow</code> during the animation causes paints, so I can’t wholeheartedly recommend it for use on mobile devices (sad face). For high performance animations you always want to <a href="http://www.html5rocks.com/en/tutorials/speed/high-performance-animations/">limit yourself to compositor-friendly</a> options, like I said at the start, where the GPU gives you a hand and you avoid layout and paint. Mind you, you could probably make a version similar to this with a scaling shadow element. Would be kinda nice.</p>
 
-<h2 id="rotating_to_the_side">Rotating to the side</h2>
+<h2 id="rotating-to-the-side">Rotating to the side</h2>
 
 <p>Another thing you can do is to bring elements from the side. Let’s take a list of elements and spin them round into another list.</p>
-<iframe frameborder='0' height='400' marginheight='0' marginwidth='0' scrolling='no' src='/static/tutorials/protip-nobody-expects-3d/list.html' style='margin-bottom: 20px; box-shadow: 0 2px 2px rgba(0,0,0,0.3)' width='100%'>
+
+<iframe src="/static/tutorials/protip-nobody-expects-3d/list.html" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" width="100%" height="400" style="margin-bottom: 20px; box-shadow: 0 2px 2px rgba(0,0,0,0.3)">
 </iframe>
+
 <p>There’s goes that <a href="../protip-offsets-and-opposing-motion">offset stuff</a> again, making it feel a bit more fluid. This is a little more challenging to do because you need to position the elements in 3D space using transforms and rotations, and no browser today has a good UI for debugging 3D. If it goes wrong you’ll be a sobbing mess of a human being, with only your intuition and number hackery to guide you. I know, I spent way too long trying to get this demo to work. (I’m not bitter.)</p>
 
 <p>In any case, I hope you agree that this is a little more showbiz than sliding items to the side.</p>
 
-<h2 id="card_flips">Card flips</h2>
+<h2 id="card-flips">Card flips</h2>
 
 <p>I’d say this effect came into fashion with the iPhone and, to be honest, it’s probably fallen out again. Still, in the right places it will add a bit of interest to your UI.</p>
-<iframe frameborder='0' height='400' marginheight='0' marginwidth='0' scrolling='no' src='/static/tutorials/protip-nobody-expects-3d/flip.html' style='margin-bottom: 20px; box-shadow: 0 2px 2px rgba(0,0,0,0.3)' width='100%'>
+
+<iframe src="/static/tutorials/protip-nobody-expects-3d/flip.html" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" width="100%" height="400" style="margin-bottom: 20px; box-shadow: 0 2px 2px rgba(0,0,0,0.3)">
 </iframe>
+
 <p>For this you will have to avoid things like <code>box-shadow</code> because, like the first effect, it causes paints (which kill performance on mobile). That said, if you’re interested, <a href="/static/tutorials/protip-nobody-expects-3d/flip-with-shadow.html">I’ve made a separate version of this demo</a> which <em>does</em> have the <code>box-shadow</code> on it, and it’s really nice. On Desktop. Where’s there is <strong>POWAH</strong>.</p>
 
 <p>For something like this you’ll have to craft out animation keyframes because you want to animate scales and rotations independently, but they’re both controlled through the <code>transform</code> property. If you want some real lolz check out <a href="/static/tutorials/protip-nobody-expects-3d/flip-animations.css">the CSS <em>just</em> for the animations</a>. What with the vendor prefixes and all the keyframes you’ll see it’s a monster. So much so I actually wrote a hacky little script to create them all for me. You might want to too. I’m sure there are some good tools to do that automatically, but I’ve not found it. <a href="https://twitter.com/aerotwist">Tell me</a> if you know!</p>
 
 <p>Of course you can do all the transforms with JavaScript imperatively, but then the compositor misses out on the opportunity to optimize things.</p>
 
-<h2 id="flip_this">Flip this!</h2>
+<h2 id="flip-this">Flip this!</h2>
 
 <p>My friend <a href="https://twitter.com/hakimel">Hakim</a> has spent quite a lot of time over the past year experimenting with UI elements, and many of them have surprising twists to them:</p>
 
 <ul>
-<li><a href="http://lab.hakim.se/kontext/">Kontext</a></li>
-
-<li><a href="http://lab.hakim.se/meny/">Meny</a></li>
-
-<li><a href="http://lab.hakim.se/flexing-pagination/">Flexing Pagination</a></li>
-
-<li><a href="http://lab.hakim.se/ladda/">Ladda</a></li>
+  <li><a href="http://lab.hakim.se/kontext/">Kontext</a></li>
+  <li><a href="http://lab.hakim.se/meny/">Meny</a></li>
+  <li><a href="http://lab.hakim.se/flexing-pagination/">Flexing Pagination</a></li>
+  <li><a href="http://lab.hakim.se/ladda/">Ladda</a></li>
 </ul>
 
 <p>If you’re still in need of inspiration check out <a href="https://github.com/h5bp/Effeckt.css/">Effekt.css</a>, a community effort to collate and collect high performance and showbiz CSS-based effects.</p>
+
 </div></div>
+
 
 </div>
 

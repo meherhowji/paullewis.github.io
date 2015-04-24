@@ -159,48 +159,79 @@
   
 
   <div class="container"><div class="left column">
-<h2 id="introduction">Introduction</h2>
+<p>## Introduction</p>
 
-<p>Environment maps are pretty cool. Whenever you do reflections or refractions in WebGL or OpenGL, chances are you’ll use one. To make one can take a lot of time and specific equipment, but what if you want to make your own? Actually it turns out it’s not too taxing to go ghetto.</p>
+<p>Environment maps are pretty cool. Whenever you do reflections or refractions
+in WebGL or OpenGL, chances are you’ll use one. To make one can take a lot of
+time and specific equipment, but what if you want to make your own? Actually
+it turns out it’s not too taxing to go ghetto.</p>
 
-<p>To make this work you’re going to need an application that lets you take panoramic pictures. In my case I’m using <a href="http://itunes.apple.com/gb/app/photosynth/id430065256?mt=8">Microsoft’s Photosynth app</a> on iPhone since it does exactly what we need.</p>
+<p>To make this work you’re going to need an application that lets you take
+panoramic pictures. In my case I’m using <a href="http://itunes.apple.com/gb/app/photosynth/id430065256?mt=8">Microsoft’s Photosynth
+app</a> on iPhone
+since it does exactly what we need.</p>
 
-<h2 id="environment_maps">Environment Maps</h2>
+<h2 id="environment-maps">Environment Maps</h2>
 
-<p>To begin with let’s talk about what Environment Maps are. In the case of WebGL and OpenGL they’re actually cube maps typically, which is a specific kind of environment map. A cube map is simply a panoramic view of a scene (could be a real-world one or a virtual one) that has been mapped to the inside of a cube. Imagine being on the top of a hill and looking straight ahead, then 90 degrees to your left and then 90 degrees your right, straight up and down and finally right behind you. Handily you would see each side of this “cube”. If the cube we’re talking about is big enough it becomes difficult to perceive the joins in the cube edges and corners and it gives us the effect of being in a large environment. If all that confuses you the <a href="http://en.wikipedia.org/wiki/Cube_mapping">Wikipedia article on cube maps</a> is pretty helpful!</p>
+<p>To begin with let’s talk about what Environment Maps are. In the case of WebGL
+and OpenGL they’re actually cube maps typically, which is a specific kind of
+environment map. A cube map is simply a panoramic view of a scene (could be a
+real-world one or a virtual one) that has been mapped to the inside of a cube.
+Imagine being on the top of a hill and looking straight ahead, then 90 degrees
+to your left and then 90 degrees your right, straight up and down and finally
+right behind you. Handily you would see each side of this “cube”. If the cube
+we’re talking about is big enough it becomes difficult to perceive the joins
+in the cube edges and corners and it gives us the effect of being in a large
+environment. If all that confuses you the <a href="http://en.wikipedia.org/wiki/Cube_mapping">Wikipedia article on cube
+maps</a> is pretty helpful!</p>
 
-<p>Cool, but how does this help? Well it means we can do things like reflection and refraction, and in fact these two functions are built into GLSL, the shading language of WebGL. The theory is that you give the shader 6 images to represent the sides of this cube, and you tell WebGL that this is a cube map and from there you can start using it to do the aforementioned visual effects.</p>
+<p>Cool, but how does this help? Well it means we can do things like reflection
+and refraction, and in fact these two functions are built into GLSL, the
+shading language of WebGL. The theory is that you give the shader 6 images to
+represent the sides of this cube, and you tell WebGL that this is a cube map
+and from there you can start using it to do the aforementioned visual effects.</p>
 
-<h2 id="half_axes">Half Axes</h2>
+<h2 id="half-axes">Half Axes</h2>
 
-<p>A quick note on the terminology employed for cube maps. Since there are three axes we typically use: x, y and z, it follows that the images used for cube maps are labelled for those axes. However, as I said, there are 6 images, two per axis. These are called half axes, e.g. positive x and negative x.</p>
+<p>A quick note on the terminology employed for cube maps. Since there are three
+axes we typically use: x, y and z, it follows that the images used for cube
+maps are labelled for those axes. However, as I said, there are 6 images, two
+per axis. These are called half axes, e.g. positive x and negative x.</p>
 
-<h2 id="get_a_panoramic">Get a Panoramic</h2>
+<h2 id="get-a-panoramic">Get a Panoramic</h2>
 
-<p>So the first step is to go outside and use the app to take a panoramic picture. In this example I took a walk to London’s financial district and snapped a panoramic of the Gherkin.</p>
+<p>So the first step is to go outside and use the app to take a panoramic
+picture. In this example I took a walk to London’s financial district and
+snapped a panoramic of the Gherkin.</p>
 
 <p>I then get an image that looks rather like this:</p>
+
 <figure>
-  <img src='/static/tutorials/create-your-own-environment-maps/images/environment.jpg' />
+  <img src="/static/tutorials/create-your-own-environment-maps/images/environment.jpg" />
 </figure>
-<p>It’s worth pointing out that these panoramic apps often map back to a sphere, which is fine, but it does mean that we now need to convert it over to a cube so that it’s compatible with our WebGL-supported cube maps.</p>
 
-<h2 id="convert_to_cube">Convert to cube</h2>
+<p>It’s worth pointing out that these panoramic apps often map back to a sphere,
+which is fine, but it does mean that we now need to convert it over to a cube
+so that it’s compatible with our WebGL-supported cube maps.</p>
 
-<p>This step I’ve actually shortcutted for you, because I’m nice like that. The theory is that we take the picture and load it into some 3D application like Maya or Blender and map it onto a sphere. From there we create 6 90-degree cameras, each pointing at one of the half axes. Then we export the images seen by these cameras and we have the six images to load into our WebGL scene. Since that’s a huge pain for me to explain and for you to do <a href="/static/tutorials/create-your-own-environment-maps/environment.zip">I’ve created a Blender file</a> with everything set up for you!</p>
+<h2 id="convert-to-cube">Convert to cube</h2>
+
+<p>This step I’ve actually shortcutted for you, because I’m nice like that. The
+theory is that we take the picture and load it into some 3D application like
+Maya or Blender and map it onto a sphere. From there we create 6 90-degree
+cameras, each pointing at one of the half axes. Then we export the images seen
+by these cameras and we have the six images to load into our WebGL scene.
+Since that’s a huge pain for me to explain and for you to do <a href="/static/tutorials/create-your-own-environment-maps/environment.zip">I’ve created a
+Blender file</a> with everything set up for you!</p>
 
 <p>To use the file:</p>
 
 <ol>
-<li>Rename your panoramic to <strong>environment.jpg</strong></li>
-
-<li>Place the panoramic image alongside the Blender file</li>
-
-<li>Load the Blender file</li>
-
-<li>Click on “Animation” on the right hand side</li>
-
-<li>Sit back in wonder as 6 images are created in the folder</li>
+  <li>Rename your panoramic to <strong>environment.jpg</strong></li>
+  <li>Place the panoramic image alongside the Blender file</li>
+  <li>Load the Blender file</li>
+  <li>Click on “Animation” on the right hand side</li>
+  <li>Sit back in wonder as 6 images are created in the folder</li>
 </ol>
 
 <p>Pretty cool, right? In my case I just created a single camera and then an “animation” with 6 frames, on each frame I updated the camera’s angle to one of the half axes.</p>
@@ -208,49 +239,58 @@
 <p>Now you can rename the files so they match the half axis they represent. (This is optional but it’s probably worth doing.) Here’s what you need to do:</p>
 
 <ul>
-<li>Rename <strong>0001.png</strong> to <strong>pos-z.png</strong></li>
-
-<li>Rename <strong>0002.png</strong> to <strong>neg-x.png</strong></li>
-
-<li>Rename <strong>0003.png</strong> to <strong>neg-z.png</strong></li>
-
-<li>Rename <strong>0004.png</strong> to <strong>pos-x.png</strong></li>
-
-<li>Rename <strong>0005.png</strong> to <strong>neg-y.png</strong></li>
-
-<li>Rename <strong>0006.png</strong> to <strong>pos-y.png</strong></li>
+  <li>Rename <strong>0001.png</strong> to <strong>pos-z.png</strong></li>
+  <li>Rename <strong>0002.png</strong> to <strong>neg-x.png</strong></li>
+  <li>Rename <strong>0003.png</strong> to <strong>neg-z.png</strong></li>
+  <li>Rename <strong>0004.png</strong> to <strong>pos-x.png</strong></li>
+  <li>Rename <strong>0005.png</strong> to <strong>neg-y.png</strong></li>
+  <li>Rename <strong>0006.png</strong> to <strong>pos-y.png</strong></li>
 </ul>
 
-<h2 id="add_to_the_scene">Add to the scene</h2>
+<h2 id="add-to-the-scene">Add to the scene</h2>
 
 <p>Now we’ve got our very own environment map the last thing we need to do is to load it into the scene and use it. I’ll show you how to do that with Three.js since that, as usual, makes everything nice and easy for us:</p>
-</div></div><div class='highlight'><pre><code class='javascript'><span class='c1'>// urls of the images, one per half axis</span>
-<span class='kd'>var</span> <span class='nx'>urls</span> <span class='o'>=</span> <span class='p'>[</span>
-  <span class='s1'>&#39;path/to/pos-x.png&#39;</span><span class='p'>,</span>
-  <span class='s1'>&#39;path/to/neg-x.png&#39;</span><span class='p'>,</span>
-  <span class='s1'>&#39;path/to/pos-y.png&#39;</span><span class='p'>,</span>
-  <span class='s1'>&#39;path/to/neg-y.png&#39;</span><span class='p'>,</span>
-  <span class='s1'>&#39;path/to/pos-z.png&#39;</span><span class='p'>,</span>
-  <span class='s1'>&#39;path/to/neg-z.png&#39;</span>
-<span class='p'>],</span>
 
-<span class='c1'>// wrap it up into the object that we need</span>
-<span class='nx'>cubemap</span> <span class='o'>=</span> <span class='nx'>THREE</span><span class='p'>.</span><span class='nx'>ImageUtils</span><span class='p'>.</span><span class='nx'>loadTextureCube</span><span class='p'>(</span><span class='nx'>urls</span><span class='p'>);</span>
+</div></div>
 
-<span class='c1'>// set the format, likely RGB unless you&#39;ve gone crazy</span>
-<span class='nx'>cubemap</span><span class='p'>.</span><span class='nx'>format</span> <span class='o'>=</span> <span class='nx'>THREE</span><span class='p'>.</span><span class='nx'>RGBFormat</span><span class='p'>;</span>
-</code></pre></div><div class="container"><div class="left column">
-<p>Now all you need to do is assign the cube map to a material and off you go! </div></div></p>
-<div class='highlight'><pre><code class='javascript'><span class='kd'>var</span> <span class='nx'>material</span> <span class='o'>=</span> <span class='k'>new</span> <span class='nx'>THREE</span><span class='p'>.</span><span class='nx'>MeshLambertMaterial</span><span class='p'>({</span>
-  <span class='nx'>color</span><span class='o'>:</span> <span class='mh'>0xffffff</span><span class='p'>,</span>
-  <span class='nx'>envMap</span><span class='o'>:</span> <span class='nx'>cubemap</span>
-<span class='p'>});</span>
-</code></pre></div><div class="container"><div class="left column">
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="c1">// urls of the images, one per half axis</span>
+<span class="kd">var</span> <span class="nx">urls</span> <span class="o">=</span> <span class="p">[</span>
+  <span class="s1">&#39;path/to/pos-x.png&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;path/to/neg-x.png&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;path/to/pos-y.png&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;path/to/neg-y.png&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;path/to/pos-z.png&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;path/to/neg-z.png&#39;</span>
+<span class="p">],</span>
+
+<span class="c1">// wrap it up into the object that we need</span>
+<span class="nx">cubemap</span> <span class="o">=</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">ImageUtils</span><span class="p">.</span><span class="nx">loadTextureCube</span><span class="p">(</span><span class="nx">urls</span><span class="p">);</span>
+
+<span class="c1">// set the format, likely RGB unless you&#39;ve gone crazy</span>
+<span class="nx">cubemap</span><span class="p">.</span><span class="nx">format</span> <span class="o">=</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">RGBFormat</span><span class="p">;</span></code></pre></div>
+
+<div class="container"><div class="left column">
+<p>Now all you need to do is assign the cube map to a material and off you go!
+</div></div></p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">material</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">MeshLambertMaterial</span><span class="p">({</span>
+  <span class="nx">color</span><span class="o">:</span> <span class="mh">0xffffff</span><span class="p">,</span>
+  <span class="nx">envMap</span><span class="o">:</span> <span class="nx">cubemap</span>
+<span class="p">});</span></code></pre></div>
+
+<div class="container"><div class="left column">
+
 <p class="livedemo"><a href="/static/tutorials/create-your-own-environment-maps/demo/">See it running</a></p>
 
 <h2 id="conclusion">Conclusion</h2>
 
-<p>So there you go. It may be tricky to get a good environment map image, depending on where you can take your snaps, but it’s a really nice way to personalise your WebGL scenes. As usual there’s a <a href="/static/tutorials/create-your-own-environment-maps/sample.zip">zip for you to download</a> if you want a copy of the code. If you’ve enjoyed this or have any questions let me know via <a href="http://twitter.com/aerotwist">Twitter</a>. </div></div></p>
+<p>So there you go. It may be tricky to get a good environment map image,
+depending on where you can take your snaps, but it’s a really nice way to
+personalise your WebGL scenes. As usual there’s a <a href="/static/tutorials/create-your-own-environment-maps/sample.zip">zip for you to
+download</a> if you want a copy of the code. If you’ve enjoyed this
+or have any questions let me know via <a href="http://twitter.com/aerotwist">Twitter</a>.
+</div></div></p>
+
 
 </div>
 

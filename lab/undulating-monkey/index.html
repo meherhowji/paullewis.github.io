@@ -164,29 +164,59 @@
 
 <h2 id="synopsis">Synopsis</h2>
 
-<p>So the reason things have been a little quieter from my quarter is simply that I’ve been working on a small 3D engine. I wanted to understand the abstractions that great engines like <a href="https://github.com/mrdoob/three.js/">Three.js</a> or <a href="https://github.com/drojdjou/J3D">J3D</a> provide, not really create Yet Another 3D Engine, if you like. This monkey is one of a few tech tests for the engine that I wanted to share.</p>
+<p>So the reason things have been a little quieter from my quarter is simply that
+I’ve been working on a small 3D engine. I wanted to understand the
+abstractions that great engines like
+<a href="https://github.com/mrdoob/three.js/">Three.js</a> or
+<a href="https://github.com/drojdjou/J3D">J3D</a> provide, not really create Yet Another
+3D Engine, if you like. This monkey is one of a few tech tests for the engine
+that I wanted to share.</p>
 
-<h2 id="tech_details">Tech Details</h2>
+<h2 id="tech-details">Tech Details</h2>
 
-<p>Really what I’m doing is not optimal, although it’s pretty unavoidable. What I’m doing is manipulating the monkey’s vertices in the JavaScript rather than in the vertex shader. It’s on purpose and I’m doing it for two reasons:</p>
+<p>Really what I’m doing is not optimal, although it’s pretty unavoidable. What
+I’m doing is manipulating the monkey’s vertices in the JavaScript rather than
+in the vertex shader. It’s on purpose and I’m doing it for two reasons:</p>
 
 <ol>
-<li>I want to see what the limits are like for manipulating vertices in JavaScript</li>
-
-<li>I want to update the vertex normals which requires knowledge of mesh topology</li>
+  <li>I want to see what the limits are like for manipulating vertices in JavaScript</li>
+  <li>I want to update the vertex normals which requires knowledge of mesh topology</li>
 </ol>
 
-<p>The former is something of an empirical test, and not all that conclusive because, hey, you could be doing a hundred other things besides. The monkey has about 2,000 vertices according to Blender and most machines cope just fine. The latter is slightly more interesting to me. To calculate each vertex’s normal we need to know about the other vertices in the face to which the vertex belongs, and since we don’t have Geometry Shaders like WebGL’s big brother OpenGL, we have to do this where we know about the other vertices, i.e. JavaScript.</p>
+<p>The former is something of an empirical test, and not all that conclusive
+because, hey, you could be doing a hundred other things besides. The monkey
+has about 2,000 vertices according to Blender and most machines cope just
+fine. The latter is slightly more interesting to me. To calculate each
+vertex’s normal we need to know about the other vertices in the face to which
+the vertex belongs, and since we don’t have Geometry Shaders like WebGL’s big
+brother OpenGL, we have to do this where we know about the other vertices,
+i.e. JavaScript.</p>
 
-<h2 id="making_it_fun">Making it fun</h2>
+<h2 id="making-it-fun">Making it fun</h2>
 
-<p>Just moving the vertices would be fine, but what I decided to do initially was to use each vertex’s Y position, relative to the centre of the head and use that as an offset for a sine wave motion. The sine wave pushes each vertex out along the vector it makes with the centre so we see a ripple that runs down the head.</p>
+<p>Just moving the vertices would be fine, but what I decided to do initially was
+to use each vertex’s Y position, relative to the centre of the head and use
+that as an offset for a sine wave motion. The sine wave pushes each vertex out
+along the vector it makes with the centre so we see a ripple that runs down
+the head.</p>
 
-<p>Then after a day or so I realised I just assumed we all wanted things to run down the Y axis. No, no, no. Why don’t we have it as an option? And while we’re at it let’s add in options for controlling the magnitude and speed of the undulation.</p>
+<p>Then after a day or so I realised I just assumed we all wanted things to run
+down the Y axis. No, no, no. Why don’t we have it as an option? And while
+we’re at it let’s add in options for controlling the magnitude and speed of
+the undulation.</p>
 
-<p>I was pleased, if a little surprised, at the positivity towards this little experiment. As I say it was simply just a quick and fun test to see how easily and effectively JavaScript could manipulate the vertices and their normals. But folks seem to like it, and I definitely do.</p>
+<p>I was pleased, if a little surprised, at the positivity towards this little
+experiment. As I say it was simply just a quick and fun test to see how easily
+and effectively JavaScript could manipulate the vertices and their normals.
+But folks seem to like it, and I definitely do.</p>
 
-<p>Soon I’ll be pushing out the 3D engine I’ve been building, and recording some videos explaining the process I went through. In there are some other samples like this one (although not quite as silly to be perfectly honest) so I hope you’ll enjoy that when it comes out. In the meantime, however, why not <a href="http://lab.aerotwist.com/webgl/undulating-monkey/">go and undulate a monkey</a>? In the computer, not in real life. That would be odd.</p></div></div>
+<p>Soon I’ll be pushing out the 3D engine I’ve been building, and recording some
+videos explaining the process I went through. In there are some other samples
+like this one (although not quite as silly to be perfectly honest) so I hope
+you’ll enjoy that when it comes out. In the meantime, however, why not <a href="http://lab.aerotwist.com/webgl/undulating-monkey/">go and
+undulate a monkey</a>? In the
+computer, not in real life. That would be odd.</p>
+</div></div>
 
 </div>
 

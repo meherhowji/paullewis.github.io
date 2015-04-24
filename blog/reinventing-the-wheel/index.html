@@ -253,73 +253,143 @@
     </div>
   </div>
 
-  <div class="container"><div class="left column"><h2 id="pick_your_platform">Pick your platform</h2>
+  <div class="container"><div class="left column"><h2 id="pick-your-platform">Pick your platform</h2>
 
-<p>Let’s say you’re building a site or app for a business, whether that’s yours or someone else’s. Time was you really only built for the web atop the Internet. There was no real alternative, to be honest. Now, of course, the web is there, but so are a whole heap of other non-web platforms that operate just fine on top of the Internet.</p>
+<p>Let’s say you’re building a site or app for a business, whether that’s yours
+or someone else’s. Time was you really only built for the web atop the
+Internet. There was no real alternative, to be honest. Now, of course, the web
+is there, but so are a whole heap of other non-web platforms that operate just
+fine on top of the Internet.</p>
 
-<p>To add to that they often have access to features and capabilities that simply don’t exist in the browser. You can say what you like about the ubiquity of the web vs any other platform, but most people only have a device or two and they care about what they can do on <em>that</em> device. I’d also ask whether you ship exactly the same assets and logic for all devices, and since you probably don’t I’d say that the concept of ubiquity is probably illusory at best.</p>
+<p>To add to that they often have access to features and capabilities that simply
+don’t exist in the browser. You can say what you like about the ubiquity of
+the web vs any other platform, but most people only have a device or two and
+they care about what they can do on <em>that</em> device. I’d also ask whether you
+ship exactly the same assets and logic for all devices, and since you probably
+don’t I’d say that the concept of ubiquity is probably illusory at best.</p>
 
-<p>The other thing I’d like to point out is that programmers are often <em>not the decision makers</em> for an app’s delivery platform. Rather, managers and executives who are swayed by the perception of a platform’s capabilities and its <em>return on investment</em> are the ones making the call. So it’s important that we let our platform shine whenever we can.</p>
+<p>The other thing I’d like to point out is that programmers are often <em>not the
+decision makers</em> for an app’s delivery platform. Rather, managers and
+executives who are swayed by the perception of a platform’s capabilities and
+its <em>return on investment</em> are the ones making the call. So it’s important
+that we let our platform shine whenever we can.</p>
 
 <blockquote>
-<p>It’s important that we let our platform shine whenever we can.</p>
+  <p>It’s important that we let our platform shine whenever we can.</p>
 </blockquote>
 
-<h2 id="improving_a_platform">Improving a platform</h2>
+<h2 id="improving-a-platform">Improving a platform</h2>
 
 <p>To my mind there are three ways you can improve the state of the art:</p>
 
 <ol>
-<li>Add features to the browser.</li>
-
-<li>Update the language(s).</li>
-
-<li>Programmers do better things in the browser.</li>
+  <li>Add features to the browser.</li>
+  <li>Update the language(s).</li>
+  <li>Programmers do better things in the browser.</li>
 </ol>
 
 <p>I’ll quickly step through each and highlight what’s bothering me.</p>
 
-<h2 id="add_features_to_the_browser">Add features to the browser</h2>
+<h2 id="add-features-to-the-browser">Add features to the browser</h2>
 
-<p>We all need standards around which to rally, but there’s an infamous problem with committees: they can be ridiculously slow, such is their nature. At this point there’s someone who will tell me that things just can’t change that quickly, that these things take time. That’s entirely true, but I would also point you to iOS and how quickly features start getting used there.</p>
+<p>We all need standards around which to rally, but there’s an infamous problem
+with committees: they can be ridiculously slow, such is their nature. At this
+point there’s someone who will tell me that things just can’t change that
+quickly, that these things take time. That’s entirely true, but I would also
+point you to iOS and how quickly features start getting used there.</p>
 
-<p>If Apple roll a new API for the next version of iOS you can bet that the feature will be used by a whole suite of apps nearly immediately. That can’t be said for browsers right now. <em>That’s</em> what worries me.</p>
+<p>If Apple roll a new API for the next version of iOS you can bet that the
+feature will be used by a whole suite of apps nearly immediately. That can’t
+be said for browsers right now. <em>That’s</em> what worries me.</p>
 
-<h2 id="update_the_languages">Update the language(s)</h2>
+<h2 id="update-the-languages">Update the language(s)</h2>
 
-<p>In our case the language is, of course, JavaScript. There seem to be two camps: those who accept JavaScript, and those that love it. I am in the former camp, to be honest. There are many things I appreciate about JavaScript, but I have a fundamental objection to it today. In order to run quickly we have JITs that evaluate <em>and replace</em> JavaScript with C++ code. If that’s the case then I need to write JavaScript that is favourable to that process, not necessarily the code I would otherwise write. So do I really benefit from the dynamic typing or closures? Well it depends on how well the JIT in question can deal with my code, and that’s not immediately obvious at the best of times.</p>
+<p>In our case the language is, of course, JavaScript. There seem to be two
+camps: those who accept JavaScript, and those that love it. I am in the former
+camp, to be honest. There are many things I appreciate about JavaScript, but I
+have a fundamental objection to it today. In order to run quickly we have JITs
+that evaluate <em>and replace</em> JavaScript with C++ code. If that’s the case then
+I need to write JavaScript that is favourable to that process, not necessarily
+the code I would otherwise write. So do I really benefit from the dynamic
+typing or closures? Well it depends on how well the JIT in question can deal
+with my code, and that’s not immediately obvious at the best of times.</p>
 
-<p>TC-39 is the standards body that governs where ECMAScript (and therefore JavaScript) goes, and it’s taken them a long time to add classes and modules to the standard. Now we play the waiting game until vendors ship the changes which, let’s face it, will be a long time in some cases. Meanwhile, other non- web platforms release a bunch of features that make development far easier and we suffer. <em>That’s</em> what worries me.</p>
+<p>TC-39 is the standards body that governs where ECMAScript (and therefore
+JavaScript) goes, and it’s taken them a long time to add classes and modules
+to the standard. Now we play the waiting game until vendors ship the changes
+which, let’s face it, will be a long time in some cases. Meanwhile, other non-
+web platforms release a bunch of features that make development far easier and
+we suffer. <em>That’s</em> what worries me.</p>
 
 <blockquote>
-<p>Now we play the waiting game until vendors ship the changes which, let’s face it, will be a long time in some cases.</p>
+  <p>Now we play the waiting game until vendors ship the changes which, let’s face it, will be a long time in some cases.</p>
 </blockquote>
 
-<h2 id="programmers_do_better_things_in_the_browser">Programmers do better things in the browser.</h2>
+<h2 id="programmers-do-better-things-in-the-browser">Programmers do better things in the browser.</h2>
 
-<p>I love helping developers, it’s why I’m in Developer Relations, but if I’m honest this is the one I worry about the most. When I watch our industry the pattern I see is the reinvention of the wheel (“Ohai everyone, I just launched my new MVC framework! CHECK IT OUT!”) and, lo, we have eleventy billion of the suckers. That doesn’t improve things, it just means we have yet another way to do the same stuff as before. I’m picking on MVC, but empirically we know there are a heap of variants of virtually any kind of library you care to think up.</p>
+<p>I love helping developers, it’s why I’m in Developer Relations, but if I’m
+honest this is the one I worry about the most. When I watch our industry the
+pattern I see is the reinvention of the wheel (“Ohai everyone, I just launched
+my new MVC framework! CHECK IT OUT!”) and, lo, we have eleventy billion of the
+suckers. That doesn’t improve things, it just means we have yet another way to
+do the same stuff as before. I’m picking on MVC, but empirically we know there
+are a heap of variants of virtually any kind of library you care to think up.</p>
 
-<p>But, we say, it’s helpful for developers to learn how to do these things, so why not? How do we know if we don’t try? That is absolutely true, but then I’d also say don’t push it to GitHub and promote it as a viable alternative to the other frameworks. I’m just as guilty of doing this with my 3D engine A3, although I’d posit that I never claimed it as a viable alternative to Three.js. In hindsight I probably shouldn’t have pushed it to GitHub, but there we go, lesson learned.</p>
+<p>But, we say, it’s helpful for developers to learn how to do these things, so
+why not? How do we know if we don’t try? That is absolutely true, but then I’d
+also say don’t push it to GitHub and promote it as a viable alternative to the
+other frameworks. I’m just as guilty of doing this with my 3D engine A3,
+although I’d posit that I never claimed it as a viable alternative to
+Three.js. In hindsight I probably shouldn’t have pushed it to GitHub, but
+there we go, lesson learned.</p>
 
-<p>At this point, now that you have a much richer understanding of “how to build a framework / library for [insert task here]”, it would help everyone out a huge deal if you put your energies into an <em>existing project</em> and help to shape that for the better. If we rally around specific solutions we can make progress much more quickly than if we all pull in different directions. Many times we don’t do that. <em>That’s</em> what worries me.</p>
+<p>At this point, now that you have a much richer understanding of “how to build a
+framework / library for [insert task here]”, it would help everyone out a huge
+deal if you put your energies into an <em>existing project</em> and help to shape
+that for the better. If we rally around specific solutions we can make
+progress much more quickly than if we all pull in different directions. Many
+times we don’t do that. <em>That’s</em> what worries me.</p>
 
-<p>As a side-note to this, I’m not suggesting that we need <em>one</em> solution for things. Not at all, we need innovation and competition, but we still need to question whether our time is better spent making a new solution to a problem, or iterating and improving on an <em>existing</em> solution.</p>
+<p>As a side-note to this, I’m not suggesting that we need <em>one</em> solution for
+things. Not at all, we need innovation and competition, but we still need to
+question whether our time is better spent making a new solution to a problem,
+or iterating and improving on an <em>existing</em> solution.</p>
 
 <blockquote>
-<p>If we rally around specific solutions we can make progress much more quickly than if we all pull in different directions.</p>
+  <p>If we rally around specific solutions we can make progress much more quickly than if we all pull in different directions.</p>
 </blockquote>
 
-<p>I <em>do</em> believe our platform needs better primitives because we see developers solving the same problems over and over again, and to my mind the browser should handle many of these things. But, more desperately, we need to push the state of the art, not spend our time repeating ourselves. At the risk of repeating <em>myself</em> (for maximum irony), we are competing against other delivery platforms and so the best way to do that is to improve existing solutions not recreate them.</p>
+<p>I <em>do</em> believe our platform needs better primitives because we see developers
+solving the same problems over and over again, and to my mind the browser
+should handle many of these things. But, more desperately, we need to push the
+state of the art, not spend our time repeating ourselves. At the risk of
+repeating <em>myself</em> (for maximum irony), we are competing against other
+delivery platforms and so the best way to do that is to improve existing
+solutions not recreate them.</p>
+
 <aside class="boxout">
-<h1 id="same_hymn_sheet_different_paul">Same hymn sheet, different Paul.</h1>
+<p># Same hymn sheet, different Paul.</p>
 
-<p>Paul Irish gave a talk on some of this stuff yesterday. (I actually had no idea he was covering this ground as well!). Luke Wroblewski <a href="http://www.lukew.com/ff/entry.asp?1716">took some notes</a>. :) </aside></p>
+<p>Paul Irish gave a talk on some of this stuff yesterday. (I actually had no
+idea he was covering this ground as well!). Luke Wroblewski <a href="http://www.lukew.com/ff/entry.asp?1716">took
+some notes</a>. :)
+</aside></p>
 
-<h2 id="what_to_do_what_to_do">What to do, what to do…</h2>
+<h2 id="what-to-do-what-to-do">What to do, what to do…</h2>
 
-<p>We need a sense of urgency, we need better tools, better language features, a better approach to building applications. At the end of the day we’re the developers who build sites and apps, and we have a responsibility to shape our platform for the better.</p>
+<p>We need a sense of urgency, we need better tools, better language features, a
+better approach to building applications. At the end of the day we’re the
+developers who build sites and apps, and we have a responsibility to shape our
+platform for the better.</p>
 
-<p>We’re unique in that we <em>do</em> have standards bodies to which we can contribute (which we really should, we all have experiences, insights and opinions on how our platform should evolve), and open-source browsers for which we can file bugs and commit patches (if we so desire), but, while we wait for platform and language improvements to come, let’s spend some time on improving our <em>existing</em> libraries and frameworks (file bugs, commit fixes, write documentation and tutorials), and not reinventing the wheel.</p></div></div>
+<p>We’re unique in that we <em>do</em> have standards bodies to which we can contribute
+(which we really should, we all have experiences, insights and opinions on how
+our platform should evolve), and open-source browsers for which we can file
+bugs and commit patches (if we so desire), but, while we wait for platform and
+language improvements to come, let’s spend some time on improving our
+<em>existing</em> libraries and frameworks (file bugs, commit fixes, write
+documentation and tutorials), and not reinventing the wheel.</p>
+</div></div>
 
   <div class="footer-share container">
     Share this on: <span class="value"><a href="http://www.twitter.com/share?url=http://aerotwist.com/blog/reinventing-the-wheel/">Twitter</a></span>
@@ -329,7 +399,7 @@
   <div class="clear"></div>
 
   
-    <svg class="left-shape" style="margin-left: -286.9px" width="422.79999999999995" height="744.8">
+    <svg class="left-shape" style="margin-left: -286.9px" width="422.8" height="744.8">
       <use xlink:href="#color-block" filter="url(#blur-4)" transform="scale(-1.4 1.4) rotate(90)"/>
     </svg>
 

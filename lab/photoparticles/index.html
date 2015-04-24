@@ -166,23 +166,50 @@
 
 <h2 id="synopsis">Synopsis</h2>
 
-<p>The idea for this experiment was pretty simple. What if you could take a picture, explode it out into a ton of particles, and then combine it with some form of magnetism? When it came to actually building it I actually ended up needing to use a combination of four technologies: HTML5‘s Drag and Drop, File API, Canvas and also WebGL.</p>
+<p>The idea for this experiment was pretty simple. What if you could take a
+picture, explode it out into a ton of particles, and then combine it with some
+form of magnetism? When it came to actually building it I actually ended up
+needing to use a combination of four technologies: HTML5’s Drag and Drop, File
+API, Canvas and also WebGL.</p>
 
-<h2 id="tech_details">Tech Details</h2>
+<h2 id="tech-details">Tech Details</h2>
 
-<p>To begin with I attach event listeners to the main container for Drag and Drop. If you drop an image onto the container the File API takes over and reads in the image. Once that’s done the image is written into a canvas, and that’s where it actually gets a little more interesting.</p>
+<p>To begin with I attach event listeners to the main container for Drag and
+Drop. If you drop an image onto the container the File API takes over and
+reads in the image. Once that’s done the image is written into a canvas, and
+that’s where it actually gets a little more interesting.</p>
 
-<p>At this point we can now split out the image to particles, by doing a pass over the pixels in the canvas and pulling out the RGB components of each. Given, however, that an image of 600 by 600 would give 360,000 particles if mapped directly, I opted to only pull out each 10th pixel (by default, you can change that if you like) and use that instead. Even with this you easily get into the thousands.</p>
+<p>At this point we can now split out the image to particles, by doing a pass
+over the pixels in the canvas and pulling out the RGB components of each.
+Given, however, that an image of 600 by 600 would give 360,000 particles if
+mapped directly, I opted to only pull out each 10th pixel (by default, you can
+change that if you like) and use that instead. Even with this you easily get
+into the thousands.</p>
 
-<h2 id="making_it_interesting">Making it interesting</h2>
+<h2 id="making-it-interesting">Making it interesting</h2>
 
-<p>So we’ve got these particles, but how can I make it interesting? Well, a pretty cool thing to do with particles is introduce some physics so I figured I could work with what I’ve got: RGB values. I introduced three magnets to the scene, one per colour component, and figured that each particle should be attracted or repelled by each magnet depending on how much of that component colour the particle contains. Red particles would be more attracted to the red magnet, and so on.</p>
+<p>So we’ve got these particles, but how can I make it interesting? Well, a
+pretty cool thing to do with particles is introduce some physics so I figured
+I could work with what I’ve got: RGB values. I introduced three magnets to the
+scene, one per colour component, and figured that each particle should be
+attracted or repelled by each magnet depending on how much of that component
+colour the particle contains. Red particles would be more attracted to the red
+magnet, and so on.</p>
 
-<p>After that it was just a case of letting the physics take its course and addding some options for the user interface so people could play around with magnet strengths and particle densities.</p>
+<p>After that it was just a case of letting the physics take its course and
+addding some options for the user interface so people could play around with
+magnet strengths and particle densities.</p>
 
-<p>I’ve been blown away by the reception to this little experiment. In fact after it was pushed live (and tweeted about by a <a href="http://twitter.com/mrdoob">few</a> <a href="http://twitter.com/hakimel">notable</a> <a href="http://twitter.com/monocubed">people</a>) my lab traffic shot up by <strong>4,793%</strong> in one day - quite a spike!</p>
+<p>I’ve been blown away by the reception to this little experiment. In fact after
+it was pushed live (and tweeted about by a <a href="http://twitter.com/mrdoob">few</a>
+<a href="http://twitter.com/hakimel">notable</a> <a href="http://twitter.com/monocubed">people</a>)
+my lab traffic shot up by <strong>4,793%</strong> in one day - quite a spike!</p>
 
-<p>I’d like to thank <a href="http://mrdoob.com/">Mr. doob</a> and <a href="http://alteredqualia.com/">Altered Qualia</a> for their stunning work on <a href="https://github.com/mrdoob/three.js/">three.js</a>, one of the foundation blocks on which I was able to build this experiment.</p></div></div>
+<p>I’d like to thank <a href="http://mrdoob.com/">Mr. doob</a> and <a href="http://alteredqualia.com/">Altered
+Qualia</a> for their stunning work on
+<a href="https://github.com/mrdoob/three.js/">three.js</a>, one of the foundation blocks
+on which I was able to build this experiment.</p>
+</div></div>
 
 </div>
 

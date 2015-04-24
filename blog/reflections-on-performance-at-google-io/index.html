@@ -247,41 +247,51 @@
     </div>
   </div>
 
-  <div class="container"><div class="left column"><h2 id="the_skew">The Skew</h2>
+  <div class="container"><div class="left column"><h2 id="the-skew">The Skew</h2>
 
-<p>Most of the conversations I had started the same way: “So, OK, performance,” I said, “what does it mean to you?” Most of the time the developer would say something along the lines of “Oh, umm, concatenation, minification, JavaScript.” and that’s entirely what I expected, but it’s a huge skew towards only a part of the browser’s frame lifecycle.</p>
+<p>Most of the conversations I had started the same way: “So, OK, performance,” I
+said, “what does it mean to you?” Most of the time the developer would say
+something along the lines of “Oh, umm, concatenation, minification,
+JavaScript.” and that’s entirely what I expected, but it’s a huge skew towards
+only a part of the browser’s frame lifecycle.</p>
 
-<h2 id="the_things_chrome_does">The Things Chrome Does</h2>
+<h2 id="the-things-chrome-does">The Things Chrome Does</h2>
 
-<p>To illustrate the point let me list out the headlines of Chrome’s potential workload inside a single frame:</p>
+<p>To illustrate the point let me list out the headlines of Chrome’s potential
+workload inside a single frame:</p>
 
 <ul>
-<li>Dealing with loaded data (image callbacks, styles)</li>
-
-<li>Parsing HTML into the DOM</li>
-
-<li>Calculating (and recalculating) styles</li>
-
-<li>Layout of the page (combining the DOM with styles)</li>
-
-<li>Painting the elements of the page</li>
-
-<li>Compositing the painted elements together</li>
-
-<li>Executing JavaScript and collecting its garbage</li>
+  <li>Dealing with loaded data (image callbacks, styles)</li>
+  <li>Parsing HTML into the DOM</li>
+  <li>Calculating (and recalculating) styles</li>
+  <li>Layout of the page (combining the DOM with styles)</li>
+  <li>Painting the elements of the page</li>
+  <li>Compositing the painted elements together</li>
+  <li>Executing JavaScript and collecting its garbage</li>
 </ul>
 
-<p>Of course the first period of the page likely contains all of these, but each subsequent frame will contain some or (hopefully not, but you never know) <em>all</em> of these. On this view, then, talking solely of concatenation, minification and JavaScript is heavily skewed towards page load time and the computation effort of your own code.</p>
+<p>Of course the first period of the page likely contains all of these, but each
+subsequent frame will contain some or (hopefully not, but you never know)
+<em>all</em> of these. On this view, then, talking solely of concatenation,
+minification and JavaScript is heavily skewed towards page load time and the
+computation effort of your own code.</p>
+
 <aside class="boxout">
-<h1 id="60hz__60fps">60Hz = 60fps</h1>
+<p># 60Hz = 60fps</p>
 
-<p>Chrome is synchronized to the device’s refresh rate. At 60Hz Chrome has a window of ~16ms to get all its work done. That’s not a lot of time!</p>
+<p>Chrome is synchronized to the device’s refresh rate. At 60Hz Chrome has a
+window of ~16ms to get all its work done. That’s not a lot of time!</p>
 
-<p>Loading quickly is hugely important, but as you can see there is a whole tranche of work besides those <em>once the page has loaded</em> that we, as developers, control directly. </aside></p>
+<p>Loading quickly is hugely important, but as you can see there is a whole
+tranche of work besides those <em>once the page has loaded</em> that we, as
+developers, control directly.
+</aside></p>
 
-<h2 id="how_we_see_things">How We See Things</h2>
+<h2 id="how-we-see-things">How We See Things</h2>
 
-<p>In Chrome DevRel’s Performance team we have a slightly different take on things. We carve up those headline tasks into three areas: Network, Compute and Render.</p>
+<p>In Chrome DevRel’s Performance team we have a slightly different take on
+things. We carve up those headline tasks into three areas: Network, Compute
+and Render.</p>
 
 <p><strong>Network</strong> is pretty much what you’d expect and, given the conversations I had with developers, it’s well understood. Change formats, reduce the number of requests and reduce the size of the requests. Of course, like anything, there are nuances and things differ a great deal when you factor in mobile radios and highly variable bandwidth.</p>
 
@@ -290,48 +300,81 @@
 <p><strong>Render</strong> is actually my primary focus area, and I would say, as a rough finger-in-the-air measure, that about <strong>80%</strong> of the sites I profiled at Google I/O had <em>some</em> form of render bottleneck, so that’s what I’m going to talk about a bit. The jobs that come under render are:</p>
 
 <ul>
-<li>Painting the elements of the page</li>
-
-<li>Compositing the painted elements together</li>
+  <li>Painting the elements of the page</li>
+  <li>Compositing the painted elements together</li>
 </ul>
 
-<p>My plan is to deliver talks later in the year outlining this in more detail, but the painting involves two tasks of interest to us developers:</p>
+<p>My plan is to deliver talks later in the year outlining this in more detail,
+but the painting involves two tasks of interest to us developers:</p>
 
 <ol>
-<li>Using a software rasterizer to draw elements into bitmaps</li>
-
-<li>Decoding and resizing images to support the software rasterizer’s task</li>
+  <li>Using a software rasterizer to draw elements into bitmaps</li>
+  <li>Decoding and resizing images to support the software rasterizer’s task</li>
 </ol>
 
 <blockquote>
-<p>I would say, as a rough finger-in-the-air measure, that about 80% of the sites I profiled at Google I/O had some form of render bottleneck</p>
+  <p>I would say, as a rough finger-in-the-air measure, that about 80% of the sites I profiled at Google I/O had some form of render bottleneck</p>
 </blockquote>
 
-<p>Both of these tasks are done lazily, i.e. only when needed, and they’re remarkably expensive. Take image decoding: I ran a little test where I used a command line C++ decoder on a 2000px square image. It took that decoder about ~100ms to decode the image and it took Chrome ~70ms to do the same. Chrome is exceptionally fast, but bearing in mind that we have ~16ms to get <em>everything</em> done inside a single frame you can see how easy it is to cause a slowdown.</p>
+<p>Both of these tasks are done lazily, i.e. only when needed, and they’re
+remarkably expensive. Take image decoding: I ran a little test where I used a
+command line C++ decoder on a 2000px square image. It took that decoder about
+~100ms to decode the image and it took Chrome ~70ms to do the same. Chrome is
+exceptionally fast, but bearing in mind that we have ~16ms to get <em>everything</em>
+done inside a single frame you can see how easy it is to cause a slowdown.</p>
 
-<p>But don’t take my word for it, <a href="https://twitter.com/millermedeiros">Miller Medeiros</a> had a paint issue recently, and check the final sentence of his tweet:</p>
+<p>But don’t take my word for it, <a href="https://twitter.com/millermedeiros">Miller
+Medeiros</a> had a paint issue recently, and
+check the final sentence of his tweet:</p>
+
 <figure>
-  <img src='/static/blog/reflections-on-performance-at-google-io/tweet.jpg' />
+  <img src="/static/blog/reflections-on-performance-at-google-io/tweet.jpg" />
 </figure>
-<p>Of course it all depends on the number of images used, their encoding and dimensions as to how much Chrome has to do, but you get the idea I’m sure.</p>
 
-<p>On the software rasterizing side we’re talking about using your CSS to figure out how an element should be painted. Does it have a border? Rounded corners? Shadows? What color is the text? Colt McAnlis from my team has <a href="http://www.html5rocks.com/en/tutorials/speed/css-paint-times/">covered this recently</a>, so I’ll recommend you read that for more insight.</p>
+<p>Of course it all depends on the number of images used, their encoding and
+dimensions as to how much Chrome has to do, but you get the idea I’m sure.</p>
 
-<h2 id="changing_the_conversation">Changing the Conversation</h2>
+<p>On the software rasterizing side we’re talking about using your CSS to figure
+out how an element should be painted. Does it have a border? Rounded corners?
+Shadows? What color is the text? Colt McAnlis from my team has <a href="http://www.html5rocks.com/en/tutorials/speed/css-paint-times/">covered this
+recently</a>, so
+I’ll recommend you read that for more insight.</p>
 
-<p>We need to change the performance conversation. Network performance is critical, but JavaScript execution is often extremely quick and unlikely to be your bottleneck. The thing is, when you <em>actually profile</em> your sites’ scrolling and interactions with Chrome DevTools my hunch is you will see some purple and a whole lot of green.</p>
+<h2 id="changing-the-conversation">Changing the Conversation</h2>
+
+<p>We need to change the performance conversation. Network performance is
+critical, but JavaScript execution is often extremely quick and unlikely to be
+your bottleneck. The thing is, when you <em>actually profile</em> your sites’
+scrolling and interactions with Chrome DevTools my hunch is you will see some
+purple and a whole lot of green.</p>
+
 <figure>
-  <img src='/static/blog/reflections-on-performance-at-google-io/devtools.png' />
+  <img src="/static/blog/reflections-on-performance-at-google-io/devtools.png" />
 </figure>
-<p>The purple is recalculating style (changing some classes, animating) or layout (where are all the boxes on screen? Do we need to have scrollbars?) and the green is painting or compositing.</p>
+
+<p>The purple is recalculating style (changing some classes, animating) or layout
+(where are all the boxes on screen? Do we need to have scrollbars?) and the
+green is painting or compositing.</p>
+
 <aside class="boxout">
-<h1 id="i_want_to_avoid_paints">I want to avoid paints!</h1>
+<p># I want to avoid paints!</p>
 
-<p>Of course you do, my developery chum. That’s why I wrote this article on HTML5 Rocks about <a href="http://www.html5rocks.com/en/tutorials/speed/unnecessary-paints/">Avoiding Unnecessary Paints</a> just for you! </aside></p>
+<p>Of course you do, my developery chum. That’s why I wrote this article on HTML5
+Rocks about <a href="http://www.html5rocks.com/en/tutorials/speed/unnecessary-paints/">Avoiding Unnecessary
+Paints</a> just
+for you!
+</aside></p>
 
-<p>Browsers are capable of running at the refresh rate of the device. When they do so our sites and apps feel smooth and crisp. It’s nice, users love it. When it doesn’t it hitches, hiccups, janks (pick your term of choice) and <em>users don’t like it</em>. Users not liking something should be a huge red flag that we need to fix things because they’re often our paying customers!</p>
+<p>Browsers are capable of running at the refresh rate of the device. When they
+do so our sites and apps feel smooth and crisp. It’s nice, users love it. When
+it doesn’t it hitches, hiccups, janks (pick your term of choice) and <em>users
+don’t like it</em>. Users not liking something should be a huge red flag that we
+need to fix things because they’re often our paying customers!</p>
 
-<p>Let’s talk differently in our development teams and companies about performance. It isn’t just about how <em>quickly it loads</em>, it’s also about <em>how quickly it runs</em>. That’s what keeps our users happy.</p></div></div>
+<p>Let’s talk differently in our development teams and companies about
+performance. It isn’t just about how <em>quickly it loads</em>, it’s also about <em>how
+quickly it runs</em>. That’s what keeps our users happy.</p>
+</div></div>
 
   <div class="footer-share container">
     Share this on: <span class="value"><a href="http://www.twitter.com/share?url=http://aerotwist.com/blog/reflections-on-performance-at-google-io/">Twitter</a></span>
@@ -341,7 +384,7 @@
   <div class="clear"></div>
 
   
-    <svg class="left-shape" style="margin-left: -331.55px" width="488.59999999999997" height="1040.2">
+    <svg class="left-shape" style="margin-left: -331.55px" width="488.6" height="1040.2">
       <use xlink:href="#color-block" filter="url(#blur-4)" transform="scale(-1.4 1.4) rotate(90)"/>
     </svg>
 

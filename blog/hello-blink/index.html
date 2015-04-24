@@ -253,50 +253,128 @@
 
   <div class="container"><div class="left column"><h2 id="waaaaaaa">Waaaaaaa?!</h2>
 
-<p>That’s pretty much what my first sentiment was as well. Well actually it wasn’t. I work on the basis that I’m the dumb guy in the room (which works out to be true more often than I’d like) and my first thought was more like “What am I missing? Why such a big change?”</p>
+<p>That’s pretty much what my first sentiment was as well. Well actually it
+wasn’t. I work on the basis that I’m the dumb guy in the room (which works out
+to be true more often than I’d like) and my first thought was more like “What
+am I missing? Why such a big change?”</p>
 
-<p>When it comes to web stuff I am entirely self-taught, like most developers, and for most of my career I cared very little for browser internals. After all, I’m giving browsers a bunch of stuff to deal with (HTML, CSS, JS), why should I start caring <em>how</em> they do it? I don’t sit there musing over my car’s ability to combust petrol whenever I take a drive.</p>
-
-<blockquote>
-<p>I don’t sit there musing over my car’s ability to combust petrol whenever I take a drive.</p>
-</blockquote>
-
-<p>I was dimly aware of WebKit, Trident and Gecko, but I was happy to consider them some abstract notion, much as I do with my car. Sometimes they were awesome, sometimes they sucked, but whatever the case I honestly didn’t care much for them. They just took my code and made it work. Job done.</p>
-
-<h2 id="browser_internals">Browser Internals</h2>
-
-<p>A while ago I figured that I was going to have to understand things a little better and so I set about trying to understand more about browser internals. I recall the moment that I realised that there’s a ton of stuff outside of the engine that actually makes a browser a browser. In short, I realised that WebKit <em>isn’t</em> the browser and that it’s not the right mental model to consider Chrome and Safari as “pretty much the same thing”. In hindsight I feel a bit silly that I hadn’t thought about it in those terms before, but there we go, we all learn somehow.</p>
-
-<p>Anyway, in my case understanding more about the browser internals helped me be a better developer because I was less reliant on the “magic” under the hood and I could code more tactically. I’d say if you have the time and inclination it’s well worth your effort to do the same. In the interests of not reinventing the wheel, I’ll just suggest that you read <a href="http://paulirish.com/2013/webkit-for-developers/">Paul Irish’s post about WebKit for Developers</a> if you haven’t already. It covers the WebKit internals stuff I wish I’d known a few years ago. Obviously that’s only one part of the puzzle, though, because there are a bunch of different engines out there. But it’s a start! Actually, aside from Paul’s excellent summary, the HTML5 Rocks article that explains <a href="http://www.html5rocks.com/en/tutorials/internals/howbrowserswork/">how browsers work</a> is something of a must-read, too, so give that a whirl as well.</p>
-
-<h2 id="the_browserscape">The Browserscape</h2>
-
-<p>Today we have five major browsers: <strong>Chrome</strong>, <strong>Firefox</strong>, <strong>Safari</strong>, <strong>Opera</strong> and <strong>Internet Explorer</strong>. Opera is switching to use the Chromium project for their next version, and of the three remaining only one other is a WebKit port: <strong>Safari</strong>. It’s worth keeping in mind, then, that as developers if we <em>do</em> assume a certain amount of consistency between WebKit ports, there are still <strong>Firefox</strong> and <strong>Internet Explorer</strong> out there with a large market share that are not WebKit-based. But you know all this, so why do I mention it?</p>
-
-<p>Well if two of the major browser vendors are not WebKit-based then we still have a situation where several completely different implementations need to interoperate and behave consistently. It’s actually far more important that we have <strong>standards</strong> around which compliant implementations can be built than it is that we have some “common base”. That way we can have a clearly documented set of APIs and behaviours that we can reference, no matter which browser we’re discussing. We need to be able to ask the question “Is this thing acting the way we all agreed it should?”</p>
+<p>When it comes to web stuff I am entirely self-taught, like most developers,
+and for most of my career I cared very little for browser internals. After
+all, I’m giving browsers a bunch of stuff to deal with (HTML, CSS, JS), why
+should I start caring <em>how</em> they do it? I don’t sit there musing over my car’s
+ability to combust petrol whenever I take a drive.</p>
 
 <blockquote>
-<p>It’s actually far more important that we have <strong>standards</strong> around which compliant implementations can be built than it is that we have some “common base”.</p>
+  <p>I don’t sit there musing over my car’s ability to combust petrol whenever I take a drive.</p>
 </blockquote>
 
-<p>A pretty solid example of this in action is V8 and SpiderMonkey. V8 was a break from WebKit’s default JavaScript parsing and execution engine (JSC), and it fast became the leader for JavaScript performance. Today Mozilla ship SpiderMonkey in Firefox, which is also blazingly fast. The teams behind V8 and SpiderMonkey (or any other JavaScript engine, I’m just picking these two) ensure your JavaScript is executed according to ECMA standards, but when was the last time you sat there pondering how much code is shared between JavaScript engines, or if there should be some combined effort? Before writing that sentence my own honest answer was “umm, never” and I’ve got a hunch yours might be similar. So adhering to the standards, to me at least, makes more sense than any shared code.</p>
+<p>I was dimly aware of WebKit, Trident and Gecko, but I was happy to consider
+them some abstract notion, much as I do with my car. Sometimes they were
+awesome, sometimes they sucked, but whatever the case I honestly didn’t care
+much for them. They just took my code and made it work. Job done.</p>
 
-<p>It turns out that “big change” I didn’t understand initially is about improving the platform, much like V8 did for JavaScript. Blink is a new engine, yes, but it’s being built to conform to open web standards, which is what we need as developers, much more than we need any given engine. My hope is that we’re also going to see innovation across the platform as a whole in terms of performance and stability, and if that means we can all build better apps, then I’m excited.</p>
+<h2 id="browser-internals">Browser Internals</h2>
 
-<h2 id="ok_a_new_engine_now_what">OK, a new engine. Now what?</h2>
+<p>A while ago I figured that I was going to have to understand things a little
+better and so I set about trying to understand more about browser internals. I
+recall the moment that I realised that there’s a ton of stuff outside of the
+engine that actually makes a browser a browser. In short, I realised that
+WebKit <em>isn’t</em> the browser and that it’s not the right mental model to
+consider Chrome and Safari as “pretty much the same thing”. In hindsight I
+feel a bit silly that I hadn’t thought about it in those terms before, but
+there we go, we all learn somehow.</p>
+
+<p>Anyway, in my case understanding more about the browser internals helped me be
+a better developer because I was less reliant on the “magic” under the hood
+and I could code more tactically. I’d say if you have the time and inclination
+it’s well worth your effort to do the same. In the interests of not
+reinventing the wheel, I’ll just suggest that you read <a href="http://paulirish.com/2013/webkit-for-developers/">Paul Irish’s post
+about WebKit for Developers</a>
+if you haven’t already. It covers the WebKit internals stuff I wish I’d known
+a few years ago. Obviously that’s only one part of the puzzle, though, because
+there are a bunch of different engines out there. But it’s a start! Actually,
+aside from Paul’s excellent summary, the HTML5 Rocks article that explains
+<a href="http://www.html5rocks.com/en/tutorials/internals/howbrowserswork/">how browsers
+work</a> is
+something of a must-read, too, so give that a whirl as well.</p>
+
+<h2 id="the-browserscape">The Browserscape</h2>
+
+<p>Today we have five major browsers: <strong>Chrome</strong>, <strong>Firefox</strong>, <strong>Safari</strong>,
+<strong>Opera</strong> and <strong>Internet Explorer</strong>. Opera is switching to use the Chromium
+project for their next version, and of the three remaining only one other is a
+WebKit port: <strong>Safari</strong>. It’s worth keeping in mind, then, that as developers
+if we <em>do</em> assume a certain amount of consistency between WebKit ports, there
+are still <strong>Firefox</strong> and <strong>Internet Explorer</strong> out there with a large market
+share that are not WebKit-based. But you know all this, so why do I mention
+it?</p>
+
+<p>Well if two of the major browser vendors are not WebKit-based then we still
+have a situation where several completely different implementations need to
+interoperate and behave consistently. It’s actually far more important that we
+have <strong>standards</strong> around which compliant implementations can be built than it
+is that we have some “common base”. That way we can have a clearly documented
+set of APIs and behaviours that we can reference, no matter which browser
+we’re discussing. We need to be able to ask the question “Is this thing acting
+the way we all agreed it should?”</p>
+
+<blockquote>
+  <p>It’s actually far more important that we have <strong>standards</strong> around which compliant implementations can be built than it is that we have some “common base”.</p>
+</blockquote>
+
+<p>A pretty solid example of this in action is V8 and SpiderMonkey. V8 was a
+break from WebKit’s default JavaScript parsing and execution engine (JSC), and
+it fast became the leader for JavaScript performance. Today Mozilla ship
+SpiderMonkey in Firefox, which is also blazingly fast. The teams behind V8 and
+SpiderMonkey (or any other JavaScript engine, I’m just picking these two)
+ensure your JavaScript is executed according to ECMA standards, but when was
+the last time you sat there pondering how much code is shared between
+JavaScript engines, or if there should be some combined effort? Before writing
+that sentence my own honest answer was “umm, never” and I’ve got a hunch yours
+might be similar. So adhering to the standards, to me at least, makes more
+sense than any shared code.</p>
+
+<p>It turns out that “big change” I didn’t understand initially is about
+improving the platform, much like V8 did for JavaScript. Blink is a new
+engine, yes, but it’s being built to conform to open web standards, which is
+what we need as developers, much more than we need any given engine. My hope
+is that we’re also going to see innovation across the platform as a whole in
+terms of performance and stability, and if that means we can all build better
+apps, then I’m excited.</p>
+
+<h2 id="ok-a-new-engine-now-what">OK, a new engine. Now what?</h2>
 
 <p>Well there’s a pretty fine <a href="http://chromium.org/blink
-/developer-faq">Blink FAQ document</a> that will hopefully answer the majority of your questions, but from my perspective there are a few final thoughts I have on all this.</p>
+/developer-faq">Blink FAQ document</a> that will hopefully answer the majority of your questions, but
+from my perspective there are a few final thoughts I have on all this.</p>
 
-<p>We are building sites and apps for our users, and their expectations of what can be done in the browser grows year on year. Many of us are also building for businesses that choose between web and native as their primary delivery platform. I for one am really grateful when any browser vendor takes that need seriously, whether that’s Google or anyone else. I believe we are going to need an engine that will allow us to build the next generation of web apps. I think Blink is the start of that, and that’s something I’m really excited about.</p>
+<p>We are building sites and apps for our users, and their expectations of what
+can be done in the browser grows year on year. Many of us are also building
+for businesses that choose between web and native as their primary delivery
+platform. I for one am really grateful when any browser vendor takes that need
+seriously, whether that’s Google or anyone else. I believe we are going to
+need an engine that will allow us to build the next generation of web apps. I
+think Blink is the start of that, and that’s something I’m really excited
+about.</p>
 
-<p>Secondly there’s a <a href="http://chromestatus.com">new Chrome Status page</a>, which gives <em>way</em> more insight into Chrome’s implementation of standards, as well as the known position of other vendors on a per-spec basis. It’s great to be able to get insight into the current status of whichever upcoming features your apps rely on, so that you can plan accordingly.</p>
+<p>Secondly there’s a <a href="http://chromestatus.com">new Chrome Status page</a>, which
+gives <em>way</em> more insight into Chrome’s implementation of standards, as well as
+the known position of other vendors on a per-spec basis. It’s great to be able
+to get insight into the current status of whichever upcoming features your
+apps rely on, so that you can plan accordingly.</p>
 
-<p>Finally there are now very clearly defined policies around <a href="http://www.chromium.org/blink#new-features">how Chrome changes going forward</a>. That means it should be clearer what we can expect from Blink and Chromium as a whole.</p>
+<p>Finally there are now very clearly defined policies around <a href="http://www.chromium.org/blink#new-features">how Chrome changes
+going forward</a>. That means it
+should be clearer what we can expect from Blink and Chromium as a whole.</p>
 
 <h2 id="conclusion">Conclusion</h2>
 
-<p>There’s no doubt in my mind that Blink is going to be a huge change for a web, but I also think it’s a very positive one. I desperately want the web to be the best delivery platform for our apps and sites. I am hopeful that in the same way we saw V8 change our expectations of JavaScript performance, that we will now see the broader browser landscape challenged as well.</p></div></div>
+<p>There’s no doubt in my mind that Blink is going to be a huge change for a web,
+but I also think it’s a very positive one. I desperately want the web to be
+the best delivery platform for our apps and sites. I am hopeful that in the
+same way we saw V8 change our expectations of JavaScript performance, that we
+will now see the broader browser landscape challenged as well.</p>
+</div></div>
 
   <div class="footer-share container">
     Share this on: <span class="value"><a href="http://www.twitter.com/share?url=http://aerotwist.com/blog/hello-blink/">Twitter</a></span>

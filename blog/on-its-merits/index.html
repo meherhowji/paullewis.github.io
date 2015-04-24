@@ -245,25 +245,25 @@
     </div>
   </div>
 
-  <div class="container"><div class="left column"><h2 id="duke_nukem_vs_quake">Duke Nukem vs Quake</h2>
+  <div class="container"><div class="left column"><h2 id="duke-nukem-vs-quake">Duke Nukem vs Quake</h2>
 
 <p>I was, I think, 12 years old when both games came out. There were turf wars over which game was better. The humour of Duke Nukem was brilliant to teenage Paul, but Quake had, like, a <em>for realz</em> 3D engine, none of this sprited characters nonsense!</p>
 
 <p>The Paul Lewis Approach™: buy both, play both, enjoy both.</p>
 
-<h2 id="taking_stock">Taking stock</h2>
+<h2 id="taking-stock">Taking stock</h2>
 
 <p>Roll on to today and I’m a little disappointed with 2013 Paul, if I’m honest. To understand why, you need to know a little about what I got up to before Google. The list of technologies on my CV (resume for the non-Brits) looked a little like this: <strong>HTML</strong>, <strong>JavaScript</strong>, <strong>CSS</strong>, <strong>Flash (AS1, 2 and 3)</strong>, <strong>PHP</strong>, <strong>MySQL</strong>, <strong>Java</strong>, <strong>Objective-C</strong>.</p>
 
 <blockquote>
-<p>In order to know something is the right tool for the job you have to understand your <em>entire</em> toolkit.</p>
+  <p>In order to know something is the right tool for the job you have to understand your <em>entire</em> toolkit.</p>
 </blockquote>
 
 <p>If you speak to anyone I worked with during that period I’m pretty confident they would tell you I could hold my own in any of those stacks, and a few others besides. <strong>The point here is absolutely not “look at me, aren’t I amaaaazing?”</strong> but rather my underlying attitude: I was inquisitive and thorough. I dedicated myself to understanding as many technologies as possible, their strengths and weaknesses. I didn’t really care whether something was in fashion per se; if it was the <em>right tool for the job</em> it was going to get used. There is a certain amount of subjectivity to the term ‘right’ in my mind, it’s sometimes just a judgment call.</p>
 
 <p>But in order to know something is the right tool for the job you have to understand your <em>entire</em> toolkit.</p>
 
-<h2 id="did_something_change">Did something change?</h2>
+<h2 id="did-something-change">Did something change?</h2>
 
 <p>You know, it did: I had kids. Kids, as every parent knows, equate to way less free time. Consequently I’ve let my drive to look at new technologies wane. Worse than that, though, without that drive I’ve not had as broad an outlook, and I’ve noticed I’ve become a little, umm, polarized in some areas. Not necessarily in a good way.</p>
 
@@ -273,12 +273,12 @@
 
 <p>It’s been super easy to be that way though, because today’s <a href="http://www.chromestatus.com/features/6682831673622528">recorded opinion on chromestatus.com, at least from vendors and JavaScript devs, is against Dart</a>. But I’m starting to wonder why. Perhaps they, like me, have conflated Dart the language with Dart VM.</p>
 
-<h2 id="the_language">The Language</h2>
+<h2 id="the-language">The Language</h2>
 
 <p>When I look at the language itself it doesn’t have any of the frankly <a href="http://wtfjs.com/">bonkers aspects of JavaScript</a>. It also has some pretty cool features in and of itself, like classes, maps, cascade operators, streams or tree-shaking. Parallels for some of those are already landing in JavaScript as of ES6, which is awesome.</p>
 
 <blockquote>
-<p>The genius of the JavaScript is that it’s super simple to get started with, ubiquitous, and once you get used to it developing is fun and fine.</p>
+  <p>The genius of the JavaScript is that it’s super simple to get started with, ubiquitous, and once you get used to it developing is fun and fine.</p>
 </blockquote>
 
 <p>The genius of the JavaScript is that it’s super simple to get started with, ubiquitous, and once you get used to it developing is fun and fine for many classes of applications. To say it’s the greatest possible language we could have on the web (which seems to be a consensus view, though I grant not everyone’s) seems myopic to me.</p>
@@ -291,7 +291,7 @@
 
 <p>In short, I don’t want a penalty if I use Dart because I could’ve just as easily written JavaScript and not taken the hit. That’s a big deal for me and I’m sure many other developers, too.</p>
 
-<h2 id="but_what_does_dart_solve_why_cant_we_just_evolve_javascript">But what does Dart solve? Why can’t we just evolve JavaScript?</h2>
+<h2 id="but-what-does-dart-solve-why-cant-we-just-evolve-javascript">But what does Dart solve? Why can’t we just evolve JavaScript?</h2>
 
 <p>Who said it had to be an either-or thing? Bear in mind I’m the guy who bought Duke Nukem and Quake. (I repeated that feat with Unreal Tournament and Quake 3 FWIW. Believe me, it’s the showbiz move.) Apple allows iOS apps to be built with Objective-C and C++. The lack of support for C++ would hamstring a huge quantity of games, since many engines are authored in it. Microsoft allow apps to be authored in C#, C++ and VB, all of which are <a href="http://en.wikipedia.org/wiki/Common_Language_Runtime">compiled down to their CLR</a> and then executed. Android lets you use Java or C++. You get the idea.</p>
 
@@ -301,37 +301,42 @@
 
 <p>In summary, I consider the Dart language a great option (possibly one of the best) amongst the compile-to-JavaScript options like CoffeeScript, TypeScript, GWT, <a href="https://github.com/jashkenas/coffee-script/wiki/List-of-languages-that-compile-to-JS">or any of these languages</a>.</p>
 
-<h2 id="dart_vm__dart_the_language">Dart VM != Dart the language</h2>
+<h2 id="dart-vm--dart-the-language">Dart VM != Dart the language</h2>
 
 <p>What I <em>do</em> see, however, is the concerns of those who do not have the engineering resources or desire to include two VMs (JavaScript and Dart) in their browser. But that’s why dart2js exists. Nobody has to ship a Dart VM. From a Chrome point of view, there are <a href="http://www.chromium.org/blink#new-features">very clear criteria in place for adding new features to Blink</a>, which we set out in April of this year.</p>
 
 <p><strong>My main problem is seeing the Dart VM be conflated with the Dart language</strong>: Dart as a language is great, the Dart VM itself may not be, <em>depending on your perspective</em>. They’re related, but objections for one should not be leveled at the other: the language is developer-facing, the VM is a vendor concern in the main.</p>
 
 <blockquote>
-<p>I believe everyone <em>should</em> be cautious of introducing a new VM, Dart or otherwise, because it potentially represents a huge investment for the platform as a whole, not just one vendor.</p>
+  <p>I believe everyone <em>should</em> be cautious of introducing a new VM, Dart or otherwise, because it potentially represents a huge investment for the platform as a whole, not just one vendor.</p>
 </blockquote>
 
 <p>I believe everyone <em>should</em> be cautious of introducing a new VM, Dart or otherwise, because it potentially represents a huge investment for the platform as a whole, not just one vendor. Nor should we rule it out, but rather we should judge it against our goal of producing the best possible multi-device experiences for our development teams and users.</p>
 
-<h2 id="so_if_i_want_to_do_the_dart_thing_id_have_to_keep_two_versions_of_my_code_on_my_server">So if I want to do the Dart thing I’d have to keep two versions of my code on my server?</h2>
+<h2 id="so-if-i-want-to-do-the-dart-thing-id-have-to-keep-two-versions-of-my-code-on-my-server">So if I want to do the Dart thing I’d have to keep two versions of my code on my server?</h2>
 
 <p>Sure, I guess. But I don’t see how that’s different to keeping multiple video file formats, image formats, or source maps (and corresponding unminified source code). Ultimately you would write Dart code and the publishing process would create the equivalent JavaScript.</p>
-<aside class="boxout">
-<h1 id="asmjs">asm.js</h1>
 
-<p>Interestingly, both asm.js and Dart share a particular profile today. In both you write in another language and you get highly optimized JavaScript out of the other side. For asm.js this is typically C++, which you compile through Emscripten and LLVM to JavaScript. For Dart it’s dart2js. </aside></p>
+<aside class="boxout">
+<p># asm.js</p>
+
+<p>Interestingly, both asm.js and Dart share a particular profile today. In both you write in another language and you get highly optimized JavaScript out of the other side. For asm.js this is typically C++, which you compile through Emscripten and LLVM to JavaScript. For Dart it’s dart2js.
+</aside></p>
 
 <p>We have a long tradition of developing in languages that is most convenient for us (ActionScript, C++, CoffeeScript, TypeScript, JavaScript), having some kind of processing step in the middle (Grunt, Ant, Maven, Makefiles, Flash), then serving the most appropriate thing for the browser. If any vendor isn’t shipping a Dart VM ultimately there’s JavaScript that can run. I don’t get any real heebie-jeebies from that, especially in light of my former points about productivity and performance.</p>
 
-<h2 id="2014_and_onwards">2014 and onwards</h2>
+<h2 id="and-onwards">2014 and onwards</h2>
 
 <p>I don’t know if Brian was thinking of Dart when he tweeted this, but it resonated with me:</p>
+
 <figure>
-  <img src='/static/blog/on-its-merits/brian.png' />
+  <img src="/static/blog/on-its-merits/brian.png" />
 </figure>
+
 <p>You might think I’ve “<a href="http://en.wikipedia.org/wiki/Drinking_the_Kool-Aid">drunk the Dart Kool-Aid</a>”, but that’s really not the case. All I’m saying is there are many things about Dart to like and by taking a step back I’m appreciating them, much as I appreciate the niceties of Objective-C, Java, PHP (seriously) or pretty much any language: classes, optional static typing, collections and tree-shaking are all great features. Again it’s not an either-or thing in my head, this is about being open to different technologies and approaches.</p>
 
-<p>I think 2014 Paul is going to recapture a bit of his former agnosticism. Kind of like buying Duke Nukem and Quake.</p></div></div>
+<p>I think 2014 Paul is going to recapture a bit of his former agnosticism. Kind of like buying Duke Nukem and Quake.</p>
+</div></div>
 
   <div class="footer-share container">
     Share this on: <span class="value"><a href="http://www.twitter.com/share?url=http://aerotwist.com/blog/on-its-merits/">Twitter</a></span>
@@ -341,7 +346,7 @@
   <div class="clear"></div>
 
   
-    <svg class="left-shape" style="margin-left: -278.34999999999997px" width="410.2" height="1092.0">
+    <svg class="left-shape" style="margin-left: -278.35px" width="410.2" height="1092.0">
       <use xlink:href="#color-block" filter="url(#blur-4)" transform="scale(-1.4 1.4) rotate(90)"/>
     </svg>
 

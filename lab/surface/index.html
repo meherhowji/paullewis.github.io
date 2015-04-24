@@ -162,21 +162,40 @@
 
 <h2 id="synopsis">Synopsis</h2>
 
-<p>So a few years ago <a href="http://www.ultrashock.com/tutorials/flash8/wave.php">I made a Flash experiment</a>, inspired by the genius of <a href="http://yugop.com">Yugo Nakamura</a>. Well things have moved on since then and I’ve been playing with WebGL and three.js a lot recently (if you hadn’t noticed!), so it felt like the right time to remake that sucker.</p>
+<p>So a few years ago <a href="http://www.ultrashock.com/tutorials/flash8/wave.php">I made a Flash
+experiment</a>, inspired by
+the genius of <a href="http://yugop.com">Yugo Nakamura</a>. Well things have moved on
+since then and I’ve been playing with WebGL and three.js a lot recently (if
+you hadn’t noticed!), so it felt like the right time to remake that sucker.</p>
 
-<h2 id="tech_details">Tech Details</h2>
+<h2 id="tech-details">Tech Details</h2>
 
-<p>The actual implementation is fairly simple. To begin with I take a plane and have it subdivide as needed. Then it’s a case of creating springs between each vertex and its neighbours. Finally we attach a spring to connect the vertex to its default position.</p>
+<p>The actual implementation is fairly simple. To begin with I take a plane and
+have it subdivide as needed. Then it’s a case of creating springs between each
+vertex and its neighbours. Finally we attach a spring to connect the vertex to
+its default position.</p>
 
-<p>During each pass we check the length of each spring and apply the force to pull the vertex back to its base. In this process, the forces are going to apply to both ends of the spring so what you see is a vertex pulling its neighbours and you end up with a water-like surface.</p>
+<p>During each pass we check the length of each spring and apply the force to
+pull the vertex back to its base. In this process, the forces are going to
+apply to both ends of the spring so what you see is a vertex pulling its
+neighbours and you end up with a water-like surface.</p>
 
-<h2 id="a_layer_of_love">A Layer of Love</h2>
+<h2 id="a-layer-of-love">A Layer of Love</h2>
 
-<p>For a laugh I decided to add a few extra features. You can, as with Photo Particles, add your own photos, and you can also modify the elasticity of the springs in action.</p>
+<p>For a laugh I decided to add a few extra features. You can, as with Photo
+Particles, add your own photos, and you can also modify the elasticity of the
+springs in action.</p>
 
-<p>Thanks to <a href="http://hakim.se">Hakim</a>‘s suggestion (he loves making them) I decided it was worth adding raindrops. When they’re going I have to say I find the whole thing mesmerising!</p>
+<p>Thanks to <a href="http://hakim.se">Hakim</a>’s suggestion (he loves making them) I
+decided it was worth adding raindrops. When they’re going I have to say I find
+the whole thing mesmerising!</p>
 
-<p>As per usual, I think it’s be wrong if I didn’t thank <a href="http://mrdoob.com/">Mr. doob</a> and <a href="http://alteredqualia.com/">Altered Qualia</a> for <a href="https://github.com/mrdoob/three.js/">three.js</a>. I also need to thank <a href="http://72lions.com">Thodoris Tsiridis</a> for allowing me to use his amazing photo of St. Eriksgatan in Stockholm.</p></div></div>
+<p>As per usual, I think it’s be wrong if I didn’t thank <a href="http://mrdoob.com/">Mr.
+doob</a> and <a href="http://alteredqualia.com/">Altered Qualia</a> for
+<a href="https://github.com/mrdoob/three.js/">three.js</a>. I also need to thank
+<a href="http://72lions.com">Thodoris Tsiridis</a> for allowing me to use his amazing
+photo of St. Eriksgatan in Stockholm.</p>
+</div></div>
 
 </div>
 
