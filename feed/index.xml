@@ -4,10 +4,10 @@
 
     <title>Aerotwist</title>
     <description>Pretty much whatever comes into my head.</description>
-    <lastBuildDate>2015-04-24 13:26:27 +0100</lastBuildDate>
+    <lastBuildDate>2015-05-06 11:23:23 +0100</lastBuildDate>
     <language>en</language>
     <generator>Aerotwist</generator>
-    <atom:link href="http://aerotwist.com/feed/" rel="self" type="application/rss+xml" />
+    <atom:link href="https://aerotwist.com/feed/" rel="self" type="application/rss+xml" />
     
       <item>
         <title>Moar Performance!</title>
@@ -15,7 +15,7 @@
           <![CDATA[It's been a while since I posted an update, so I wanted to give a brief breakdown of what I've been up to. As a huge spoiler it's... wait for it... performance stuff. But this is cool: I have three new resources just for you!]]>
         </description>
         <pubDate>Fri, 24 Apr 2015 00:00:00 +0000</pubDate>
-        <link>http://aerotwist.com/blog/moar-performance</link>
+        <link>https://aerotwist.com/blog/moar-performance</link>
         <guid isPermaLink="true">/blog/moar-performance</guid>
         
         <category>performance</category>
@@ -28,7 +28,7 @@
           <![CDATA[Animations in your web app should run at 60fps. Not always easy to achieve that,and it really depends on what you're trying to do, but I'm here to help. With FLIP.]]>
         </description>
         <pubDate>Wed, 11 Feb 2015 00:00:00 +0000</pubDate>
-        <link>http://aerotwist.com/blog/flip-your-animations</link>
+        <link>https://aerotwist.com/blog/flip-your-animations</link>
         <guid isPermaLink="true">/blog/flip-your-animations</guid>
         
         <category>performance</category>
@@ -43,7 +43,7 @@
           <![CDATA[I've been building a web app recently and I've had one of those builds. You know, one of the ones where you seem to stumble across a bunch of bugs or bonkers behaviours that cause you to question your own sanity...]]>
         </description>
         <pubDate>Sat, 18 Oct 2014 00:00:00 +0000</pubDate>
-        <link>http://aerotwist.com/blog/some-gotchas-that-got-me</link>
+        <link>https://aerotwist.com/blog/some-gotchas-that-got-me</link>
         <guid isPermaLink="true">/blog/some-gotchas-that-got-me</guid>
         
         <category>gotchas</category>
@@ -60,7 +60,7 @@
           <![CDATA[I figure we needed a definitive reference for what work is triggered by changing various CSS properties. It's something I get asked about often enough by developers, and while we can do tests with DevTools, I have both the time and inclination to shortcut that for everyone. I'm nice like that.]]>
         </description>
         <pubDate>Sat, 26 Jul 2014 00:00:00 +0000</pubDate>
-        <link>http://aerotwist.com/blog/css-triggers</link>
+        <link>https://aerotwist.com/blog/css-triggers</link>
         <guid isPermaLink="true">/blog/css-triggers</guid>
         
         <category>perfmatters</category>
@@ -75,7 +75,7 @@
           <![CDATA[How pixels get onto your users' screens is something you should know about. Not for the sake of knowing, but because in order to be effective as a modern web developer you're going to need to optimize for it.]]>
         </description>
         <pubDate>Thu, 03 Jul 2014 00:00:00 +0000</pubDate>
-        <link>http://aerotwist.com/blog/pixels-are-expensive</link>
+        <link>https://aerotwist.com/blog/pixels-are-expensive</link>
         <guid isPermaLink="true">/blog/pixels-are-expensive</guid>
         
         <category>perfmatters</category>
@@ -88,7 +88,7 @@
           <![CDATA[The best experiences are all about reducing friction, and that takes many forms. Sometimes it means adding things in, like labels, tooltips or other signifiers. At other times it’s about stripping things back to the core, making it super clear what you’re supposed to do next.]]>
         </description>
         <pubDate>Tue, 29 Apr 2014 00:00:00 +0000</pubDate>
-        <link>http://aerotwist.com/blog/better-password-form-fields</link>
+        <link>https://aerotwist.com/blog/better-password-form-fields</link>
         <guid isPermaLink="true">/blog/better-password-form-fields</guid>
         
         <category>design</category>
@@ -103,7 +103,7 @@
           <![CDATA[It's never nice to see bugs crop up because libraries and browsers aren't interacting as expected. In this case jQuery can cause a bit of funk with newer versions of Chrome.]]>
         </description>
         <pubDate>Wed, 23 Apr 2014 00:00:00 +0000</pubDate>
-        <link>http://aerotwist.com/blog/trigger-vs-triggerHandler-in-jQuery</link>
+        <link>https://aerotwist.com/blog/trigger-vs-triggerHandler-in-jQuery</link>
         <guid isPermaLink="true">/blog/trigger-vs-triggerHandler-in-jQuery</guid>
         
         <category>jquery</category>
@@ -118,7 +118,7 @@
           <![CDATA[]]>
         </description>
         <pubDate>Mon, 31 Mar 2014 00:00:00 +0000</pubDate>
-        <link>http://aerotwist.com/lab/music-dna</link>
+        <link>https://aerotwist.com/lab/music-dna</link>
         <guid isPermaLink="true">/lab/music-dna</guid>
         
         <category>canvas</category>
@@ -135,7 +135,7 @@
           <![CDATA[Web Components are the future, for better or worse! That was the summary provided byPeter Gasston at Edge Conference last Friday. I finally managed to figure out, off the back of his presentation, what my primary concern over Web Components are.]]>
         </description>
         <pubDate>Mon, 24 Mar 2014 00:00:00 +0000</pubDate>
-        <link>http://aerotwist.com/blog/web-components-and-three-unsexy-pillars</link>
+        <link>https://aerotwist.com/blog/web-components-and-three-unsexy-pillars</link>
         <guid isPermaLink="true">/blog/web-components-and-three-unsexy-pillars</guid>
         
         <category>accessibility</category>
@@ -152,7 +152,7 @@
           <![CDATA[]]>
         </description>
         <pubDate>Mon, 17 Mar 2014 00:00:00 +0000</pubDate>
-        <link>http://aerotwist.com/tutorials/protip-the-abc-of-interaction</link>
+        <link>https://aerotwist.com/tutorials/protip-the-abc-of-interaction</link>
         <guid isPermaLink="true">/tutorials/protip-the-abc-of-interaction</guid>
         
         <category>protip</category>
@@ -169,7 +169,7 @@
           <![CDATA[]]>
         </description>
         <pubDate>Fri, 14 Mar 2014 00:00:00 +0000</pubDate>
-        <link>http://aerotwist.com/tutorials/protip-nobody-expects-3d</link>
+        <link>https://aerotwist.com/tutorials/protip-nobody-expects-3d</link>
         <guid isPermaLink="true">/tutorials/protip-nobody-expects-3d</guid>
         
         <category>protip</category>
@@ -186,7 +186,7 @@
           <![CDATA[]]>
         </description>
         <pubDate>Thu, 13 Mar 2014 00:00:00 +0000</pubDate>
-        <link>http://aerotwist.com/tutorials/protip-offsets-and-opposing-motion</link>
+        <link>https://aerotwist.com/tutorials/protip-offsets-and-opposing-motion</link>
         <guid isPermaLink="true">/tutorials/protip-offsets-and-opposing-motion</guid>
         
         <category>protip</category>
@@ -203,7 +203,7 @@
           <![CDATA[]]>
         </description>
         <pubDate>Wed, 12 Mar 2014 00:00:00 +0000</pubDate>
-        <link>http://aerotwist.com/tutorials/protip-choose-your-ease</link>
+        <link>https://aerotwist.com/tutorials/protip-choose-your-ease</link>
         <guid isPermaLink="true">/tutorials/protip-choose-your-ease</guid>
         
         <category>protip</category>
@@ -220,7 +220,7 @@
           <![CDATA[]]>
         </description>
         <pubDate>Tue, 11 Mar 2014 00:00:00 +0000</pubDate>
-        <link>http://aerotwist.com/tutorials/protip-stick-vs-ease</link>
+        <link>https://aerotwist.com/tutorials/protip-stick-vs-ease</link>
         <guid isPermaLink="true">/tutorials/protip-stick-vs-ease</guid>
         
         <category>protip</category>
@@ -237,7 +237,7 @@
           <![CDATA[Sometimes I get asked to do performance audits on web projects and to make some recommendations. So what I thought I’d do is run through what my process is, what I’m looking for, and what I typically suggest. It’s not exactly perfect, but hopefully it’ll give you an idea of what you might want to do.]]>
         </description>
         <pubDate>Mon, 03 Mar 2014 00:00:00 +0000</pubDate>
-        <link>http://aerotwist.com/blog/my-performance-audit-workflow</link>
+        <link>https://aerotwist.com/blog/my-performance-audit-workflow</link>
         <guid isPermaLink="true">/blog/my-performance-audit-workflow</guid>
         
         <category>perfmatters</category>
@@ -254,7 +254,7 @@
           <![CDATA[Have you ever used the translateZ hack to create a new compositor layer? Most developers have. Now there is an incoming property that's going to change how we tell the browser what we're trying to achieve. And that, in my opinion, is almost invariably a good thing.]]>
         </description>
         <pubDate>Thu, 30 Jan 2014 00:00:00 +0000</pubDate>
-        <link>http://aerotwist.com/blog/bye-bye-layer-hacks</link>
+        <link>https://aerotwist.com/blog/bye-bye-layer-hacks</link>
         <guid isPermaLink="true">/blog/bye-bye-layer-hacks</guid>
         
         <category>perfmatters</category>
@@ -269,7 +269,7 @@
           <![CDATA[There have been some posts recently that lament the way that companies hire front-end developers, and in particular "Computer Science questions". I feel like throwing my hat in the ring on this one, because I have some thoughts.]]>
         </description>
         <pubDate>Wed, 22 Jan 2014 00:00:00 +0000</pubDate>
-        <link>http://aerotwist.com/blog/algowhatnow</link>
+        <link>https://aerotwist.com/blog/algowhatnow</link>
         <guid isPermaLink="true">/blog/algowhatnow</guid>
         
         <category>opinion</category>
@@ -282,7 +282,7 @@
           <![CDATA[Younger Paul was an inquisitive chap. He liked to monkey about with loads of different technologies, frameworks and platforms. That's changed, and I've found myself opposed to one technology in particular: Dart. But I think that's because I was conflating the language with the VM...]]>
         </description>
         <pubDate>Wed, 18 Dec 2013 00:00:00 +0000</pubDate>
-        <link>http://aerotwist.com/blog/on-its-merits</link>
+        <link>https://aerotwist.com/blog/on-its-merits</link>
         <guid isPermaLink="true">/blog/on-its-merits</guid>
         
         <category>perfmatters</category>
@@ -297,7 +297,7 @@
           <![CDATA[Make me a view in HTML. Go on. You can't, of course, because the browser has no idea what a view is. And that means that we end up fighting with the browser, and that's never a good idea. Let's look at why this even matters...]]>
         </description>
         <pubDate>Wed, 11 Dec 2013 00:00:00 +0000</pubDate>
-        <link>http://aerotwist.com/blog/the-web-needs-containment</link>
+        <link>https://aerotwist.com/blog/the-web-needs-containment</link>
         <guid isPermaLink="true">/blog/the-web-needs-containment</guid>
         
         <category>perfmatters</category>
@@ -314,7 +314,7 @@
           <![CDATA[]]>
         </description>
         <pubDate>Mon, 02 Dec 2013 00:00:00 +0000</pubDate>
-        <link>http://aerotwist.com/lab/poly-maker</link>
+        <link>https://aerotwist.com/lab/poly-maker</link>
         <guid isPermaLink="true">/lab/poly-maker</guid>
         
         <category>canvas</category>
@@ -331,7 +331,7 @@
           <![CDATA[A benchmark is a benchmark, right? How wrong can it be? Turns out I got hoodwinked by one, but even when I unpicked it I discovered some interesting bugs. Come with me on a voyage of API discovery!]]>
         </description>
         <pubDate>Sun, 01 Dec 2013 00:00:00 +0000</pubDate>
-        <link>http://aerotwist.com/blog/bad-benchmark-right-result</link>
+        <link>https://aerotwist.com/blog/bad-benchmark-right-result</link>
         <guid isPermaLink="true">/blog/bad-benchmark-right-result</guid>
         
         <category>perfmatters</category>
@@ -346,7 +346,7 @@
           <![CDATA[A new site! The last version was getting a little bit dated, both in terms of design but also in terms of focus. I decided it was time to take a step back, simplify and reprioritise.]]>
         </description>
         <pubDate>Sat, 30 Nov 2013 00:00:00 +0000</pubDate>
-        <link>http://aerotwist.com/blog/new-site-same-old-priorities</link>
+        <link>https://aerotwist.com/blog/new-site-same-old-priorities</link>
         <guid isPermaLink="true">/blog/new-site-same-old-priorities</guid>
         
         <category>site</category>
@@ -361,7 +361,7 @@
           <![CDATA[Where I decide to go offroading with image decoding.]]>
         </description>
         <pubDate>Mon, 05 Aug 2013 07:32:16 -0500</pubDate>
-        <link>http://aerotwist.com/blog/one-weird-trick</link>
+        <link>https://aerotwist.com/blog/one-weird-trick</link>
         <guid isPermaLink="true">/blog/one-weird-trick</guid>
         
         <category>perfmatters</category>
@@ -378,7 +378,7 @@
           <![CDATA[Mobile apps are difficult to make. To stay relevant I decided to give it a crack. And I tried to make it run at 60fps...]]>
         </description>
         <pubDate>Tue, 02 Jul 2013 10:05:33 -0500</pubDate>
-        <link>http://aerotwist.com/blog/making-a-60fps-mobile-app</link>
+        <link>https://aerotwist.com/blog/making-a-60fps-mobile-app</link>
         <guid isPermaLink="true">/blog/making-a-60fps-mobile-app</guid>
         
         <category>perfmatters</category>
@@ -393,7 +393,7 @@
           <![CDATA[The browser is a black box, yet we often have to optimize for implementation specifics. Is that fair?]]>
         </description>
         <pubDate>Wed, 26 Jun 2013 07:52:57 -0500</pubDate>
-        <link>http://aerotwist.com/blog/it-should-just-work</link>
+        <link>https://aerotwist.com/blog/it-should-just-work</link>
         <guid isPermaLink="true">/blog/it-should-just-work</guid>
         
         <category>opinion</category>
@@ -406,7 +406,7 @@
           <![CDATA[I spent most of my time at Google I/O talking to developers about performance. Here are some thoughts...]]>
         </description>
         <pubDate>Tue, 28 May 2013 08:13:35 -0500</pubDate>
-        <link>http://aerotwist.com/blog/reflections-on-performance-at-google-io</link>
+        <link>https://aerotwist.com/blog/reflections-on-performance-at-google-io</link>
         <guid isPermaLink="true">/blog/reflections-on-performance-at-google-io</guid>
         
         <category>perfmatters</category>
@@ -419,7 +419,7 @@
           <![CDATA[I'm worried about the web. I mainly worry that we're not advancing the state of the art quickly enough. Let me explain why...]]>
         </description>
         <pubDate>Wed, 10 Apr 2013 11:40:38 -0500</pubDate>
-        <link>http://aerotwist.com/blog/reinventing-the-wheel</link>
+        <link>https://aerotwist.com/blog/reinventing-the-wheel</link>
         <guid isPermaLink="true">/blog/reinventing-the-wheel</guid>
         
         <category>code</category>
@@ -434,7 +434,7 @@
           <![CDATA[The browser is a black box, yet we often have to optimize for implementation specifics. Is that fair?]]>
         </description>
         <pubDate>Wed, 03 Apr 2013 16:03:29 -0500</pubDate>
-        <link>http://aerotwist.com/blog/hello-blink</link>
+        <link>https://aerotwist.com/blog/hello-blink</link>
         <guid isPermaLink="true">/blog/hello-blink</guid>
         
         <category>blink</category>
@@ -451,7 +451,7 @@
           <![CDATA[The browser is a black box, yet we often have to optimize for implementation specifics. Is that fair?]]>
         </description>
         <pubDate>Mon, 18 Mar 2013 11:58:05 -0500</pubDate>
-        <link>http://aerotwist.com/blog/dont-guess-it-test-it</link>
+        <link>https://aerotwist.com/blog/dont-guess-it-test-it</link>
         <guid isPermaLink="true">/blog/dont-guess-it-test-it</guid>
         
         <category>perfmatters</category>
@@ -468,7 +468,7 @@
           <![CDATA[Translate3d is often hailed as something of a silver bullet. In many cases it will drastically improve rendering performance in WebKit and Blink browsers like Chrome, Opera and Safari. Let's take a look at why it can improve rendering performance, and what we need to be careful of.]]>
         </description>
         <pubDate>Wed, 27 Feb 2013 14:44:01 -0600</pubDate>
-        <link>http://aerotwist.com/blog/on-translate3d-and-layer-creation-hacks</link>
+        <link>https://aerotwist.com/blog/on-translate3d-and-layer-creation-hacks</link>
         <guid isPermaLink="true">/blog/on-translate3d-and-layer-creation-hacks</guid>
         
         <category>layers</category>
@@ -485,7 +485,7 @@
           <![CDATA[Where I decide to go offroading with image decoding.]]>
         </description>
         <pubDate>Fri, 01 Feb 2013 00:00:00 +0000</pubDate>
-        <link>http://aerotwist.com/tutorials/create-your-own-environment-maps</link>
+        <link>https://aerotwist.com/tutorials/create-your-own-environment-maps</link>
         <guid isPermaLink="true">/tutorials/create-your-own-environment-maps</guid>
         
         <category>cubemaps</category>
@@ -502,7 +502,7 @@
           <![CDATA[]]>
         </description>
         <pubDate>Sun, 11 Sep 2011 00:00:00 +0000</pubDate>
-        <link>http://aerotwist.com/lab/undulating-monkey</link>
+        <link>https://aerotwist.com/lab/undulating-monkey</link>
         <guid isPermaLink="true">/lab/undulating-monkey</guid>
         
         <category>webgl</category>
@@ -521,7 +521,7 @@
           <![CDATA[]]>
         </description>
         <pubDate>Wed, 10 Aug 2011 00:00:00 +0000</pubDate>
-        <link>http://aerotwist.com/lab/strange-attractor</link>
+        <link>https://aerotwist.com/lab/strange-attractor</link>
         <guid isPermaLink="true">/lab/strange-attractor</guid>
         
         <category>webgl</category>
@@ -536,7 +536,7 @@
           <![CDATA[]]>
         </description>
         <pubDate>Tue, 19 Jul 2011 00:00:00 +0000</pubDate>
-        <link>http://aerotwist.com/lab/surface</link>
+        <link>https://aerotwist.com/lab/surface</link>
         <guid isPermaLink="true">/lab/surface</guid>
         
         <category>three.js</category>
@@ -553,7 +553,7 @@
           <![CDATA[]]>
         </description>
         <pubDate>Sat, 18 Jun 2011 00:00:00 +0000</pubDate>
-        <link>http://aerotwist.com/lab/gpu-easing</link>
+        <link>https://aerotwist.com/lab/gpu-easing</link>
         <guid isPermaLink="true">/lab/gpu-easing</guid>
         
         <category>three.js</category>
@@ -570,7 +570,7 @@
           <![CDATA[]]>
         </description>
         <pubDate>Tue, 05 Apr 2011 00:00:00 +0000</pubDate>
-        <link>http://aerotwist.com/lab/spikes</link>
+        <link>https://aerotwist.com/lab/spikes</link>
         <guid isPermaLink="true">/lab/spikes</guid>
         
         <category>css3d</category>
@@ -583,7 +583,7 @@
           <![CDATA[]]>
         </description>
         <pubDate>Tue, 22 Mar 2011 00:00:00 +0000</pubDate>
-        <link>http://aerotwist.com/lab/photoparticles</link>
+        <link>https://aerotwist.com/lab/photoparticles</link>
         <guid isPermaLink="true">/lab/photoparticles</guid>
         
         <category>three.js</category>
@@ -600,7 +600,7 @@
           <![CDATA[]]>
         </description>
         <pubDate>Sat, 12 Feb 2011 00:00:00 +0000</pubDate>
-        <link>http://aerotwist.com/tutorials/creating-particles-with-three-js</link>
+        <link>https://aerotwist.com/tutorials/creating-particles-with-three-js</link>
         <guid isPermaLink="true">/tutorials/creating-particles-with-three-js</guid>
         
         <category>particles</category>
@@ -617,7 +617,7 @@
           <![CDATA[]]>
         </description>
         <pubDate>Mon, 02 Aug 2010 00:00:00 +0000</pubDate>
-        <link>http://aerotwist.com/tutorials/an-introduction-to-shaders-part-2</link>
+        <link>https://aerotwist.com/tutorials/an-introduction-to-shaders-part-2</link>
         <guid isPermaLink="true">/tutorials/an-introduction-to-shaders-part-2</guid>
         
         <category>shaders</category>
@@ -634,7 +634,7 @@
           <![CDATA[]]>
         </description>
         <pubDate>Sun, 01 Aug 2010 00:00:00 +0000</pubDate>
-        <link>http://aerotwist.com/tutorials/an-introduction-to-shaders-part-1</link>
+        <link>https://aerotwist.com/tutorials/an-introduction-to-shaders-part-1</link>
         <guid isPermaLink="true">/tutorials/an-introduction-to-shaders-part-1</guid>
         
         <category>shaders</category>
@@ -651,7 +651,7 @@
           <![CDATA[]]>
         </description>
         <pubDate>Sun, 16 May 2010 00:00:00 +0000</pubDate>
-        <link>http://aerotwist.com/tutorials/getting-started-with-three-js</link>
+        <link>https://aerotwist.com/tutorials/getting-started-with-three-js</link>
         <guid isPermaLink="true">/tutorials/getting-started-with-three-js</guid>
         
         <category>three.js</category>
