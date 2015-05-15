@@ -1,0 +1,493 @@
+<!doctype html>
+<html itemscope itemtype="http://schema.org/Article">
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="author" content="Paul Lewis" />
+  <meta name="viewport" content="width=device-width">
+  <meta name="theme-color" content="#880043">
+
+  
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="//aerotwist.com/blog/feed/">
+  
+
+  
+  <meta itemprop="name" content="Voice Memos">
+  <meta itemprop="description" content="The past few weeks I&#39;ve been a busy chap. I&#39;ve been building a new web app for recording voice memos. I tried to do as much right as I could, using all the modern technologies. As with all projects, not everything went swimmingly...">
+
+    
+
+  
+
+  <style>
+    
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 400;
+      src: local('Lato Regular'), local('Lato-Regular'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qIIYRU-oROkIk8vfvxw6QvesZW2xOQ-xsNqO47m55DA.woff) format('woff');
+    }
+    
+
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 700;
+      src: local('Lato Bold'), local('Lato-Bold'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qdgUG4U09HnJwhYI-uK18wLUuEpTyoUstqEm5AMlJo4.woff) format('woff');
+    }
+  </style>
+
+  <link rel="stylesheet" media="screen" href="/css/aerotwist.css" />
+  <title>Aerotwist - Voice Memos</title>
+  
+</head>
+
+
+<!--
+                              __          .__          __
+  _____    ___________  _____/  |___  _  _|__| _______/  |_
+  \__  \ _/ __ \_  __ \/  _ \   __\ \/ \/ /  |/  ___/\   __\
+   / __ \\  ___/|  | \(  <_> )  |  \     /|  |\___ \  |  |
+  (____  /\___  >__|   \____/|__|   \/\_/ |__/____  > |__|
+       \/     \/                                  \/
+
+  Giant ascii art embedded in every page of your site is how you
+  show other people that YOU CARE. Mainly I care about developers,
+  which is what I presume you are if you're all about viewing
+  the source. Clearly you're my kind of person.
+
+  This is v3, it's run through Jekyll, it's been fun to build,
+  there's always more to do, and you may notice that aside from
+  Google Analytics there is no JavaScript. None.
+
+  That's one way of many you keep your pages fast. I care about
+  keeping this site fast because your time is precious and I need
+  to get out of your way.
+
+  <3'z
+
+  Paul
+-->
+
+
+  <body class="blog">
+
+    <header>
+      <div class="container">
+        <div id="logo">
+  <a href="/">
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="100%" height="100%">
+    <g>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#6EBAD3" points="30.6,47.73 64.92,47.73 19.97,76.52"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ED95C0" points="48.198,0 53.008,14.06 39.31,24.76"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#880043" points="39.31,24.76 64.92,48 30.6,48"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#DA0A7A" points="39.31,24.76 64.92,48 53.008,14.06"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#0B7DAD" points="30.6,48 64.92,48 48,58.69"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#BDDEE8" points="47.76,58.69 64.92,47.73 75.14,76.73"></polygon>
+    </g>
+    </svg>
+  </a>
+</div>
+
+        <nav>
+  <ul>
+    
+      
+        <li><a href="/">Home</a></li>
+      
+    
+      
+        <li class="active"><a href="/blog/"> Blog</a></li>
+      
+    
+      
+        <li><a href="/tutorials/">Tutorials</a></li>
+      
+    
+      
+        <li><a href="/lab/">Lab</a></li>
+      
+    
+  </ul>
+
+  <svg id="left-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#AAAAAA" stroke-width="1" />
+    </svg>
+
+  <svg id="right-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#6EBAD3" stroke-opacity="0.3" stroke-width="1" />
+    </svg>
+</nav>
+
+      </div>
+    </header>
+    <section>
+
+      <div class="content">
+
+  
+  <svg version="1.1" class="shape-reference" xmlns="http://www.w3.org/2000/svg" width="765" height="301">
+  <defs>
+    <filter id="blur-8">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="8" />
+    </filter>
+    <filter id="blur-6">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="6" />
+    </filter>
+    <filter id="blur-4">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="4" />
+    </filter>
+  </defs>
+
+  <g id="color-block">
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#899ec3" stroke="#899ec3" stroke-width="0.6" points="103,162 40,70 116,111"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#6a60a1" stroke="#6a60a1" stroke-width="0.6" points="103,162 116,111 168,174"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#8a60a5" stroke="#8a60a5" stroke-width="0.6" points="168,174 116,111 216,136"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#913e8e" stroke="#913e8e" stroke-width="0.6" points="168,174 216,136 248,158"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#7b2b6f" stroke="#7b2b6f" stroke-width="0.6" points="271,203 168,174 248,158"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#a9217a" stroke="#a9217a" stroke-width="0.6" points="271,203 248,158 324,136"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#9f1467" stroke="#9f1467" stroke-width="0.6" points="271,203 324,136 335,196"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#4d0b32" stroke="#4d0b32" stroke-width="0.6" points="314,261 271,203 335,196"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#52052e" stroke="#52052e" stroke-width="0.6" points="314,261 335,196 396,210"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#93014b" stroke="#93014b" stroke-width="0.6" points="396,210 335,196 399,182"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#810a4c" stroke="#810a4c" stroke-width="0.6" points="396,210 399,182 495,204"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#9b1565" stroke="#9b1565" stroke-width="0.6" points="399,182 488,152 495,204"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#e11c8a" stroke="#e11c8a" stroke-width="0.6" points="399,182 418,105 488,152"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#fe1589" stroke="#fe1589" stroke-width="0.6" points="399,182 324,136 418,105"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#c1096b" stroke="#c1096b" stroke-width="0.6" points="335,196 324,136 399,182"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f65dad" stroke="#f65dad" stroke-width="0.6" points="418,105 324,136 334,95"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#fd97cb" stroke="#fd97cb" stroke-width="0.6" points="418,105 334,95 421,56"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ec8dc4" stroke="#ec8dc4" stroke-width="0.6" points="502,121 418,105 421,56"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#d651a4" stroke="#d651a4" stroke-width="0.6" points="488,152 418,105 502,121"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#b6499d" stroke="#b6499d" stroke-width="0.6" points="573,143 488,152 502,121"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#8f3787" stroke="#8f3787" stroke-width="0.6" points="574,189 488,152 573,143"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#7e2669" stroke="#7e2669" stroke-width="0.6" points="488,152 574,189 495,204"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#674380" stroke="#674380" stroke-width="0.6" points="574,189 573,143 656,180"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#7361a3" stroke="#7361a3" stroke-width="0.6" points="573,143 652,116 656,180"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#4e6ca3" stroke="#4e6ca3" stroke-width="0.6" points="656,180 652,116 725,164"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#fdcae4" stroke="#fdcae4" stroke-width="0.6" points="334,95 343,40 421,56"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f3bbdc" stroke="#f3bbdc" stroke-width="0.6" points="334,95 267,83 343,40"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#e084bf" stroke="#e084bf" stroke-width="0.6" points="264,127 267,83 334,95"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#d493c5" stroke="#d493c5" stroke-width="0.6" points="264,127 211,85 267,83"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#c075b4" stroke="#c075b4" stroke-width="0.6" points="216,136 211,85 264,127"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#b38cbe" stroke="#b38cbe" stroke-width="0.6" points="116,111 211,85 216,136"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#c7bbd8" stroke="#c7bbd8" stroke-width="0.6" points="116,111 121,58 211,85"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#c1cbdf" stroke="#c1cbdf" stroke-width="0.6" points="116,111 40,70 121,58"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#b3479b" stroke="#b3479b" stroke-width="0.6" points="248,158 216,136 264,127"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#c63a97" stroke="#c63a97" stroke-width="0.6" points="324,136 248,158 264,127"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#df5baa" stroke="#df5baa" stroke-width="0.6" points="324,136 264,127 334,95"/>
+  </g>
+</svg>
+
+  
+
+  <div class="masthead hatched">
+
+    
+      <svg class="behind-meta" width="765" height="301">
+        <use xlink:href="#color-block" />
+      </svg>
+
+      <svg class="left-meta" width="765" height="301">
+        <use xlink:href="#color-block" filter="url(#blur-6)" transform="translate(382 150) scale(-0.5 0.5) translate(-383 -151)" />
+      </svg>
+    
+
+    <div class="container">
+      <h2>Voice Memos</h2>
+      <p>The past few weeks I've been a busy chap. I've been building a new web app for recording voice memos. I tried to do as much right as I could, using all the modern technologies. As with all projects, not everything went swimmingly...</p>
+    </div>
+
+  </div>
+
+  <div class="container">
+    <div class="meta">
+
+      <ul>
+        <li class="last-updated">
+          <span class="name">Last updated:</span>
+          <span class="value">15 May 2015</span>
+        </li>
+
+        <li>
+          <span class="name">Est. Read Time:</span>
+          <span class="value">16 mins</span>
+        </li>
+
+        <li class="share">
+          <span class="name">Share this:</span>
+          <span class="value"><a href="http://www.twitter.com/share?url=https://aerotwist.com/blog/voice-memos/">Twitter</a></span>
+          <span class="value"><a href="https://plus.google.com/share?url=https://aerotwist.com/blog/voice-memos/">Google+</a></span>
+        </li>
+        <li class="tags">
+          <span class="name">Tagged:</span>
+          <span class="value">
+          
+            #app, 
+          
+            #voice, 
+          
+            #web
+          
+          </span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="container"><div class="left column">
+
+<figure class="no-shadow">
+  <img src="/static/blog/voice-memos/grabs.jpg" />
+</figure>
+
+<p class="livedemo mid"><a href="https://voice-memos.appspot.com">See Voice Memos</a></p>
+
+<h2 id="overview-and-highlights">Overview and Highlights</h2>
+
+<p>The app is simple enough in its concept: allow users to record voice memos. Persist them on the device and allow for offline access.</p>
+
+<p>Here’s what I baked in:</p>
+
+<ul>
+  <li><strong>Service Worker and IndexedDB for offline</strong>. No good having an app that can work offline but doesn’t. Just as well we have amazing new tech to make that a reality, isn’t it?</li>
+  <li><strong>ES6 classes, fat arrow functions, and Promises</strong>. I went all-out crazy to try and use tech that I felt were on the leading edge of what we want to use as developers. I used <a href="https://github.com/babel/babelify">Babelify</a> (more on that in a bit) to transpile to ES5.</li>
+  <li><strong>High performance</strong>. I really tried to make loading and render performance super high priorities in the build. Not always the easiest, but it’s certainly possible given some care. I don’t have access to all the hardware and software configurations out there, but I’m confident that there’s not much more I could have optimized in the app at this stage.</li>
+  <li><strong>Material Design and Responsive</strong>. It works on mobile through desktop with three breakpoints on small, medium, and large screens. As usual I set a breakpoint when I think it looks broken.</li>
+  <li><strong>Open source</strong>. Of course it is! <code>\o/</code> Go and get the code and have a look around!</li>
+</ul>
+
+<h2 id="browser-support">Browser Support</h2>
+
+<p>Let me say right from the start that <strong>Mobile Safari isn’t supported</strong>… yet. Not because I don’t like it as a browser. Far from it, in fact. My two day-to-day devices are a Nexus 5 and an iPhone 5S, so I’m quite down with Safari as a consumer. But, and this is the key issue, <strong>iOS doesn’t support <code>getUserMedia</code></strong>, which I need to be able to pipe microphone audio to the Web Audio API. Without it there’s no realistic means to live-capture audio. There are weird hacks one can use to record a video and then attempt to rip out the audio, but … well, no. No.</p>
+
+<p>In any case iOS already has a voice memos app, so, you know, there’s that.</p>
+
+<h2 id="codecs">Codecs</h2>
+
+<p>Since we’re talking broken, let’s also talk about codecs. My biggest frustration was the state of media today. What I wanted to do was to create encoded files to store in IndexedDB. By default the buffers you get from the Web Audio API are uncompressed, bit like getting a bitmap image. So I looked into what I could do about it. Turns out there are some excellent people who have Emscriptened things like the LAME MP3 encoder, and an Ogg Opus one (I’d never heard of the Opus format before this!) to boot.</p>
+
+<figure>
+  <img width="300" src="/static/blog/voice-memos/opus_logo.svg" />
+  <figcaption>Logo: opus-codec.org</figcaption>
+</figure>
+
+<p>But MP3 encoders seem to be mired in patents stuff, which I don’t fully understand, and therefore wanted to avoid. The <a href="https://github.com/akrennmair/libmp3lame-js/blob/master/dist/libmp3lame.min.js">LAME MP3 encoder was 296KB</a>, which I just couldn’t justify. Meanwhile, the Ogg Opus one… Well now, that was just over 500KB, but, hey, better than storing WAVs on peoples’ devices, or getting into patent problems, I guess.</p>
+
+<blockquote>
+  <p>Long story, short: the app has to store audio as WAVs, so don’t record long memos!</p>
+</blockquote>
+
+<p>It turns out that Chrome supports Ogg Opus on desktop through the <code>&lt;audio&gt;</code> tag, or <code>new Audio()</code>, but <em>not</em> through the Web Audio API’s <code>decodeAudioData</code> function. (I totally <a href="https://code.google.com/p/chromium/issues/detail?id=482934">filed a bug</a> on that.) On mobile Chrome only supports Opus when it’s in a Matroska container… Honestly, I have never heard of .mkv files, either.</p>
+
+<p>In any case, there’s hope in the form of the <code>MediaStreamRecorder</code> API, though I don’t know if actually encodes anything in that process. Certainly <a href="http://dev.w3.org/2011/webrtc/editor/webrtc-20111004.html#widl-MediaStreamRecorder-getRecordedData-voice-BlobCallback-callback">the spec just says it returns a blob</a>, so goodness knows. Could be a WAV blob, for all I know.</p>
+
+<p>Long story, short: <strong>the app has to store audio as WAVs, so don’t record long memos!</strong> I’m sorry about that, but there’s nothing I can do about this just yet. If the vendors come together and support a common codec (or group of them) everywhere, I’ll be right at the front cheering them on.</p>
+
+<h2 id="making-waves">Making waves</h2>
+
+<figure>
+  <img src="/static/blog/voice-memos/wave.jpg" />
+  <figcaption>Making waaaaves!</figcaption>
+</figure>
+
+<p>When you record a memo, you may notice that there is an audio wave pattern in the background. It is actually of the audio itself. Initially I had thought I’d do this on decoding of the audio data, but it became clear that I wasn’t going to be using the Web Audio API beyond the recording, simply because there was going to be no audio to decode.</p>
+
+<p>What I ended up doing was adding an <code>analyser</code> node to Recorderjs’s input stream, and taking samples throughout the recording. These were normalized and stored alongside the audio data. When shown it gets rendered using a canvas element.</p>
+
+</div></div>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">listener</span> <span class="o">=</span> <span class="nx">recorder</span><span class="p">.</span><span class="nx">audioContext</span><span class="p">.</span><span class="nx">createAnalyser</span><span class="p">();</span>
+<span class="nx">recorder</span><span class="p">.</span><span class="nx">start</span><span class="p">();</span>
+
+<span class="c1">// Add the listener</span>
+<span class="nx">recorder</span><span class="p">.</span><span class="nx">sourceNode</span><span class="p">.</span><span class="nx">connect</span><span class="p">(</span><span class="nx">listener</span><span class="p">);</span>
+
+<span class="c1">// And watch for as long as we are recording.</span>
+<span class="nx">requestAnimationFrame</span><span class="p">(</span><span class="nx">trackAudioVolume</span><span class="p">);</span></code></pre></div>
+
+<div class="container"><div class="left column">
+
+<p>Doing it this way also meant I could give people a live readout as they were recording.</p>
+
+<figure>
+  <img src="/static/blog/voice-memos/volume.jpg" />
+  <figcaption>People get live feedback as they record memos.</figcaption>
+</figure>
+
+<p>Overall it’s a little touch, but I kind of felt it was more fun than just a solid block of purple. And for me it showed just how powerful these APIs can be.</p>
+
+<h2 id="standing-on-the-shoulders-of-giants">Standing on the shoulders of giants</h2>
+
+<p>Goodness me there were lots of amazing things out there for me to use. In no particular order:</p>
+
+<ul>
+  <li><strong>Gulp plugins galore</strong>. I ended up making a couple of versions of the gulp file, because it was the first time I used it and I screwed up a bunch of things. But man has the community been busy. Everything from bumping version files to uglifying JS, to licensing. All covered!</li>
+  <li><strong>ES6 transpilers</strong>. There are a few of these on the go, but I opted for <a href="https://babeljs.io/">Babel(ify)</a>, since it seemed to have solid gulp support through <a href="https://github.com/gulpjs/gulp/blob/master/docs/recipes/fast-browserify-builds-with-watchify.md">watchify</a>. I was particularly impressed with the source maps support, because while it did add it as a data-uri to the end of the files (which is fine for dev time anyway), it never got it wrong and it made debugging a breeze!</li>
+  <li><strong>Material Design guidelines</strong>. Sure it was going to be the default look and feel for someone who works at Google, but as a system it does work. You could definitely use a different baseline grid (it seems to be 8dp multiples for <a href="http://www.google.com/design/spec/material-design/introduction.html">Material Design</a>), and different colours, but its value for me is in the UX. It wants you to focus on directing the user to the task. And for me, in following its guidance, it was simple enough.</li>
+  <li><strong>Recorderjs and Moment.js</strong>. Both of these are life-savers, paricularly <a href="http://momentjs.com/">Moment</a>. Nobody wants to wrangle lower level APIs or fiddly things like dates and times, and both of these micro-libraries helped me avoid that. I actually used <a href="https://github.com/chris-rudmin/Recorderjs">a fork of Recorderjs</a>, just because it had the Opus codec.</li>
+</ul>
+
+<blockquote>
+  <p>I’m thankful to people in the community who’ve put so much time and effort into building things others can use.</p>
+</blockquote>
+
+<p>This, for me, is a large part of the web. When it works, and there are solid tools and clear guidance, everyone wins. I know I certainly did, and I’m thankful to people in the community who’ve put so much time and effort into building things others can use.</p>
+
+<h2 id="es6-funsies">ES6 funsies</h2>
+
+<p>So I had this idea: what about a model abstraction layer that could persist to IndexedDB under the hood. Sounds good, right? I thought so, too, and I had in mind that I could use ES6 classes for it. So I’d have a <code>Model</code> class with a bunch of static methods for CRUD (Create, Retrieve, Update and Delete) operations, and from which other models could inherit:</p>
+
+</div></div>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">class</span> <span class="nx">Model</span> <span class="p">{</span>
+
+  <span class="kr">static</span> <span class="nx">get</span> <span class="p">(</span><span class="nx">id</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// Get data from IDB.</span>
+    <span class="k">return</span> <span class="nx">data</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="c1">// ... and the same for put and delete.</span>
+<span class="p">}</span>
+
+<span class="kr">class</span> <span class="nx">MemoModel</span> <span class="kr">extends</span> <span class="nx">Model</span> <span class="p">{</span>
+  <span class="c1">// Epic stuff goes here.</span>
+<span class="p">}</span>
+
+<span class="c1">// Get a Memo from the DB.</span>
+<span class="nx">MemoModel</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">id</span><span class="p">);</span></code></pre></div>
+
+<div class="container"><div class="left column">
+
+<p>But there’s this problem, you see: IndexedDB removes the prototype (which is what ES6 Classes are really) when it stores the object. On retrieval, you don’t get a <code>MemoModel</code> back you get an <code>Object</code>, which isn’t so splendid.</p>
+
+<p>I noodled around, and talked it through with the team around me about this a fair amount. I was effectively looking for a factory pattern here. <code>Model</code> needed to know which class was calling – say – <code>get</code> and then it could wrap the object in the correct instance and away we go.</p>
+
+<p>Here’s the solution for my conundrum:</p>
+
+</div></div>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">class</span> <span class="nx">Model</span> <span class="p">{</span>
+  <span class="kr">static</span> <span class="nx">get</span> <span class="p">(</span><span class="nx">id</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// Get data from IDB...</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="k">this</span><span class="p">(</span><span class="nx">data</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+
+<div class="container"><div class="left column">
+
+<p>Perhaps it looks weird to you. It certainly did to me at first, but what it does is quite neat: if you call it from a class that inherits from <code>Model</code> it will create a new <code>this</code>, which will be the <strong>inherited class</strong>, not <code>Model</code>.</p>
+
+<p>I’d made sure that objects were the means by which models were populated, so that I could just pass an object to their constructors. That way I got back fully-fledged <code>MemoModel</code> rather than just an <code>Object</code> without having to hard code getters and putters on every model. Hurray!</p>
+
+<p>Other things that are cool: <em>fat arrow functions</em>. Those generally let me write nicely anonymous callbacks without having to worry about naming and binding, for which I was very grateful!</p>
+
+</div></div>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">class</span> <span class="nx">Foo</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="nx">constructor</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">bar</span> <span class="o">=</span> <span class="s1">&#39;baz&#39;</span><span class="p">;</span>
+
+    <span class="nx">requestAnimationFrame</span> <span class="p">(</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="c1">// This works!</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">bar</span><span class="p">);</span>
+      <span class="p">})</span>
+  <span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+
+<div class="container"><div class="left column">
+
+<p>Normally that above example wouldn’t work, because callbacks for <code>requestAnimationFrame</code>, <code>setTimeout</code>, <code>setInterval</code> (and probably others) are always scoped to global, which never fails to catch me out. Well no more, you hear! NO MORE.</p>
+
+<h2 id="the-challenges-of-modern-web">The challenges of modern web</h2>
+
+<p>I think on balance I came down to three particular frustrations during this build:</p>
+
+<ol>
+  <li><strong>The codecs issue</strong>. It hurts developers, and therefore users that we don’t have a good story here.</li>
+  <li><strong>The lack of API ubiquity</strong>. I hated writing the code for Mobile Safari (and IE for that matter) that basically said “you’re a no-go here”, because I desperately wanted to be able to say it works everywhere. But it’s not functionality I can realistically polyfill. Maybe I should’ve picked a different app. Mind you, I think where those APIs do exist the app itself is pretty neat.</li>
+  <li><strong>View setup and takedown</strong>. I’ve said it before, and I guess I’ll say it again: we have a platform that is amazing for documents. However, when you do something that has views, like an app, then you spend a lot of code writing boilerplate for managing those views. And, of course, with large numbers of DOM elements, you have potential performance issues of style calculations and layout. By contrast, Android and iOS’s base state is that the platform manages view lifecycles for you. That said, they’re no good at documents, are they? Well, if we can crack app structures on the web I reckon we’ll be flying.</li>
+  <li><strong>Performance</strong>. You didn’t think you’d get away without me mentioning it a little bit, did you? Actually in the main I think things are really looking up. I was careful to follow <a href="https://vimeo.com/125479288">Jake’s advice of progressively loading the app</a>, and from there I was my usual self about avoiding render perf issues. But even so I just felt like again I spent a lot of time wrangling for performance without platform-level primitives to help me. I’d have loved component loaders that understood that there is a bundle of HTML, JavaScipt and CSS that belongs in a particular place in the app, and that it knew when to load them, and how to hold other parts of the app off if they needed access to those components. I know HTML Imports is in that rough camp, and ES6 also has module loaders, but I’d love to see something more “component aware” at the platform level.</li>
+</ol>
+
+<h2 id="conclusions">Conclusions</h2>
+
+<p>Wow, this ended up being a much longer post than I anticipated. If you’ve made it this far, I hope you’ve enjoyed the read. If you can, give <a href="https://voice-memos.appspot.com">the app a try</a>, and <a href="https://twitter.com/aerotwist">let me know what you think</a>. Have a look at <a href="">the source code</a>, too!</p>
+
+</div></div>
+
+
+  <div class="footer-share container">
+    Share this on: <span class="value"><a href="http://www.twitter.com/share?url=https://aerotwist.com/blog/voice-memos/">Twitter</a></span>
+    <span class="value"><a href="https://plus.google.com/share?url=https://aerotwist.com/blog/voice-memos/">Google+</a></span>
+  </div>
+
+  <div class="clear"></div>
+
+  
+    <svg class="left-shape" style="margin-left: -285.95px" width="421.4" height="1071.0">
+      <use xlink:href="#color-block" filter="url(#blur-4)" transform="scale(-1.4 1.4) rotate(90)"/>
+    </svg>
+
+    <svg class="right-shape" width="150.5" height="688.5">
+      <use xlink:href="#color-block" filter="url(#blur-8)" transform="scale(-0.9 0.9) rotate(90)"/>
+    </svg>
+  
+
+</div>
+
+
+    </section>
+
+    <footer>
+
+      <div class="container">
+        <div class="bio panel">
+          <h2>Hello!</h2>
+          <p>My name is Paul. I work at <a href="http://www.google.com/" title="Some cloud company in the USA, I think.">Google</a> on the Chrome Developer Relations team as an advocate. I help developers improve the performance of their sites and apps.</p>
+
+          <p>You can find me on <a href="http://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a></p>
+        </div>
+
+        <div class="get-in-touch panel">
+          <h2>Get in touch</h2>
+          <p>I don’t bite. Honestly. You can find me on <a href="https://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a>, and I like hearing from people (pretty handy given my job, really) so say hi.</p>
+        </div>
+
+        <div class="subscribe panel">
+          <h2>Subscribe</h2>
+          <p>You should totally get the <a href="/blog/feed/">RSS feed</a>, or whatever it is you kids are using these days (I miss Reader.)</p>
+        </div>
+
+        <p class="disclaimer">Except as otherwise noted, the content of this page is licensed under the Creative Commons Attribution 3.0 License, and code samples are licensed under the Apache 2.0 License.</p>
+      </div>
+    </footer>
+
+    <script async="true">
+
+    /**
+     * Snow effect, from: HTML5 Rocks
+     * https://github.com/html5rocks/www.html5rocks.com/blob/9318b5755c8c17a4bd1761bca6b1b491e7fd17b8/content/index.html
+     */
+    !function(){function j(){f=c.clientWidth,g=c.clientHeight,d.width=f,d.height=g,e.fillStyle="#FFF";var a=i;i=f>300,!a&&i&&requestAnimFrame(n)}function n(){if(e.clearRect(0,0,f,g),i){for(h=0;b>h;h++)m=l[h],m.y+=m.vy,m.x+=m.vx,e.globalAlpha=m.o,e.beginPath(),e.arc(m.x,m.y,m.r,0,2*Math.PI,!1),e.closePath(),e.fill(),m.y>g&&m.reset();requestAnimFrame(n)}}var a=(new Date).getMonth();if(11===a){var b=300,c=document.querySelector(".masthead");if(c){var d=document.createElement("canvas"),e=d.getContext("2d"),f=c.clientWidth,g=c.clientHeight,h=0,i=!1,k=function(){this.x=0,this.y=0,this.vy=0,this.vx=0,this.r=0,this.reset()};k.prototype.reset=function(){this.x=Math.random()*f,this.y=Math.random()*-g,this.vy=1+3*Math.random(),this.vx=.5-Math.random(),this.r=1+2*Math.random(),this.o=.5+.5*Math.random()},d.style.position="absolute",d.style.left=d.style.top="0";var m,l=[];for(h=0;b>h;h++)m=new k,m.reset(),l.push(m);window.requestAnimFrame=function(){return window.requestAnimationFrame||window.webkitRequestAnimationFrame||window.mozRequestAnimationFrame||function(a){window.setTimeout(a,1e3/60)}}(),j(),window.addEventListener("resize",j,!1),c.appendChild(d)}}}();
+    </script>
+
+    <script type="text/javascript" async="true">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-13024693-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+  </body>
+</html>

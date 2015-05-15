@@ -4,10 +4,27 @@
 
     <title>Aerotwist</title>
     <description>Pretty much whatever comes into my head.</description>
-    <lastBuildDate>2015-05-06 12:57:32 +0100</lastBuildDate>
+    <lastBuildDate>2015-05-15 20:16:05 +0100</lastBuildDate>
     <language>en</language>
     <generator>Aerotwist</generator>
     <atom:link href="https://aerotwist.com/feed/" rel="self" type="application/rss+xml" />
+    
+      <item>
+        <title>Voice Memos</title>
+        <description>
+          <![CDATA[The past few weeks I've been a busy chap. I've been building a new web app for recording voice memos. I tried to do as much right as I could, using all the modern technologies. As with all projects, not everything went swimmingly...]]>
+        </description>
+        <pubDate>Fri, 15 May 2015 00:00:00 +0000</pubDate>
+        <link>https://aerotwist.com/blog/voice-memos</link>
+        <guid isPermaLink="true">/blog/voice-memos</guid>
+        
+        <category>app</category>
+        
+        <category>voice</category>
+        
+        <category>web</category>
+        
+      </item>
     
       <item>
         <title>Moar Performance!</title>

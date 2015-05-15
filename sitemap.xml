@@ -2,182 +2,186 @@
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
         <loc>https://aerotwist.com/tutorials/getting-started-with-three-js</loc>
-        <lastmod>2015-05-06T11:21:05+01:00</lastmod>
+        <lastmod>2015-05-15T10:48:38+01:00</lastmod>
     </url>
     <url>
         <loc>https://aerotwist.com/tutorials/an-introduction-to-shaders-part-1</loc>
-        <lastmod>2015-05-06T11:21:05+01:00</lastmod>
+        <lastmod>2015-05-15T10:48:38+01:00</lastmod>
     </url>
     <url>
         <loc>https://aerotwist.com/tutorials/an-introduction-to-shaders-part-2</loc>
-        <lastmod>2015-05-06T11:21:05+01:00</lastmod>
+        <lastmod>2015-05-15T10:48:38+01:00</lastmod>
     </url>
     <url>
         <loc>https://aerotwist.com/tutorials/creating-particles-with-three-js</loc>
-        <lastmod>2015-05-06T11:21:05+01:00</lastmod>
+        <lastmod>2015-05-15T10:48:38+01:00</lastmod>
     </url>
     <url>
         <loc>https://aerotwist.com/lab/photoparticles</loc>
-        <lastmod>2015-05-06T11:21:05+01:00</lastmod>
+        <lastmod>2015-05-15T10:48:38+01:00</lastmod>
     </url>
     <url>
         <loc>https://aerotwist.com/lab/spikes</loc>
-        <lastmod>2015-05-06T11:21:05+01:00</lastmod>
+        <lastmod>2015-05-15T10:48:38+01:00</lastmod>
     </url>
     <url>
         <loc>https://aerotwist.com/lab/gpu-easing</loc>
-        <lastmod>2015-05-06T11:21:05+01:00</lastmod>
+        <lastmod>2015-05-15T10:48:38+01:00</lastmod>
     </url>
     <url>
         <loc>https://aerotwist.com/lab/surface</loc>
-        <lastmod>2015-05-06T11:21:05+01:00</lastmod>
+        <lastmod>2015-05-15T10:48:38+01:00</lastmod>
     </url>
     <url>
         <loc>https://aerotwist.com/lab/strange-attractor</loc>
-        <lastmod>2015-05-06T11:21:05+01:00</lastmod>
+        <lastmod>2015-05-15T10:48:38+01:00</lastmod>
     </url>
     <url>
         <loc>https://aerotwist.com/lab/undulating-monkey</loc>
-        <lastmod>2015-05-06T11:21:05+01:00</lastmod>
+        <lastmod>2015-05-15T10:48:38+01:00</lastmod>
     </url>
     <url>
         <loc>https://aerotwist.com/tutorials/create-your-own-environment-maps</loc>
-        <lastmod>2015-05-06T11:21:05+01:00</lastmod>
+        <lastmod>2015-05-15T10:48:38+01:00</lastmod>
     </url>
     <url>
         <loc>https://aerotwist.com/blog/on-translate3d-and-layer-creation-hacks</loc>
-        <lastmod>2015-05-06T11:21:05+01:00</lastmod>
+        <lastmod>2015-05-15T10:48:38+01:00</lastmod>
     </url>
     <url>
         <loc>https://aerotwist.com/blog/dont-guess-it-test-it</loc>
-        <lastmod>2015-05-06T11:21:05+01:00</lastmod>
+        <lastmod>2015-05-15T10:48:38+01:00</lastmod>
     </url>
     <url>
         <loc>https://aerotwist.com/blog/hello-blink</loc>
-        <lastmod>2015-05-06T11:21:05+01:00</lastmod>
+        <lastmod>2015-05-15T10:48:38+01:00</lastmod>
     </url>
     <url>
         <loc>https://aerotwist.com/blog/reinventing-the-wheel</loc>
-        <lastmod>2015-05-06T11:21:05+01:00</lastmod>
+        <lastmod>2015-05-15T10:48:38+01:00</lastmod>
     </url>
     <url>
         <loc>https://aerotwist.com/blog/reflections-on-performance-at-google-io</loc>
-        <lastmod>2015-05-06T11:21:05+01:00</lastmod>
+        <lastmod>2015-05-15T10:48:38+01:00</lastmod>
     </url>
     <url>
         <loc>https://aerotwist.com/blog/it-should-just-work</loc>
-        <lastmod>2015-05-06T11:21:05+01:00</lastmod>
+        <lastmod>2015-05-15T10:48:38+01:00</lastmod>
     </url>
     <url>
         <loc>https://aerotwist.com/blog/making-a-60fps-mobile-app</loc>
-        <lastmod>2015-05-06T11:21:05+01:00</lastmod>
+        <lastmod>2015-05-15T10:48:38+01:00</lastmod>
     </url>
     <url>
         <loc>https://aerotwist.com/blog/one-weird-trick</loc>
-        <lastmod>2015-05-06T11:21:05+01:00</lastmod>
+        <lastmod>2015-05-15T10:48:38+01:00</lastmod>
     </url>
     <url>
         <loc>https://aerotwist.com/blog/new-site-same-old-priorities</loc>
-        <lastmod>2015-05-06T11:21:05+01:00</lastmod>
+        <lastmod>2015-05-15T10:48:38+01:00</lastmod>
     </url>
     <url>
         <loc>https://aerotwist.com/blog/bad-benchmark-right-result</loc>
-        <lastmod>2015-05-06T11:21:05+01:00</lastmod>
+        <lastmod>2015-05-15T10:48:38+01:00</lastmod>
     </url>
     <url>
         <loc>https://aerotwist.com/lab/poly-maker</loc>
-        <lastmod>2015-05-06T11:21:05+01:00</lastmod>
+        <lastmod>2015-05-15T10:48:38+01:00</lastmod>
     </url>
     <url>
         <loc>https://aerotwist.com/blog/the-web-needs-containment</loc>
-        <lastmod>2015-05-06T11:21:05+01:00</lastmod>
+        <lastmod>2015-05-15T10:48:38+01:00</lastmod>
     </url>
     <url>
         <loc>https://aerotwist.com/blog/on-its-merits</loc>
-        <lastmod>2015-05-06T11:21:05+01:00</lastmod>
+        <lastmod>2015-05-15T10:48:38+01:00</lastmod>
     </url>
     <url>
         <loc>https://aerotwist.com/blog/algowhatnow</loc>
-        <lastmod>2015-05-06T11:21:05+01:00</lastmod>
+        <lastmod>2015-05-15T10:48:38+01:00</lastmod>
     </url>
     <url>
         <loc>https://aerotwist.com/blog/bye-bye-layer-hacks</loc>
-        <lastmod>2015-05-06T11:21:05+01:00</lastmod>
+        <lastmod>2015-05-15T10:48:38+01:00</lastmod>
     </url>
     <url>
         <loc>https://aerotwist.com/blog/my-performance-audit-workflow</loc>
-        <lastmod>2015-05-06T11:21:05+01:00</lastmod>
+        <lastmod>2015-05-15T10:48:38+01:00</lastmod>
     </url>
     <url>
         <loc>https://aerotwist.com/tutorials/protip-stick-vs-ease</loc>
-        <lastmod>2015-05-06T11:21:05+01:00</lastmod>
+        <lastmod>2015-05-15T10:48:38+01:00</lastmod>
     </url>
     <url>
         <loc>https://aerotwist.com/tutorials/protip-choose-your-ease</loc>
-        <lastmod>2015-05-06T11:21:05+01:00</lastmod>
+        <lastmod>2015-05-15T10:48:38+01:00</lastmod>
     </url>
     <url>
         <loc>https://aerotwist.com/tutorials/protip-offsets-and-opposing-motion</loc>
-        <lastmod>2015-05-06T11:21:05+01:00</lastmod>
+        <lastmod>2015-05-15T10:48:38+01:00</lastmod>
     </url>
     <url>
         <loc>https://aerotwist.com/tutorials/protip-nobody-expects-3d</loc>
-        <lastmod>2015-05-06T11:21:05+01:00</lastmod>
+        <lastmod>2015-05-15T10:48:38+01:00</lastmod>
     </url>
     <url>
         <loc>https://aerotwist.com/tutorials/protip-the-abc-of-interaction</loc>
-        <lastmod>2015-05-06T11:21:05+01:00</lastmod>
+        <lastmod>2015-05-15T10:48:38+01:00</lastmod>
     </url>
     <url>
         <loc>https://aerotwist.com/blog/web-components-and-three-unsexy-pillars</loc>
-        <lastmod>2015-05-06T11:21:05+01:00</lastmod>
+        <lastmod>2015-05-15T10:48:38+01:00</lastmod>
     </url>
     <url>
         <loc>https://aerotwist.com/lab/music-dna</loc>
-        <lastmod>2015-05-06T11:21:05+01:00</lastmod>
+        <lastmod>2015-05-15T10:48:38+01:00</lastmod>
     </url>
     <url>
         <loc>https://aerotwist.com/blog/trigger-vs-triggerHandler-in-jQuery</loc>
-        <lastmod>2015-05-06T11:21:05+01:00</lastmod>
+        <lastmod>2015-05-15T10:48:38+01:00</lastmod>
     </url>
     <url>
         <loc>https://aerotwist.com/blog/better-password-form-fields</loc>
-        <lastmod>2015-05-06T11:21:05+01:00</lastmod>
+        <lastmod>2015-05-15T10:48:38+01:00</lastmod>
     </url>
     <url>
         <loc>https://aerotwist.com/blog/pixels-are-expensive</loc>
-        <lastmod>2015-05-06T11:21:05+01:00</lastmod>
+        <lastmod>2015-05-15T10:48:38+01:00</lastmod>
     </url>
     <url>
         <loc>https://aerotwist.com/blog/css-triggers</loc>
-        <lastmod>2015-05-06T11:21:05+01:00</lastmod>
+        <lastmod>2015-05-15T10:48:38+01:00</lastmod>
     </url>
     <url>
         <loc>https://aerotwist.com/blog/some-gotchas-that-got-me</loc>
-        <lastmod>2015-05-06T11:21:05+01:00</lastmod>
+        <lastmod>2015-05-15T10:48:38+01:00</lastmod>
     </url>
     <url>
         <loc>https://aerotwist.com/blog/flip-your-animations</loc>
-        <lastmod>2015-05-06T11:21:05+01:00</lastmod>
+        <lastmod>2015-05-15T10:48:38+01:00</lastmod>
     </url>
     <url>
         <loc>https://aerotwist.com/blog/moar-performance</loc>
-        <lastmod>2015-05-06T11:21:05+01:00</lastmod>
+        <lastmod>2015-05-15T10:48:38+01:00</lastmod>
+    </url>
+    <url>
+        <loc>https://aerotwist.com/blog/voice-memos</loc>
+        <lastmod>2015-05-15T20:16:05+01:00</lastmod>
     </url>
     <url>
         <loc>https://aerotwist.com/blog/</loc>
-        <lastmod>2015-05-06T11:21:05+01:00</lastmod>
+        <lastmod>2015-05-15T10:48:38+01:00</lastmod>
     </url>
     <url>
         <loc>https://aerotwist.com/</loc>
-        <lastmod>2015-05-06T11:21:05+01:00</lastmod>
+        <lastmod>2015-05-15T20:16:05+01:00</lastmod>
     </url>
     <url>
         <loc>https://aerotwist.com/lab/</loc>
-        <lastmod>2015-05-06T11:21:05+01:00</lastmod>
+        <lastmod>2015-05-15T10:48:38+01:00</lastmod>
     </url>
     <url>
         <loc>https://aerotwist.com/tutorials/</loc>
-        <lastmod>2015-05-06T11:21:05+01:00</lastmod>
+        <lastmod>2015-05-15T10:48:38+01:00</lastmod>
     </url>
 </urlset>

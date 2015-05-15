@@ -17,7 +17,7 @@
 importScripts('third_party/serviceworker-cache-polyfill.js');
 
 var CACHE_NAME = 'aerotwist';
-var CACHE_VERSION = 1;
+var CACHE_VERSION = 3;
 
 self.oninstall = function(event) {
 
@@ -28,10 +28,12 @@ self.oninstall = function(event) {
 
         '/',
         '/blog/',
+        '/lab/',
+        '/tutorials/',
         '/css/aerotwist.css',
         '/images/me_2015.jpg',
         '/images/pattern.svg',
-        '/favicon.ico',
+        '/favicon.ico'
 
       ]);
     })
@@ -70,22 +72,14 @@ self.onfetch = function(event) {
       if (response)
         return response;
 
-      // Otherwise fetch it, store and respond.
-      return fetch(request).then(function(response) {
-
-        var responseToCache = response.clone();
-
-        caches.open(CACHE_NAME + '-v' + CACHE_VERSION).then(
-          function(cache) {
-            cache.put(request, responseToCache).catch(function(err) {
-              // Likely we got an opaque response which the polyfill
-              // can't deal with, so log out a warning.
-              console.warn(requestURL + ': ' + err.message);
-            });
-          });
-
-        return response;
-      });
+      // Otherwise fetch it and respond.
+      return fetch(request)
+        .then(function(response) {
+          return response;
+        })
+        .catch(function(err) {
+          console.log(err);
+        });
 
     })
   );
