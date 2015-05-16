@@ -249,7 +249,7 @@
 
 <h2 id="overview-and-highlights">Overview and Highlights</h2>
 
-<p>The app is simple enough in its concept: allow users to record voice memos. Persist them on the device and allow for offline access.</p>
+<p>The app is simple enough in its concept: allow users to record voice memos. Persist them on the device and allow for offline access. The idea is, in many ways, to show that there is a whole class of applications that the web can deliver perfectly well, and across platforms at that!</p>
 
 <p>Here’s what I baked in:</p>
 
@@ -329,7 +329,7 @@
   <li><strong>Gulp plugins galore</strong>. I ended up making a couple of versions of the gulp file, because it was the first time I used it and I screwed up a bunch of things. But man has the community been busy. Everything from bumping version files to uglifying JS, to licensing. All covered!</li>
   <li><strong>ES6 transpilers</strong>. There are a few of these on the go, but I opted for <a href="https://babeljs.io/">Babel(ify)</a>, since it seemed to have solid gulp support through <a href="https://github.com/gulpjs/gulp/blob/master/docs/recipes/fast-browserify-builds-with-watchify.md">watchify</a>. I was particularly impressed with the source maps support, because while it did add it as a data-uri to the end of the files (which is fine for dev time anyway), it never got it wrong and it made debugging a breeze!</li>
   <li><strong>Material Design guidelines</strong>. Sure it was going to be the default look and feel for someone who works at Google, but as a system it does work. You could definitely use a different baseline grid (it seems to be 8dp multiples for <a href="http://www.google.com/design/spec/material-design/introduction.html">Material Design</a>), and different colours, but its value for me is in the UX. It wants you to focus on directing the user to the task. And for me, in following its guidance, it was simple enough.</li>
-  <li><strong>Recorderjs and Moment.js</strong>. Both of these are life-savers, paricularly <a href="http://momentjs.com/">Moment</a>. Nobody wants to wrangle lower level APIs or fiddly things like dates and times, and both of these micro-libraries helped me avoid that. I actually used <a href="https://github.com/chris-rudmin/Recorderjs">a fork of Recorderjs</a>, just because it had the Opus codec.</li>
+  <li><strong>Recorderjs and Moment.js</strong>. Both of these are life-savers, particularly <a href="http://momentjs.com/">Moment</a>. Nobody wants to wrangle lower level APIs or fiddly things like dates and times, and both of these micro-libraries helped me avoid that. I actually used <a href="https://github.com/chris-rudmin/Recorderjs">a fork of Recorderjs</a>, just because it had the Opus codec.</li>
 </ul>
 
 <blockquote>
@@ -405,7 +405,7 @@
 
 <h2 id="the-challenges-of-modern-web">The challenges of modern web</h2>
 
-<p>I think on balance I came down to three particular frustrations during this build:</p>
+<p>I think on balance I came down to four or so particular frustrations during this build, though I guess given long enough to think things through there may be more:</p>
 
 <ol>
   <li><strong>The codecs issue</strong>. It hurts developers, and therefore users that we don’t have a good story here.</li>
