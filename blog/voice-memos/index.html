@@ -215,7 +215,7 @@
 
         <li>
           <span class="name">Est. Read Time:</span>
-          <span class="value">16 mins</span>
+          <span class="value">17 mins</span>
         </li>
 
         <li class="share">
@@ -249,7 +249,7 @@
 
 <h2 id="overview-and-highlights">Overview and Highlights</h2>
 
-<p>The app is simple enough in its concept: allow users to record voice memos. Persist them on the device and allow for offline access. The idea is, in many ways, to show that there is a whole class of applications that the web can deliver perfectly well, and across platforms at that!</p>
+<p>The app is simple enough in its concept: allow users to record voice memos, persist them on the device, and allow for offline access. The idea is, in many ways, to show that there is a whole class of applications that the web can deliver perfectly well, and across platforms at that!</p>
 
 <p>Here’s what I baked in:</p>
 
@@ -257,7 +257,7 @@
   <li><strong>Service Worker and IndexedDB for offline</strong>. No good having an app that can work offline but doesn’t. Just as well we have amazing new tech to make that a reality, isn’t it?</li>
   <li><strong>ES6 classes, fat arrow functions, and Promises</strong>. I went all-out crazy to try and use tech that I felt were on the leading edge of what we want to use as developers. I used <a href="https://github.com/babel/babelify">Babelify</a> (more on that in a bit) to transpile to ES5.</li>
   <li><strong>High performance</strong>. I really tried to make loading and render performance super high priorities in the build. Not always the easiest, but it’s certainly possible given some care. I don’t have access to all the hardware and software configurations out there, but I’m confident that there’s not much more I could have optimized in the app at this stage.</li>
-  <li><strong>Material Design and Responsive</strong>. It works on mobile through desktop with three breakpoints on small, medium, and large screens. As usual I set a breakpoint when I think it looks broken.</li>
+  <li><strong>Material Design and Responsive</strong>. It works on mobile through desktop with three breakpoints on small, medium, and large screens. As usual I set a breakpoint when I felt the content looked broken. (Partly why I feel it’s healthy for developers to understand design as much as for designers to understand development.)</li>
   <li><strong>Open source</strong>. Of course it is! <code>\o/</code> Go and <a href="https://github.com/GoogleChrome/voice-memos">get the code</a> and have a look around!</li>
 </ul>
 
@@ -276,7 +276,7 @@
   <figcaption>Logo: opus-codec.org</figcaption>
 </figure>
 
-<p>But MP3 encoders seem to be mired in patents stuff, which I don’t fully understand, and therefore wanted to avoid. The <a href="https://github.com/akrennmair/libmp3lame-js/blob/master/dist/libmp3lame.min.js">LAME MP3 encoder was 296KB</a>, which I just couldn’t justify. Meanwhile, the Ogg Opus one… Well now, that was just over 500KB, but, hey, better than storing WAVs on peoples’ devices, or getting into patent problems, I guess.</p>
+<p>The <a href="https://github.com/akrennmair/libmp3lame-js/blob/master/dist/libmp3lame.min.js">LAME MP3 encoder was 296KB</a>, which I just couldn’t justify downloading on every visit. And, for that matter, MP3 encoders seem to be mired in patents stuff, which I don’t fully understand, and therefore want to avoid. Meanwhile, the Ogg Opus one… Well, that was just over 500KB, but, hey, better than storing WAVs on peoples’ devices, or getting into patent problems, I guess.</p>
 
 <blockquote>
   <p>Long story, short: the app has to store audio as WAVs, so don’t record long memos!</p>
@@ -295,7 +295,7 @@
   <figcaption>Making waaaaves!</figcaption>
 </figure>
 
-<p>When you record a memo, you may notice that there is an audio wave pattern in the background. It is actually of the audio itself. Initially I had thought I’d do this on decoding of the audio data, but it became clear that I wasn’t going to be using the Web Audio API beyond the recording, simply because there was going to be no audio to decode.</p>
+<p>When you record a memo, you may notice that there is an audio wave pattern in the background. It is actually of the audio itself. Initially I had thought I’d do this on decoding of the audio data, but it became clear that I wasn’t going to be using the Web Audio API beyond the recording, simply because there was going to be no audio to decode, and so an <code>&lt;audio&gt;</code> element would do just fine.</p>
 
 <p>What I ended up doing was adding an <code>analyser</code> node to Recorderjs’s input stream, and taking samples throughout the recording. These were normalized and stored alongside the audio data. When shown it gets rendered using a canvas element.</p>
 
@@ -323,12 +323,12 @@
 
 <h2 id="standing-on-the-shoulders-of-giants">Standing on the shoulders of giants</h2>
 
-<p>Goodness me there were lots of amazing things out there for me to use. In no particular order:</p>
+<p>Goodness me there were lots of amazing things out there for me to use, and I think it would be wrong of me to pretend like I did this on my own, somehow. Here’s some of the things I used (in no particular order):</p>
 
 <ul>
-  <li><strong>Gulp plugins galore</strong>. I ended up making a couple of versions of the gulp file, because it was the first time I used it and I screwed up a bunch of things. But man has the community been busy. Everything from bumping version files to uglifying JS, to licensing. All covered!</li>
+  <li><strong>Gulp plugins galore</strong>. I ended up making a couple of versions of the gulp file, because it was the first time I used it and I screwed up a bunch of things. But man has the Gulp community been busy. Everything from bumping version files to uglifying JS, to licensing. All covered!</li>
   <li><strong>ES6 transpilers</strong>. There are a few of these on the go, but I opted for <a href="https://babeljs.io/">Babel(ify)</a>, since it seemed to have solid gulp support through <a href="https://github.com/gulpjs/gulp/blob/master/docs/recipes/fast-browserify-builds-with-watchify.md">watchify</a>. I was particularly impressed with the source maps support, because while it did add it as a data-uri to the end of the files (which is fine for dev time anyway), it never got it wrong and it made debugging a breeze!</li>
-  <li><strong>Material Design guidelines</strong>. Sure it was going to be the default look and feel for someone who works at Google, but as a system it does work. You could definitely use a different baseline grid (it seems to be 8dp multiples for <a href="http://www.google.com/design/spec/material-design/introduction.html">Material Design</a>), and different colours, but its value for me is in the UX. It wants you to focus on directing the user to the task. And for me, in following its guidance, it was simple enough.</li>
+  <li><strong>Material Design guidelines</strong>. Sure it was going to be the default look and feel for someone who works at Google, but as a system it does work. You could definitely use a different baseline grid (it seems to be 8dp multiples for <a href="http://www.google.com/design/spec/material-design/introduction.html">Material Design</a>), and different colours, but its value for me is in the UX. It wants you to focus on directing the user to the task. And for me, in following its guidance, it was simple enough to make something effective.</li>
   <li><strong>Recorderjs and Moment.js</strong>. Both of these are life-savers, particularly <a href="http://momentjs.com/">Moment</a>. Nobody wants to wrangle lower level APIs or fiddly things like dates and times, and both of these micro-libraries helped me avoid that. I actually used <a href="https://github.com/chris-rudmin/Recorderjs">a fork of Recorderjs</a>, just because it had the Opus codec.</li>
 </ul>
 
