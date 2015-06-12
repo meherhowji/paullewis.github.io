@@ -272,7 +272,7 @@
 
 <p>I’ll be blunt about my feelings on Polymer 0.5, which I considered a framework: it gave me all the wrong feels. It tried to do so much, and in one go, and it felt like eating a 5 course dinner when all you wanted was a salad. After all, there’s no hard requirement to make your own elements. Semantic markup does just fine, and it’s hard to beat the browser at components that its engineers have had years to refine.</p>
 
-<p>There was a scent of “pop this script in the head, and that includes the polyfill as well, oh and while you’re here just hide everything in until all your components have bootstrapped because <a href="http://en.wikipedia.org/wiki/Flash_of_unstyled_content">FOUC</a>, and you’ll need to know about how Web Components work.” All of which made me uncomfortable. Lazy-loading, non-blocking, progressively enhancing pages are a core strength of the web. We need to make use of that.</p>
+<p>There was a scent of “pop this script in the head, and that includes the polyfill as well, oh and while you’re here just hide everything in until all your components have bootstrapped because <a href="http://en.wikipedia.org/wiki/Flash_of_unstyled_content">FOUC</a>.” All of which made me uncomfortable. Lazy-loading, non-blocking, progressively enhancing pages are a core strength of the web. We need to make use of that.</p>
 
 <p>It was, in many ways, unfair to judge Polymer so harshly at that stage, because it was labeled as <em>0.5</em>, not 1.0. Nobody said it was production ready; it was still a work-in-progress!</p>
 
@@ -433,7 +433,7 @@
 
 <div class="container"><div class="left column">
 
-<p>So now we have these bundles of elements (I call them bundles, I dunno what else to call them…) that are loading in lazily.</p>
+<p>So now we have these bundles of elements (I call them bundles, I dunno what else to call them…) that are loading in lazily. If you need to do lazy loading of imports <em>inside another component</em> you can use the <a href="https://www.polymer-project.org/1.0/docs/devguide/utility-functions.html#utility-functions"><code>importHref</code> function</a> that comes as part of <code>Polymer.Base</code>. In fact, those utility functions are super handy. I guess that’s why they called them utility functions, and not just… you know… functions.</p>
 
 <p>I use <code>minifyInline</code> in my gulp file (though I believe <code>htmlmin</code> also gets good mileage) to uglify the JS and minify the CSS of each bundle during the build process after vulcanize has done its thing.</p>
 
