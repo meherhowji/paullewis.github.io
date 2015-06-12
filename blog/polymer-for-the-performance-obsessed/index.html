@@ -433,9 +433,9 @@
 
 <div class="container"><div class="left column">
 
-<p>So now we have these bundles of elements (I call them bundles, I dunno what else to call them…) that are loading in lazily. If you need to do lazy loading of imports <em>inside another component</em> you can use the <a href="https://www.polymer-project.org/1.0/docs/devguide/utility-functions.html#utility-functions"><code>importHref</code> function</a> that comes as part of <code>Polymer.Base</code>. In fact, those utility functions are super handy. I guess that’s why they called them utility functions, and not just… you know… functions.</p>
+<p>So now we have these bundles of elements (I call them bundles, I dunno what else to call them…) that are loading in lazily. If you need to do imports <em>inside another component</em> you can use the <a href="https://www.polymer-project.org/1.0/docs/devguide/utility-functions.html#utility-functions"><code>importHref</code> function</a> that comes as part of <code>Polymer.Base</code>. In fact, those utility functions are super handy. I guess that’s why they called them utility functions, and not just… you know… functions.</p>
 
-<p>I use <code>minifyInline</code> in my gulp file (though I believe <code>htmlmin</code> also gets good mileage) to uglify the JS and minify the CSS of each bundle during the build process after vulcanize has done its thing.</p>
+<p>To make sure the bundles are as small as possible I use <code>minifyInline</code> during the build process to uglify the JS and minify the CSS of each, right after vulcanize has done its thing.</p>
 
 <h2 id="step-4-dont-vulcanize-polymer">Step 4: Don’t vulcanize Polymer</h2>
 
