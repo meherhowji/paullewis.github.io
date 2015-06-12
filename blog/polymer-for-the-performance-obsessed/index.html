@@ -1,0 +1,602 @@
+<!doctype html>
+<html itemscope itemtype="http://schema.org/Article">
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="author" content="Paul Lewis" />
+  <meta name="viewport" content="width=device-width">
+  <meta name="theme-color" content="#880043">
+
+  
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="//aerotwist.com/blog/feed/">
+  
+
+  
+  <meta itemprop="name" content="Polymer for the Performance-obsessed">
+  <meta itemprop="description" content="I&#39;m building a small web app at the moment, and so I&#39;ve taken the opportunity to give Polymer 1.0 a proper test drive. The question I was asking myself: can I get all these goodies without making users pay a huge performance cost?">
+
+    
+
+  
+
+  <style>
+    
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 400;
+      src: local('Lato Regular'), local('Lato-Regular'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qIIYRU-oROkIk8vfvxw6QvesZW2xOQ-xsNqO47m55DA.woff) format('woff');
+    }
+    
+
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 700;
+      src: local('Lato Bold'), local('Lato-Bold'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qdgUG4U09HnJwhYI-uK18wLUuEpTyoUstqEm5AMlJo4.woff) format('woff');
+    }
+  </style>
+
+  <link rel="stylesheet" media="screen" href="/css/aerotwist.css" />
+  <title>Aerotwist - Polymer for the Performance-obsessed</title>
+  
+</head>
+
+
+<!--
+                              __          .__          __
+  _____    ___________  _____/  |___  _  _|__| _______/  |_
+  \__  \ _/ __ \_  __ \/  _ \   __\ \/ \/ /  |/  ___/\   __\
+   / __ \\  ___/|  | \(  <_> )  |  \     /|  |\___ \  |  |
+  (____  /\___  >__|   \____/|__|   \/\_/ |__/____  > |__|
+       \/     \/                                  \/
+
+  Giant ascii art embedded in every page of your site is how you
+  show other people that YOU CARE. Mainly I care about developers,
+  which is what I presume you are if you're all about viewing
+  the source. Clearly you're my kind of person.
+
+  This is v3, it's run through Jekyll, it's been fun to build,
+  there's always more to do, and you may notice that aside from
+  Google Analytics there is no JavaScript. None.
+
+  That's one way of many you keep your pages fast. I care about
+  keeping this site fast because your time is precious and I need
+  to get out of your way.
+
+  <3'z
+
+  Paul
+-->
+
+
+  <body class="blog">
+
+    <header>
+      <div class="container">
+        <div id="logo">
+  <a href="/">
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="100%" height="100%">
+    <g>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#6EBAD3" points="30.6,47.73 64.92,47.73 19.97,76.52"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ED95C0" points="48.198,0 53.008,14.06 39.31,24.76"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#880043" points="39.31,24.76 64.92,48 30.6,48"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#DA0A7A" points="39.31,24.76 64.92,48 53.008,14.06"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#0B7DAD" points="30.6,48 64.92,48 48,58.69"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#BDDEE8" points="47.76,58.69 64.92,47.73 75.14,76.73"></polygon>
+    </g>
+    </svg>
+  </a>
+</div>
+
+        <nav>
+  <ul>
+    
+      
+        <li><a href="/">Home</a></li>
+      
+    
+      
+        <li class="active"><a href="/blog/"> Blog</a></li>
+      
+    
+      
+        <li><a href="/tutorials/">Tutorials</a></li>
+      
+    
+      
+        <li><a href="/lab/">Lab</a></li>
+      
+    
+  </ul>
+
+  <svg id="left-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#AAAAAA" stroke-width="1" />
+    </svg>
+
+  <svg id="right-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#6EBAD3" stroke-opacity="0.3" stroke-width="1" />
+    </svg>
+</nav>
+
+      </div>
+    </header>
+    <section>
+
+      <div class="content">
+
+  
+  <svg version="1.1" class="shape-reference" xmlns="http://www.w3.org/2000/svg" width="690" height="349">
+  <defs>
+    <filter id="blur-8">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="8" />
+    </filter>
+    <filter id="blur-6">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="6" />
+    </filter>
+    <filter id="blur-4">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="4" />
+    </filter>
+  </defs>
+
+  <g id="color-block">
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#9ca5c8" stroke="#9ca5c8" stroke-width="0.6" points="107,164 40,97 144,99"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#a386ba" stroke="#a386ba" stroke-width="0.6" points="107,164 144,99 191,140"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#87519d" stroke="#87519d" stroke-width="0.6" points="187,209 107,164 191,140"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#aa3691" stroke="#aa3691" stroke-width="0.6" points="187,209 191,140 278,176"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#821f65" stroke="#821f65" stroke-width="0.6" points="256,259 187,209 278,176"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#8c135c" stroke="#8c135c" stroke-width="0.6" points="256,259 278,176 298,223"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#4f0b34" stroke="#4f0b34" stroke-width="0.6" points="271,292 256,259 298,223"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#4f052d" stroke="#4f052d" stroke-width="0.6" points="364,276 271,292 298,223"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#830345" stroke="#830345" stroke-width="0.6" points="364,276 298,223 330,213"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#7f0241" stroke="#7f0241" stroke-width="0.6" points="364,276 330,213 368,233"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#50062f" stroke="#50062f" stroke-width="0.6" points="364,276 368,233 427,274"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#610d3f" stroke="#610d3f" stroke-width="0.6" points="427,274 368,233 435,235"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#4a133b" stroke="#4a133b" stroke-width="0.6" points="435,235 505,255 427,274"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#551d4b" stroke="#551d4b" stroke-width="0.6" points="505,255 435,235 496,230"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#472a54" stroke="#472a54" stroke-width="0.6" points="586,223 505,255 496,230"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#322441" stroke="#322441" stroke-width="0.6" points="553,283 505,255 586,223"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#1c0e1e" stroke="#1c0e1e" stroke-width="0.6" points="489,309 505,255 553,283"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#250c20" stroke="#250c20" stroke-width="0.6" points="489,309 427,274 505,255"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#28314c" stroke="#28314c" stroke-width="0.6" points="553,283 586,223 650,237"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#3d4e78" stroke="#3d4e78" stroke-width="0.6" points="650,237 586,223 568,177"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#60538e" stroke="#60538e" stroke-width="0.6" points="586,223 545,170 568,177"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#5e4077" stroke="#5e4077" stroke-width="0.6" points="496,230 545,170 586,223"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#904091" stroke="#904091" stroke-width="0.6" points="496,230 467,140 545,170"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#a03188" stroke="#a03188" stroke-width="0.6" points="445,183 467,140 496,230"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#c83f99" stroke="#c83f99" stroke-width="0.6" points="445,183 402,155 467,140"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#c91b82" stroke="#c91b82" stroke-width="0.6" points="384,205 402,155 445,183"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#e90e84" stroke="#e90e84" stroke-width="0.6" points="384,205 347,163 402,155"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#d7036e" stroke="#d7036e" stroke-width="0.6" points="330,213 347,163 384,205"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#dc0a7a" stroke="#dc0a7a" stroke-width="0.6" points="330,213 278,176 347,163"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#b10e68" stroke="#b10e68" stroke-width="0.6" points="298,223 278,176 330,213"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#e42690" stroke="#e42690" stroke-width="0.6" points="278,176 278,148 347,163"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#c8479e" stroke="#c8479e" stroke-width="0.6" points="191,140 278,148 278,176"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#cc78b7" stroke="#cc78b7" stroke-width="0.6" points="191,140 217,94 278,148"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#c69bc7" stroke="#c69bc7" stroke-width="0.6" points="191,140 144,99 217,94"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#e2cae2" stroke="#e2cae2" stroke-width="0.6" points="144,99 206,40 217,94"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#eae1ee" stroke="#eae1ee" stroke-width="0.6" points="144,99 131,48 206,40"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#cecfe2" stroke="#cecfe2" stroke-width="0.6" points="40,97 131,48 144,99"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#eac5e0" stroke="#eac5e0" stroke-width="0.6" points="278,99 217,94 206,40"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#df87c0" stroke="#df87c0" stroke-width="0.6" points="217,94 278,99 278,148"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ea54a8" stroke="#ea54a8" stroke-width="0.6" points="278,99 347,163 278,148"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#fb5dad" stroke="#fb5dad" stroke-width="0.6" points="383,118 347,163 278,99"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ee419e" stroke="#ee419e" stroke-width="0.6" points="347,163 383,118 402,155"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#e267b0" stroke="#e267b0" stroke-width="0.6" points="402,155 383,118 450,115"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#d264ad" stroke="#d264ad" stroke-width="0.6" points="402,155 450,115 467,140"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#eb9acb" stroke="#eb9acb" stroke-width="0.6" points="383,118 397,65 450,115"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#fab5da" stroke="#fab5da" stroke-width="0.6" points="383,118 324,59 397,65"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#fb9ece" stroke="#fb9ece" stroke-width="0.6" points="383,118 278,99 324,59"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f5d3e8" stroke="#f5d3e8" stroke-width="0.6" points="324,59 278,99 206,40"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#a70558" stroke="#a70558" stroke-width="0.6" points="368,233 330,213 384,205"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#8b0d55" stroke="#8b0d55" stroke-width="0.6" points="368,233 384,205 435,235"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#9b1869" stroke="#9b1869" stroke-width="0.6" points="435,235 384,205 445,183"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#7c2163" stroke="#7c2163" stroke-width="0.6" points="435,235 445,183 496,230"/>
+  </g>
+</svg>
+
+  
+
+  <div class="masthead hatched">
+
+    
+      <svg class="behind-meta" width="690" height="349">
+        <use xlink:href="#color-block" />
+      </svg>
+
+      <svg class="left-meta" width="690" height="349">
+        <use xlink:href="#color-block" filter="url(#blur-6)" transform="translate(345 174) scale(-0.5 0.5) translate(-345 -175)" />
+      </svg>
+    
+
+    <div class="container">
+      <h2>Polymer for the Performance-obsessed</h2>
+      <p>I'm building a small web app at the moment, and so I've taken the opportunity to give Polymer 1.0 a proper test drive. The question I was asking myself: can I get all these goodies without making users pay a huge performance cost?</p>
+    </div>
+
+  </div>
+
+  <div class="container">
+    <div class="meta">
+
+      <ul>
+        <li class="last-updated">
+          <span class="name">Last updated:</span>
+          <span class="value">11 Jun 2015</span>
+        </li>
+
+        <li>
+          <span class="name">Est. Read Time:</span>
+          <span class="value">15 mins</span>
+        </li>
+
+        <li class="share">
+          <span class="name">Share this:</span>
+          <span class="value"><a href="http://www.twitter.com/share?url=https://aerotwist.com/blog/polymer-for-the-performance-obsessed/">Twitter</a></span>
+          <span class="value"><a href="https://plus.google.com/share?url=https://aerotwist.com/blog/polymer-for-the-performance-obsessed/">Google+</a></span>
+        </li>
+        <li class="tags">
+          <span class="name">Tagged:</span>
+          <span class="value">
+          
+            #polymer, 
+          
+            #performance
+          
+          </span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="container"><div class="left column">
+
+<h2 id="i-have-a-reputation-apparently">I have a reputation, apparently</h2>
+
+<p>Turns out (at least in Developer Relations at Google) I’m known for disliking anything that looks like a framework, smells like a framework, or sounds like a framework. I don’t like Inversion of Control; I want code to play by <em>my</em> rules, not force me to play by its.</p>
+
+<blockquote class="quote">
+  In a framework, unlike in libraries or normal user applications, the overall program's flow of control is not dictated by the caller, but by the framework
+  <footer>
+    <cite><a href="http://en.wikipedia.org/wiki/Software_framework">Software Framework - Wikipedia</a></cite>
+  </footer>
+</blockquote>
+
+<blockquote>
+  <p>I don’t like Inversion of Control; I want code to play by <em>my</em> rules, not force me to play by its.</p>
+</blockquote>
+
+<p>I’ll be blunt about my feelings on Polymer 0.5, which I considered a framework: it gave me all the wrong feels. It tried to do so much, and in one go, and it felt like eating a 5 course dinner when all you wanted was a salad. After all, there’s no hard requirement to make your own elements. Semantic markup does just fine, and it’s hard to beat the browser at components that its engineers have had years to refine.</p>
+
+<p>There was a scent of “pop this script in the head, and that includes the polyfill as well, oh and while you’re here just hide everything in until all your components have bootstrapped because <a href="http://en.wikipedia.org/wiki/Flash_of_unstyled_content">FOUC</a>, and you’ll need to know about how Web Components work.” All of which made me uncomfortable. Lazy-loading, non-blocking, progressively enhancing pages are a core strength of the web. We need to make use of that.</p>
+
+<p>It was, in many ways, unfair to judge Polymer so harshly at that stage, because it was labeled as <em>0.5</em>, not 1.0. Nobody said it was production ready; it was still a work-in-progress!</p>
+
+<h2 id="ohai-polymer-10">Ohai Polymer 1.0!</h2>
+
+<p><a href="https://www.youtube.com/watch?v=fD2As5RmM8Q">At Google I/O this year we announced that Polymer is now at 1.0</a>, and I knew from 0.8 and 0.9 that Polymer had been to the gym and slimmed right down. I have something of a policy of giving 1.0 releases a fair shot (I did the same with Dart), so I decided it was high time to see if I could get a pattern that preserves the best of the web (progressively enhanced and non-blocking) with the future-facing goodies of Web Components and Polymer.</p>
+
+<figure>
+  <img alt="This is my logo. S'all I'm saying. It's fine, Polymer, you keep it. It's not like it hurts my feelings. It's fine. I'm fine. Hold me." src="/static/blog/polymer-for-the-performance-obsessed/polymer-logo.png" />
+  <figcaption>I'm not saying they were "inspired" to make the Polymer logo based on the design of my site. I'm also not saying they were going to call it Paulymer, either.</figcaption>
+</figure>
+
+<blockquote>
+  <p>Lazy-loading, non-blocking, progressively enhancing pages are a core strength of the web. We need to make use of that.</p>
+</blockquote>
+
+<p>Here’s what I reckon is worth knowing for Polymer 1.0:</p>
+
+<ul>
+  <li><strong>It doesn’t include any polyfills.</strong> That’s good, because I reckon we only want to get the polyfill if we absolutely need to, not by default. We <em>will</em> need it for any browser that doesn’t support Web Components (so Chrome is the only exemption here), but hopefully more browsers will support Web Components, and the need to polyfill will reduce.</li>
+  <li><strong>It comes in three tiers.</strong> There’s micro, mini, and standard. Each builds on the tier beneath it. If you want anything interesting I reckon you’re going to need standard, but if you just want a light wrapper around Web Components then it’s micro for you! In my case I want some of the standard features, so that’s what I grabbed.</li>
+  <li><strong>Elements aren’t included.</strong> That’s also good, because if I want to include Material Design elements (or any others for that matter) I would want to opt into that. I’m not going to cover the <a href="https://elements.polymer-project.org/">Paper, Platinum, Neon, or Iron elements</a> in this post. That’d be like reviewing a UI kit, and at this point I’m more about using Polymer as a component author. That said, everything I’m saying in this post should still apply.</li>
+</ul>
+
+<p>The first two are changes from 0.5, the last isn’t, but the changes are important, because they require far less investment from a developer point-of-view, and they put you back in the driving seat. Less like a framework, more like a library. Less like being given that 5 course dinner, and way more like a badass componenty buffet. That could totally be a thing.</p>
+
+<aside class="boxout">
+<p><strong>Disclaimer:</strong> there’s nothing spectacularly “new” here advice-wise, this is just about applying known performance techniques in a Polymer world and seeing if the two can peacefully coexist. (Spoiler: yes, they can.)</p>
+
+</aside>
+
+<p>Alright then, here goes…</p>
+
+<h2 id="step-1-inline-styles-and-region-your-app">Step 1: Inline styles and region your app</h2>
+
+<p>This one is useful, whether or not you use Polymer. Let’s say this is the layout of your app:</p>
+
+<figure class="no-shadow">
+  <img alt="A sample site layout." src="/static/blog/polymer-for-the-performance-obsessed/sample-layout.png" />
+  <figcaption>A sample site layout. We normally know the proportions and, you know, we can flexbox.</figcaption>
+</figure>
+
+<blockquote>
+  <p>You probably know the layout of your app ahead of time, so why not just send down placeholder styles in your HTML?</p>
+</blockquote>
+
+<p>You could wait for all the components to download, then you could assemble them in some kind of JavaScript-based bootstrapping process. Or maybe you’d do it as part of a container <code>&lt;my-app&gt;</code> tag’s scoped styling.</p>
+
+<p>My problem with this is that you probably know the layout of your app ahead of time, so why not just send down placeholder styles in your HTML? Why wait and block rendering? It can be as simple as the major regions of your app, and perhaps some coloring info, like toolbars or buttons.</p>
+
+</div></div>
+
+<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="cp">&lt;!doctype html&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+
+  <span class="nt">&lt;head&gt;</span>
+    <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">&quot;utf-8&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">&quot;viewport&quot;</span> <span class="na">content=</span><span class="s">&quot;width=device-width&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;title&gt;</span>My app<span class="nt">&lt;/title&gt;</span>
+
+    <span class="nt">&lt;style&gt;</span>
+    <span class="o">&lt;!</span><span class="nt">--</span>
+
+      <span class="nt">Inline</span> <span class="nt">minified</span> <span class="nt">placeholder</span> <span class="nt">styles</span>
+
+    <span class="nt">--</span><span class="o">&gt;</span>
+    <span class="nt">&lt;/style&gt;</span>
+
+  <span class="nt">&lt;/head&gt;</span>
+
+  <span class="nt">&lt;body&gt;</span>
+
+    <span class="nt">&lt;my-epic-element&gt;&lt;/my-epic-element&gt;</span>
+    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;/scripts/app.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+
+  <span class="nt">&lt;/body&gt;</span>
+
+<span class="nt">&lt;/html&gt;</span></code></pre></div>
+
+<div class="container"><div class="left column">
+
+<p>Doing it this way means the user sees something super quickly as part of the initial response. The elements can then “undo” this styling when they get upgraded as part of the custom elements flow.</p>
+
+<blockquote>
+  <p>You could probably argue that, with self-contained components, it’s a fudge to send any styling ahead of time. I’d say that it’s worth it for the gain in perceived performance, and that pragmatism should win.</p>
+</blockquote>
+
+<p>The only thing to be aware of is if you use <code>:unresolved</code> for element styling, which feels like it would be correct, you can end up with something that is <a href="http://en.wikipedia.org/wiki/Flash_of_unstyled_content">FOUC</a>-like, because when that <code>:unresolved</code> pseudo class is removed, your element may or may not have painted. If not, the placeholder styles are removed, then the new styles are applied and you’ll see it flash from one to the other. In my case I found it better to handle this swap over in Polymer’s <code>attached</code> callback and use a class of my own. I maybe missed a feature of Polymer here that makes this swap easier to handle.</p>
+
+<p>You could probably argue that, with self-contained components, it’s a fudge to send any styling ahead of time. I’d say that it’s worth it for the gain in perceived performance, and that pragmatism should win. But then I would say that.</p>
+
+<h2 id="step-2-conditionally-and-async-load-the-polyfill">Step 2: Conditionally (and async) load the polyfill</h2>
+
+<p>By now we have placeholder styles, so now you need to either go and get your elements, or get the Web Components polyfill and <em>then</em> get your elements.</p>
+
+<p><a href="https://twitter.com/glenmaddern">Glen Maddern</a> made a good little check for that, but it used <code>document.write</code>, an API I dislike with great intensity. But this is modern web, and so we’re good for async script loading:</p>
+
+</div></div>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="cm">/**</span>
+<span class="cm"> * Conditionally loads webcomponents polyfill if needed.</span>
+<span class="cm"> * Credit: Glen Maddern (geelen on GitHub)</span>
+<span class="cm"> */</span>
+<span class="kd">var</span> <span class="nx">webComponentsSupported</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;registerElement&#39;</span> <span class="k">in</span> <span class="nb">document</span>
+  <span class="o">&amp;&amp;</span> <span class="s1">&#39;import&#39;</span> <span class="k">in</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;link&#39;</span><span class="p">)</span>
+  <span class="o">&amp;&amp;</span> <span class="s1">&#39;content&#39;</span> <span class="k">in</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;template&#39;</span><span class="p">));</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">webComponentsSupported</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">wcPoly</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;script&#39;</span><span class="p">);</span>
+  <span class="nx">wcPoly</span><span class="p">.</span><span class="nx">async</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+  <span class="nx">wcPoly</span><span class="p">.</span><span class="nx">src</span> <span class="o">=</span> <span class="s1">&#39;/third_party/webcomponents-lite.min.js&#39;</span><span class="p">;</span>
+  <span class="nx">wcPoly</span><span class="p">.</span><span class="nx">onload</span> <span class="o">=</span> <span class="nx">lazyLoadPolymerAndElements</span><span class="p">;</span>
+  <span class="nb">document</span><span class="p">.</span><span class="nx">head</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">wcPoly</span><span class="p">);</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+  <span class="nx">lazyLoadPolymerAndElements</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">lazyLoadPolymerAndElements</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="c1">// Set up the element imports.</span>
+<span class="p">}</span></code></pre></div>
+
+<div class="container"><div class="left column">
+
+<p>Notably I’m only loading the <em>lite</em> (light in Traditional English) version of the polyfill, because Polymer 1.0 includes <a href="https://www.polymer-project.org/1.0/articles/shadydom.html">shady DOM</a> (and will allow you to prefer shadow DOM if it’s available in the browser you users are using), and so the only reason to use it is if you want full shadow DOM everywhere <em>or</em> you’re not using Polymer. Well I am using Polymer, so that’s all good. That also means I only need to check for the absence of custom elements, imports, and templates.</p>
+
+<h2 id="step-3-bundle-your-related-elements">Step 3: Bundle your related elements</h2>
+
+<p>The pattern I’ve seen a few times is to have a single <code>elements.html</code> file, which goes off and imports all the elements for your app. Pretty gravy once it’s been vulcanized and crushed down to a single file. (If you’re unfamiliar with the term, vulcanizing it the concat process which flattens your imports.) But what if you have one component that’s, like, 2KB, and another that’s 300KB? Well, I reckon you want them to load independently, so the small one can get going sooner.</p>
+
+<p>Since we already reserved space for the elements in step 1, it shouldn’t matter too much in what order they arrive. If it <em>does</em> matter to your app, then I’d argue they should be bundled together in the vulcanize process.</p>
+
+<p>In the code above there was a <code>lazyLoadPolymerAndElements</code> function, which I use to create all the HTML imports on the fly. Since these are not made by the browser’s parser the implication (from reading the <a href="http://www.w3.org/TR/html-imports/">HTML Imports spec</a>) is that these should be non-blocking. Sounding gooooood.</p>
+
+</div></div>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">function</span> <span class="nx">lazyLoadPolymerAndElements</span><span class="p">()</span> <span class="p">{</span>
+
+  <span class="c1">// Let&#39;s use Shadow DOM if we have it, because awesome.</span>
+  <span class="nb">window</span><span class="p">.</span><span class="nx">Polymer</span> <span class="o">=</span> <span class="nb">window</span><span class="p">.</span><span class="nx">Polymer</span> <span class="o">||</span> <span class="p">{};</span>
+  <span class="nb">window</span><span class="p">.</span><span class="nx">Polymer</span><span class="p">.</span><span class="nx">dom</span> <span class="o">=</span> <span class="s1">&#39;shadow&#39;</span><span class="p">;</span>
+
+  <span class="kd">var</span> <span class="nx">elements</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;/path/to/bundle/one.html&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;/path/to/bundle/two.html&#39;</span>
+  <span class="p">];</span>
+
+  <span class="nx">elements</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">elementURL</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="kd">var</span> <span class="nx">elImport</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;link&#39;</span><span class="p">);</span>
+    <span class="nx">elImport</span><span class="p">.</span><span class="nx">rel</span> <span class="o">=</span> <span class="s1">&#39;import&#39;</span><span class="p">;</span>
+    <span class="nx">elImport</span><span class="p">.</span><span class="nx">href</span> <span class="o">=</span> <span class="nx">elementURL</span><span class="p">;</span>
+    <span class="nx">elImport</span><span class="p">.</span><span class="nx">async</span> <span class="o">=</span> <span class="s1">&#39;true&#39;</span><span class="p">;</span>
+
+    <span class="nb">document</span><span class="p">.</span><span class="nx">head</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">elImport</span><span class="p">);</span>
+
+  <span class="p">})</span>
+<span class="p">}</span></code></pre></div>
+
+<div class="container"><div class="left column">
+
+<p>So now we have these bundles of elements (I call them bundles, I dunno what else to call them…) that are loading in lazily.</p>
+
+<p>I use <code>minifyInline</code> in my gulp file (though I believe <code>htmlmin</code> also gets good mileage) to uglify the JS and minify the CSS of each bundle during the build process after vulcanize has done its thing.</p>
+
+<h2 id="step-4-dont-vulcanize-polymer">Step 4: Don’t vulcanize Polymer</h2>
+
+<p>Now we have bundles, each one can import Polymer, but we’ll want to exclude Polymer itself from the vulcanize process, so that each bundle won’t include its own copy of Polymer, <em>and</em> they can race to get it. When Polymer arrives, any imports that have finished downloading can execute and the element(s) they’re responsible for can fire up.</p>
+
+<p>To miss out Polymer from the vulcanize process:</p>
+
+</div></div>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="s1">&#39;vulcanize-and-minify&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+
+  <span class="k">return</span> <span class="nx">gulp</span><span class="p">.</span><span class="nx">src</span><span class="p">(</span><span class="s1">&#39;./dist/elements/**/*.html&#39;</span><span class="p">)</span>
+
+    <span class="c1">// Vulcanize, inline all the things</span>
+    <span class="c1">// except for Polymer, which we leave alone.</span>
+    <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">vulcanize</span><span class="p">({</span>
+      <span class="nx">inlineScripts</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+      <span class="nx">inlineCss</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+      <span class="nx">stripExcludes</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="nx">excludes</span><span class="o">:</span> <span class="p">[</span><span class="nx">path</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="s1">&#39;./dist/third_party/polymer.html&#39;</span><span class="p">)]</span>
+    <span class="p">}))</span>
+
+    <span class="c1">// Crush all that JS and CSS and pipe out.</span>
+    <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">minifyInline</span><span class="p">())</span>
+    <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">gulp</span><span class="p">.</span><span class="nx">dest</span><span class="p">(</span><span class="s1">&#39;./dist/elements&#39;</span><span class="p">));</span>
+
+<span class="p">});</span></code></pre></div>
+
+<div class="container"><div class="left column">
+
+<p>Meanwhile, just for funsies, I <em>also</em> took the vulcanized <code>polymer.html</code> and ran that through <code>minifyInline</code> as well. In the end I got it to: 27KB for Polymer and 12KB for the polyfills (both gzipped, but this is 2015 so I dunno why I mention that).</p>
+
+<h2 id="page-load-performance">Page Load Performance</h2>
+
+<p>To summarise the journey so far:</p>
+
+<ol>
+  <li>Use inline styles to reserve app “regions”.</li>
+  <li>Vulcanize and crush the element bundles (excluding Polymer itself).</li>
+  <li>Conditionally and async load the Web Components lite polyfill.</li>
+  <li>Async load the element bundles. (This will also set up a race for Polymer itself).</li>
+</ol>
+
+<p>All that leaves us is to check whether it was actually worthwhile. You’d kind of have to hope so, or I’m just going to feel bad about me. Again.</p>
+
+<p>I’m working on a web app which makes use of this approach. It’s a small utility app, but it has three custom components. (Hopefully I’ll get it finished up and launched soon so you can see all this code in one place!)</p>
+
+<p>With my web app in tow, I ran two tests:</p>
+
+<ol>
+  <li><strong>Unoptimized</strong>. I put the polyfill and HTML imports in the head (which is render blocking), and kept the styling in a separate CSS file.</li>
+  <li><strong>Optimized</strong>. I did everything I just outlined.</li>
+</ol>
+
+<p>I ran everything on <a href="https://www.webpagetest.org/">WebPageTest</a> with a Motorola G running Chrome on a 3G connection. It was connecting to HTTPS, so there’s a good amount of handshaking that goes into an SSL connection that skews timing. Even so, the results were pretty interesting:</p>
+
+<ul>
+  <li><strong>Speed Index</strong>: Unoptimized: 4,848, Optimized: <strong>2,895</strong>. Saving: <strong>~40%</strong>.</li>
+  <li><strong>Start Render</strong>: Unoptimized: 4.477s, Optimized: <strong>2.366s</strong>. Saving: <strong>~47%</strong>.</li>
+  <li><strong>Load Time</strong>: Unoptimized: 4.065s, Optimized: <strong>3.836s</strong>. Saving: <strong>~6%</strong>. This is pretty much the same for both tests. We’re loading pretty much the same stuff, just with a different “weighting”, so that’s kind of expected.</li>
+</ul>
+
+<blockquote>
+  <p>I think the improvements are largely because of the inline styling, because we get to something that’s more visually complete sooner</p>
+</blockquote>
+
+<p>Overall, I think the improvements are largely because of the inline styling, because we get to something that’s more <em>visually complete</em> sooner, which is going to aid the <a href="https://sites.google.com/a/webpagetest.org/docs/using-webpagetest/metrics/speed-index">Speed Index</a> score. I could have also included some placeholder JavaScript to handle early interactions before the app is ready as well as that inline styling. That’s <a href="https://github.com/GoogleChrome/voice-memos/blob/master/src/scripts/controller/AppController.js#L109">something I did</a> for my <a href="../voice-memos/">Voice Memos app</a>. Again, you can just have the element undo it on upgrade. (If it’s someone else’s component, then I guess you’d have to do something smarterer here, but it’s still a good idea.)</p>
+
+<p>You should take these numbers with a pinch of salt, because this is just one round of tests on one app, but for what it’s worth <a href="https://twitter.com/jaffathecake">Jakey Vegas</a> seems to be seeing the same kinds of benefits by taking a similar approach (in non-Polymer land).</p>
+
+<iframe width="100%" height="420" src="//www.youtube.com/embed/d5_6yHixpsQ?vq=hd720" frameborder="0" allowfullscreen="allowfullscreen" style="margin-bottom: 20px; box-shadow: 0 2px 2px rgba(0,0,0,0.3)">
+</iframe>
+
+<h2 id="rendering-performance">Rendering Performance</h2>
+
+<p>For rendering performance, again this is just one data point, and I’ll keep it brief, but I’m barely seeing Polymer show up in my timeline recordings.</p>
+
+<p>The big fat caveat here is that I’m not using some of the supposedly “costlier features” like data binding, so you should check your own apps and stress test it. But you don’t <em>have</em> to use any feature in Polymer if you don’t want to, and at 27KB it’s not like having it available to you is significant bloat. That said, if I had one wish today it would be to have a custom Polymer builder (or tree shaker) a bit like the <a href="http://mootools.net/more/builder">Mootools</a> and <a href="http://modernizr.com/download/">Modernizr</a> builders. But it’s no deal breaker as things are.</p>
+
+<h2 id="paul-z-polymer">Paul ♥’z Polymer</h2>
+
+<blockquote>
+  <p>The reason I really like Polymer 1.0 is that it gets out of my way, but it <em>does</em> give me a lot of ergonomic benefits.</p>
+</blockquote>
+
+<p>The reason I really like Web Components is that they help me embrace good practices. Sure I <em>can</em> do stuff with sections, divs, paragraphs, whatever, and I <em>can</em> fire my own events and achieve the same visual ends, but Web Components seem to bring out better code from me. (I feel the same about a bunch of ES6 features, as it happens.) It’s not like it’s waving a magic wand (I can still do bad things, obv), and yes it’s more work to make a component than not, but anything worth doing is worth doing properly aye-emm-ohh.</p>
+
+<p>The reason I really like Polymer 1.0 is that it gets out of my way, but it <em>does</em> give me a lot of ergonomic benefits. That’s the kind of working relationship I like having with my code. Writing components is fine, but with Polymer it’s a breeze. I also seem to be able to do it performantly, thanks to the rewrite between versions 0.5 and 1.0.</p>
+
+<p>So I guess you can say Polymer and I are now, finally, firm friends.</p>
+
+</div></div>
+
+
+  <div class="footer-share container">
+    Share this on: <span class="value"><a href="http://www.twitter.com/share?url=https://aerotwist.com/blog/polymer-for-the-performance-obsessed/">Twitter</a></span>
+    <span class="value"><a href="https://plus.google.com/share?url=https://aerotwist.com/blog/polymer-for-the-performance-obsessed/">Google+</a></span>
+  </div>
+
+  <div class="clear"></div>
+
+  
+    <svg class="left-shape" style="margin-left: -331.55px" width="488.6" height="966.0">
+      <use xlink:href="#color-block" filter="url(#blur-4)" transform="scale(-1.4 1.4) rotate(90)"/>
+    </svg>
+
+    <svg class="right-shape" width="174.5" height="621.0">
+      <use xlink:href="#color-block" filter="url(#blur-8)" transform="scale(-0.9 0.9) rotate(90)"/>
+    </svg>
+  
+
+</div>
+
+
+    </section>
+
+    <footer>
+
+      <div class="container">
+        <div class="bio panel">
+          <h2>Hello!</h2>
+          <p>My name is Paul. I work at <a href="http://www.google.com/" title="Some cloud company in the USA, I think.">Google</a> on the Chrome Developer Relations team as an advocate. I help developers improve the performance of their sites and apps.</p>
+
+          <p>You can find me on <a href="http://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a></p>
+        </div>
+
+        <div class="get-in-touch panel">
+          <h2>Get in touch</h2>
+          <p>I don’t bite. Honestly. You can find me on <a href="https://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a>, and I like hearing from people (pretty handy given my job, really) so say hi.</p>
+        </div>
+
+        <div class="subscribe panel">
+          <h2>Subscribe</h2>
+          <p>You should totally get the <a href="/blog/feed/">RSS feed</a>, or whatever it is you kids are using these days (I miss Reader.)</p>
+        </div>
+
+        <p class="disclaimer">Except as otherwise noted, the content of this page is licensed under the Creative Commons Attribution 3.0 License, and code samples are licensed under the Apache 2.0 License.</p>
+      </div>
+    </footer>
+
+    <script async="true">
+
+    /**
+     * Snow effect, from: HTML5 Rocks
+     * https://github.com/html5rocks/www.html5rocks.com/blob/9318b5755c8c17a4bd1761bca6b1b491e7fd17b8/content/index.html
+     */
+    !function(){function j(){f=c.clientWidth,g=c.clientHeight,d.width=f,d.height=g,e.fillStyle="#FFF";var a=i;i=f>300,!a&&i&&requestAnimFrame(n)}function n(){if(e.clearRect(0,0,f,g),i){for(h=0;b>h;h++)m=l[h],m.y+=m.vy,m.x+=m.vx,e.globalAlpha=m.o,e.beginPath(),e.arc(m.x,m.y,m.r,0,2*Math.PI,!1),e.closePath(),e.fill(),m.y>g&&m.reset();requestAnimFrame(n)}}var a=(new Date).getMonth();if(11===a){var b=300,c=document.querySelector(".masthead");if(c){var d=document.createElement("canvas"),e=d.getContext("2d"),f=c.clientWidth,g=c.clientHeight,h=0,i=!1,k=function(){this.x=0,this.y=0,this.vy=0,this.vx=0,this.r=0,this.reset()};k.prototype.reset=function(){this.x=Math.random()*f,this.y=Math.random()*-g,this.vy=1+3*Math.random(),this.vx=.5-Math.random(),this.r=1+2*Math.random(),this.o=.5+.5*Math.random()},d.style.position="absolute",d.style.left=d.style.top="0";var m,l=[];for(h=0;b>h;h++)m=new k,m.reset(),l.push(m);window.requestAnimFrame=function(){return window.requestAnimationFrame||window.webkitRequestAnimationFrame||window.mozRequestAnimationFrame||function(a){window.setTimeout(a,1e3/60)}}(),j(),window.addEventListener("resize",j,!1),c.appendChild(d)}}}();
+    </script>
+
+    <script type="text/javascript" async="true">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-13024693-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+  </body>
+</html>

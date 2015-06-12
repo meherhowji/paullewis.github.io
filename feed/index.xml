@@ -4,10 +4,25 @@
 
     <title>Aerotwist</title>
     <description>Pretty much whatever comes into my head.</description>
-    <lastBuildDate>2015-05-18 16:33:24 +0100</lastBuildDate>
+    <lastBuildDate>2015-06-12 10:42:07 +0100</lastBuildDate>
     <language>en</language>
     <generator>Aerotwist</generator>
     <atom:link href="https://aerotwist.com/feed/" rel="self" type="application/rss+xml" />
+    
+      <item>
+        <title>Polymer for the Performance-obsessed</title>
+        <description>
+          <![CDATA[I'm building a small web app at the moment, and so I've taken the opportunity to give Polymer 1.0 a proper test drive. The question I was asking myself: can I get all these goodies without making users pay a huge performance cost?]]>
+        </description>
+        <pubDate>Thu, 11 Jun 2015 00:00:00 +0000</pubDate>
+        <link>https://aerotwist.com/blog/polymer-for-the-performance-obsessed</link>
+        <guid isPermaLink="true">/blog/polymer-for-the-performance-obsessed</guid>
+        
+        <category>polymer</category>
+        
+        <category>performance</category>
+        
+      </item>
     
       <item>
         <title>Voice Memos</title>
