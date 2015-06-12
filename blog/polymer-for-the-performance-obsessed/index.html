@@ -439,7 +439,7 @@
 
 <h2 id="step-4-dont-vulcanize-polymer">Step 4: Don’t vulcanize Polymer</h2>
 
-<p>Now we have bundles, each one can import Polymer, but we’ll want to exclude Polymer itself from the vulcanize process, so that each bundle won’t include its own copy of Polymer, <em>and</em> they can race to get it. When Polymer arrives, any imports that have finished downloading can execute and the element(s) they’re responsible for can fire up.</p>
+<p>Now we have bundles, each one can import Polymer, but we’ll want to exclude Polymer itself from the vulcanize process, so that each bundle won’t include its own copy of Polymer, <em>and</em> so they can race to get it. When Polymer arrives, any imports that have finished downloading can execute and the element(s) they’re responsible for can fire up.</p>
 
 <p>To miss out Polymer from the vulcanize process:</p>
 
