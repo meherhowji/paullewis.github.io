@@ -241,7 +241,7 @@
 
         <li>
           <span class="name">Est. Read Time:</span>
-          <span class="value">15 mins</span>
+          <span class="value">16 mins</span>
         </li>
 
         <li class="share">
@@ -282,7 +282,7 @@
 
 <p>I’ll be blunt about my feelings on Polymer 0.5, which I considered a framework: it gave me all the wrong feels. It tried to do so much, and in one go, and it felt like eating a 5 course dinner when all you wanted was a salad. After all, there’s no hard requirement to make your own elements. Semantic markup does just fine, and it’s hard to beat the browser at components that its engineers have had years to refine.</p>
 
-<p>There was a scent of “pop this script in the head, and that includes the polyfill as well, oh and while you’re here just hide everything in until all your components have bootstrapped because <a href="http://en.wikipedia.org/wiki/Flash_of_unstyled_content">FOUC</a>.” All of which made me uncomfortable. Lazy-loading, non-blocking, progressively enhancing pages are a core strength of the web. We need to make use of that.</p>
+<p>There was a scent of “pop this script in the head, and that includes the polyfill as well, oh and while you’re here just hide everything in until all your components have bootstrapped because <a href="http://en.wikipedia.org/wiki/Flash_of_unstyled_content">FOUC</a>.” All of which made me uncomfortable. Lazy-loading, non-blocking, progressively enhancing pages are a core strength of the web. We need to make use of that, not get in the way of it.</p>
 
 <p>It was, in many ways, unfair to judge Polymer so harshly at that stage, because it was labeled as <em>0.5</em>, not 1.0. Nobody said it was production ready; it was still a work-in-progress!</p>
 
@@ -310,11 +310,16 @@
 <p>The first two are changes from 0.5, the last isn’t, but the changes are important, because they require far less investment from a developer point-of-view, and they put you back in the driving seat. Less like a framework, more like a library. Less like being given that 5 course dinner, and way more like a badass componenty buffet. That could totally be a thing.</p>
 
 <aside class="boxout">
-<p><strong>Disclaimer:</strong> there’s nothing spectacularly “new” here advice-wise, this is just about applying known performance techniques in a Polymer world and seeing if the two can peacefully coexist. (Spoiler: yes, they can.)</p>
+<p><strong>Disclaimer:</strong> there’s nothing spectacularly “new” here advice-wise, this is just about applying known performance techniques in a Polymer world and seeing if the two can peacefully coexist. (Spoiler: yes, they can.)
+</aside></p>
 
-</aside>
+<h2 id="the-performance-problem">The performance problem</h2>
 
-<p>Alright then, here goes…</p>
+<p>The samples and documentation often put the polyfills and HTML imports in the head of the document, both of which are render blocking. They also hide all the elements until they’ve all fully loaded, at which point they get shown. (You can do that with conveniences like the <code>:unresolved</code> pseudo-class, which will will get removed when an element is upgraded).</p>
+
+<p>The net result of both of these is that the user sees nothing until everything has loaded, but with a bit of judicious reworking, we can get things loading and rendering progressively.</p>
+
+<p>Right, here goes…</p>
 
 <h2 id="step-1-inline-styles-and-region-your-app">Step 1: Inline styles and region your app</h2>
 
@@ -392,7 +397,6 @@
 
 <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">webComponentsSupported</span><span class="p">)</span> <span class="p">{</span>
   <span class="kd">var</span> <span class="nx">wcPoly</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;script&#39;</span><span class="p">);</span>
-  <span class="nx">wcPoly</span><span class="p">.</span><span class="nx">async</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
   <span class="nx">wcPoly</span><span class="p">.</span><span class="nx">src</span> <span class="o">=</span> <span class="s1">&#39;/third_party/webcomponents-lite.min.js&#39;</span><span class="p">;</span>
   <span class="nx">wcPoly</span><span class="p">.</span><span class="nx">onload</span> <span class="o">=</span> <span class="nx">lazyLoadPolymerAndElements</span><span class="p">;</span>
   <span class="nb">document</span><span class="p">.</span><span class="nx">head</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">wcPoly</span><span class="p">);</span>
@@ -408,7 +412,7 @@
 
 <p>Notably I’m only loading the <em>lite</em> (light in Traditional English) version of the polyfill, because Polymer 1.0 includes <a href="https://www.polymer-project.org/1.0/articles/shadydom.html">shady DOM</a> (and will allow you to prefer shadow DOM if it’s available in the browser you users are using), and so the only reason to use it is if you want full shadow DOM everywhere <em>or</em> you’re not using Polymer. Well I am using Polymer, so that’s all good. That also means I only need to check for the absence of custom elements, imports, and templates.</p>
 
-<h2 id="step-3-bundle-your-related-elements">Step 3: Bundle your related elements</h2>
+<h2 id="step-3-only-bundle-related-elements">Step 3: Only bundle related elements</h2>
 
 <p>The pattern I’ve seen a few times is to have a single <code>elements.html</code> file, which goes off and imports all the elements for your app. Pretty gravy once it’s been vulcanized and crushed down to a single file. (If you’re unfamiliar with the term, vulcanizing it the concat process which flattens your imports.) But what if you have one component that’s, like, 2KB, and another that’s 300KB? Well, I reckon you want them to load independently, so the small one can get going sooner.</p>
 
@@ -429,12 +433,11 @@
     <span class="s1">&#39;/path/to/bundle/two.html&#39;</span>
   <span class="p">];</span>
 
-  <span class="nx">elements</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">elementURL</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">elements</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">elementURL</span><span class="p">)</span> <span class="p">{</span>
 
     <span class="kd">var</span> <span class="nx">elImport</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;link&#39;</span><span class="p">);</span>
     <span class="nx">elImport</span><span class="p">.</span><span class="nx">rel</span> <span class="o">=</span> <span class="s1">&#39;import&#39;</span><span class="p">;</span>
     <span class="nx">elImport</span><span class="p">.</span><span class="nx">href</span> <span class="o">=</span> <span class="nx">elementURL</span><span class="p">;</span>
-    <span class="nx">elImport</span><span class="p">.</span><span class="nx">async</span> <span class="o">=</span> <span class="s1">&#39;true&#39;</span><span class="p">;</span>
 
     <span class="nb">document</span><span class="p">.</span><span class="nx">head</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">elImport</span><span class="p">);</span>
 
@@ -447,11 +450,15 @@
 
 <p>To make sure the bundles are as small as possible I use <code>minifyInline</code> during the build process to uglify the JS and minify the CSS of each, right after vulcanize has done its thing.</p>
 
-<h2 id="step-4-dont-vulcanize-polymer">Step 4: Don’t vulcanize Polymer</h2>
+<h2 id="step-4-dont-inline-polymer-into-your-bundles">Step 4: Don’t inline Polymer into your bundles</h2>
 
-<p>Now we have bundles, each one can import Polymer, but we’ll want to exclude Polymer itself from the vulcanize process, so that each bundle won’t include its own copy of Polymer, <em>and</em> so they can race to get it. When Polymer arrives, any imports that have finished downloading can execute and the element(s) they’re responsible for can fire up.</p>
+<p>Now we have bundles, each one can import Polymer, but we’ll want to <em>exclude Polymer itself</em> from each bundle’s vulcanize process, so that they won’t inline their own copies of it, <em>and</em> so they can all race to get it. When Polymer arrives from its separate import, any of the bundles that have finished downloading can execute and the element(s) they’re responsible for can fire up.</p>
 
-<p>To miss out Polymer from the vulcanize process:</p>
+<aside class="boxout">
+<p>HTML Imports use the URL as a key, so we can use that to our advantage. All of the bundles can request the <code>polymer.html</code> file, and it will only be requested once. When it arrives all the imports waiting on it will resolve. So whoever gets to importing it first will do so on behalf of all the bundles.
+</aside></p>
+
+<p>To exclude Polymer from the bundles’ vulcanize process:</p>
 
 </div></div>
 
@@ -476,7 +483,7 @@
 
 <div class="container"><div class="left column">
 
-<p>Meanwhile, just for funsies, I <em>also</em> took the vulcanized <code>polymer.html</code> and ran that through <code>minifyInline</code> as well. In the end I got it to: 27KB for Polymer and 12KB for the polyfills (both gzipped, but this is 2015 so I dunno why I mention that).</p>
+<p>Meanwhile, just for funsies, I <em>also</em> took <code>polymer.html</code>, vulcanized it separately to the bundles, and ran that through <code>minifyInline</code> as well. In the end I got it down to 27KB for Polymer and 12KB for the polyfills (both gzipped, but this is 2015 so I dunno why I mention that).</p>
 
 <h2 id="page-load-performance">Page Load Performance</h2>
 
@@ -489,7 +496,7 @@
   <li>Async load the element bundles. (This will also set up a race for Polymer itself).</li>
 </ol>
 
-<p>All that leaves us is to check whether it was actually worthwhile. You’d kind of have to hope so, or I’m just going to feel bad about me. Again.</p>
+<p>All that leaves us is to check whether it was <strong>actually worthwhile</strong>. You’d kind of have to hope so, or I’m just going to feel bad about me. Again.</p>
 
 <p>I’m working on a web app which makes use of this approach. It’s a small utility app, but it has three custom components. (Hopefully I’ll get it finished up and launched soon so you can see all this code in one place!)</p>
 
@@ -503,21 +510,17 @@
 <p>I ran everything on <a href="https://www.webpagetest.org/">WebPageTest</a> with a Motorola G running Chrome on a 3G connection. It was connecting to HTTPS, so there’s a good amount of handshaking that goes into an SSL connection that skews timing. Even so, the results were pretty interesting:</p>
 
 <ul>
-  <li><strong>Speed Index</strong>: Unoptimized: 4,848, Optimized: <strong>2,895</strong>. Saving: <strong>~40%</strong>.</li>
+  <li><strong><a href="https://sites.google.com/a/webpagetest.org/docs/using-webpagetest/metrics/speed-index">Speed Index</a></strong>: Unoptimized: 4,848, Optimized: <strong>2,895</strong>. Saving: <strong>~40%</strong>.</li>
   <li><strong>Start Render</strong>: Unoptimized: 4.477s, Optimized: <strong>2.366s</strong>. Saving: <strong>~47%</strong>.</li>
   <li><strong>Load Time</strong>: Unoptimized: 4.065s, Optimized: <strong>3.836s</strong>. Saving: <strong>~6%</strong>. This is pretty much the same for both tests. We’re loading pretty much the same stuff, just with a different “weighting”, so that’s kind of expected.</li>
 </ul>
-
-<blockquote>
-  <p>I think the improvements are largely because of the inline styling, because we get to something that’s more visually complete sooner</p>
-</blockquote>
-
-<p>Overall, I think the improvements are largely because of the inline styling, because we get to something that’s more <em>visually complete</em> sooner, which is going to aid the <a href="https://sites.google.com/a/webpagetest.org/docs/using-webpagetest/metrics/speed-index">Speed Index</a> score. I could have also included some placeholder JavaScript to handle early interactions before the app is ready as well as that inline styling. That’s <a href="https://github.com/GoogleChrome/voice-memos/blob/master/src/scripts/controller/AppController.js#L109">something I did</a> for my <a href="../voice-memos/">Voice Memos app</a>. Again, you can just have the element undo it on upgrade. (If it’s someone else’s component, then I guess you’d have to do something smarterer here, but it’s still a good idea.)</p>
 
 <p>You should take these numbers with a pinch of salt, because this is just one round of tests on one app, but for what it’s worth <a href="https://twitter.com/jaffathecake">Jakey Vegas</a> seems to be seeing the same kinds of benefits by taking a similar approach (in non-Polymer land).</p>
 
 <iframe width="100%" height="420" src="//www.youtube.com/embed/d5_6yHixpsQ?vq=hd720" frameborder="0" allowfullscreen="allowfullscreen" style="margin-bottom: 20px; box-shadow: 0 2px 2px rgba(0,0,0,0.3)">
 </iframe>
+
+<p>If I needed to I could have also included some placeholder JavaScript to handle early interactions before the app is ready. That’s <a href="https://github.com/GoogleChrome/voice-memos/blob/master/src/scripts/controller/AppController.js#L109">something I did</a> for my <a href="../voice-memos/">Voice Memos app</a>. Again, you can just have the element undo it on upgrade. (If it’s someone else’s component, then I guess you’d have to do something smarterer here, but it’s still a good idea.)</p>
 
 <h2 id="rendering-performance">Rendering Performance</h2>
 
