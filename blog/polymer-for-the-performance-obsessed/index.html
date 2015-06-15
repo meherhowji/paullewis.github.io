@@ -410,7 +410,7 @@
 
 <div class="container"><div class="left column">
 
-<p>Notably I’m only loading the <em>lite</em> (light in Traditional English) version of the polyfill, because Polymer 1.0 includes <a href="https://www.polymer-project.org/1.0/articles/shadydom.html">shady DOM</a> (and will allow you to prefer shadow DOM if it’s available in the browser you users are using), and so the only reason to use it is if you want full shadow DOM everywhere <em>or</em> you’re not using Polymer. Well I am using Polymer, so that’s all good. That also means I only need to check for the absence of custom elements, imports, and templates.</p>
+<p>Notably I’m only loading the <em>lite</em> (light in Traditional English) version of the polyfill, because Polymer 1.0 includes <a href="https://www.polymer-project.org/1.0/articles/shadydom.html">shady DOM</a> (and will allow you to prefer shadow DOM if it’s available in the browser you users are using). The only reason to use the full fat version of the polyfill is if you want to use shadow DOM everywhere <em>or</em> you’re not using Polymer. Well I am using Polymer, so that’s all good. That also means I only need to check for the absence of custom elements, imports, and templates.</p>
 
 <h2 id="step-3-only-bundle-related-elements">Step 3: Only bundle related elements</h2>
 
