@@ -4,10 +4,27 @@
 
     <title>Aerotwist</title>
     <description>Pretty much whatever comes into my head.</description>
-    <lastBuildDate>2015-06-15 10:43:55 +0100</lastBuildDate>
+    <lastBuildDate>2015-06-17 12:41:04 +0100</lastBuildDate>
     <language>en</language>
     <generator>Aerotwist</generator>
     <atom:link href="https://aerotwist.com/feed/" rel="self" type="application/rss+xml" />
+    
+      <item>
+        <title>Guitar Tuner</title>
+        <description>
+          <![CDATA[Given we have the Web Audio API and getUserMedia, I wondered if I could make a passable guitar tuner. Looks like I can, and in the process I learned way more stuff about audio than I care to mention. Cool stuff, though! I thought I'd do a breakdown of what went into building it.]]>
+        </description>
+        <pubDate>Wed, 17 Jun 2015 00:00:00 +0000</pubDate>
+        <link>https://aerotwist.com/blog/guitar-tuner</link>
+        <guid isPermaLink="true">/blog/guitar-tuner</guid>
+        
+        <category>app</category>
+        
+        <category>guitar</category>
+        
+        <category>tuner</category>
+        
+      </item>
     
       <item>
         <title>Polymer for the Performance-obsessed</title>

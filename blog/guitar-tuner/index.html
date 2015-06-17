@@ -1,0 +1,703 @@
+<!doctype html>
+<html itemscope itemtype="http://schema.org/Article">
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="author" content="Paul Lewis" />
+  <meta name="viewport" content="width=device-width">
+  <meta name="theme-color" content="#880043">
+
+  
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="//aerotwist.com/blog/feed/">
+  
+
+  
+  <meta name="twitter:site" content="@aerotwist">
+  <meta name="twitter:creator" content="@aerotwist">
+  <meta name="twitter:title" content="Guitar Tuner">
+  <meta name="twitter:description" content="Given we have the Web Audio API and getUserMedia, I wondered if I could make a passable guitar tuner. Looks like I can, and in the process I learned way more stuff about audio than I care to mention. Cool stuff, though! I thought I&#39;d do a breakdown of what went into building it.">
+
+  <meta itemprop="name" content="Guitar Tuner">
+  <meta itemprop="description" content="Given we have the Web Audio API and getUserMedia, I wondered if I could make a passable guitar tuner. Looks like I can, and in the process I learned way more stuff about audio than I care to mention. Cool stuff, though! I thought I&#39;d do a breakdown of what went into building it.">
+
+    
+    <meta itemprop="image" content="https://aerotwist.com/static/blog/guitar-tuner/grabs.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://aerotwist.com/static/blog/guitar-tuner/grabs.jpg">
+    
+
+  
+
+  <style>
+    
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 400;
+      src: local('Lato Regular'), local('Lato-Regular'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qIIYRU-oROkIk8vfvxw6QvesZW2xOQ-xsNqO47m55DA.woff) format('woff');
+    }
+    
+
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 700;
+      src: local('Lato Bold'), local('Lato-Bold'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qdgUG4U09HnJwhYI-uK18wLUuEpTyoUstqEm5AMlJo4.woff) format('woff');
+    }
+  </style>
+
+  <link rel="stylesheet" media="screen" href="/css/aerotwist.css" />
+  <title>Aerotwist - Guitar Tuner</title>
+  
+</head>
+
+
+<!--
+                              __          .__          __
+  _____    ___________  _____/  |___  _  _|__| _______/  |_
+  \__  \ _/ __ \_  __ \/  _ \   __\ \/ \/ /  |/  ___/\   __\
+   / __ \\  ___/|  | \(  <_> )  |  \     /|  |\___ \  |  |
+  (____  /\___  >__|   \____/|__|   \/\_/ |__/____  > |__|
+       \/     \/                                  \/
+
+  Giant ascii art embedded in every page of your site is how you
+  show other people that YOU CARE. Mainly I care about developers,
+  which is what I presume you are if you're all about viewing
+  the source. Clearly you're my kind of person.
+
+  This is v3, it's run through Jekyll, it's been fun to build,
+  there's always more to do, and you may notice that aside from
+  Google Analytics there is no JavaScript. None.
+
+  That's one way of many you keep your pages fast. I care about
+  keeping this site fast because your time is precious and I need
+  to get out of your way.
+
+  <3'z
+
+  Paul
+-->
+
+
+  <body class="blog">
+
+    <header>
+      <div class="container">
+        <div id="logo">
+  <a href="/">
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="100%" height="100%">
+    <g>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#6EBAD3" points="30.6,47.73 64.92,47.73 19.97,76.52"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ED95C0" points="48.198,0 53.008,14.06 39.31,24.76"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#880043" points="39.31,24.76 64.92,48 30.6,48"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#DA0A7A" points="39.31,24.76 64.92,48 53.008,14.06"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#0B7DAD" points="30.6,48 64.92,48 48,58.69"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#BDDEE8" points="47.76,58.69 64.92,47.73 75.14,76.73"></polygon>
+    </g>
+    </svg>
+  </a>
+</div>
+
+        <nav>
+  <ul>
+    
+      
+        <li><a href="/">Home</a></li>
+      
+    
+      
+        <li class="active"><a href="/blog/"> Blog</a></li>
+      
+    
+      
+        <li><a href="/tutorials/">Tutorials</a></li>
+      
+    
+      
+        <li><a href="/lab/">Lab</a></li>
+      
+    
+  </ul>
+
+  <svg id="left-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#AAAAAA" stroke-width="1" />
+    </svg>
+
+  <svg id="right-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#6EBAD3" stroke-opacity="0.3" stroke-width="1" />
+    </svg>
+</nav>
+
+      </div>
+    </header>
+    <section>
+
+      <div class="content">
+
+  
+  <svg version="1.1" class="shape-reference" xmlns="http://www.w3.org/2000/svg" width="780" height="293">
+  <defs>
+    <filter id="blur-8">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="8" />
+    </filter>
+    <filter id="blur-6">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="6" />
+    </filter>
+    <filter id="blur-4">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="4" />
+    </filter>
+  </defs>
+
+  <g id="color-block">
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#615c99" stroke="#615c99" stroke-width="0.6" points="40,133 161,127 179,197"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#9691be" stroke="#9691be" stroke-width="0.6" points="161,127 40,133 183,81"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#bb81b9" stroke="#bb81b9" stroke-width="0.6" points="293,124 161,127 183,81"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#934092" stroke="#934092" stroke-width="0.6" points="293,124 179,197 161,127"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#982879" stroke="#982879" stroke-width="0.6" points="179,197 293,124 309,168"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#5b1849" stroke="#5b1849" stroke-width="0.6" points="297,233 179,197 309,168"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#610839" stroke="#610839" stroke-width="0.6" points="417,221 297,233 309,168"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#a10455" stroke="#a10455" stroke-width="0.6" points="417,221 309,168 395,160"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#a50c60" stroke="#a50c60" stroke-width="0.6" points="417,221 395,160 494,148"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#7d1354" stroke="#7d1354" stroke-width="0.6" points="417,221 494,148 517,197"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#390926" stroke="#390926" stroke-width="0.6" points="491,253 417,221 517,197"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#360f2c" stroke="#360f2c" stroke-width="0.6" points="491,253 517,197 567,210"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#5b2153" stroke="#5b2153" stroke-width="0.6" points="517,197 564,173 567,210"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#86266e" stroke="#86266e" stroke-width="0.6" points="517,197 494,148 564,173"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#b43995" stroke="#b43995" stroke-width="0.6" points="494,148 516,107 564,173"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#d84da2" stroke="#d84da2" stroke-width="0.6" points="494,148 413,117 516,107"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#e61a8a" stroke="#e61a8a" stroke-width="0.6" points="494,148 395,160 413,117"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f42591" stroke="#f42591" stroke-width="0.6" points="395,160 293,124 413,117"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#d61482" stroke="#d61482" stroke-width="0.6" points="309,168 293,124 395,160"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f95eae" stroke="#f95eae" stroke-width="0.6" points="293,124 410,83 413,117"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f39acb" stroke="#f39acb" stroke-width="0.6" points="293,124 314,48 410,83"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#e0a8d0" stroke="#e0a8d0" stroke-width="0.6" points="293,124 183,81 314,48"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ec75b8" stroke="#ec75b8" stroke-width="0.6" points="413,117 410,83 516,107"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#efb2d7" stroke="#efb2d7" stroke-width="0.6" points="410,83 485,40 516,107"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#eacae2" stroke="#eacae2" stroke-width="0.6" points="516,107 485,40 589,55"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ca9bc8" stroke="#ca9bc8" stroke-width="0.6" points="516,107 589,55 589,124"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#a952a1" stroke="#a952a1" stroke-width="0.6" points="564,173 516,107 589,124"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#77498e" stroke="#77498e" stroke-width="0.6" points="564,173 589,124 663,170"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#4d3a69" stroke="#4d3a69" stroke-width="0.6" points="661,205 564,173 663,170"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#482852" stroke="#482852" stroke-width="0.6" points="567,210 564,173 661,205"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#3e4972" stroke="#3e4972" stroke-width="0.6" points="661,205 663,170 704,162"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#5672a8" stroke="#5672a8" stroke-width="0.6" points="663,170 699,99 704,162"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#7e86b7" stroke="#7e86b7" stroke-width="0.6" points="699,99 663,170 644,103"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#aeb4d2" stroke="#aeb4d2" stroke-width="0.6" points="699,99 644,103 677,76"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#b9c5db" stroke="#b9c5db" stroke-width="0.6" points="677,76 693,71 699,99"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#c1d1e2" stroke="#c1d1e2" stroke-width="0.6" points="699,99 693,71 740,57"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#a7c3d9" stroke="#a7c3d9" stroke-width="0.6" points="730,109 699,99 740,57"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#6d93bb" stroke="#6d93bb" stroke-width="0.6" points="704,162 699,99 730,109"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#c4c1da" stroke="#c4c1da" stroke-width="0.6" points="644,103 636,65 677,76"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#b6a3ca" stroke="#b6a3ca" stroke-width="0.6" points="589,124 636,65 644,103"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#cebad8" stroke="#cebad8" stroke-width="0.6" points="589,124 589,55 636,65"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#846eab" stroke="#846eab" stroke-width="0.6" points="589,124 644,103 663,170"/>
+  </g>
+</svg>
+
+  
+
+  <div class="masthead hatched">
+
+    
+      <svg class="behind-meta" width="780" height="293">
+        <use xlink:href="#color-block" />
+      </svg>
+
+      <svg class="left-meta" width="780" height="293">
+        <use xlink:href="#color-block" filter="url(#blur-6)" transform="translate(390 146) scale(-0.5 0.5) translate(-390 -147)" />
+      </svg>
+    
+
+    <div class="container">
+      <h2>Guitar Tuner</h2>
+      <p>Given we have the Web Audio API and getUserMedia, I wondered if I could make a passable guitar tuner. Looks like I can, and in the process I learned way more stuff about audio than I care to mention. Cool stuff, though! I thought I'd do a breakdown of what went into building it.</p>
+    </div>
+
+  </div>
+
+  <div class="container">
+    <div class="meta">
+
+      <ul>
+        <li class="last-updated">
+          <span class="name">Last updated:</span>
+          <span class="value">17 Jun 2015</span>
+        </li>
+
+        <li>
+          <span class="name">Est. Read Time:</span>
+          <span class="value">21 mins</span>
+        </li>
+
+        <li class="share">
+          <span class="name">Share this:</span>
+          <span class="value"><a href="http://www.twitter.com/share?url=https://aerotwist.com/blog/guitar-tuner/">Twitter</a></span>
+          <span class="value"><a href="https://plus.google.com/share?url=https://aerotwist.com/blog/guitar-tuner/">Google+</a></span>
+        </li>
+        <li class="tags">
+          <span class="name">Tagged:</span>
+          <span class="value">
+          
+            #app, 
+          
+            #guitar, 
+          
+            #tuner
+          
+          </span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="container"><div class="left column">
+
+<figure class="no-shadow">
+  <img src="/static/blog/guitar-tuner/grabs.png" />
+</figure>
+
+<p class="livedemo mid"><a href="https://guitar-tuner.appspot.com">See Guitar Tuner</a></p>
+
+<h2 id="overview-and-highlights">Overview and Highlights</h2>
+
+<p>Guitar Tuner, despite its cryptic name, is a web app that helps you tune a guitar. I’m sure you, like me, are shocked at this revelation.</p>
+
+<p>Here’s some of the things it has:</p>
+
+<ul>
+  <li><strong>Web Components</strong>. It’s the perfect time to give Web Components a run out. In this case I had the idea that I could have three components: one to handle the audio input and analysis; one for the dial; and one for the instructions (tune up, down, etc).</li>
+  <li><strong>Service Worker for offline</strong>. Sure, why not? It’s effectively a single page app, and that means adding on Service Worker support should be super simple. Plus offline support is the sport of winners.</li>
+  <li><strong>Web Manifest</strong>. On the off-chance someone wants to add the app to their homescreen, it seems like it would be good to provide a nice icon, short name, and set up some preferences for how the app should behave. Yay manifests!</li>
+  <li><strong>ES6 classes, fat arrow functions, and Promises</strong>. I gave these a run out for <a href="../voice-memos/">Voice Memos</a>, and I got hooked. I’m not going back to ES5 unless you drag me, so they’re in here, too. But I <em>also</em> used them with the Polymer / Web Componenty bits this time around, which was fun.</li>
+  <li><strong>Open source</strong>. You can <a href="https://github.com/GoogleChrome/guitar-tuner">get the code</a> and have a look around!</li>
+</ul>
+
+<p>If you’re not a guitarist, or you don’t have a guitar to hand, you can always check out the video below where I show it in use. Unfortunately it <em>does</em> involve seeing me play the guitar, for which I can only apologise, but hopefully I at least get points for trying.</p>
+
+<iframe width="100%" height="420" src="//www.youtube.com/embed/Qz5O6ItIHeg?vq=hd720" frameborder="0" allowfullscreen="allowfullscreen" style="margin-bottom: 20px; box-shadow: 0 2px 2px rgba(0,0,0,0.3)">
+</iframe>
+
+<h2 id="big-fat-caveats">Big fat caveats</h2>
+
+<p>Nothing quite like couching a thing you’ve built in a load of just-in-case-it-doesn’t-work caveats. So with that in mind…</p>
+
+<ul>
+  <li><strong>I have assumed a standard-tuned, 6-string guitar</strong>. If nothing else I don’t have a 12-string to hand, and generally they’re way less common, and I’m nothing if not a majority panderer when it comes to tuners. You can always <a href="https://github.com/GoogleChrome/guitar-tuner/">submit a patch</a> if you would like to. It may already work, I just don’t know.</li>
+  <li><strong>The tuning is done through the device’s microphone</strong>. It’s probably going to be (well, it will be) less accurate than a chromatic tuner that uses the vibrations on the guitar’s neck to provide frequency information. But in a pinch it could be handy.</li>
+  <li><strong>Mobile Safari isn’t supported, nor is Internet Explorer</strong>. This is because they don’t support <code>getUserMedia</code>, and I can’t do much to work around it. If the browser can’t listen, it can’t help me tune a guitar. <a href="http://caniuse.com/#search=getusermedia">Edge will support getUserMedia</a>, though, so that’s good news!</li>
+</ul>
+
+<p>Alright, caveats out of the way, let’s talk details!</p>
+
+<h2 id="polymer">Polymer</h2>
+
+<p>I recently wrote <a href="../polymer-for-the-performance-obsessed/">a post about how you can lazy-load and progressively enhance your pages with Polymer</a>. Guitar Tuner uses that exact approach (because I figured it out while I was building the app), and that means I have the Web Components goodies, <em>but</em> the app should be super fast to load. In fact, on WebPageTest the <a href="https://sites.google.com/a/webpagetest.org/docs/using-webpagetest/metrics/speed-index">Speed Index</a> for a cable connection is <strong>~450</strong>, and on 3G it’s <strong>~2800</strong>, which I’m very happy about.</p>
+
+<p>It <em>is</em> a small app, mind. The whole thing weighs in at 40.1KB including Polymer (but excluding the 12KB Web Components polyfills), so if it had been slow to load I think I’d have found that more than a little depressing.</p>
+
+<p>You can read <a href="../polymer-for-the-performance-obsessed/">the other post</a> if you want the super gory details, but the quick version here is that I’m loading all three of my web components individually, and as each one arrives it upgrades the element it manages. In order to prevent <a href="http://en.wikipedia.org/wiki/Flash_of_unstyled_content">FOUC</a>, I inline some styles in the head of the app’s <code>index.html</code> that make it look like this:</p>
+
+<figure class="no-shadow">
+  <img src="/static/blog/guitar-tuner/placeholder.png" />
+  <figcaption>The placeholder styles make the app look like this. They're inlined to the page and removed when the elements upgrade.</figcaption>
+</figure>
+
+<blockquote>
+  <p>When each elements upgrades it removes the placeholder styling. That means the app gets to something that looks “visually complete” much sooner than waiting for the elements to upgrade first.</p>
+</blockquote>
+
+<p>When each elements upgrades it removes the placeholder styling. That means the app gets to something that looks “visually complete” much sooner than waiting for the elements to upgrade first.</p>
+
+<p>The elements all race to get Polymer, and, because of the way HTML Imports work and because Polymer is always requested with the same URL, we only request it once. Once loaded, all three components will be able to use it.</p>
+
+<h2 id="web-components">Web Components</h2>
+
+<p>The app contains three Web Components:</p>
+
+<ul>
+  <li><strong><code>&lt;audio-processor&gt;</code></strong>. This is responsible for requesting microphone access through <code>getUserMedia</code>, and will pop up a toast if there are errors. It also uses the <a href="https://developer.mozilla.org/en-US/docs/Web/Guide/User_experience/Using_the_Page_Visibility_API">Page Visibility API</a> to toggle microphone access so if you hide the app, then microphone access is disabled, and re-enabled once you switch back to the app. It also figures out what the dominant frequency is in the audio and dispatches events with that value, the octave and the nearest note.</li>
+  <li><strong><code>&lt;audio-visualizer&gt;</code></strong>. This is a canvas-backed element that draws a dial indicating the current tone. It receives the events from <code>&lt;audio-processor&gt;</code> and updates the dial, note and octave info.</li>
+  <li><strong><code>&lt;tuning-instructions&gt;</code></strong>. This also receives the events from <code>&lt;audio-processor&gt;</code>. It uses that to figure out to which string it thinks you’re nearest, and then advises you of the target frequency and whether you should tune up or down.</li>
+</ul>
+
+<p>I think one of the really nice bits of Web Components is that it encourages healthy code decoupling. Sure you can achieve it anyway without making components, but I just find that it helps to have a nudge every now and then! And of course I can now bundle up the logic so if I need any more audio mangling I have an element ready to go.</p>
+
+<blockquote>
+  <p>I did have a bit and “umm” and an “ahh” over whether or not something like an <code>&lt;audio-processor&gt;</code> should be an element or not.</p>
+</blockquote>
+
+<p>I did have a bit and “umm” and an “ahh” over whether or not something like an <code>&lt;audio-processor&gt;</code> should be an element or not. On the one hand it doesn’t really offer any semantic value to have it there in the DOM, on the other it can dispatch events, which is really handy. Clearly you can see which way I came down on this one since there <em>is</em> an <code>&lt;audio-processor&gt;</code> element, but I wouldn’t blame anyone for calling it the other way.</p>
+
+<h2 id="es6-classes--polymer">ES6 Classes + Polymer</h2>
+
+<p>Apparently when it comes to Web Components the theory goes that you’ll ultimately be able to do something like this with ES6 Classes:</p>
+
+</div></div>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">class</span> <span class="nx">MyRadElement</span> <span class="kr">extends</span> <span class="nx">HTMLElement</span> <span class="p">{</span>
+  <span class="c1">// Wow this class would be amazing... wait, no.</span>
+  <span class="c1">// It would be amaze. I&#39;m so down with the kids.</span>
+<span class="p">}</span></code></pre></div>
+
+<div class="container"><div class="left column">
+
+<p>But so far as I can tell that particular syntax is still TBC. I’m also using Polymer, so I was like, mayyyybe instead of giving Polymer an object I could give it a class’s prototype:</p>
+
+</div></div>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">class</span> <span class="nx">MyRadElement</span> <span class="p">{</span>
+  <span class="nx">constructor</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="nx">Polymer</span><span class="p">(</span><span class="nx">MyRadElement</span><span class="p">.</span><span class="nx">prototype</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="nx">get</span> <span class="nx">is</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="s1">&#39;my-rad-element&#39;</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+
+<div class="container"><div class="left column">
+
+<p>You can’t pass the class itself (or an instance) to Polymer, because without sugar the class is a function and the Web Components <code>registerElement</code> function that Polymer calls expects an object as its second parameter, not a function. It also expect a tag name as its first, so I used a getter for <code>is</code> because it appears as a property on the prototype. I guess I could have done <code>this.constructor.prototype.is = 'my-rad-element'</code>, but getters look neater to me.</p>
+
+<p>Another side-effect of this approach is that you don’t get to use an instance of the class anywhere, so anything you would have done in <code>constructor</code> now needs to be done in the <code>created</code> and <code>attached</code> callbacks, which is a bit limiting but also no big deal. I guess that’s just the nature of using a class / function instead of an object.</p>
+
+<blockquote>
+  <p>All of this isn’t strictly necessary, or even remotely so; there’s nothing wrong with giving Polymer an object.</p>
+</blockquote>
+
+<p>All of this isn’t strictly necessary, or even remotely so; there’s nothing wrong with giving Polymer an object. But I <em>like</em> ES6 Classes (controversial, I know) and if I’m in ES6 world, or want to be, why not just try and get it all working nicely? Yes? Winner.</p>
+
+<h2 id="audio-analysis-the-wrong-way">Audio Analysis the wrong way</h2>
+
+<p>With elements in place, let’s talk about analysing audio, because I thought this bit was going to be relatively easy to do. I was wrong. Very wrong. Essentially I’m an idiot and still haven’t learned to estimate work well. But let me see if I can’t make it easier for the next troubled soul who attempts to do something similar.</p>
+
+<p>To begin with let me tell you about failing. Not real failing, though, the Edison style of failing:</p>
+
+<blockquote class="quote">
+  "I have not failed. I've just found 10,000 ways that won't work."
+  <footer><cite>Thomas A. Edison</cite></footer>
+</blockquote>
+
+<p>Attempt number one, then: <strong>Fast Fourier Transforms</strong>, or FFTs. If you’re not familiar with them, what they do is give you a breakdown of the current audio in frequency buckets. The Web Audio API can let you get access to that data in – say – a <code>requestAnimationFrame</code> with an <code>AnalyserNode</code>, on which you call <code>getFloatFrequencyData</code>.</p>
+
+<figure class="no-shadow">
+  <img src="/static/blog/guitar-tuner/b-note.png" />
+  <figcaption>An FFT of some audio. I assumed I would be looking for peaks, and peaks would tell me what note I was playing.</figcaption>
+</figure>
+
+<p>I thought that if I took an FFT of the audio, I would be able to step through that, look for the most active frequency. Then it’s a case of figuring out which string it’s likely to be based on the frequency, and then providing “tune up”, “tune down”, or “in tune” messages accordingly.</p>
+
+<p>Then performance happened. And harmonics. Mainly harmonics.</p>
+
+<h3 id="performance">Performance</h3>
+
+<blockquote>
+  <p>In the end this approach yielded something with a frame rate that fluctuated wildly between 30 and 60fps, and something which can only be described by its friends as a “CPU melter”.</p>
+</blockquote>
+
+<p>In order to get enough resolution on frequencies, you need a colossal FFT for this approach. With an FFT of 32K (the largest you can get), each bucket in the array represents a frequency range just shy of 3Hz.</p>
+
+<p>Filling up an array of that size takes somewhere in the region of 11ms on a Nexus 5 on a good day with a following wind. If you’re trying to do that in a <code>requestAnimationFrame</code> callback, you’re going to have a bad time. Doubly bad is the fact that you’re also going to have to <em>process the audio data after getting it</em>. For 60fps you have about 8-10ms of JavaScript time at the absolute maximum. The browser has housekeeping to do, so you have to share CPU time. In the end this approach yielded something with a frame rate that fluctuated wildly between 30 and 60fps, and something which can only be described by its friends as a “CPU melter”.</p>
+
+<h3 id="harmonics">Harmonics</h3>
+
+<p>And then the harmonics. A B3 note has a frequency of 493.883Hz, so one may reasonably expect an FFT like the one above, but with a peak at ~493Hz.</p>
+
+<p>In fact, this is what the frequencies looks like when you hit a B3 string:</p>
+
+<figure class="no-shadow">
+  <img src="/static/blog/guitar-tuner/b-note-real.png" />
+  <figcaption>An FFT when a B3 string is plucked. Harmonics give you peaks in unexpected places, just to mess with you.</figcaption>
+</figure>
+
+<p>See how there are peaks all over the place? Each string brings its own special combination of frequencies with it, called harmonics. One thing is for sure: it’s not a “pure” sample where you can infer that you’re hitting a given string just from the most active frequency.</p>
+
+<p>I’m a little hard of understanding sometimes, so I attempted to work around this with some good ol’ fashioned number fishing and fudging. It kind of worked under very specific circumstances, but it really wasn’t robust.</p>
+
+<h2 id="audio-analysis-the-better-way">Audio Analysis the better way</h2>
+
+<p>Then <a href="https://twitter.com/cwilso">Chris Wilson</a> helped me. For context, I’d got to the end of my hack-fudge approach and started googling for things like “please i am an idiot how do you do simple pitch detection?” As you might expect, the top results were <a href="https://en.wikipedia.org/wiki/Pitch_detection_algorithm">Wikipedia articles</a> that may as well be written in Ancient Egyptian hieroglyphics for all the sense they make. They’re seemingly written by people who <em>already</em> understand these topics, and who’s sole aim seems to be to ensure that you won’t. I got the same deal when I made a 3D engine a few years back and, as with that period in my life, all of me screamed out for simple, treat-me-like-a-normal-human explanations. Thankfully that’s exactly what Chris provided over the course of several hours.</p>
+
+<h3 id="autocorrelation">Autocorrelation</h3>
+
+<blockquote>
+  <p>Autocorrelation seemed to be an ancient sacrificial method that required the innards of at least two doves, a penguin, and 17 pounds of lard.</p>
+</blockquote>
+
+<p>Attempt number two: <strong>autocorrelation</strong>. To be fair, autocorrelation had come up in my hieroglyphics studies, but it seemed to be an ancient sacrificial method that required the innards of at least two doves, a penguin, and 17 pounds of lard. I was surprised that Chris suggested such a barbaric approach, given what a nice chap he is. Turns out I misunderstood what autocorrelation involves.</p>
+
+<p>In retrospect I guess the name is a clue: <strong>auto-</strong> (self-) and <strong>correlation</strong> (matching). The idea is if you have an audio wave you can compare it to itself at various offsets. If you find a match then you have found where this wave repeats itself, even factoring in harmonics (more on that in a moment). Once you know when a wave repeats itself you have theoretically found its frequency.</p>
+
+<figure class="no-shadow">
+  <img src="/static/blog/guitar-tuner/autocorrelation.png" />
+  <figcaption>Autocorrelation is where you attempt to match a wave to itself. The amount you have to move it gives you its periodicity, and therefore the pitch.</figcaption>
+</figure>
+
+<p>You can get the wave data from the Web Audio API (of course you can, what a lovely API) with <code>getFloatTimeDomainData</code>, which has nearly zero documentation and also sounds like a function named after buzz words’ greatest hits. But it does precisely what we need it to: <strong>it populates an array with floating point wave data with values ranging between -1 and 1</strong>.</p>
+
+<p>The <code>fftSize</code> property on the <code>AnalyserNode</code> is used to determine how much data you get. If you were to set <code>fftSize</code> to 48,000 (which you can’t because the max limit is 32K and needs to be a power of 2, but stick with me), and you had a sample rate of 48kHz, you would get one second’s worth of wave audio data. As it happens I set my <code>fftSize</code> to 4,096, which gives me 4,096 / 48,000 ~= 85ms of wave data. Because I planned to compare the wave against itself, I had <em>half of that</em>, around 42ms of audio data, available to me for each pass.</p>
+
+<p>My first attempt at autocorrelation compared the wave across all offsets (half the buffer, or 2,048 elements) and then returned the offset which had provided the nearest match:</p>
+
+</div></div>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">let</span> <span class="nx">buffer</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">(</span><span class="mi">4096</span><span class="p">)</span>
+<span class="kd">let</span> <span class="nx">halfBufferLength</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">buffer</span><span class="p">.</span><span class="nx">length</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">);</span>
+<span class="kd">let</span> <span class="nx">difference</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="kd">let</span> <span class="nx">smallestDifference</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">POSITIVE_INFINITY</span><span class="p">;</span>
+<span class="kd">let</span> <span class="nx">smallestDifferenceOffset</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="c1">// Fill up the wave data.</span>
+<span class="nx">analyserNode</span><span class="p">.</span><span class="nx">getFloatTimeDomainData</span><span class="p">(</span><span class="nx">buffer</span><span class="p">);</span>
+
+<span class="c1">// Start an offset of 1. No point in comparing the wave</span>
+<span class="c1">// to itself at offset 0.</span>
+<span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">o</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="nx">o</span> <span class="o">&lt;</span> <span class="nx">halfBufferLength</span><span class="p">;</span> <span class="nx">o</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+
+  <span class="nx">difference</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+  <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">halfBufferLength</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// For this iteration, work out what the</span>
+    <span class="c1">// difference is between the wave and the</span>
+    <span class="c1">// offset version.</span>
+    <span class="nx">difference</span> <span class="o">+=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">abs</span><span class="p">(</span><span class="nx">buffer</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">-</span> <span class="nx">buffer</span><span class="p">[</span><span class="nx">i</span> <span class="o">+</span> <span class="nx">o</span><span class="p">]);</span>
+  <span class="p">}</span>
+
+  <span class="c1">// Average it out.</span>
+  <span class="nx">difference</span> <span class="o">/=</span> <span class="nx">halfBufferLength</span><span class="p">;</span>
+
+  <span class="c1">// If this is the smallest difference so far hold it.</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">difference</span> <span class="o">&lt;</span> <span class="nx">smallestDifference</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">smallestDifference</span> <span class="o">=</span> <span class="nx">difference</span><span class="p">;</span>
+    <span class="nx">smallestDifferenceOffset</span> <span class="o">=</span> <span class="nx">o</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// Now we know which offset yielded the smallest</span>
+<span class="c1">// difference we can convert it to a frequency.</span>
+<span class="k">return</span> <span class="nx">audioContext</span><span class="p">.</span><span class="nx">sampleRate</span> <span class="o">/</span> <span class="nx">smallestDifferenceOffset</span><span class="p">;</span></code></pre></div>
+
+<div class="container"><div class="left column">
+
+<p>Ideally speaking one would do some curve fitting here to figure out <em>exactly</em> where the wave repeats itself, but I found I was getting good enough results without that. The main problem I had with this approach was getting it to run quickly enough. With an array of 4,096, I was going to end up doing potentially 2,048 * 2,047 = 4,192,256 calculations, which wasn’t quick enough to be done inside 8-10ms on mobile.</p>
+
+<p>What I needed to do was to limit the scope a little.</p>
+
+<h3 id="strings-and-their-frequencies">Strings and their frequencies.</h3>
+
+<p>What I ended up doing was to do an initial pass where I just used 6 offsets, one for each string. Since I knew what frequency each string should be, I decided to offset the wave by that much and choose whichever string’s offset yielded the lowest difference. The nearest match can then be considered the “target” string, kind of an “Oh, it looks like you’re tuning the D3 string!” approach.</p>
+
+<table class="left-highlight">
+  <thead>
+    <tr>
+      <th>String</th>
+      <th>Frequency</th>
+      <th>Offset (48Khz)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>E2</td>
+      <td>82.4069</td>
+      <td>582</td>
+    </tr>
+    <tr>
+      <td>A2</td>
+      <td>110.000</td>
+      <td>436</td>
+    </tr>
+    <tr>
+      <td>D3</td>
+      <td>146.832</td>
+      <td>327</td>
+    </tr>
+    <tr>
+      <td>G3</td>
+      <td>195.998</td>
+      <td>245</td>
+    </tr>
+    <tr>
+      <td>B3</td>
+      <td>246.942</td>
+      <td>194</td>
+    </tr>
+    <tr>
+      <td>E4</td>
+      <td>329.628</td>
+      <td>146</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>In a bid to try and make things more reliable I repeated the process across a time period of about 250ms and summed the differences per string.</p>
+
+<figure class="no-shadow">
+  <img src="/static/blog/guitar-tuner/e4-comparison.png" />
+  <figcaption>The wave of an E4 string being plucked. By offsetting by the expected frequencies we can find the closest match.</figcaption>
+</figure>
+
+<p>In the above image you can see the E4 string being plucked, and the various offset versions. You can also see that, when moved by E4’s expected offset, the wave matches itself most closely than for any other offset, which is exactly what we want.</p>
+
+<p>Now I had the candidate for the closest match, I used the code from above to figure out exactly how far away from the target frequency the plucked string was. Instead of using offsets from 0 to 2,048, however, I did it from (an admittedly random value of) ±10 either side of the expected offset for that string. The net result was far fewer overall comparisons, although at the cost of only supporting standard tuning. I figure there may be a version of this I’m missing which would allow me to support any tuning, but alas it eludes me. I am eluded.</p>
+
+<p>So that’s the audio processing explained. Whew.</p>
+
+<h2 id="shadows">45° Shadows</h2>
+
+<p>Moving onto the visuals a moment. I was reminded how easy it is to make designs that can’t be built easily. So it was with my 45° shadows hanging off the dial. Well done me.</p>
+
+<figure class="no-shadow">
+  <img src="/static/blog/guitar-tuner/dial-with-shadow.png" />
+  <figcaption>The dynamic 45° shadow, bain of a whole evening.</figcaption>
+</figure>
+
+<blockquote>
+  <p>I was reminded how easy it is to make designs that can’t be built easily.</p>
+</blockquote>
+
+<p>I kept trying to figure out how the shadow should be “cast”. I shall spare you the boring eleventy billion variants that didn’t work out.</p>
+
+<p>Eventually I realised that I kept turning my head about 45° to the left, and <em>that</em> was the clue I needed. What I was looking for were the left- and right-most points of the dial <em>when looking at the it at 45°</em>. Or, put another way, rotate the points of the dial clockwise by 45° then order them by x. Then choose the 0<sup>th</sup> and last values, since they are the where the dial’s extremities are.</p>
+
+<p>To do that I created a number of marker points on the dial to capture the edges, and then rotated them in a sort function:</p>
+
+<figure class="no-shadow">
+  <img src="/static/blog/guitar-tuner/rotated-points.png" />
+  <figcaption>If the points are rotated by 45° then you can choose the left- and right-most points as the shadow edges.</figcaption>
+</figure>
+
+</div></div>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">points</span><span class="p">.</span><span class="nx">sort</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="p">)</span> <span class="p">{</span>
+
+  <span class="c1">// Take the point, rotate it by</span>
+  <span class="c1">// 45 degrees to the right,</span>
+  <span class="c1">// and *then* sort it by its x value.</span>
+
+  <span class="kd">let</span> <span class="nx">adjustedAX</span> <span class="o">=</span> <span class="nx">a</span><span class="p">.</span><span class="nx">x</span> <span class="o">*</span> <span class="nx">pointCos</span> <span class="o">-</span> <span class="nx">a</span><span class="p">.</span><span class="nx">y</span> <span class="o">*</span> <span class="nx">pointSin</span><span class="p">;</span>
+  <span class="kd">let</span> <span class="nx">adjustedBX</span> <span class="o">=</span> <span class="nx">b</span><span class="p">.</span><span class="nx">x</span> <span class="o">*</span> <span class="nx">pointCos</span> <span class="o">-</span> <span class="nx">b</span><span class="p">.</span><span class="nx">y</span> <span class="o">*</span> <span class="nx">pointSin</span><span class="p">;</span>
+
+  <span class="k">return</span> <span class="nx">adjustedAX</span> <span class="o">-</span> <span class="nx">adjustedBX</span><span class="p">;</span>
+<span class="p">});</span></code></pre></div>
+
+<div class="container"><div class="left column">
+
+<p>From there it’s a case of drawing out the points as part of the shadow and, when you hit the right-most point start the drop down for the shadow, go along the bottom and come back up to the left-most point. Ta-daaaa!</p>
+
+<h2 id="versioning-and-service-workers">Versioning and Service Workers</h2>
+
+<p>Finally, I just wanted to share one little tip about working with Service Workers that I’ve found helpful. I came across a <a href="https://www.npmjs.com/package/gulp-bump">gulp plugin called bump</a>. It’s useful for taking the version in your <code>package.json</code> file and incrementing the number. (You tell it if it’s a patch, major or minor revision.)</p>
+
+<p>When I’m cutting a release I bump the version automatically using it. If I want to do major or minor versions I’ll just tweak the <code>package.json</code> file myself, but for patching it’ll do it for me during the build.</p>
+
+</div></div>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="s1">&#39;bump&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nx">gulp</span><span class="p">.</span><span class="nx">src</span><span class="p">(</span><span class="s1">&#39;./package.json&#39;</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">bump</span><span class="p">({</span><span class="nx">type</span><span class="o">:</span><span class="s1">&#39;patch&#39;</span><span class="p">}))</span>
+    <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">gulp</span><span class="p">.</span><span class="nx">dest</span><span class="p">(</span><span class="s1">&#39;./&#39;</span><span class="p">));</span>
+<span class="p">});</span></code></pre></div>
+
+<div class="container"><div class="left column">
+
+<p>Whenever I run the tasks that write out the Service Worker, or anywhere else where I might want to include the version number, I grab the version from <code>package.json</code> and do a string replace on the target file.</p>
+
+<p>What this gives me is the assurance that I won’t accidentally leave my users on an old version of the app due to an unchanged Service Worker. The Service Worker has the version string in it and, in my case, I also use that as part of its cache’s name:</p>
+
+</div></div>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="c1">// In the Service Worker... As authored:</span>
+<span class="kd">var</span> <span class="nx">CACHE_VERSION</span> <span class="o">=</span> <span class="s1">&#39;@VERSION@&#39;</span><span class="p">;</span>
+
+<span class="c1">// Once the version has been pulled, and string</span>
+<span class="c1">// replacements are done and dusted:</span>
+<span class="kd">var</span> <span class="nx">CACHE_VERSION</span> <span class="o">=</span> <span class="s1">&#39;1.0.63&#39;</span><span class="p">;</span></code></pre></div>
+
+<div class="container"><div class="left column">
+
+<p>Now when I push a new version the Service Worker will be fetched, found to be different, and the new version will be installed. For a more complex upgrade process you could do diffs and so on when you see a new version, but that would have been overkill for this particular app.</p>
+
+<h2 id="tune-on">Tune on!</h2>
+
+<p>Wow, that’s one monster of a write-up! If you’ve made it this far thanks for sticking with me. I hope you’ve found something of interest! It’s certainly been cathartic for me to share it all, anyway.</p>
+
+<p>You can <a href="https://github.com/GoogleChrome/guitar-tuner">check out the source code</a>, and the Guitar Tuner app is available at <a href="https://guitar-tuner.appspot.com/">guitar-tuner.appspot.com</a>!</p>
+
+</div></div>
+
+
+  <div class="footer-share container">
+    Share this on: <span class="value"><a href="http://www.twitter.com/share?url=https://aerotwist.com/blog/guitar-tuner/">Twitter</a></span>
+    <span class="value"><a href="https://plus.google.com/share?url=https://aerotwist.com/blog/guitar-tuner/">Google+</a></span>
+  </div>
+
+  <div class="clear"></div>
+
+  
+    <svg class="left-shape" style="margin-left: -278.35px" width="410.2" height="1092.0">
+      <use xlink:href="#color-block" filter="url(#blur-4)" transform="scale(-1.4 1.4) rotate(90)"/>
+    </svg>
+
+    <svg class="right-shape" width="146.5" height="702.0">
+      <use xlink:href="#color-block" filter="url(#blur-8)" transform="scale(-0.9 0.9) rotate(90)"/>
+    </svg>
+  
+
+</div>
+
+
+    </section>
+
+    <footer>
+
+      <div class="container">
+        <div class="bio panel">
+          <h2>Hello!</h2>
+          <p>My name is Paul. I work at <a href="http://www.google.com/" title="Some cloud company in the USA, I think.">Google</a> on the Chrome Developer Relations team as an advocate. I help developers improve the performance of their sites and apps.</p>
+
+          <p>You can find me on <a href="http://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a></p>
+        </div>
+
+        <div class="get-in-touch panel">
+          <h2>Get in touch</h2>
+          <p>I don’t bite. Honestly. You can find me on <a href="https://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a>, and I like hearing from people (pretty handy given my job, really) so say hi.</p>
+        </div>
+
+        <div class="subscribe panel">
+          <h2>Subscribe</h2>
+          <p>You should totally get the <a href="/blog/feed/">RSS feed</a>, or whatever it is you kids are using these days (I miss Reader.)</p>
+        </div>
+
+        <p class="disclaimer">Except as otherwise noted, the content of this page is licensed under the Creative Commons Attribution 3.0 License, and code samples are licensed under the Apache 2.0 License.</p>
+      </div>
+    </footer>
+
+    <script async="true">
+
+    /**
+     * Snow effect, from: HTML5 Rocks
+     * https://github.com/html5rocks/www.html5rocks.com/blob/9318b5755c8c17a4bd1761bca6b1b491e7fd17b8/content/index.html
+     */
+    !function(){function j(){f=c.clientWidth,g=c.clientHeight,d.width=f,d.height=g,e.fillStyle="#FFF";var a=i;i=f>300,!a&&i&&requestAnimFrame(n)}function n(){if(e.clearRect(0,0,f,g),i){for(h=0;b>h;h++)m=l[h],m.y+=m.vy,m.x+=m.vx,e.globalAlpha=m.o,e.beginPath(),e.arc(m.x,m.y,m.r,0,2*Math.PI,!1),e.closePath(),e.fill(),m.y>g&&m.reset();requestAnimFrame(n)}}var a=(new Date).getMonth();if(11===a){var b=300,c=document.querySelector(".masthead");if(c){var d=document.createElement("canvas"),e=d.getContext("2d"),f=c.clientWidth,g=c.clientHeight,h=0,i=!1,k=function(){this.x=0,this.y=0,this.vy=0,this.vx=0,this.r=0,this.reset()};k.prototype.reset=function(){this.x=Math.random()*f,this.y=Math.random()*-g,this.vy=1+3*Math.random(),this.vx=.5-Math.random(),this.r=1+2*Math.random(),this.o=.5+.5*Math.random()},d.style.position="absolute",d.style.left=d.style.top="0";var m,l=[];for(h=0;b>h;h++)m=new k,m.reset(),l.push(m);window.requestAnimFrame=function(){return window.requestAnimationFrame||window.webkitRequestAnimationFrame||window.mozRequestAnimationFrame||function(a){window.setTimeout(a,1e3/60)}}(),j(),window.addEventListener("resize",j,!1),c.appendChild(d)}}}();
+    </script>
+
+    <script type="text/javascript" async="true">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-13024693-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+  </body>
+</html>

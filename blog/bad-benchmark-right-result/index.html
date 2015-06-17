@@ -334,7 +334,8 @@ get a string to work with.</p>
 <p>When the element has been added to the DOM and exists in the render tree, we can actually test how <code>CSSMatrix</code> compares to using strings because we can measure the time spent in recalculating the styles. In theory using the matrix should be way faster (no CSS string parsing, yo.)</p>
 
 <aside class="boxout">
-<p># Render Tree? You lost me!</p>
+
+<h1 id="render-tree-you-lost-me">Render Tree? You lost me!</h1>
 
 <p>The render tree is all the stuff that needs to be painted in the page. If an element doesn’t exist there (which if won’t if it’s set to <code>display: none</code>, for example) then it will be ignored for rendering.</p>
 
@@ -373,7 +374,8 @@ get a string to work with.</p>
 <p>Therefore because we’re essentially bouncing down to a string here the Recalculate Style cost is virtually identical to setting a string directly. But for some reason (must confess here, I don’t fully understand), <strong>the JavaScript cost of <code>CSSMatrix</code> is higher than using a string</strong>.</p>
 
 <aside class="boxout">
-<p># But Paul, surely this is a microbenchmark?</p>
+
+<h1 id="but-paul-surely-this-is-a-microbenchmark">But Paul, surely this is a microbenchmark?</h1>
 
 <p>Sort of. Ask anyone who does animations at 60fps, or authors an animation library and they will tell you pretty quickly that this stuff matters. Sure, if you only do a small bit of animation now and then, or you’re just setting a transform as a one-off this entire discussion is probably overkill.</p>
 
