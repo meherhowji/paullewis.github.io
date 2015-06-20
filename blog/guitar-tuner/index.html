@@ -421,7 +421,7 @@
 
 <h2 id="audio-analysis-the-better-way">Audio Analysis the better way</h2>
 
-<p>Then <a href="https://twitter.com/cwilso">Chris Wilson</a> helped me. For context, I’d got to the end of my hack-fudge approach and started googling for things like “please i am an idiot how do you do simple pitch detection?” As you might expect, the top results were <a href="https://en.wikipedia.org/wiki/Pitch_detection_algorithm">Wikipedia articles</a> that may as well be written in Ancient Egyptian hieroglyphics for all the sense they make. They’re seemingly written by people who <em>already</em> understand these topics, and who’s sole aim seems to be to ensure that you won’t. I got the same deal when I made a 3D engine a few years back and, as with that period in my life, all of me screamed out for simple, treat-me-like-a-normal-human explanations. Thankfully that’s exactly what Chris provided over the course of several hours.</p>
+<p>Then <a href="https://twitter.com/cwilso">Chris Wilson</a> helped me. For context, I’d got to the end of my hack-fudge approach and started googling for things like “please i am an idiot how do you do simple pitch detection?” As you might expect, the top results were <a href="https://en.wikipedia.org/wiki/Pitch_detection_algorithm">Wikipedia articles</a> that may as well be written in Ancient Egyptian hieroglyphics for all the sense they make. They’re seemingly written by people who <em>already</em> understand these topics, and whose sole aim seems to be to ensure that you won’t. I got the same deal when I made a 3D engine a few years back and, as with that period in my life, all of me screamed out for simple, treat-me-like-a-normal-human explanations. Thankfully that’s exactly what Chris provided over the course of several hours.</p>
 
 <h3 id="autocorrelation">Autocorrelation</h3>
 
@@ -562,7 +562,7 @@
 
 <p>I kept trying to figure out how the shadow should be “cast”. I shall spare you the boring eleventy billion variants that didn’t work out.</p>
 
-<p>Eventually I realised that I kept turning my head about 45° to the left, and <em>that</em> was the clue I needed. What I was looking for were the left- and right-most points of the dial <em>when looking at the it at 45°</em>. Or, put another way, rotate the points of the dial clockwise by 45° then order them by x. Then choose the 0<sup>th</sup> and last values, since they are the where the dial’s extremities are.</p>
+<p>Eventually I realised that I kept turning my head about 45° to the left, and <em>that</em> was the clue I needed. What I was looking for were the left- and right-most points of the dial <em>when looking at it at 45°</em>. Or, put another way, rotate the points of the dial clockwise by 45° then order them by x. Then choose the 0<sup>th</sup> and last values, since they are the where the dial’s extremities are.</p>
 
 <p>To do that I created a number of marker points on the dial to capture the edges, and then rotated them in a sort function:</p>
 
