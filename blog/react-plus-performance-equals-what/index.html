@@ -361,7 +361,7 @@
 
 <h2 id="results-please">Results, please!</h2>
 
-<p>I ran the tests on both my MacBook Pro and my Nexus 5, using Chrome stable (currently 43). Both devices are at the upper end of the capability range, so it’s likely on the trend and not the actual values that apply more broadly.</p>
+<p>I ran the tests on both my MacBook Pro and my Nexus 5, using Chrome stable (currently 43). Both devices are at the upper end of the capability range, so it’s likely that <strong>the trend and not the actual values</strong> that apply more broadly.</p>
 
 <p>I used <code>window.performance.now()</code> either side of the JavaScript of note (ignoring the network requests, for example) to capture the amount of time spent processing the DOM changes, and I also set a <code>requestAnimationFrame</code> so I could measure see how long it took for the next frame to land. It’s only rough, but by marking the start of the next frame, we get a sense of how long it took for the page to render (styles, layout, paint, etc) once React or my Vanilla version finished.</p>
 
