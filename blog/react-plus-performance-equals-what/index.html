@@ -285,6 +285,8 @@
 
 <p>I ended up making a page that would pull images from <a href="https://www.flickr.com/services/api/">the Flickr API</a>, and essentially build an infinite list. Each time you click on the button in the top right corner I fetch some more photos, and I append those to the page. I have two variants: <strong>a React one</strong> and <strong>a Vanilla did-it-myself-in-JS-directly</strong> one, the general idea being to see what the performance difference is in terms of adjusting the page’s DOM as content grows.</p>
 
+<h2 id="ergonomics">Ergonomics</h2>
+
 <p>In React, updating the page is really nice; you alter its state object and it will figure out what changed and write to the DOM accordingly:</p>
 
 </div></div>
@@ -349,7 +351,7 @@
 
 <div class="container"><div class="left column">
 
-<p>As I said earlier, the ergonomics of React are excellent. If you have a lot of subtle DOM changes, it’s extremely helpful that it will catch them without you having to worry. In this case (and I wonder how many others) there’s not much to capture really, so it’s a hammer to crack a nut.</p>
+<p>So for sure the ergonomics of React are excellent. If you have a lot of subtle DOM changes, it’s extremely helpful that it will catch them without you having to worry. In this case (and I wonder how many others) there’s not much to capture really, so it’s a hammer to crack a nut.</p>
 
 <h2 id="results-please">Results, please!</h2>
 
