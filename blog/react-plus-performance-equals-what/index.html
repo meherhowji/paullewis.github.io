@@ -371,7 +371,7 @@
   <p>What surprised me was that the time taken for 100 pictures (around 500 elements) was 95ms on my MacBook Pro.</p>
 </blockquote>
 
-<p>There’s a rough trend upwards, which makes sense: the more elements you have the more nodes that React has to diff. What surprised me was that the time taken to compare the DOM with 100 pictures (around 500 elements) was <strong>95ms on my MacBook Pro</strong>. Even running the test a bunch of times, the best I could get was around 75ms. That’s locking up the main thread, so if I have any work to do at all when React is updating the tree, I’m all out of luck.</p>
+<p>There’s a rough trend upwards, which makes sense: the more elements you have the more nodes that React has to diff. What surprised me was that the time taken to compare the DOM with 100 pictures (around 500 elements) was <strong>95ms on my MacBook Pro</strong>. Even running the test a bunch of times, the best I could get was around 75ms. That’s locking up the main thread, so if I have any work to do at all when React is comparing trees, I’m all out of luck.</p>
 
 <p>Other thing of note: the JavaScript time is going up, but the time to actually manipulate the DOM (Total time minus JavaScript time) remains steady at ~10ms, which implies that we’re not doing much to trouble Blink.</p>
 
