@@ -409,6 +409,10 @@
   <img src="/static/blog/react-plus-performance-equals-what/vanilla-n5.png" />
 </figure>
 
+<blockquote>
+  <p>Since it’s getting faster with each run I can only conclude that V8 is being a smartypants and optimizing things on the go.</p>
+</blockquote>
+
 <p>This chart is a bit of a bamboozler, to be honest. Since it’s getting faster with each run I can only conclude that V8 is being a smartypants and optimizing things on the go, ruining a perfectly good test. It’s interesting (and good!) that it seems able to do that with my plain old Vanilla JS, but it doesn’t seem to get as far with React. That makes sense since my code is super simple, and React, very necessarily, is not.</p>
 
 <p>However, we can still see that the workload is in the 250-375ms range, which is way higher than I would personally like for work of this kind. I reckon you could work around it somewhat by attaching fewer elements on each pass, and keeping the user updated on your progress. With the Vanilla approach that’s perfectly plausible.</p>
