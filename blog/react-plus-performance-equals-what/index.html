@@ -289,7 +289,7 @@
   <p>I ended up making a page that would pull images from the Flickr API, and essentially build an infinite list.</p>
 </blockquote>
 
-<p>I ended up making a page that would pull images from <a href="https://www.flickr.com/services/api/">the Flickr API</a>, and essentially build an infinite list. Each time you click on the button in the top right corner I fetch some more photos, and I append those to the page. I have two variants: <strong>a React one</strong> and <strong>a Vanilla did-it-myself-in-JS-directly</strong> one, the general idea being to see what the performance difference is in terms of adjusting the page’s DOM as content grows.</p>
+<p>I ended up making a page that would pull images from <a href="https://www.flickr.com/services/api/">the Flickr API</a>, and essentially build an infinite list. Each time you click on the button in the top right corner I fetch some more photos, and I append those to the page. I have two variants: <strong>a React one</strong> and <strong>a Vanilla did-it-myself-in-JS-directly</strong> one, the general idea being to see what the performance difference is in terms of adjusting the page’s DOM as the data set grows.</p>
 
 <h2 id="ergonomics">Ergonomics</h2>
 
@@ -346,8 +346,11 @@
     <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">imageInDOM</span><span class="p">)</span> <span class="p">{</span>
 
       <span class="c1">// Create a bunch of DOM nodes...</span>
+      <span class="kd">var</span> <span class="nx">newFlickrImage</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="p">);</span>
+      <span class="c1">// etc...</span>
+
       <span class="c1">// Then append them to the fragment.</span>
-      <span class="nx">docFragment</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">flickr</span><span class="p">);</span>
+      <span class="nx">fragment</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">newFlickrImage</span><span class="p">);</span>
     <span class="p">}</span>
   <span class="p">});</span>
 
