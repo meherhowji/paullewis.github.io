@@ -4,10 +4,25 @@
 
     <title>Aerotwist</title>
     <description>Pretty much whatever comes into my head.</description>
-    <lastBuildDate>2015-06-20 21:45:19 +0100</lastBuildDate>
+    <lastBuildDate>2015-07-03 11:21:01 +0100</lastBuildDate>
     <language>en</language>
     <generator>Aerotwist</generator>
     <atom:link href="https://aerotwist.com/feed/" rel="self" type="application/rss+xml" />
+    
+      <item>
+        <title>React + Performance = ?</title>
+        <description>
+          <![CDATA[React is very popular at the moment, and I can see why: its developer ergonomics are very attractive. JSX and vDOM are really nice to work with, and it certainly enables composability. But, being the performance-minded person that I am, I wanted to test the claims that it's default-fast.]]>
+        </description>
+        <pubDate>Wed, 17 Jun 2015 00:00:00 +0000</pubDate>
+        <link>https://aerotwist.com/blog/react-plus-performance-equals-what</link>
+        <guid isPermaLink="true">/blog/react-plus-performance-equals-what</guid>
+        
+        <category>react</category>
+        
+        <category>performance</category>
+        
+      </item>
     
       <item>
         <title>Guitar Tuner</title>

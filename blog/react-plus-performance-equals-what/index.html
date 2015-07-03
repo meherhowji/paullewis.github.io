@@ -1,0 +1,515 @@
+<!doctype html>
+<html itemscope itemtype="http://schema.org/Article">
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="author" content="Paul Lewis" />
+  <meta name="viewport" content="width=device-width">
+  <meta name="theme-color" content="#880043">
+
+  
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="//aerotwist.com/blog/feed/">
+  
+
+  
+  <meta name="twitter:site" content="@aerotwist">
+  <meta name="twitter:creator" content="@aerotwist">
+  <meta name="twitter:title" content="React + Performance = ?">
+  <meta name="twitter:description" content="React is very popular at the moment, and I can see why: its developer ergonomics are very attractive. JSX and vDOM are really nice to work with, and it certainly enables composability. But, being the performance-minded person that I am, I wanted to test the claims that it&#39;s default-fast.">
+
+  <meta itemprop="name" content="React + Performance = ?">
+  <meta itemprop="description" content="React is very popular at the moment, and I can see why: its developer ergonomics are very attractive. JSX and vDOM are really nice to work with, and it certainly enables composability. But, being the performance-minded person that I am, I wanted to test the claims that it&#39;s default-fast.">
+
+    
+    <meta itemprop="image" content="https://aerotwist.com/static/blog/react-plus-performance-equals-what/react-vs-vanilla-n5.png">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://aerotwist.com/static/blog/react-plus-performance-equals-what/react-vs-vanilla-n5.png">
+    
+
+  
+
+  <style>
+    
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 400;
+      src: local('Lato Regular'), local('Lato-Regular'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qIIYRU-oROkIk8vfvxw6QvesZW2xOQ-xsNqO47m55DA.woff) format('woff');
+    }
+    
+
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 700;
+      src: local('Lato Bold'), local('Lato-Bold'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qdgUG4U09HnJwhYI-uK18wLUuEpTyoUstqEm5AMlJo4.woff) format('woff');
+    }
+  </style>
+
+  <link rel="stylesheet" media="screen" href="/css/aerotwist.css" />
+  <title>Aerotwist - React + Performance = ?</title>
+  
+</head>
+
+
+<!--
+                              __          .__          __
+  _____    ___________  _____/  |___  _  _|__| _______/  |_
+  \__  \ _/ __ \_  __ \/  _ \   __\ \/ \/ /  |/  ___/\   __\
+   / __ \\  ___/|  | \(  <_> )  |  \     /|  |\___ \  |  |
+  (____  /\___  >__|   \____/|__|   \/\_/ |__/____  > |__|
+       \/     \/                                  \/
+
+  Giant ascii art embedded in every page of your site is how you
+  show other people that YOU CARE. Mainly I care about developers,
+  which is what I presume you are if you're all about viewing
+  the source. Clearly you're my kind of person.
+
+  This is v3, it's run through Jekyll, it's been fun to build,
+  there's always more to do, and you may notice that aside from
+  Google Analytics there is no JavaScript. None.
+
+  That's one way of many you keep your pages fast. I care about
+  keeping this site fast because your time is precious and I need
+  to get out of your way.
+
+  <3'z
+
+  Paul
+-->
+
+
+  <body class="blog">
+
+    <header>
+      <div class="container">
+        <div id="logo">
+  <a href="/">
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="100%" height="100%">
+    <g>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#6EBAD3" points="30.6,47.73 64.92,47.73 19.97,76.52"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ED95C0" points="48.198,0 53.008,14.06 39.31,24.76"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#880043" points="39.31,24.76 64.92,48 30.6,48"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#DA0A7A" points="39.31,24.76 64.92,48 53.008,14.06"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#0B7DAD" points="30.6,48 64.92,48 48,58.69"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#BDDEE8" points="47.76,58.69 64.92,47.73 75.14,76.73"></polygon>
+    </g>
+    </svg>
+  </a>
+</div>
+
+        <nav>
+  <ul>
+    
+      
+        <li><a href="/">Home</a></li>
+      
+    
+      
+        <li class="active"><a href="/blog/"> Blog</a></li>
+      
+    
+      
+        <li><a href="/tutorials/">Tutorials</a></li>
+      
+    
+      
+        <li><a href="/lab/">Lab</a></li>
+      
+    
+  </ul>
+
+  <svg id="left-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#AAAAAA" stroke-width="1" />
+    </svg>
+
+  <svg id="right-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#6EBAD3" stroke-opacity="0.3" stroke-width="1" />
+    </svg>
+</nav>
+
+      </div>
+    </header>
+    <section>
+
+      <div class="content">
+
+  
+  <svg version="1.1" class="shape-reference" xmlns="http://www.w3.org/2000/svg" width="790" height="324">
+  <defs>
+    <filter id="blur-8">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="8" />
+    </filter>
+    <filter id="blur-6">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="6" />
+    </filter>
+    <filter id="blur-4">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="4" />
+    </filter>
+  </defs>
+
+  <g id="color-block">
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#394f77" stroke="#394f77" stroke-width="0.6" points="99,229 40,156 130,208"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#352c4c" stroke="#352c4c" stroke-width="0.6" points="99,229 130,208 199,242"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#442850" stroke="#442850" stroke-width="0.6" points="199,242 130,208 217,215"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#31112c" stroke="#31112c" stroke-width="0.6" points="199,242 217,215 292,284"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#4c143d" stroke="#4c143d" stroke-width="0.6" points="217,215 281,198 292,284"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#862e77" stroke="#862e77" stroke-width="0.6" points="217,215 214,142 281,198"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#6b3b79" stroke="#6b3b79" stroke-width="0.6" points="130,208 214,142 217,215"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#75559b" stroke="#75559b" stroke-width="0.6" points="130,208 127,144 214,142"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#51659b" stroke="#51659b" stroke-width="0.6" points="40,156 127,144 130,208"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ae308d" stroke="#ae308d" stroke-width="0.6" points="281,198 214,142 282,155"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#981666" stroke="#981666" stroke-width="0.6" points="371,229 281,198 282,155"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#500b34" stroke="#500b34" stroke-width="0.6" points="292,284 281,198 371,229"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#2e031b" stroke="#2e031b" stroke-width="0.6" points="292,284 371,229 392,266"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#6e033a" stroke="#6e033a" stroke-width="0.6" points="392,266 371,229 468,193"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#a80358" stroke="#a80358" stroke-width="0.6" points="468,193 371,229 389,181"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#d2117b" stroke="#d2117b" stroke-width="0.6" points="468,193 389,181 476,141"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#c4268c" stroke="#c4268c" stroke-width="0.6" points="468,193 476,141 552,152"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#a22b82" stroke="#a22b82" stroke-width="0.6" points="468,193 552,152 560,178"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#954397" stroke="#954397" stroke-width="0.6" points="560,178 552,152 627,157"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#9f69ab" stroke="#9f69ab" stroke-width="0.6" points="552,152 616,112 627,157"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#c18bbf" stroke="#c18bbf" stroke-width="0.6" points="552,152 550,75 616,112"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#cc72b4" stroke="#cc72b4" stroke-width="0.6" points="476,141 550,75 552,152"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#df7fbc" stroke="#df7fbc" stroke-width="0.6" points="476,141 450,115 550,75"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#e93095" stroke="#e93095" stroke-width="0.6" points="389,181 450,115 476,141"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#fe399b" stroke="#fe399b" stroke-width="0.6" points="389,181 350,107 450,115"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#e847a1" stroke="#e847a1" stroke-width="0.6" points="389,181 289,116 350,107"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#cc0f77" stroke="#cc0f77" stroke-width="0.6" points="389,181 371,229 289,116"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ca1c84" stroke="#ca1c84" stroke-width="0.6" points="289,116 371,229 282,155"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#c25aa6" stroke="#c25aa6" stroke-width="0.6" points="282,155 214,142 289,116"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ee99cb" stroke="#ee99cb" stroke-width="0.6" points="289,116 345,58 350,107"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#fbb3d8" stroke="#fbb3d8" stroke-width="0.6" points="350,107 345,58 424,66"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#fb8bc4" stroke="#fb8bc4" stroke-width="0.6" points="350,107 424,66 450,115"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f3c0de" stroke="#f3c0de" stroke-width="0.6" points="450,115 424,66 536,40"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ebbfdd" stroke="#ebbfdd" stroke-width="0.6" points="450,115 536,40 550,75"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ecdaeb" stroke="#ecdaeb" stroke-width="0.6" points="550,75 536,40 626,74"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#d2b8d7" stroke="#d2b8d7" stroke-width="0.6" points="616,112 550,75 626,74"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#b8abce" stroke="#b8abce" stroke-width="0.6" points="616,112 626,74 683,119"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#9685b8" stroke="#9685b8" stroke-width="0.6" points="627,157 616,112 683,119"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#7a75ad" stroke="#7a75ad" stroke-width="0.6" points="675,162 627,157 683,119"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#4e6ea4" stroke="#4e6ea4" stroke-width="0.6" points="675,162 683,119 750,212"/>
+  </g>
+</svg>
+
+  
+
+  <div class="masthead hatched">
+
+    
+      <svg class="behind-meta" width="790" height="324">
+        <use xlink:href="#color-block" />
+      </svg>
+
+      <svg class="left-meta" width="790" height="324">
+        <use xlink:href="#color-block" filter="url(#blur-6)" transform="translate(395 162) scale(-0.5 0.5) translate(-395 -162)" />
+      </svg>
+    
+
+    <div class="container">
+      <h2>React + Performance = ?</h2>
+      <p>React is very popular at the moment, and I can see why: its developer ergonomics are very attractive. JSX and vDOM are really nice to work with, and it certainly enables composability. But, being the performance-minded person that I am, I wanted to test the claims that it's default-fast.</p>
+    </div>
+
+  </div>
+
+  <div class="container">
+    <div class="meta">
+
+      <ul>
+        <li class="last-updated">
+          <span class="name">Last updated:</span>
+          <span class="value">17 Jun 2015</span>
+        </li>
+
+        <li>
+          <span class="name">Est. Read Time:</span>
+          <span class="value">10 mins</span>
+        </li>
+
+        <li class="share">
+          <span class="name">Share this:</span>
+          <span class="value"><a href="http://www.twitter.com/share?url=https://aerotwist.com/blog/react-plus-performance-equals-what/&text=React + Performance = ?">Twitter</a></span>
+          <span class="value"><a href="https://plus.google.com/share?url=https://aerotwist.com/blog/react-plus-performance-equals-what/">Google+</a></span>
+        </li>
+        <li class="tags">
+          <span class="name">Tagged:</span>
+          <span class="value">
+          
+            #react, 
+          
+            #performance
+          
+          </span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="container"><div class="left column">
+
+<p>Time to have a play with React, I thought. And so I set about having a noodle, and, looking over the docs, I noticed this little nugget:</p>
+
+<blockquote class="quote">You may be thinking that it's expensive to change data if there are a large number of nodes under an owner. The good news is that JavaScript is fast and <code>render()</code> methods tend to be quite simple, so in most applications this is extremely fast. Additionally, the bottleneck is almost always the DOM mutation and not JS execution. React will optimize this for you using batching and change detection.
+  <footer>
+    <cite><a href="http://facebook.github.io/react/docs/multiple-components.html#a-note-on-performance">React Docs</a></cite>
+  </footer>
+</blockquote>
+
+<p>That feels like something that needs putting to the test…</p>
+
+<h2 id="whats-a-fair-test-here-guv">What’s a fair test here, guv?</h2>
+
+<blockquote>
+  <p>I figure that a modern app is likely to have some kind of infinite list, because feeds are pretty common.</p>
+</blockquote>
+
+<p>I know that <a href="http://blog.500tech.com/is-reactjs-fast/">React’s performance has been compared to that of other frameworks, like Angular</a>. What I wanted to do was my own test of it against plain old vanilla JavaScript. (From this point on if I mention “Vanilla”, that’s what I mean: plain old unflavoured JavaScript that, in this case, is written by me.)</p>
+
+<p>The docs claim that JavaScript is fast, and it’s meddling with the DOM that’s slow. So for that to be true we should be largely able to switch out React with something else and see pretty similar performance characteristics. Disclaimer: I have a bias that that’s not true. It strikes me that even if JavaScript itself is fast, there are two trees that React is going to have to diff to make some patches, and therefore going direct will be faster, provided I don’t <a href="http://wilsonpage.co.uk/preventing-layout-thrashing/">trigger layout thrashing</a> or some other horror.</p>
+
+<figure class="no-shadow">
+  <img src="/static/blog/react-plus-performance-equals-what/demo-site.jpg" />
+</figure>
+
+<p>For my test I decided to use something with a large number of elements, since that was also mentioned in the quote above. I figure that a modern app is likely to have some kind of infinite list, because feeds are pretty common. Whether you’re Twitter, Hacker News, Spotify, Facebook, or, well, mostly anyone, an ever-growing list of items for your users to tap on seems de rigueur, and who am I if not a majority panderererer.</p>
+
+<blockquote>
+  <p>I ended up making a page that would pull images from the Flickr API, and essentially build an infinite list.</p>
+</blockquote>
+
+<p>I ended up making a page that would pull images from <a href="https://www.flickr.com/services/api/">the Flickr API</a>, and essentially build an infinite list. Each time you click on the button in the top right corner I fetch some more photos, and I append those to the page. I have two variants: <strong>a React one</strong> and <strong>a Vanilla did-it-myself-in-JS-directly</strong> one, the general idea being to see what the performance difference is in terms of adjusting the page’s DOM as content grows.</p>
+
+<p>In React, updating the page is really nice; you alter its state object and it will figure out what changed and write to the DOM accordingly:</p>
+
+</div></div>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">FlickrImages</span> <span class="o">=</span> <span class="nx">React</span><span class="p">.</span><span class="nx">createClass</span><span class="p">({</span>
+
+  <span class="nx">loadImagesFromFlickr</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+
+    <span class="kd">var</span> <span class="nx">onFlickr</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">results</span><span class="p">)</span> <span class="p">{</span>
+
+      <span class="c1">// Just update the state and React</span>
+      <span class="c1">// does the rest. I like this mucho.</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span>
+        <span class="nx">data</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">results</span><span class="p">)</span>
+      <span class="p">});</span>
+    <span class="p">}</span>
+
+    <span class="nx">flickr</span><span class="p">.</span><span class="nx">search</span><span class="p">(</span><span class="s1">&#39;tree&#39;</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+        <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">onFlickr</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">));</span>
+  <span class="p">},</span>
+
+  <span class="nx">getInitialState</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">{</span><span class="nx">data</span><span class="o">:</span> <span class="p">[]};</span>
+  <span class="p">},</span>
+
+  <span class="nx">componentDidMount</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// Set up the component.</span>
+  <span class="p">},</span>
+
+  <span class="nx">render</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// The DOM we need... the DOM we deserve?</span>
+  <span class="p">}</span>
+<span class="p">});</span></code></pre></div>
+
+<div class="container"><div class="left column">
+
+<p>The vanilla version is lightweight enough, and it looks a little like this:</p>
+
+</div></div>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">flickr</span><span class="p">.</span><span class="nx">search</span><span class="p">(</span><span class="s1">&#39;tree&#39;</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">onFlickr</span><span class="p">);</span>
+
+<span class="kd">function</span> <span class="nx">onFlickr</span> <span class="p">(</span><span class="nx">images</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">fragment</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createDocumentFragment</span><span class="p">();</span>
+  <span class="nx">images</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">image</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="c1">// Check if we can skip this element...</span>
+    <span class="kd">var</span> <span class="nx">imageInDOM</span> <span class="o">=</span>
+        <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;image-&#39;</span> <span class="o">+</span> <span class="nx">image</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">imageInDOM</span><span class="p">)</span> <span class="p">{</span>
+
+      <span class="c1">// Create a bunch of DOM nodes...</span>
+      <span class="c1">// Then append them to the fragment.</span>
+      <span class="nx">docFragment</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">flickr</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">});</span>
+
+  <span class="c1">// Append the fragment to the list.</span>
+  <span class="nx">flickrList</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">fragment</span><span class="p">);</span>
+<span class="p">}</span></code></pre></div>
+
+<div class="container"><div class="left column">
+
+<p>As I said earlier, the ergonomics of React are excellent. If you have a lot of subtle DOM changes, it’s extremely helpful that it will catch them without you having to worry. In this case (and I wonder how many others) there’s not much to capture really, so it’s a hammer to crack a nut.</p>
+
+<h2 id="results-please">Results, please!</h2>
+
+<p>I ran the tests on both my MacBook Pro and my Nexus 5. Both devices are at the upper end of the capability range, so it’s likely on the trend and not the actual values that apply more broadly.</p>
+
+<p>I used <code>window.performance.now()</code> either side of the JavaScript of note (ignoring the network requests, for example) to capture the amount of time spent processing the DOM changes, and I also set a <code>requestAnimationFrame</code> so I could measure see how long it took for the next frame to land. It’s only rough, but by marking the start of the next frame, we get a sense of how long it took for the page to render (styles, layout, paint, etc) once React or my Vanilla version finished.</p>
+
+<h3 id="desktop-react">Desktop: React</h3>
+
+<p>Here I’m using React to add 100 Flickr photos at a time (~5 DOM elements per photo).</p>
+
+<figure>
+  <img src="/static/blog/react-plus-performance-equals-what/react-desktop.png" />
+</figure>
+
+<blockquote>
+  <p>What surprised me was that the time taken for 100 pictures (around 500 elements) was 95ms on my MacBook Pro.</p>
+</blockquote>
+
+<p>There’s a rough trend upwards, which makes sense: the more elements you have the more nodes that React has to diff. What surprised me was that the time taken to compare the DOM with 100 pictures (around 500 elements) was <strong>95ms on my MacBook Pro</strong>. Even running the test a bunch of times, the best I could get was around 75ms. That’s locking up the main thread, so if I have any work to do at all when React is updating the tree, I’m all out of luck.</p>
+
+<p>Other thing of note: the JavaScript time is going up, but the time to actually manipulate the DOM (Total time minus JavaScript time) remains steady at ~10ms, which implies that we’re not doing much to trouble Blink.</p>
+
+<h3 id="mobile-react">Mobile: React</h3>
+
+<p>Now things get interesting. Let’s repeat the React test, but this time on a mobile device: my Nexus 5.</p>
+
+<figure>
+  <img src="/static/blog/react-plus-performance-equals-what/react-n5.png" />
+</figure>
+
+<blockquote>
+  <p>The user ends up with a completely non-responsive UI.</p>
+</blockquote>
+
+<p>This chart worries me a great deal.</p>
+
+<p>The DOM manipulation time is again pretty steady (since the red line tracks the blue line pretty closely), but the base value is ~1,000ms for 100 pictures, and it goes up and up and up. By the time you’re diffing a tree with 1,200 Flickr photos (a good amount of DOM at 6,000 elements) the main thread has locked up to the tune of around 3.5 seconds. The net result: the user ends up with a completely non-responsive UI. Sure, we got good ergonomics, but this cost is way too high.</p>
+
+<h3 id="desktop-vanilla">Desktop: Vanilla</h3>
+
+<p>Now let’s have a look at the Vanilla approach. Here I’m using my own JavaScript to create a fragment for the new images, the DOM for the new images, and to skip images that already exist.</p>
+
+<figure>
+  <img src="/static/blog/react-plus-performance-equals-what/vanilla-desktop.png" />
+</figure>
+
+<p>The workload here remains pretty steady. It seems the majority of the JavaScript time is going into creating the elements and parsing any HTML generated. Since each batch of photos is the same size, the CPU load for each is roughly the same. There are no trees to compare, like we see in React.</p>
+
+<p>As above, the DOM manipulation time remains relatively steady throughout, at around ~2ms. It’s probably so light because my MacBook Pro has enough CPU to throw at the problem.</p>
+
+<h3 id="mobile-vanilla">Mobile: Vanilla</h3>
+
+<figure>
+  <img src="/static/blog/react-plus-performance-equals-what/vanilla-n5.png" />
+</figure>
+
+<p>This chart is a bit of a bamboozler, to be honest. Since it’s getting faster with each run I can only conclude that V8 is being a smartypants and optimizing things on the go, ruining a perfectly good test. It’s interesting (and good!) that it seems able to do that with my plain old Vanilla JS, but it doesn’t seem to get as far with React. That makes sense since my code is super simple, and React, very necessarily, is not.</p>
+
+<p>However, we can still see that the workload is in the 250-375ms range, which is way higher than I would personally like for work of this kind. I reckon you could work around it somewhat by attaching fewer elements on each pass, and keeping the user updated on your progress. With the Vanilla approach that’s perfectly plausible.</p>
+
+<h3 id="bonus-round-react-vs-vanilla">Bonus round: React vs Vanilla</h3>
+
+<p>I just want to put up the numbers (just the JavaScript ones) for React alongside the Vanilla code:</p>
+
+<figure>
+  <img src="/static/blog/react-plus-performance-equals-what/react-vs-vanilla-n5.png" />
+</figure>
+
+<blockquote>
+  <p>For mobile there’s a remarkable cost to using React over not doing so, and the cost is so high as to be reasonably prohibitive.</p>
+</blockquote>
+
+<p>This, at least as far as this test goes, is pretty much the summary. For mobile there’s a remarkable cost to using React over not doing so, and the cost is so high as to be reasonably prohibitive.</p>
+
+<h2 id="conclusions">Conclusions</h2>
+
+<p>Was this a fair test? I imagine some folks will feel that it isn’t. I can see that: I’ve only tested how well React copes with increasing tree sizes. What’s really at stake here to my mind are the performance benefits (read: user experience) and the developer ergonomics. I see completely how pleasant React is to use, but at what cost? At the lower end, the 500 DOM elements in the test component shouldn’t be considered preposterously large, and one of the claims of React is that it’s <em>the DOM that is slow</em>, not JavaScript.</p>
+
+<p>Here are my final thoughts:</p>
+
+<ul>
+  <li><strong>React has lovely ergonomics.</strong> Writing JSX and React was a lot of fun, and it’s always lovely when you don’t have to think too deeply about the edge cases of your code. In that respect, React is brilliant: it’s going to catch minor changes all over your tree that you could well have missed.</li>
+  <li><strong>React has significant costs, especially on mobile.</strong> React has a lot of computational work required to do all of its checks. On mobile the cost is far higher than I think is reasonable.</li>
+</ul>
+
+<p>Should someone use or not use React? It seems to me that developer ergonomics should be less important than our users’ needs, as painful as that can be sometimes, and that, despite the claims, React <em>does</em> seem to have significant performance implications. I really enjoyed using React, but I wouldn’t personally use it on an app I’m building; I just don’t think it would be fast enough.</p>
+
+<p>Thanks to <a href="https://twitter.com/passy">Pascal Hartig</a> for reviewing my React code and pointing out where I was being an utter noob, and to <a href="https://twitter.com/jaffathecake">Jake Archibald</a> for providing <a href="https://github.com/jakearchibald/trained-to-thrill/blob/master/src/js/page/flickr.js">Flickr API code</a>.</p>
+
+</div></div>
+
+
+  <div class="footer-share container">
+    Share this on: <span class="value"><a href="http://www.twitter.com/share?url=https://aerotwist.com/blog/react-plus-performance-equals-what/">Twitter</a></span>
+    <span class="value"><a href="https://plus.google.com/share?url=https://aerotwist.com/blog/react-plus-performance-equals-what/">Google+</a></span>
+  </div>
+
+  <div class="clear"></div>
+
+  
+    <svg class="left-shape" style="margin-left: -307.8px" width="453.6" height="1106.0">
+      <use xlink:href="#color-block" filter="url(#blur-4)" transform="scale(-1.4 1.4) rotate(90)"/>
+    </svg>
+
+    <svg class="right-shape" width="162.0" height="711.0">
+      <use xlink:href="#color-block" filter="url(#blur-8)" transform="scale(-0.9 0.9) rotate(90)"/>
+    </svg>
+  
+
+</div>
+
+
+    </section>
+
+    <footer>
+
+      <div class="container">
+        <div class="bio panel">
+          <h2>Hello!</h2>
+          <p>My name is Paul. I work at <a href="http://www.google.com/" title="Some cloud company in the USA, I think.">Google</a> on the Chrome Developer Relations team as an advocate. I help developers improve the performance of their sites and apps.</p>
+
+          <p>You can find me on <a href="http://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a></p>
+        </div>
+
+        <div class="get-in-touch panel">
+          <h2>Get in touch</h2>
+          <p>I don’t bite. Honestly. You can find me on <a href="https://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a>, and I like hearing from people (pretty handy given my job, really) so say hi.</p>
+        </div>
+
+        <div class="subscribe panel">
+          <h2>Subscribe</h2>
+          <p>You should totally get the <a href="/blog/feed/">RSS feed</a>, or whatever it is you kids are using these days (I miss Reader.)</p>
+        </div>
+
+        <p class="disclaimer">Except as otherwise noted, the content of this page is licensed under the Creative Commons Attribution 3.0 License, and code samples are licensed under the Apache 2.0 License.</p>
+      </div>
+    </footer>
+
+    <script async="true">
+
+    /**
+     * Snow effect, from: HTML5 Rocks
+     * https://github.com/html5rocks/www.html5rocks.com/blob/9318b5755c8c17a4bd1761bca6b1b491e7fd17b8/content/index.html
+     */
+    !function(){function j(){f=c.clientWidth,g=c.clientHeight,d.width=f,d.height=g,e.fillStyle="#FFF";var a=i;i=f>300,!a&&i&&requestAnimFrame(n)}function n(){if(e.clearRect(0,0,f,g),i){for(h=0;b>h;h++)m=l[h],m.y+=m.vy,m.x+=m.vx,e.globalAlpha=m.o,e.beginPath(),e.arc(m.x,m.y,m.r,0,2*Math.PI,!1),e.closePath(),e.fill(),m.y>g&&m.reset();requestAnimFrame(n)}}var a=(new Date).getMonth();if(11===a){var b=300,c=document.querySelector(".masthead");if(c){var d=document.createElement("canvas"),e=d.getContext("2d"),f=c.clientWidth,g=c.clientHeight,h=0,i=!1,k=function(){this.x=0,this.y=0,this.vy=0,this.vx=0,this.r=0,this.reset()};k.prototype.reset=function(){this.x=Math.random()*f,this.y=Math.random()*-g,this.vy=1+3*Math.random(),this.vx=.5-Math.random(),this.r=1+2*Math.random(),this.o=.5+.5*Math.random()},d.style.position="absolute",d.style.left=d.style.top="0";var m,l=[];for(h=0;b>h;h++)m=new k,m.reset(),l.push(m);window.requestAnimFrame=function(){return window.requestAnimationFrame||window.webkitRequestAnimationFrame||window.mozRequestAnimationFrame||function(a){window.setTimeout(a,1e3/60)}}(),j(),window.addEventListener("resize",j,!1),c.appendChild(d)}}}();
+    </script>
+
+    <script type="text/javascript" async="true">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-13024693-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+  </body>
+</html>
