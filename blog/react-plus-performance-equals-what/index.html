@@ -433,7 +433,7 @@
 
 <h2 id="conclusions">Conclusions</h2>
 
-<p>Was this a fair test? I imagine some folks will feel that it isn’t. I can see that: I’ve only tested how well React copes with increasing tree sizes. What’s really at stake here to my mind are the performance benefits (read: user experience) and the developer ergonomics. I see completely how pleasant React is to use, but at what cost? At the lower end, the 500 DOM elements in the test component shouldn’t be considered preposterously large, and one of the claims of React is that it’s <em>the DOM that is slow</em>, not JavaScript. So perhaps this test is fair after all. This kind of component is very common, and I doubt most development teams would say “we’re going to use React for everything apart from these components here”, but maybe I’m wrong.</p>
+<p>Was this a fair test? I imagine some folks will feel that it isn’t. I can see that: I’ve only tested how well React copes with increasing tree sizes. At the lower end, the 500 DOM elements in the test component shouldn’t be considered preposterously large, and one of the claims of React is that it’s <em>the DOM that is slow</em>, not JavaScript. So perhaps this test <em>is fair</em> after all. This kind of component is very common, and I doubt most development teams would say “we’re going to use React for everything apart from these components here”, but maybe I’m wrong.</p>
 
 <p>Here are my final thoughts:</p>
 
@@ -442,7 +442,11 @@
   <li><strong>React has significant costs, especially on mobile.</strong> React has a lot of computational work required to do all of its checks. On mobile the cost is far higher than I think is reasonable.</li>
 </ul>
 
-<p>Should someone use or not use React? It seems to me that developer ergonomics should be less important than our users’ needs, as painful as that can be sometimes, and that, despite the claims, React <em>does</em> seem to have significant performance implications. I really enjoyed using React, but I wouldn’t personally use it on an app I’m building; I just don’t think it would be fast enough.</p>
+<blockquote>
+  <p>It seems to me that developer ergonomics should be less important than our users’ needs.</p>
+</blockquote>
+
+<p>What’s really at stake here, to my mind at least, are the performance benefits (read: user experience) and the developer ergonomics. React is very pleasant for developers to use, but at what cost to the user? It seems to me that <strong>developer ergonomics should be less important than our users’ needs</strong>, as painful as that can be for us developers, and that, despite the claims, React <em>does</em> seem to have significant performance implications. I really enjoyed using React, but I wouldn’t personally use it on an app I’m building; I just don’t think it would be fast enough.</p>
 
 <p>Thanks to <a href="https://twitter.com/passy">Pascal Hartig</a> for reviewing my React code and pointing out where I was being an utter noob, and to <a href="https://twitter.com/jaffathecake">Jake Archibald</a> for providing <a href="https://github.com/jakearchibald/trained-to-thrill/blob/master/src/js/page/flickr.js">Flickr API code</a>.</p>
 
