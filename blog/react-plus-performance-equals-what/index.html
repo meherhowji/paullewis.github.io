@@ -277,7 +277,7 @@
 
 <p>The docs claim that JavaScript is fast, and it’s meddling with the DOM that’s slow. So for that to be true we should be largely able to switch out React with something else and see pretty similar performance characteristics. Disclaimer: I have a bias that that’s not true (though maybe I misunderstood the claim). It strikes me that even if JavaScript itself is fast, there are two trees that React is going to have to diff to make some patches, and therefore going direct will be faster, provided I don’t <a href="http://wilsonpage.co.uk/preventing-layout-thrashing/">trigger layout thrashing</a> or some other horror.</p>
 
-<p>In any case the question is not “Is React faster than Vanilla?”, so much as it is about <em>how much extra time React is going to take to run, and thereby affect the user experience</em>. In short: is the abstraction <em>worth the cost</em>?</p>
+<p>In any case the question is not “Is React faster than Vanilla?”, so much as it is about <em>how much extra time React is going to take to run, and thereby affect the user experience</em>. In short: <strong>is the abstraction worth the cost?</strong></p>
 
 <figure class="no-shadow">
   <img src="/static/blog/react-plus-performance-equals-what/demo-site.jpg" />
