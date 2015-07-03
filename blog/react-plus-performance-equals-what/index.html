@@ -229,7 +229,7 @@
 
         <li>
           <span class="name">Est. Read Time:</span>
-          <span class="value">12 mins</span>
+          <span class="value">13 mins</span>
         </li>
 
         <li class="share">
@@ -252,6 +252,8 @@
   </div>
 
   <div class="container"><div class="left column">
+
+<p><strong>Update 7/3/15: I failed to use the minified version of React in the test, which is the production version. This was my mistake, and I apologise. I have since updated the test, the graphs and commentary. My conclusions, however, are the same, and the good news is that some of the numbers did come down.</strong></p>
 
 <p>Time to have a play with React, I thought. And so I set about having a noodle, and, looking over the docs, I noticed this little nugget:</p>
 
@@ -368,10 +370,12 @@
 </figure>
 
 <blockquote>
-  <p>What surprised me was that the time taken for 100 pictures (around 500 elements) was 95ms on my MacBook Pro.</p>
+  <p>What surprised me was that the time taken for 100 pictures (around 500 elements) was 60ms on my MacBook Pro.</p>
 </blockquote>
 
-<p>There’s a rough trend upwards, which makes sense: the more elements you have the more nodes that React has to diff. What surprised me was that the time taken to compare the DOM with 100 pictures (around 500 elements) was <strong>95ms on my MacBook Pro</strong>. Even running the test a bunch of times, the best I could get was around 75ms. That’s locking up the main thread, so if I have any work to do at all when React is comparing trees, I’m all out of luck.</p>
+<p>There’s a fairly flat graph here. I know from running this test a bunch that there is a slow trend upwards, but you have to get to some seriously large DOM sizes for it to matter. That said, I do have a pretty hefty MacBook Pro, so the CPU is probably churning through at a monster rate.</p>
+
+<p>What did surprise me, though, was that the time taken to compare the DOM with 100 pictures (around 500 elements) was <strong>60ms on my MacBook Pro</strong>. Even running the test a bunch of times, the best I could get was around 45ms. That’s locking up the main thread, so if I have any work to do at all when React is comparing trees, I’m all out of luck.</p>
 
 <p>Other thing of note: the JavaScript time is going up, but the time to actually manipulate the DOM (Total time minus JavaScript time) remains steady at ~10ms, which implies that we’re not doing much to trouble Blink. That’s as it should be, since React is supposed to keep my DOM changes to a minimum.</p>
 
