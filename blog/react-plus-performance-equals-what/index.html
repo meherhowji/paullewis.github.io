@@ -397,7 +397,7 @@
 
 <p>This chart worries me a great deal.</p>
 
-<p>The DOM manipulation time is again pretty steady (since the red line tracks the blue line pretty closely), but the base value is ~1,000ms for 100 pictures, and it goes up and up and up. By the time you’re diffing a tree with 1,200 Flickr photos (a good amount of DOM at 6,000 elements) the main thread has locked up to the tune of around 3.5 seconds. The net result: the user ends up with a completely non-responsive UI. Sure, I got good ergonomics building the thing, but the cost to my users would be way too high.</p>
+<p>The DOM manipulation time is again pretty steady (since the red line tracks the blue line pretty closely), but the base value is ~500ms for 100 pictures, and it goes up and up and up. By the time you’re diffing a tree with 1,200 Flickr photos (a good amount of DOM at 6,000 elements) the main thread has locked up to the tune of around 1.5 seconds. The net result: the user ends up with a completely non-responsive UI. Sure, I got good ergonomics building the thing, but the cost to my users would be way too high.</p>
 
 <h3 id="desktop-vanilla">Desktop: Vanilla</h3>
 
