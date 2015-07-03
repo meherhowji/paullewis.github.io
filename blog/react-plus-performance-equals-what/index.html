@@ -253,7 +253,7 @@
 
   <div class="container"><div class="left column">
 
-<p><strong>Update 7/3/15: I failed to use the minified version of React in the test, which is the production version. Without that the performance characteristics are worse. This was my mistake, and I apologise. I have since updated the test, the graphs and commentary. The good news is that some of the numbers <em>did</em> come down, but not by enough for my conclusions to change.</strong></p>
+<p><strong>Update 7/3/15: I failed to use the minified version of React in the test, which is the production version. Without that the performance characteristics are worse. This was my mistake, and I apologise. I have since re-run the test, updated the graphs and any commentary. The good news is that some of the numbers <em>did</em> come down, but not by enough for my conclusions to change.</strong></p>
 
 <hr />
 
@@ -411,6 +411,8 @@
 
 <p>As above, the DOM manipulation time remains relatively steady throughout, at around ~2ms. It’s probably so light because my MacBook Pro has enough CPU to throw at the problem.</p>
 
+<p>I have no idea what’s happened at the end there. Either V8 has optimized the JS, or there was some kind of reporting error.</p>
+
 <h3 id="mobile-vanilla">Mobile: Vanilla</h3>
 
 <figure>
@@ -423,7 +425,7 @@
 
 <p>This chart is a bit of a bamboozler, to be honest. Since it’s getting faster with each run I can only conclude that V8 is being a smartypants and optimizing things on the go, ruining a perfectly good test. It’s interesting (and good!) that it seems able to do that with my plain old Vanilla JS, but it doesn’t seem to get as far with React. That makes sense since my code is super simple, and React, very necessarily, is not.</p>
 
-<p>However, we can still see that the workload is in the 250-375ms range, which is way higher than I would personally like for work of this kind. I reckon you could work around it somewhat by attaching fewer elements on each pass, and keeping the user updated on your progress. With the Vanilla approach that’s perfectly plausible.</p>
+<p>However, we can still see that the workload is in the 80-335ms range, which is way higher than I would personally like for work of this kind. I reckon you could work around it somewhat by attaching fewer elements on each pass, and keeping the user updated on your progress. With the Vanilla approach that’s perfectly plausible.</p>
 
 <h3 id="bonus-round-react-vs-vanilla">Bonus round: React vs Vanilla</h3>
 
