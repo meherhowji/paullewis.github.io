@@ -271,7 +271,7 @@
 
 <p>I know that <a href="http://blog.500tech.com/is-reactjs-fast/">React’s performance has been compared to that of other frameworks, like Angular</a>. What I wanted to do was my own test of it against plain old vanilla JavaScript. (From this point on if I mention “Vanilla”, that’s what I mean: plain old unflavoured JavaScript that, in this case, is written by me.)</p>
 
-<p>The docs claim that JavaScript is fast, and it’s meddling with the DOM that’s slow. So for that to be true we should be largely able to switch out React with something else and see pretty similar performance characteristics. Disclaimer: I have a bias that that’s not true. It strikes me that even if JavaScript itself is fast, there are two trees that React is going to have to diff to make some patches, and therefore going direct will be faster, provided I don’t <a href="http://wilsonpage.co.uk/preventing-layout-thrashing/">trigger layout thrashing</a> or some other horror.</p>
+<p>The docs claim that JavaScript is fast, and it’s meddling with the DOM that’s slow. So for that to be true we should be largely able to switch out React with something else and see pretty similar performance characteristics. Disclaimer: I have a bias that that’s not true (though maybe I misunderstood the claim). It strikes me that even if JavaScript itself is fast, there are two trees that React is going to have to diff to make some patches, and therefore going direct will be faster, provided I don’t <a href="http://wilsonpage.co.uk/preventing-layout-thrashing/">trigger layout thrashing</a> or some other horror.</p>
 
 <figure class="no-shadow">
   <img src="/static/blog/react-plus-performance-equals-what/demo-site.jpg" />
