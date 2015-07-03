@@ -366,7 +366,7 @@
 
 <p>I ran the tests on both my MacBook Pro and my Nexus 5, using Chrome stable (currently 43). Both devices are at the upper end of the capability range, so it’s likely that <strong>the trend and not the actual values</strong> that apply more broadly.</p>
 
-<p>I used <code>window.performance.now()</code> either side of the JavaScript of note (ignoring the network requests, for example) to capture the amount of time spent processing the DOM changes, and I also set a <code>requestAnimationFrame</code> so I could measure see how long it took for the next frame to land. It’s only rough, but by marking the start of the next frame, we get a sense of how long it took for the page to render (styles, layout, paint, etc) once React or my Vanilla version finished.</p>
+<p>I used <code>window.performance.now()</code> either side of the JavaScript of note (ignoring the network requests, for example) to capture the amount of time spent processing the DOM changes, and I also set a <code>requestAnimationFrame</code> so I could measure to see how long it took for the next frame to land. It’s only rough, but by marking the start of the next frame, we get a sense of how long it took for the page to render (styles, layout, paint, etc) once React or my Vanilla version finished.</p>
 
 <h3 id="desktop-react">Desktop: React</h3>
 
@@ -474,6 +474,7 @@
   <li><strong>How is it on [insert browser here]?</strong> I don’t know. I <em>do know</em> that we should test it and find out, and I wouldn’t pretend that my testing here covers every eventuality.</li>
   <li><strong>Is the source code available?</strong> Not yet. Code I write at Google isn’t automatically OSS, but if there’s significant interest (<a href="https://twitter.com/aerotwist">let me know via Twitter</a>) I will try and get something sorted.</li>
   <li><strong>Did you use keys? React does better when it knows it can skip stuff</strong>. Yes, I thought it was ace for telling me that in the console as a warning. I added the keys so it could skip right past the photos it already had. There are probably other optimizations to be made, though. There always are.</li>
+  <li><strong>Did you set <code>shouldComponentUpdate</code> to false?</strong> Yeah that would definitely improve matters here, unless I need to update something like a “last updated” message on a per-photo basis. It seems to then become a case of planning your components for React, which is fair enough, but then I feel like that wouldn’t be any different if you were planning for Vanilla DOM updates, either. It’s the same thing: you always need to plan for your architecture.</li>
   <li><strong>Does the React team even care?</strong> Yes, I think they do. From the recent meeting notes, <a href="https://discuss.reactjs.org/t/meeting-notes-2015-06-05/699/5">they seem to care a lot about JS perf and React</a>. I’m always hopeful for the future of anything when people care about performance and, by extension, user experience.</li>
 </ol>
 
