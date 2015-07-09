@@ -1,0 +1,582 @@
+<!doctype html>
+<html itemscope itemtype="http://schema.org/Article">
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="author" content="Paul Lewis" />
+  <meta name="viewport" content="width=device-width">
+  <meta name="theme-color" content="#880043">
+
+  
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="//aerotwist.com/blog/feed/">
+  
+
+  
+  <meta name="twitter:site" content="@aerotwist">
+  <meta name="twitter:creator" content="@aerotwist">
+  <meta name="twitter:title" content="Spelunking in Decoratorland">
+  <meta name="twitter:description" content="There&#39;s a rumour of a suggestion of a thought of a concept about these things called decorators. All being well they&#39;ll land in ES7 or ES8, depending on how things pan out. I kind of do hope they pan out, because I think they&#39;re rather useful.">
+
+  <meta itemprop="name" content="Spelunking in Decoratorland">
+  <meta itemprop="description" content="There&#39;s a rumour of a suggestion of a thought of a concept about these things called decorators. All being well they&#39;ll land in ES7 or ES8, depending on how things pan out. I kind of do hope they pan out, because I think they&#39;re rather useful.">
+
+    
+    <meta itemprop="image" content="https://aerotwist.com/static/blog/spelunking-in-decoratorland/decorator.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://aerotwist.com/static/blog/spelunking-in-decoratorland/decorator.jpg">
+    
+
+  
+
+  <style>
+    
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 400;
+      src: local('Lato Regular'), local('Lato-Regular'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qIIYRU-oROkIk8vfvxw6QvesZW2xOQ-xsNqO47m55DA.woff) format('woff');
+    }
+    
+
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 700;
+      src: local('Lato Bold'), local('Lato-Bold'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qdgUG4U09HnJwhYI-uK18wLUuEpTyoUstqEm5AMlJo4.woff) format('woff');
+    }
+  </style>
+
+  <link rel="stylesheet" media="screen" href="/css/aerotwist.css" />
+  <title>Aerotwist - Spelunking in Decoratorland</title>
+  
+</head>
+
+
+<!--
+                              __          .__          __
+  _____    ___________  _____/  |___  _  _|__| _______/  |_
+  \__  \ _/ __ \_  __ \/  _ \   __\ \/ \/ /  |/  ___/\   __\
+   / __ \\  ___/|  | \(  <_> )  |  \     /|  |\___ \  |  |
+  (____  /\___  >__|   \____/|__|   \/\_/ |__/____  > |__|
+       \/     \/                                  \/
+
+  Giant ascii art embedded in every page of your site is how you
+  show other people that YOU CARE. Mainly I care about developers,
+  which is what I presume you are if you're all about viewing
+  the source. Clearly you're my kind of person.
+
+  This is v3, it's run through Jekyll, it's been fun to build,
+  there's always more to do, and you may notice that aside from
+  Google Analytics there is no JavaScript. None.
+
+  That's one way of many you keep your pages fast. I care about
+  keeping this site fast because your time is precious and I need
+  to get out of your way.
+
+  <3'z
+
+  Paul
+-->
+
+
+  <body class="blog">
+
+    <header>
+      <div class="container">
+        <div id="logo">
+  <a href="/">
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="100%" height="100%">
+    <g>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#6EBAD3" points="30.6,47.73 64.92,47.73 19.97,76.52"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ED95C0" points="48.198,0 53.008,14.06 39.31,24.76"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#880043" points="39.31,24.76 64.92,48 30.6,48"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#DA0A7A" points="39.31,24.76 64.92,48 53.008,14.06"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#0B7DAD" points="30.6,48 64.92,48 48,58.69"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#BDDEE8" points="47.76,58.69 64.92,47.73 75.14,76.73"></polygon>
+    </g>
+    </svg>
+  </a>
+</div>
+
+        <nav>
+  <ul>
+    
+      
+        <li><a href="/">Home</a></li>
+      
+    
+      
+        <li class="active"><a href="/blog/"> Blog</a></li>
+      
+    
+      
+        <li><a href="/tutorials/">Tutorials</a></li>
+      
+    
+      
+        <li><a href="/lab/">Lab</a></li>
+      
+    
+  </ul>
+
+  <svg id="left-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#AAAAAA" stroke-width="1" />
+    </svg>
+
+  <svg id="right-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#6EBAD3" stroke-opacity="0.3" stroke-width="1" />
+    </svg>
+</nav>
+
+      </div>
+    </header>
+    <section>
+
+      <div class="content">
+
+  
+  <svg version="1.1" class="shape-reference" xmlns="http://www.w3.org/2000/svg" width="666" height="333">
+  <defs>
+    <filter id="blur-8">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="8" />
+    </filter>
+    <filter id="blur-6">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="6" />
+    </filter>
+    <filter id="blur-4">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="4" />
+    </filter>
+  </defs>
+
+  <g id="color-block">
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#90a9c9" stroke="#90a9c9" stroke-width="0.6" points="40,99 78,117 96,135"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#bdcde0" stroke="#bdcde0" stroke-width="0.6" points="78,117 40,99 94,40"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#d3d5e6" stroke="#d3d5e6" stroke-width="0.6" points="78,117 94,40 132,65"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#bfb9d6" stroke="#bfb9d6" stroke-width="0.6" points="78,117 132,65 145,101"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#9ea0c6" stroke="#9ea0c6" stroke-width="0.6" points="96,135 78,117 145,101"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#a08cbc" stroke="#a08cbc" stroke-width="0.6" points="96,135 145,101 156,142"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#857bb2" stroke="#857bb2" stroke-width="0.6" points="103,154 96,135 156,142"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#656ba6" stroke="#656ba6" stroke-width="0.6" points="96,135 103,154 106,196"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#625694" stroke="#625694" stroke-width="0.6" points="106,196 103,154 149,181"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#524477" stroke="#524477" stroke-width="0.6" points="116,222 106,196 149,181"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#513667" stroke="#513667" stroke-width="0.6" points="116,222 149,181 168,228"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#342544" stroke="#342544" stroke-width="0.6" points="129,265 116,222 168,228"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#251227" stroke="#251227" stroke-width="0.6" points="129,265 168,228 218,287"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#35122f" stroke="#35122f" stroke-width="0.6" points="218,287 168,228 223,241"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#1e0616" stroke="#1e0616" stroke-width="0.6" points="218,287 223,241 289,293"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#4b0c33" stroke="#4b0c33" stroke-width="0.6" points="223,241 260,204 289,293"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#791d5e" stroke="#791d5e" stroke-width="0.6" points="223,241 214,186 260,204"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#612258" stroke="#612258" stroke-width="0.6" points="168,228 214,186 223,241"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#6e3371" stroke="#6e3371" stroke-width="0.6" points="168,228 149,181 214,186"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#8d4595" stroke="#8d4595" stroke-width="0.6" points="149,181 156,142 214,186"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#7e60a3" stroke="#7e60a3" stroke-width="0.6" points="149,181 103,154 156,142"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#a84d9e" stroke="#a84d9e" stroke-width="0.6" points="214,186 156,142 215,139"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#a92b84" stroke="#a92b84" stroke-width="0.6" points="214,186 215,139 260,204"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ce2e92" stroke="#ce2e92" stroke-width="0.6" points="260,204 215,139 299,131"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#e01081" stroke="#e01081" stroke-width="0.6" points="260,204 299,131 330,175"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#980855" stroke="#980855" stroke-width="0.6" points="320,254 260,204 330,175"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#4c062d" stroke="#4c062d" stroke-width="0.6" points="289,293 260,204 320,254"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#250013" stroke="#250013" stroke-width="0.6" points="289,293 320,254 399,275"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#3e0525" stroke="#3e0525" stroke-width="0.6" points="399,275 320,254 405,247"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#2c0a21" stroke="#2c0a21" stroke-width="0.6" points="399,275 405,247 493,269"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#3d1536" stroke="#3d1536" stroke-width="0.6" points="405,247 490,223 493,269"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#69184f" stroke="#69184f" stroke-width="0.6" points="405,247 397,197 490,223"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#6d0940" stroke="#6d0940" stroke-width="0.6" points="320,254 397,197 405,247"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#a40557" stroke="#a40557" stroke-width="0.6" points="320,254 330,175 397,197"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#e7097d" stroke="#e7097d" stroke-width="0.6" points="330,175 337,143 397,197"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f92692" stroke="#f92692" stroke-width="0.6" points="330,175 299,131 337,143"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f854a9" stroke="#f854a9" stroke-width="0.6" points="299,131 320,106 337,143"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ec7bbb" stroke="#ec7bbb" stroke-width="0.6" points="299,131 232,97 320,106"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#d870b4" stroke="#d870b4" stroke-width="0.6" points="215,139 232,97 299,131"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ce84bc" stroke="#ce84bc" stroke-width="0.6" points="215,139 199,114 232,97"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#b774b2" stroke="#b774b2" stroke-width="0.6" points="156,142 199,114 215,139"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#b68cbf" stroke="#b68cbf" stroke-width="0.6" points="156,142 145,101 199,114"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#d9bbd9" stroke="#d9bbd9" stroke-width="0.6" points="199,114 145,101 205,40"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#e2b9d9" stroke="#e2b9d9" stroke-width="0.6" points="232,97 199,114 205,40"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f4dced" stroke="#f4dced" stroke-width="0.6" points="232,97 205,40 274,43"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f2b1d7" stroke="#f2b1d7" stroke-width="0.6" points="232,97 274,43 320,106"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#e4d7e8" stroke="#e4d7e8" stroke-width="0.6" points="145,101 132,65 205,40"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#2f2541" stroke="#2f2541" stroke-width="0.6" points="493,269 490,223 626,231"/>
+  </g>
+</svg>
+
+  
+
+  <div class="masthead hatched">
+
+    
+      <svg class="behind-meta" width="666" height="333">
+        <use xlink:href="#color-block" />
+      </svg>
+
+      <svg class="left-meta" width="666" height="333">
+        <use xlink:href="#color-block" filter="url(#blur-6)" transform="translate(333 166) scale(-0.5 0.5) translate(-333 -167)" />
+      </svg>
+    
+
+    <div class="container">
+      <h2>Spelunking in Decoratorland</h2>
+      <p>There's a rumour of a suggestion of a thought of a concept about these things called decorators. All being well they'll land in ES7 or ES8, depending on how things pan out. I kind of do hope they pan out, because I think they're rather useful.</p>
+    </div>
+
+  </div>
+
+  <div class="container">
+    <div class="meta">
+
+      <ul>
+        <li class="last-updated">
+          <span class="name">Last updated:</span>
+          <span class="value">9 Jul 2015</span>
+        </li>
+
+        <li>
+          <span class="name">Est. Read Time:</span>
+          <span class="value">7 mins</span>
+        </li>
+
+        <li class="share">
+          <span class="name">Share this:</span>
+          <span class="value"><a href="http://www.twitter.com/share?url=https://aerotwist.com/blog/spelunking-in-decoratorland/&text=Spelunking in Decoratorland">Twitter</a></span>
+          <span class="value"><a href="https://plus.google.com/share?url=https://aerotwist.com/blog/spelunking-in-decoratorland/">Google+</a></span>
+        </li>
+        <li class="tags">
+          <span class="name">Tagged:</span>
+          <span class="value">
+          
+            #decorators, 
+          
+            #esfuture, 
+          
+            #yay
+          
+          </span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="container"><div class="left column">
+
+<p><strong>TL;DR</strong> I’ve been working on <a href="https://github.com/paullewis/samples/tree/gh-pages/decorators-es7/read-write">a (very) experimental decorator that should help you avoid layout thrashing</a>. Take a look!</p>
+
+<figure>
+  <img src="/static/blog/spelunking-in-decoratorland/decorator.jpg" title="In the UK we call spelunking 'caving', which just sounds like you gave up. How British." />
+  <figcaption>The decorator throwing warnings because you read when you should write, and vice-versa.</figcaption>
+</figure>
+
+<h2 id="decorator-pitch">Decorator pitch</h2>
+
+<p>If you’ve not had chance to look into them yet (wouldn’t blame you, they’re highly experimental and new) they’re a way to annotate a function. The annotation is then called as a function, the parameters for which describe the  function you annotated. This, in turn, gives you a way to silently wrap and supercharge the original function:</p>
+
+</div></div>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">class</span> <span class="nx">Person</span> <span class="p">{</span>
+
+  <span class="err">@</span><span class="nx">deprecated</span>
+  <span class="nx">getName</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">deprecated</span> <span class="p">(</span><span class="nx">target</span><span class="p">,</span> <span class="nx">name</span><span class="p">,</span> <span class="nx">descriptor</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// Supercharge the getName function.</span>
+<span class="p">}</span></code></pre></div>
+
+<div class="container"><div class="left column">
+
+<p>The key is that <code>@deprecated</code> decorator there. In magical Decoratorland the <code>deprecated</code> function below would be called and passed <code>getName</code> and we would have the chance to wrap it so if a developer called it it would perhaps fire off a <code>console.warn</code>.</p>
+
+<p>That’s one example, but there are more. As it happens, <a href="https://medium.com/@addyosmani/exploring-es7-decorators-76ecb65fb841">Addy Osmani has you covered with a detailed breakdown of various kinds</a>, and I’d definitely suggest checking out <a href="https://github.com/wycats/javascript-decorators">Yehuda Katz’s explainer</a>, since he, you know, created the whole thing. Both well worth your time.</p>
+
+<h2 id="elevator-pitch">Elevator pitch</h2>
+
+<p>Okay, let’s blast past the other stuff, assuming you have the general gist of decorators. What if we had a decorator that tries to protect you from <a href="http://wilsonpage.co.uk/preventing-layout-thrashing/">Layout Thrashing</a>? Let’s say you have something like this:</p>
+
+</div></div>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">class</span> <span class="nx">SampleController</span> <span class="p">{</span>
+
+  <span class="nx">constructor</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">writeSomeStuff</span><span class="p">();</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">readSomeStuff</span><span class="p">();</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">writeSomeStuff</span><span class="p">();</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">readSomeStuff</span><span class="p">();</span>
+  <span class="p">}</span>
+
+  <span class="nx">readSomeStuff</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;read some DOM properties&#39;</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="nx">writeSomeStuff</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;write some stuff to the DOM; change styles&#39;</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+
+<div class="container"><div class="left column">
+
+<p>In Normalsville that’s going to come out like <code>write</code>, <code>read</code>, <code>write</code>, <code>read</code>, which, if those were DOM operations, would be <em>the</em> dictionary definition of Layout Thrashing.</p>
+
+<p>Instead, let’s annotate functions that <strong>read</strong> layout properties of DOM elements (like <code>offsetWidth</code>) with a <strong><code>@read</code></strong> annotation, and those that <strong>mutate the DOM</strong> in some way with <strong><code>@write</code></strong>. What would that look like?</p>
+
+</div></div>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="c1">// Import the decorators.</span>
+<span class="kr">import</span> <span class="p">{</span> <span class="nx">read</span><span class="p">,</span> <span class="nx">write</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;../libs/ReadWrite/ReadWrite&#39;</span><span class="p">;</span>
+
+<span class="kr">class</span> <span class="nx">SampleController</span> <span class="p">{</span>
+
+  <span class="nx">constructor</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">writeSomeStuff</span><span class="p">();</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">readSomeStuff</span><span class="p">();</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">writeSomeStuff</span><span class="p">();</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">readSomeStuff</span><span class="p">();</span>
+  <span class="p">}</span>
+
+  <span class="err">@</span><span class="nx">read</span>
+  <span class="nx">readSomeStuff</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;read some DOM properties&#39;</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="err">@</span><span class="nx">write</span>
+  <span class="nx">writeSomeStuff</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;write some stuff to the DOM; change styles&#39;</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+
+<div class="container"><div class="left column">
+
+<p>With these decorators attached we’d expect to get <code>read</code>, <code>read</code>, <code>write</code>, <code>write</code>, and, because I’ve <a href="https://github.com/paullewis/samples/tree/gh-pages/decorators-es7/read-write">built a decorator that does just that</a>, your expectations would be entirely justified!</p>
+
+<p>This all may sound entirely like <a href="https://github.com/wilsonpage/fastdom">Wilson Page’s excellent FastDOM library</a>, and it should: it’s a very similar concept. There’s also <a href="https://github.com/google/closure-library/blob/master/closure/goog/dom/animationframe/animationframe.js">a Google library that does the same thing</a>, so it’s all in good company.</p>
+
+<p>I think they all raise an important question, though: <strong>doesn’t they change execution order, and isn’t that unpredictable?</strong> Yes, they do, and that makes it more difficult to debug and understand your code. The annotation is no worse than FastDOM or any other library doing the same thing, but if function A relies on B then you’d have to be super careful. Ideally speaking you would structure your code such that reads happen first, then writes, and then use the annotation to act as your guarantor.</p>
+
+<p>For the morbidly curious, here’s a rough snapshot of what the decorator code looks like for <code>@read</code>:</p>
+
+</div></div>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">export</span> <span class="kd">function</span> <span class="nx">read</span> <span class="p">(</span><span class="nx">target</span><span class="p">,</span> <span class="nx">name</span><span class="p">,</span> <span class="nx">descriptor</span><span class="p">)</span> <span class="p">{</span>
+
+  <span class="c1">// Take a copy of the original function that would have</span>
+  <span class="c1">// been called. Bind it to the target.</span>
+  <span class="kd">let</span> <span class="nx">readerOriginal</span> <span class="o">=</span> <span class="nx">descriptor</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span>
+  <span class="kd">let</span> <span class="nx">reader</span> <span class="o">=</span> <span class="nx">readerOriginal</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="nx">target</span><span class="p">);</span>
+
+  <span class="c1">// Now redefine the function.</span>
+  <span class="nx">descriptor</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(...</span><span class="nx">args</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="c1">// If the context has changed since the initial setup</span>
+    <span class="c1">// update the reference to reader.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="k">this</span> <span class="o">!==</span> <span class="nx">target</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">reader</span> <span class="o">=</span> <span class="nx">readerOriginal</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+      <span class="nx">target</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="c1">// Push the job onto an array, and schedule rAF.</span>
+    <span class="nx">jobLists</span><span class="p">.</span><span class="nx">read</span><span class="p">.</span><span class="nx">push</span><span class="p">({</span>
+      <span class="nx">reader</span><span class="p">,</span> <span class="nx">args</span>
+    <span class="p">});</span>
+
+    <span class="c1">// The rAF callback will process all</span>
+    <span class="c1">// read functions, then writes.</span>
+    <span class="nx">scheduleJobRAFIfNeeded</span><span class="p">();</span>
+  <span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+
+<div class="container"><div class="left column">
+
+<p>If the function in question were supposed to return something we may have a problem here, because it will be set to run in the next frame. You could work around this by returning a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a> which the original function could resolve, but it definitely changes the mechanics of the code.</p>
+
+<h2 id="supercharging-the-decorator">Supercharging the decorator</h2>
+
+<p>Even though you’ve rearranged reads and writes to their appropriate places, what happens if someone accidentally slips an <code>offsetTop</code> query into a <code>@write</code> function? That breaks the neatness of the whole “don’t read when writing” thing. Rearranging the call order gets us only so far!</p>
+
+<p>Well, we can solve this dilemma by hijacking <code>Element</code>’s prototype to warn when you call one of those “dangerous” properties when you shouldn’t:</p>
+
+</div></div>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="c1">// Just imagine this being done for every</span>
+<span class="c1">// &quot;dangerous&quot; property.</span>
+<span class="kd">let</span> <span class="nx">descriptor</span> <span class="o">=</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">getOwnPropertyDescriptor</span><span class="p">(</span>
+    <span class="nx">Element</span><span class="p">.</span><span class="nx">prototype</span><span class="p">,</span> <span class="s1">&#39;offsetTop&#39;</span><span class="p">);</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">descriptor</span><span class="p">)</span>
+  <span class="k">return</span><span class="p">;</span>
+
+<span class="kd">let</span> <span class="nx">fn</span> <span class="o">=</span> <span class="nx">descriptor</span><span class="p">.</span><span class="nx">get</span><span class="p">;</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">fn</span><span class="p">)</span>
+  <span class="k">return</span><span class="p">;</span>
+
+<span class="c1">// Redefine the getter to throw a warning.</span>
+<span class="nx">descriptor</span><span class="p">.</span><span class="nx">get</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="kd">let</span> <span class="nx">warning</span> <span class="o">=</span> <span class="err">`</span><span class="nx">DOM</span> <span class="nx">queried</span> <span class="p">(</span><span class="nx">$</span><span class="p">{</span><span class="nx">getter</span><span class="p">}</span> <span class="nx">getter</span><span class="p">)</span> <span class="nx">during</span> <span class="nx">write</span> <span class="nx">block</span><span class="err">`</span><span class="p">;</span>
+  <span class="kd">let</span> <span class="nx">e</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="nx">warning</span><span class="p">);</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">warn</span> <span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">stack</span><span class="p">);</span>
+  <span class="k">return</span> <span class="nx">fn</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+<span class="p">};</span>
+
+<span class="c1">// Now update the prototype.</span>
+<span class="nb">Object</span><span class="p">.</span><span class="nx">defineProperty</span><span class="p">(</span><span class="nx">Element</span><span class="p">.</span><span class="nx">prototype</span><span class="p">,</span>
+  <span class="s1">&#39;offsetTop&#39;</span><span class="p">,</span> <span class="nx">descriptor</span><span class="p">);</span></code></pre></div>
+
+<div class="container"><div class="left column">
+
+<p>If you call one of the “dangerous” properties the code will throw a warning, which I grant you could be a full-on error if I was feeling mean. (I’m not.) This concept came from <a href="https://twitter.com/dglazkov">Dimitri Glazkov</a>, who created <a href="https://github.com/dglazkov/nope-js">nope.js</a>, the very essence of which is to throw errors if you write when you should read and vice-versa. Standing on the shoulders of giants here, folks.</p>
+
+<p>Equally, when <code>@read</code>ing, we want to avoid all DOM mutations, so we can add a <code>MutationObserver</code> for that specific case:</p>
+
+</div></div>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="c1">// Create a mutation observer and watch everything.</span>
+<span class="c1">// I mean everything.</span>
+<span class="kd">var</span> <span class="nx">updateObserver</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">MutationObserver</span><span class="p">(</span><span class="nx">_</span> <span class="o">=&gt;</span> <span class="kc">null</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">updateObserverConfig</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">attributes</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+  <span class="nx">childList</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+  <span class="nx">characterData</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+  <span class="nx">subtree</span><span class="o">:</span> <span class="kc">true</span>
+<span class="p">};</span>
+
+<span class="c1">// Really, everything.</span>
+<span class="nx">updateObserver</span><span class="p">.</span><span class="nx">observe</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">,</span>
+  <span class="nx">updateObserverConfig</span><span class="p">);</span></code></pre></div>
+
+<div class="container"><div class="left column">
+
+<p>The slight snag here is that mutations come in asynchronously, so if you’ve moved onto something else (like finished doing your <code>@read</code>s) and disconnected the <code>MutationObserver</code> you may lose pending mutations. But lo, there is a function that can save us: <code>takeRecords()</code>! Call that sucker on the <code>MutationObserver</code> and it will hand you any mutations it hasn’t had chance to tell you about. Yay!</p>
+
+<h2 id="ifdefs-are-your-friend">#ifdefs are your friend</h2>
+
+<p>Finally, before wrapping this up, I wanted to share something I discovered, which others may already know, but I did not.</p>
+
+<p>What I wanted to do was to only throw the read / write warnings when you’re in development, <em>not</em> production. In something like C++ you’d have <code>#ifdef</code> which, okay, it’s a bit bleh, but it does the job. Here I wanted something similar: if you’re in production I want to bail on the code that would throw the warnings and hijack <code>Element</code>’s prototype because nobody wants <em>that</em> in production.</p>
+
+<p>The solution I chose was to use <a href="https://github.com/hughsk/envify"><code>envify</code></a>, which will do a transformation on your code in a similar way to Babel. Here’s the code from the gulpfile:</p>
+
+</div></div>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="c1">// Envify -&gt; Babelify -&gt; Browserify -&gt; WINNIFY!!!</span>
+<span class="k">return</span> <span class="nx">browserify</span><span class="p">({</span>
+  <span class="nx">entries</span><span class="o">:</span> <span class="p">[</span><span class="nx">url</span><span class="p">],</span>
+  <span class="nx">debug</span><span class="o">:</span> <span class="nx">isDevelopmentVersion</span>
+<span class="p">})</span>
+<span class="p">.</span><span class="nx">transform</span><span class="p">(</span><span class="nx">babelify</span><span class="p">.</span><span class="nx">configure</span><span class="p">({</span>
+  <span class="nx">optional</span><span class="o">:</span> <span class="p">[</span><span class="s2">&quot;es7.decorators&quot;</span><span class="p">]</span>
+<span class="p">}))</span>
+<span class="p">.</span><span class="nx">transform</span><span class="p">(</span><span class="nx">envify</span><span class="p">({</span>
+  <span class="nx">IS_PROD</span><span class="o">:</span> <span class="o">!</span><span class="nx">isDevelopmentVersion</span>
+<span class="p">}));</span></code></pre></div>
+
+<div class="container"><div class="left column">
+
+<p>The <code>IS_PROD</code> call is going to be found inside the code that Babelify has transformed, and it will get baked down to whatever value you’ve passed through. In this case I just use a variable that indicates whether this is prod or dev.</p>
+
+</div></div>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="c1">// Return early if we&#39;re in production.</span>
+<span class="k">if</span> <span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">IS_PROD</span><span class="p">)</span>
+  <span class="k">return</span><span class="p">;</span></code></pre></div>
+
+<div class="container"><div class="left column">
+
+<h2 id="can-haz-code">Can haz code?</h2>
+
+<p>If you’re interested in seeing more, <a href="https://github.com/paullewis/samples/tree/gh-pages/decorators-es7/read-write">you can find the code on GitHub</a>.</p>
+
+<h2 id="whats-next">What’s next?</h2>
+
+<p>Short answer: <em>I don’t know</em>. The code on GitHub is an example of how to do a decorator as much as anything, so hopefully if nothing else that’s useful.</p>
+
+<p>I’d like to ultimately figure out a way of merging it with FastDOM, because it has an existing developer base, and Wilson has done an excellent job with it.  But for now this works. I’m also pondering whether or not the behavior of rescheduling should be separated from the warning mechanism, so you can have warnings without any change to execution order, but it’s not as simple to set up as the current decorators, so I guess we’ll see…</p>
+
+<p>In any case, please do <a href="https://twitter.com/aerotwist">tell me what you think</a> of the whole idea!</p>
+
+<h2 id="some-thanks">Some thanks</h2>
+
+<ul>
+  <li><a href="https://twitter.com/Paul_Kinlan">Paul Kinlan</a> and <a href="https://twitter.com/domenic">Domenic Denicola</a>, for reviewing the code.</li>
+  <li><a href="https://twitter.com/sebmck">Sebastian McKenzie</a>, for giving me a bunch of help on trying to get the <code>#ifdef</code> stuff working.</li>
+</ul>
+
+<p>Always standing on the shoulders of giants, me. <code>&lt;3'z</code></p>
+
+</div></div>
+
+
+  <div class="footer-share container">
+    Share this on: <span class="value"><a href="http://www.twitter.com/share?url=https://aerotwist.com/blog/spelunking-in-decoratorland/&text=Spelunking in Decoratorland">Twitter</a></span>
+    <span class="value"><a href="https://plus.google.com/share?url=https://aerotwist.com/blog/spelunking-in-decoratorland/">Google+</a></span>
+  </div>
+
+  <div class="clear"></div>
+
+  
+    <svg class="left-shape" style="margin-left: -316.35px" width="466.2" height="932.4">
+      <use xlink:href="#color-block" filter="url(#blur-4)" transform="scale(-1.4 1.4) rotate(90)"/>
+    </svg>
+
+    <svg class="right-shape" width="166.5" height="599.4">
+      <use xlink:href="#color-block" filter="url(#blur-8)" transform="scale(-0.9 0.9) rotate(90)"/>
+    </svg>
+  
+
+</div>
+
+
+    </section>
+
+    <footer>
+
+      <div class="container">
+        <div class="bio panel">
+          <h2>Hello!</h2>
+          <p>My name is Paul. I work at <a href="http://www.google.com/" title="Some cloud company in the USA, I think.">Google</a> on the Chrome Developer Relations team as an advocate. I help developers improve the performance of their sites and apps.</p>
+
+          <p>You can find me on <a href="http://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a></p>
+        </div>
+
+        <div class="get-in-touch panel">
+          <h2>Get in touch</h2>
+          <p>I don’t bite. Honestly. You can find me on <a href="https://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a>, and I like hearing from people (pretty handy given my job, really) so say hi.</p>
+        </div>
+
+        <div class="subscribe panel">
+          <h2>Subscribe</h2>
+          <p>You should totally get the <a href="/blog/feed/">RSS feed</a>, or whatever it is you kids are using these days (I miss Reader.)</p>
+        </div>
+
+        <p class="disclaimer">Except as otherwise noted, the content of this page is licensed under the Creative Commons Attribution 3.0 License, and code samples are licensed under the Apache 2.0 License.</p>
+      </div>
+    </footer>
+
+    <script async="true">
+
+    /**
+     * Snow effect, from: HTML5 Rocks
+     * https://github.com/html5rocks/www.html5rocks.com/blob/9318b5755c8c17a4bd1761bca6b1b491e7fd17b8/content/index.html
+     */
+    !function(){function j(){f=c.clientWidth,g=c.clientHeight,d.width=f,d.height=g,e.fillStyle="#FFF";var a=i;i=f>300,!a&&i&&requestAnimFrame(n)}function n(){if(e.clearRect(0,0,f,g),i){for(h=0;b>h;h++)m=l[h],m.y+=m.vy,m.x+=m.vx,e.globalAlpha=m.o,e.beginPath(),e.arc(m.x,m.y,m.r,0,2*Math.PI,!1),e.closePath(),e.fill(),m.y>g&&m.reset();requestAnimFrame(n)}}var a=(new Date).getMonth();if(11===a){var b=300,c=document.querySelector(".masthead");if(c){var d=document.createElement("canvas"),e=d.getContext("2d"),f=c.clientWidth,g=c.clientHeight,h=0,i=!1,k=function(){this.x=0,this.y=0,this.vy=0,this.vx=0,this.r=0,this.reset()};k.prototype.reset=function(){this.x=Math.random()*f,this.y=Math.random()*-g,this.vy=1+3*Math.random(),this.vx=.5-Math.random(),this.r=1+2*Math.random(),this.o=.5+.5*Math.random()},d.style.position="absolute",d.style.left=d.style.top="0";var m,l=[];for(h=0;b>h;h++)m=new k,m.reset(),l.push(m);window.requestAnimFrame=function(){return window.requestAnimationFrame||window.webkitRequestAnimationFrame||window.mozRequestAnimationFrame||function(a){window.setTimeout(a,1e3/60)}}(),j(),window.addEventListener("resize",j,!1),c.appendChild(d)}}}();
+    </script>
+
+    <script type="text/javascript" async="true">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-13024693-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+  </body>
+</html>

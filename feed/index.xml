@@ -4,10 +4,27 @@
 
     <title>Aerotwist</title>
     <description>Pretty much whatever comes into my head.</description>
-    <lastBuildDate>2015-07-07 15:09:24 +0100</lastBuildDate>
+    <lastBuildDate>2015-07-09 16:30:40 +0100</lastBuildDate>
     <language>en</language>
     <generator>Aerotwist</generator>
     <atom:link href="https://aerotwist.com/feed/" rel="self" type="application/rss+xml" />
+    
+      <item>
+        <title>Spelunking in Decoratorland</title>
+        <description>
+          <![CDATA[There's a rumour of a suggestion of a thought of a concept about these things called decorators. All being well they'll land in ES7 or ES8, depending on how things pan out. I kind of do hope they pan out, because I think they're rather useful.]]>
+        </description>
+        <pubDate>Thu, 09 Jul 2015 00:00:00 +0000</pubDate>
+        <link>https://aerotwist.com/blog/spelunking-in-decoratorland</link>
+        <guid isPermaLink="true">/blog/spelunking-in-decoratorland</guid>
+        
+        <category>decorators</category>
+        
+        <category>esfuture</category>
+        
+        <category>yay</category>
+        
+      </item>
     
       <item>
         <title>React + Performance = ?</title>
