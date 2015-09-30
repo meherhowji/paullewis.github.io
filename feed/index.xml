@@ -4,10 +4,27 @@
 
     <title>Aerotwist</title>
     <description>Pretty much whatever comes into my head.</description>
-    <lastBuildDate>2015-07-09 16:41:22 +0100</lastBuildDate>
+    <lastBuildDate>2015-09-30 14:27:10 +0100</lastBuildDate>
     <language>en</language>
     <generator>Aerotwist</generator>
     <atom:link href="https://aerotwist.com/feed/" rel="self" type="application/rss+xml" />
+    
+      <item>
+        <title>CORS for Concern</title>
+        <description>
+          <![CDATA[.... and something I couldn't turn into a link-baity title for Mixed Content. (Sorrynotsorry.) So there's this podcast sample web app I want to ship, but I can't. Well, more accurately, I won't. I wanted to explain why I'm taking that stance, and to ask for a little help.]]>
+        </description>
+        <pubDate>Wed, 30 Sep 2015 00:00:00 +0000</pubDate>
+        <link>https://aerotwist.com/blog/cors-for-concern</link>
+        <guid isPermaLink="true">/blog/cors-for-concern</guid>
+        
+        <category>cors</category>
+        
+        <category>mixed content</category>
+        
+        <category>ux</category>
+        
+      </item>
     
       <item>
         <title>Spelunking in Decoratorland</title>

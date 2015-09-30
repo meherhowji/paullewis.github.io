@@ -1,0 +1,436 @@
+<!doctype html>
+<html itemscope itemtype="http://schema.org/Article">
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="author" content="Paul Lewis" />
+  <meta name="viewport" content="width=device-width">
+  <meta name="theme-color" content="#880043">
+
+  
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="//aerotwist.com/blog/feed/">
+  
+
+  
+  <meta name="twitter:site" content="@aerotwist">
+  <meta name="twitter:creator" content="@aerotwist">
+  <meta name="twitter:title" content="CORS for Concern">
+  <meta name="twitter:description" content=".... and something I couldn&#39;t turn into a link-baity title for Mixed Content. (Sorrynotsorry.) So there&#39;s this podcast sample web app I want to ship, but I can&#39;t. Well, more accurately, I won&#39;t. I wanted to explain why I&#39;m taking that stance, and to ask for a little help.">
+
+  <meta itemprop="name" content="CORS for Concern">
+  <meta itemprop="description" content=".... and something I couldn&#39;t turn into a link-baity title for Mixed Content. (Sorrynotsorry.) So there&#39;s this podcast sample web app I want to ship, but I can&#39;t. Well, more accurately, I won&#39;t. I wanted to explain why I&#39;m taking that stance, and to ask for a little help.">
+
+    
+    <meta name="twitter:card" content="summary">
+    
+
+  
+
+  <style>
+    
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 400;
+      src: local('Lato Regular'), local('Lato-Regular'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qIIYRU-oROkIk8vfvxw6QvesZW2xOQ-xsNqO47m55DA.woff) format('woff');
+    }
+    
+
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 700;
+      src: local('Lato Bold'), local('Lato-Bold'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qdgUG4U09HnJwhYI-uK18wLUuEpTyoUstqEm5AMlJo4.woff) format('woff');
+    }
+  </style>
+
+  <link rel="stylesheet" media="screen" href="/css/aerotwist.css" />
+  <title>Aerotwist - CORS for Concern</title>
+  
+</head>
+
+
+<!--
+                              __          .__          __
+  _____    ___________  _____/  |___  _  _|__| _______/  |_
+  \__  \ _/ __ \_  __ \/  _ \   __\ \/ \/ /  |/  ___/\   __\
+   / __ \\  ___/|  | \(  <_> )  |  \     /|  |\___ \  |  |
+  (____  /\___  >__|   \____/|__|   \/\_/ |__/____  > |__|
+       \/     \/                                  \/
+
+  Giant ascii art embedded in every page of your site is how you
+  show other people that YOU CARE. Mainly I care about developers,
+  which is what I presume you are if you're all about viewing
+  the source. Clearly you're my kind of person.
+
+  This is v3, it's run through Jekyll, it's been fun to build,
+  there's always more to do, and you may notice that aside from
+  Google Analytics there is no JavaScript. None.
+
+  That's one way of many you keep your pages fast. I care about
+  keeping this site fast because your time is precious and I need
+  to get out of your way.
+
+  <3'z
+
+  Paul
+-->
+
+
+  <body class="blog">
+
+    <header>
+      <div class="container">
+        <div id="logo">
+  <a href="/">
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="100%" height="100%">
+    <g>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#6EBAD3" points="30.6,47.73 64.92,47.73 19.97,76.52"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ED95C0" points="48.198,0 53.008,14.06 39.31,24.76"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#880043" points="39.31,24.76 64.92,48 30.6,48"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#DA0A7A" points="39.31,24.76 64.92,48 53.008,14.06"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#0B7DAD" points="30.6,48 64.92,48 48,58.69"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#BDDEE8" points="47.76,58.69 64.92,47.73 75.14,76.73"></polygon>
+    </g>
+    </svg>
+  </a>
+</div>
+
+        <nav>
+  <ul>
+    
+      
+        <li><a href="/">Home</a></li>
+      
+    
+      
+        <li class="active"><a href="/blog/"> Blog</a></li>
+      
+    
+      
+        <li><a href="/tutorials/">Tutorials</a></li>
+      
+    
+      
+        <li><a href="/lab/">Lab</a></li>
+      
+    
+  </ul>
+
+  <svg id="left-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#AAAAAA" stroke-width="1" />
+    </svg>
+
+  <svg id="right-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#6EBAD3" stroke-opacity="0.3" stroke-width="1" />
+    </svg>
+</nav>
+
+      </div>
+    </header>
+    <section>
+
+      <div class="content">
+
+  
+  <svg version="1.1" class="shape-reference" xmlns="http://www.w3.org/2000/svg" width="425" height="321">
+  <defs>
+    <filter id="blur-8">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="8" />
+    </filter>
+    <filter id="blur-6">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="6" />
+    </filter>
+    <filter id="blur-4">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="4" />
+    </filter>
+  </defs>
+
+  <g id="color-block">
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#181726" stroke="#181726" stroke-width="0.6" points="40,249 87,230 123,278"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#303d5d" stroke="#303d5d" stroke-width="0.6" points="40,249 77,162 87,230"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#5f3a71" stroke="#5f3a71" stroke-width="0.6" points="154,188 87,230 77,162"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#5d2154" stroke="#5d2154" stroke-width="0.6" points="87,230 154,188 163,218"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#301530" stroke="#301530" stroke-width="0.6" points="123,278 87,230 163,218"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#25081c" stroke="#25081c" stroke-width="0.6" points="123,278 163,218 189,276"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#4e062e" stroke="#4e062e" stroke-width="0.6" points="189,276 163,218 214,223"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#2b0116" stroke="#2b0116" stroke-width="0.6" points="249,281 189,276 214,223"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#340620" stroke="#340620" stroke-width="0.6" points="269,252 249,281 214,223"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#160511" stroke="#160511" stroke-width="0.6" points="249,281 269,252 289,267"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#34132f" stroke="#34132f" stroke-width="0.6" points="289,267 269,252 314,209"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#2c1933" stroke="#2c1933" stroke-width="0.6" points="340,249 289,267 314,209"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#3f3056" stroke="#3f3056" stroke-width="0.6" points="314,209 337,187 340,249"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#6d3c7b" stroke="#6d3c7b" stroke-width="0.6" points="337,187 314,209 285,160"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#7d4e97" stroke="#7d4e97" stroke-width="0.6" points="285,160 337,147 337,187"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#936aaa" stroke="#936aaa" stroke-width="0.6" points="337,147 285,160 336,119"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#7d87b7" stroke="#7d87b7" stroke-width="0.6" points="337,147 336,119 381,140"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#5d6aa5" stroke="#5d6aa5" stroke-width="0.6" points="337,187 337,147 381,140"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#8f9fc5" stroke="#8f9fc5" stroke-width="0.6" points="336,119 356,97 381,140"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#b1aecf" stroke="#b1aecf" stroke-width="0.6" points="336,119 336,88 356,97"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#c5aacf" stroke="#c5aacf" stroke-width="0.6" points="336,119 276,84 336,88"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#c788be" stroke="#c788be" stroke-width="0.6" points="258,133 276,84 336,119"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#e383be" stroke="#e383be" stroke-width="0.6" points="258,133 231,102 276,84"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f550a6" stroke="#f550a6" stroke-width="0.6" points="258,133 185,141 231,102"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#fb1c8d" stroke="#fb1c8d" stroke-width="0.6" points="185,141 258,133 184,167"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ca1b84" stroke="#ca1b84" stroke-width="0.6" points="184,167 154,188 185,141"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#971968" stroke="#971968" stroke-width="0.6" points="163,218 154,188 184,167"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#940c58" stroke="#940c58" stroke-width="0.6" points="163,218 184,167 214,223"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#aa065c" stroke="#aa065c" stroke-width="0.6" points="273,200 214,223 184,167"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#600e40" stroke="#600e40" stroke-width="0.6" points="269,252 214,223 273,200"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#551c4a" stroke="#551c4a" stroke-width="0.6" points="269,252 273,200 314,209"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#7c2c71" stroke="#7c2c71" stroke-width="0.6" points="314,209 273,200 285,160"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#b32c8b" stroke="#b32c8b" stroke-width="0.6" points="273,200 258,133 285,160"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#d61280" stroke="#d61280" stroke-width="0.6" points="273,200 184,167 258,133"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#b261a9" stroke="#b261a9" stroke-width="0.6" points="285,160 258,133 336,119"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#b63492" stroke="#b63492" stroke-width="0.6" points="185,141 154,188 107,143"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#d376b6" stroke="#d376b6" stroke-width="0.6" points="107,143 172,68 185,141"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f57ebd" stroke="#f57ebd" stroke-width="0.6" points="185,141 172,68 231,102"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#fcc0df" stroke="#fcc0df" stroke-width="0.6" points="172,68 203,40 231,102"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f9cde5" stroke="#f9cde5" stroke-width="0.6" points="231,102 203,40 276,55"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ebb5d8" stroke="#ebb5d8" stroke-width="0.6" points="276,84 231,102 276,55"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#efd5e9" stroke="#efd5e9" stroke-width="0.6" points="276,84 276,55 284,55"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ead0e5" stroke="#ead0e5" stroke-width="0.6" points="276,84 284,55 302,65"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#dbc2dd" stroke="#dbc2dd" stroke-width="0.6" points="276,84 302,65 336,88"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#854995" stroke="#854995" stroke-width="0.6" points="154,188 77,162 107,143"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#cbcce1" stroke="#cbcce1" stroke-width="0.6" points="356,97 336,88 348,53"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#c1cee1" stroke="#c1cee1" stroke-width="0.6" points="385,93 356,97 348,53"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#8fb0cd" stroke="#8fb0cd" stroke-width="0.6" points="381,140 356,97 385,93"/>
+  </g>
+</svg>
+
+  
+
+  <div class="masthead hatched">
+
+    
+      <svg class="behind-meta" width="425" height="321">
+        <use xlink:href="#color-block" />
+      </svg>
+
+      <svg class="left-meta" width="425" height="321">
+        <use xlink:href="#color-block" filter="url(#blur-6)" transform="translate(212 160) scale(-0.5 0.5) translate(-213 -161)" />
+      </svg>
+    
+
+    <div class="container">
+      <h2>CORS for Concern</h2>
+      <p>.... and something I couldn't turn into a link-baity title for Mixed Content. (Sorrynotsorry.) So there's this podcast sample web app I want to ship, but I can't. Well, more accurately, I won't. I wanted to explain why I'm taking that stance, and to ask for a little help.</p>
+    </div>
+
+  </div>
+
+  <div class="container">
+    <div class="meta">
+
+      <ul>
+        <li class="last-updated">
+          <span class="name">Last updated:</span>
+          <span class="value">30 Sep 2015</span>
+        </li>
+
+        <li>
+          <span class="name">Est. Read Time:</span>
+          <span class="value">13 mins</span>
+        </li>
+
+        <li class="share">
+          <span class="name">Share this:</span>
+          <span class="value"><a href="http://www.twitter.com/share?url=https://aerotwist.com/blog/cors-for-concern/&text=CORS for Concern">Twitter</a></span>
+          <span class="value"><a href="https://plus.google.com/share?url=https://aerotwist.com/blog/cors-for-concern/">Google+</a></span>
+        </li>
+        <li class="tags">
+          <span class="name">Tagged:</span>
+          <span class="value">
+          
+            #cors, 
+          
+            #mixed content, 
+          
+            #ux
+          
+          </span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="container"><div class="left column"><p>So the podcast app is a proof-of-concept to try out a bunch of APIs, and, as is normal for me, to battle-test ideas I have for the best way to approach modern development. Ultimately I’d love to push the source code and the app itself, much as I have done for <a href="https://voice-memos.appspot.com/">Voice Memos</a> and <a href="https://guitar-tuner.appspot.com">Guitar Tuner</a>.</p>
+
+<p>This kind of app, at many levels, feels like something that the web should be good for. It’s a case of ingesting others’ feeds &amp; album art, putting their mp3 files in <code>&lt;audio&gt;</code> elements, and making a neat UI in which to present the whole experience. Looking at the tools at our disposal for all this, we have the Cache API, we have Service Workers, we have IndexedDB (which remains a horror show, but hey it does work if you talk to it nicely), and the graphics performance of many browsers can support the kinds of effects I love to make.</p>
+
+<figure class="no-shadow">
+<img src="/static/blog/cors-for-concern/203-podcast_framed_jpg.jpg" alt="An artist's impression of two idiots who have a podcast about the web" />
+  <figcaption>An artist's impression of two idiots who have a podcast about the web</figcaption>
+</figure>
+
+<blockquote>
+  <p>This kind of app, at many levels, feels like something that the web should be good for.</p>
+</blockquote>
+
+<p>Here’s the thing, though: <strong>I can’t ship the app</strong>. I can’t because I’d also need to spin up a proxy for all the assets, and, if I mean business, the proxy would also need to handle the (very large) mp3 files as well. All of this is due to <strong>CORS</strong>, <strong>Mixed Content</strong>, and the lack of an escape hatch.</p>
+
+<h2 id="tldr">TL;DR</h2>
+<p>If you want the cheat list (hey, who wouldn’t?), here’s what functionality is locked off unless I use a proxy. It’s worth noting that I want to be on HTTPS so that I can use a Service Worker:</p>
+
+<table class="left-titled left-highlight">
+  <thead>
+    <tr>
+      <th>Feature</th>
+      <th>Prevented by CORS</th>
+      <th>Prevented by Mixed Content</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Reading insecure podcast feed data</td>
+      <td>Yes</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>Analyzing insecure image assets (for UI colors)</td>
+      <td>Yes</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>Background-loading insecure mp3 files for offline (in a Service Worker)</td>
+      <td>No</td>
+      <td>Yes</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="cors-and-mixed-content-warnings-are-necessary">CORS and Mixed Content Warnings Are Necessary</h2>
+<p><a href="https://annevankesteren.nl/2015/02/same-origin-policy">CORS saves the bacon of many an intranet</a>. The last thing you want is a random site being able to ping a load of addresses in the background and discover all manner of things about your SuperSecretProject™ without your knowledge. That would be bad, so it’s very good that browsers prevent that from happening. Browser vendors, then, can feel good about things: they have protected intranets and other sites from inadvertently leaking data. Internet high five!</p>
+
+<blockquote>
+  <p>The last thing you want is a random site being able to ping a load of addresses in the background and discover all manner of things about your SuperSecretProject™ without your knowledge.</p>
+</blockquote>
+
+<p>Mixed Content warnings, or even just plain not-loading-a-resource-because-it’s-over-an-insecure-connection, is also a good thing because the user should know that the contract of HTTPS was broken by the developer loading something over HTTP. Another Internet high five!</p>
+
+<p>While we’re here, however, it’s interesting to note that native doesn’t observe CORS restrictions or Mixed Content (today, at least, though <a href="http://www.cso.com.au/article/577197/apple-tells-ios-9-developers-use-https-exclusively/">there does seem to be a shift</a>) and, as it happens, most people <em>seem</em> to consume podcasts through native apps. The <a href="http://dictionary.cambridge.org/dictionary/english/knock-on-effect">knock-on effect</a> means that nobody includes the CORS header (even, ironically, podcasts about the web), and they also serve their assets over HTTP. There’s no incentive to not.</p>
+
+<p>I think the difference between web and native’s permissions model is a function of usage: we actively install apps, granting permissions as we do so (in some cases implicitly), but we skim through sites, and we expect browsers to keep us safe while we do so. It’s right in the web’s model for CORS to exist. CORS, however, has no user permissions component, so the restriction ends up being almost entirely in the hands of SysOps.</p>
+
+<h2 id="cors-and-mixed-content-have-consequences">CORS and Mixed Content have Consequences</h2>
+<p>CORS, and it’s good buddy Mixed Content warnings, excellent as they are for protecting users (and they <em>are</em> excellent), bring everyone, developers, users, and publishers some side-effects:</p>
+
+<ul>
+  <li><strong>Developers need to make proxies / directories.</strong> I have started calling this “resource laundering”, because that’s what it really is. Depending on the app in question, this ranges from “meh” to “excuse-me-wat”. The user is now really being <a href="https://en.wikipedia.org/wiki/Man-in-the-middle_attack">MITM</a>’d by the app for any HTTP resource (or potentially HTTPS, too, depending on the remote side’s config). As the app developer, you’ll probably want to offer some app-wide store or directory, so that you can validate the feed once, then offer it all of your users. That’s going to involve a fair amount of stream parsing, validation and caching logic. All of which equates to time, cost, and expertise.</li>
+  <li><strong>Developers have to pay the bandwidth bill.</strong> There’s an interesting side-effect of Service Workers being HTTPS: mixed mode content. Most podcast audio files are served over HTTP. If you request the file from a page you’re going to get a warning, which is ick but understandable, but if you want to request the file in the background with a fetch inside of a Service Worker you’re out of luck: if there’s no client making the request the fetch will fail. This is the correct behaviour because there’s no client to put up the mixed content warning, and that wipes out the possibility of doing background sync to get mp3 files. The solution is to also take a copy of the mp3 files yourself, so you can guarantee they are served over HTTPS, but now you have to pay every time a user downloads an mp3 file.</li>
+  <li><strong>Publishers’ ads &amp; analytics get broken.</strong> If I start proxying on behalf of all my users, the publishers of that content will get – say – 1 hit from me, and then the users of my podcast won’t register their hit because they got it from my server. That would affect any business they get based on their traffic since it’s no longer being reported accurately. The more successful the app, the worse it would be for publishers.</li>
+  <li><strong>Developers have to take undue responsibility.</strong> From a personal point-of-view – and I doubt I’m the only person for whom this is true – I don’t want to take on the responsibility of proxying others’ data, because there’s nothing I can do to stop people requesting all kinds of awful things with it. I have to think super defensively about how best to protect, launder and vet everything that passes through it, which shifts the nature of building for the web to somewhere I find genuinely uncomfortable. That’s over and above the cost and complexity, which were already dealbreakers for me.</li>
+  <li><strong>User privacy potentially takes a hit.</strong> A side effect of using an app with a proxy is that everyone’s usage habits are shared by default with the app creator, which in this case would be me. Now, sure, anyone could beacon that data back, and maybe I’d make the most of it on their behalf and offer recommendation services, but it seems to me that making that the default state isn’t necessarily in the user’s best interests.</li>
+</ul>
+
+<p>Of course the upside is you get to make sure every podcast’s feed is valid, and you get to serve it with HTTPS. I guess every cloud has a silver lining. It still doesn’t feel to me like the end justifies the means.</p>
+
+<h2 id="the-purist-answer">The Purist Answer</h2>
+
+<blockquote>
+  <p>Every site should be HTTPS and serve their publicly accessible content with the CORS header… In Realitysville (population: me, sadly), that’s not going to happen any time soon.</p>
+</blockquote>
+
+<p>Some of the people to whom I’ve spoken have given me the “right answer”, which is that every site should be HTTPS and serve their publicly accessible content with the CORS header: <code>Access-Control-Allow-Origin: *</code>. That is correct, and it would evaporate my issue overnight. In Realitysville (population: me, sadly), that’s not going to happen any time soon. So far not one podcast I’ve checked includes the CORS header and, even if it did, if it serves assets over HTTP then background sync fetches in Service Workers would fail, or if I loaded them directly there’d be a necessary but scary-looking warning to users, which isn’t the experience I would want to ship.</p>
+
+<h2 id="the-cmon-its-okay-answer">The “C’mon, it’s Okay” Answer</h2>
+
+<p>Many people I’ve spoken to don’t see writing a proxy as tragic, let alone an issue. At the pragmatic level I can see that: if you’re in the business of shipping an app, you may as well just suck it up and get on with it. But there’s something really wrong to my mind if the best solution we can muster is tantamount to “just send your HTTP traffic through me; I’ll not do anything with it, pinky promise.” Sorry, I don’t want to be that developer, and I don’t see why others should be, either.</p>
+
+<p>I also think there’s a reasonable economic argument against this objection, too: if your app is relatively successful, and its user base means you transfer in ~1TB of data, and ~10TB out every month (not an unreasonable estimate if the average podcast file weighs in at 50MB, there are four new episodes a month, your user base subscribes to 4 or 5 podcasts, and you have in the region of 10k people using your app) then your bandwidth bill would be around <strong>$920 a month</strong> on Amazon’s S3 (<a href="http://calculator.s3.amazonaws.com/index.html">hit their calculator and pop in 10TB for outgoing and 1TB for incoming</a>).That’s a significant cost, and I didn’t even get to handling feeds, images, APIs, disk space, RAM, or CPU time.</p>
+
+<p>Also, as I said before, the content publisher misses out on content hits if I cache their file.</p>
+
+<h2 id="the-how-about-a-big-proxy-answer">The “How About a Big Proxy?” Answer</h2>
+
+<p>Mozilla’s Anne van Kesteren, and others besides, have <a href="https://annevankesteren.nl/2015/03/public-internet-proxy">suggested that browsers could perhaps ship with a proxy</a>. This could be helpful inasmuch as it would circumvent the need for developers to ship their own proxies. That’s a win for ergonomics. But I think there are issues there, too: if the resource is delivered over HTTPS and without the CORS header, the proxy won’t be able to access it on behalf of the client (or, strictly speaking, it <em>shouldn’t</em>), and the client would be back to where it is. Any proxy, however big or small, also requires the user’s trust, because it stands between the client and the data it needs to access.</p>
+
+<h2 id="the-web-as-an-app-platform">The Web as an App Platform</h2>
+
+<p>People tell me they want the web to be a first class app platform; I want them to be right, but as it stands I don’t see how it can be without some progress in this area. Yes, intranets and other sites <em>are</em> protected, and that’s <em>absolutely the right thing to do</em> (please don’t read this post as me having a direct objection to CORS or Mixed Content; I don’t), but we need something more here to not simply move the issue elsewhere, and create new problems in the process.</p>
+
+<blockquote>
+  <p>I don’t want to vomit another proxy onto the web, and I don’t want anyone else to, either.</p>
+</blockquote>
+
+<p>I have no idea what the right solution is, but I also didn’t think up many of the awesome improvements the web has seen in the past few years, so while <em>I</em> might not have an answer, I really hope someone else might. Maybe the right solution is that browsers get better at detecting what is on an intranet and what is publicly available outside of the current network. I don’t know, but I believe we need <em>something</em> if we genuinely want the web to be first class app platform. I don’t want to vomit another proxy onto the web, and I don’t want anyone else to, either.</p>
+
+<p>If you have any great ideas, <a href="https://twitter.com/aerotwist">let me know</a>.</p>
+
+<p class="thanks"><em>Thanks to Mike West, Joel Weinberger, Adrienne Porter Felt, and Alex Russell for reviewing this post and helping me figure out where I wasn’t being clear. Thanks to Mike Mahemoff for helping me understand what running a service like this is like for real. Thanks to Paul Kinlan for not insisting I include a Corrs lyric before pushing this post live… that was a very real danger.</em></p>
+</div></div>
+
+  <div class="footer-share container">
+    Share this on: <span class="value"><a href="http://www.twitter.com/share?url=https://aerotwist.com/blog/cors-for-concern/&text=CORS for Concern">Twitter</a></span>
+    <span class="value"><a href="https://plus.google.com/share?url=https://aerotwist.com/blog/cors-for-concern/">Google+</a></span>
+  </div>
+
+  <div class="clear"></div>
+
+  
+    <svg class="left-shape" style="margin-left: -304.95px" width="449.4" height="595.0">
+      <use xlink:href="#color-block" filter="url(#blur-4)" transform="scale(-1.4 1.4) rotate(90)"/>
+    </svg>
+
+    <svg class="right-shape" width="160.5" height="382.5">
+      <use xlink:href="#color-block" filter="url(#blur-8)" transform="scale(-0.9 0.9) rotate(90)"/>
+    </svg>
+  
+
+</div>
+
+
+    </section>
+
+    <footer>
+
+      <div class="container">
+        <div class="bio panel">
+          <h2>Hello!</h2>
+          <p>My name is Paul. I work at <a href="http://www.google.com/" title="Some cloud company in the USA, I think.">Google</a> on the Chrome Developer Relations team as an advocate. I help developers improve the performance of their sites and apps.</p>
+
+          <p>You can find me on <a href="http://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a></p>
+        </div>
+
+        <div class="get-in-touch panel">
+          <h2>Get in touch</h2>
+          <p>I don’t bite. Honestly. You can find me on <a href="https://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a>, and I like hearing from people (pretty handy given my job, really) so say hi.</p>
+        </div>
+
+        <div class="subscribe panel">
+          <h2>Subscribe</h2>
+          <p>You should totally get the <a href="/blog/feed/">RSS feed</a>, or whatever it is you kids are using these days (I miss Reader.)</p>
+        </div>
+
+        <p class="disclaimer">Except as otherwise noted, the content of this page is licensed under the Creative Commons Attribution 3.0 License, and code samples are licensed under the Apache 2.0 License.</p>
+      </div>
+    </footer>
+
+    <script async="true">
+
+    /**
+     * Snow effect, from: HTML5 Rocks
+     * https://github.com/html5rocks/www.html5rocks.com/blob/9318b5755c8c17a4bd1761bca6b1b491e7fd17b8/content/index.html
+     */
+    !function(){function j(){f=c.clientWidth,g=c.clientHeight,d.width=f,d.height=g,e.fillStyle="#FFF";var a=i;i=f>300,!a&&i&&requestAnimFrame(n)}function n(){if(e.clearRect(0,0,f,g),i){for(h=0;b>h;h++)m=l[h],m.y+=m.vy,m.x+=m.vx,e.globalAlpha=m.o,e.beginPath(),e.arc(m.x,m.y,m.r,0,2*Math.PI,!1),e.closePath(),e.fill(),m.y>g&&m.reset();requestAnimFrame(n)}}var a=(new Date).getMonth();if(11===a){var b=300,c=document.querySelector(".masthead");if(c){var d=document.createElement("canvas"),e=d.getContext("2d"),f=c.clientWidth,g=c.clientHeight,h=0,i=!1,k=function(){this.x=0,this.y=0,this.vy=0,this.vx=0,this.r=0,this.reset()};k.prototype.reset=function(){this.x=Math.random()*f,this.y=Math.random()*-g,this.vy=1+3*Math.random(),this.vx=.5-Math.random(),this.r=1+2*Math.random(),this.o=.5+.5*Math.random()},d.style.position="absolute",d.style.left=d.style.top="0";var m,l=[];for(h=0;b>h;h++)m=new k,m.reset(),l.push(m);window.requestAnimFrame=function(){return window.requestAnimationFrame||window.webkitRequestAnimationFrame||window.mozRequestAnimationFrame||function(a){window.setTimeout(a,1e3/60)}}(),j(),window.addEventListener("resize",j,!1),c.appendChild(d)}}}();
+    </script>
+
+    <script type="text/javascript" async="true">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-13024693-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+  </body>
+</html>
