@@ -4,7 +4,7 @@
 
     <title>Aerotwist</title>
     <description>Pretty much whatever comes into my head.</description>
-    <lastBuildDate>2015-10-01 21:25:03 +0100</lastBuildDate>
+    <lastBuildDate>2015-10-01 21:25:28 +0100</lastBuildDate>
     <language>en</language>
     <generator>Aerotwist</generator>
     <atom:link href="https://aerotwist.com/feed/" rel="self" type="application/rss+xml" />
@@ -20,7 +20,7 @@
         
         <category>cors</category>
         
-        <category>mixed content</category>
+        <category>mixedcontent</category>
         
         <category>ux</category>
         
