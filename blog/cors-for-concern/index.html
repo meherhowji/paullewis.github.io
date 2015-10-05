@@ -317,7 +317,7 @@
 <p>I think the difference between web and native’s permissions model is a function of usage: we actively install apps, granting permissions as we do so (in some cases implicitly), but we skim through sites, and we expect browsers to keep us safe while we do so. It’s right in the web’s model for CORS to exist. CORS, however, has no user permissions component, so the restriction ends up being almost entirely in the hands of SysOps.</p>
 
 <h2 id="cors-and-mixed-content-have-consequences">CORS and Mixed Content have Consequences</h2>
-<p>CORS, and its good buddy Mixed Content warnings, excellent as they are for protecting users (and they <em>are</em> excellent), bring everyone, developers, users, and publishers some side-effects:</p>
+<p>CORS, and its good buddy Mixed Content warnings, excellent as they are for protecting users (and they <em>are</em> excellent), bring developers, users, and publishers some unpleasant side-effects:</p>
 
 <ul>
   <li><strong>Developers need to make proxies / directories.</strong> I have started calling this “resource laundering”, because that’s what it really is. Depending on the app in question, this ranges from “meh” to “excuse-me-wat”. The user is now really being <a href="https://en.wikipedia.org/wiki/Man-in-the-middle_attack">MITM</a>’d by the app for any HTTP resource (or potentially HTTPS, too, depending on the remote side’s config). As the app developer, you’ll probably want to offer some app-wide store or directory, so that you can validate the feed once, then offer it to all of your users. That’s going to involve a fair amount of stream parsing, validation, and caching logic. All of which equates to time, cost, and expertise.</li>
