@@ -358,13 +358,13 @@
 <p>Okay, you have a trace file. Let’s assume you got it for a page load, either from DevTools or from WebPagetest. You can now give it to Big Rig to analyze. If you give it to the web app then you’ll get charting and what have you, but if you give it to the CLI / module you’ll get JSON back. (If you want it looking nicer just go add <code>--pretty-print</code>.)</p>
 
 <figure class="no-shadow">
-  <img alt="Scroll Test Results in Big Rig's CLI" src="/static/blog/big-rig/scrolltest.png" />
+  <img alt="Scroll Test Results in Big Rig's CLI" src="/static/blog/big-rig/bigrig.png" />
 </figure>
 
 <p>Or, in the web app:</p>
 
 <figure>
-  <img alt="Scroll Test Results in Big Rig's web app" src="/static/blog/big-rig/scrolltest-web-app.png" />
+  <img alt="Scroll Test Results in Big Rig's web app" src="/static/blog/big-rig/bigrig-wa.png" />
 </figure>
 
 <p>Big Rig is parsing the trace (via the mighty Chrome Telemetry and Chrome Trace Viewer code - standing on the shoulders of giants here, folks) into a model, and stepping through looking for records of a given type. When it finds them it puts them into buckets, along with additional information, like – say – the origin domain for JavaScript code.</p>
