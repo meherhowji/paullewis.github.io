@@ -321,7 +321,7 @@
 
 <p>There are a load of ways to get trace files, some being slightly easier than others. Here’s how I typically do it.</p>
 
-<h3 id="chrome-devtools">Chrome DevTools</h3>
+<h3 id="chrome-devtools">1. Chrome DevTools</h3>
 
 <p>Load a page, go to Timeline and hit <strong>Cmd+Shift+R</strong> (or Ctrl+Shift+R on Windows/Linux) and you’ll get a Timeline that you can save:</p>
 
@@ -330,7 +330,7 @@
   <figcaption>Saving a DevTools Timeline</figcaption>
 </figure>
 
-<h3 id="webpagetest">WebPagetest</h3>
+<h3 id="webpagetest">2. WebPagetest</h3>
 
 <p>Run a test, but make sure you do it with Chrome or Canary and, under the Chrome options, make sure to click “Capture Dev Tools Timeline”:</p>
 
@@ -341,7 +341,7 @@
 
 <p>When you get your results you can download the file.</p>
 
-<h3 id="big-rigs-test-runner-experimental">Big Rig’s Test Runner (Experimental)</h3>
+<h3 id="big-rigs-test-runner-experimental">3. Big Rig’s Test Runner (Experimental)</h3>
 
 <p>Under the same repo as Big Rig’s web app (which I will break out eventually, mainly when I’ve written tests and it’s more mature) <a href="https://github.com/GoogleChrome/big-rig/tree/master/test-runner">you will find a test runner</a>. You can grab it, <code>npm install</code> it and <code>npm link</code> it. That will make it available to you as a command line tool. From there you can run it to do things like scroll tests, and you can even do so on Android devices (by adding the <code>-a</code> flag)!</p>
 
