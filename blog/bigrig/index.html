@@ -1,0 +1,486 @@
+<!doctype html>
+<html itemscope itemtype="http://schema.org/Article">
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="author" content="Paul Lewis" />
+  <meta name="viewport" content="width=device-width">
+  <meta name="theme-color" content="#880043">
+
+  
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="//aerotwist.com/blog/feed/">
+  
+
+  
+  <meta name="twitter:site" content="@aerotwist">
+  <meta name="twitter:creator" content="@aerotwist">
+  <meta name="twitter:title" content="Big Rig">
+  <meta name="twitter:description" content="I&#39;m a big fan of performance testing. But for many it&#39;s hard to get at extended data about what&#39;s going on during important parts of their app&#39;s lifecycle. I&#39;ve build Big Rig to try and make a dent in that problem.">
+
+  <meta itemprop="name" content="Big Rig">
+  <meta itemprop="description" content="I&#39;m a big fan of performance testing. But for many it&#39;s hard to get at extended data about what&#39;s going on during important parts of their app&#39;s lifecycle. I&#39;ve build Big Rig to try and make a dent in that problem.">
+
+    
+    <meta name="twitter:card" content="summary">
+    
+
+  
+
+  <style>
+    
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 400;
+      src: local('Lato Regular'), local('Lato-Regular'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qIIYRU-oROkIk8vfvxw6QvesZW2xOQ-xsNqO47m55DA.woff) format('woff');
+    }
+    
+
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 700;
+      src: local('Lato Bold'), local('Lato-Bold'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qdgUG4U09HnJwhYI-uK18wLUuEpTyoUstqEm5AMlJo4.woff) format('woff');
+    }
+  </style>
+
+  <link rel="stylesheet" media="screen" href="/css/aerotwist.css" />
+  <title>Aerotwist - Big Rig</title>
+  
+</head>
+
+
+<!--
+                              __          .__          __
+  _____    ___________  _____/  |___  _  _|__| _______/  |_
+  \__  \ _/ __ \_  __ \/  _ \   __\ \/ \/ /  |/  ___/\   __\
+   / __ \\  ___/|  | \(  <_> )  |  \     /|  |\___ \  |  |
+  (____  /\___  >__|   \____/|__|   \/\_/ |__/____  > |__|
+       \/     \/                                  \/
+
+  Giant ascii art embedded in every page of your site is how you
+  show other people that YOU CARE. Mainly I care about developers,
+  which is what I presume you are if you're all about viewing
+  the source. Clearly you're my kind of person.
+
+  This is v3, it's run through Jekyll, it's been fun to build,
+  there's always more to do, and you may notice that aside from
+  Google Analytics there is no JavaScript. None.
+
+  That's one way of many you keep your pages fast. I care about
+  keeping this site fast because your time is precious and I need
+  to get out of your way.
+
+  <3'z
+
+  Paul
+-->
+
+
+  <body class="blog">
+
+    <header>
+      <div class="container">
+        <div id="logo">
+  <a href="/">
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="100%" height="100%">
+    <g>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#6EBAD3" points="30.6,47.73 64.92,47.73 19.97,76.52"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ED95C0" points="48.198,0 53.008,14.06 39.31,24.76"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#880043" points="39.31,24.76 64.92,48 30.6,48"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#DA0A7A" points="39.31,24.76 64.92,48 53.008,14.06"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#0B7DAD" points="30.6,48 64.92,48 48,58.69"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#BDDEE8" points="47.76,58.69 64.92,47.73 75.14,76.73"></polygon>
+    </g>
+    </svg>
+  </a>
+</div>
+
+        <nav>
+  <ul>
+    
+      
+        <li><a href="/">Home</a></li>
+      
+    
+      
+        <li class="active"><a href="/blog/"> Blog</a></li>
+      
+    
+      
+        <li><a href="/tutorials/">Tutorials</a></li>
+      
+    
+      
+        <li><a href="/lab/">Lab</a></li>
+      
+    
+  </ul>
+
+  <svg id="left-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#AAAAAA" stroke-width="1" />
+    </svg>
+
+  <svg id="right-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#6EBAD3" stroke-opacity="0.3" stroke-width="1" />
+    </svg>
+</nav>
+
+      </div>
+    </header>
+    <section>
+
+      <div class="content">
+
+  
+  <svg version="1.1" class="shape-reference" xmlns="http://www.w3.org/2000/svg" width="532" height="302">
+  <defs>
+    <filter id="blur-8">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="8" />
+    </filter>
+    <filter id="blur-6">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="6" />
+    </filter>
+    <filter id="blur-4">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="4" />
+    </filter>
+  </defs>
+
+  <g id="color-block">
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#2f2340" stroke="#2f2340" stroke-width="0.6" points="40,208 112,183 183,262"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#515d92" stroke="#515d92" stroke-width="0.6" points="40,208 99,99 112,183"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#7e98bf" stroke="#7e98bf" stroke-width="0.6" points="40,208 66,54 99,99"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#e0daea" stroke="#e0daea" stroke-width="0.6" points="173,40 99,99 66,54"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#dcc1dd" stroke="#dcc1dd" stroke-width="0.6" points="169,89 99,99 173,40"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#bc8dc0" stroke="#bc8dc0" stroke-width="0.6" points="165,134 99,99 169,89"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#a270af" stroke="#a270af" stroke-width="0.6" points="142,150 99,99 165,134"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#815ea2" stroke="#815ea2" stroke-width="0.6" points="112,183 99,99 142,150"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#693e7c" stroke="#693e7c" stroke-width="0.6" points="132,187 112,183 142,150"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#432147" stroke="#432147" stroke-width="0.6" points="112,183 132,187 183,262"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#3f1739" stroke="#3f1739" stroke-width="0.6" points="132,187 175,210 183,262"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#69255e" stroke="#69255e" stroke-width="0.6" points="175,210 132,187 186,178"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#751e5d" stroke="#751e5d" stroke-width="0.6" points="175,210 186,178 190,184"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#5f184b" stroke="#5f184b" stroke-width="0.6" points="188,219 175,210 190,184"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#330e29" stroke="#330e29" stroke-width="0.6" points="183,262 175,210 188,219"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#200616" stroke="#200616" stroke-width="0.6" points="183,262 188,219 242,252"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#380521" stroke="#380521" stroke-width="0.6" points="242,252 188,219 266,231"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#2b0117" stroke="#2b0117" stroke-width="0.6" points="242,252 266,231 331,243"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#6c083f" stroke="#6c083f" stroke-width="0.6" points="331,243 266,231 289,153"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#6b124a" stroke="#6b124a" stroke-width="0.6" points="356,213 331,243 289,153"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#2a0e25" stroke="#2a0e25" stroke-width="0.6" points="331,243 356,213 406,246"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#371e3e" stroke="#371e3e" stroke-width="0.6" points="406,246 356,213 429,192"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#212237" stroke="#212237" stroke-width="0.6" points="406,246 429,192 492,235"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#702d6b" stroke="#702d6b" stroke-width="0.6" points="356,213 345,143 429,192"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#a51f75" stroke="#a51f75" stroke-width="0.6" points="289,153 345,143 356,213"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#dc3496" stroke="#dc3496" stroke-width="0.6" points="289,153 297,116 345,143"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ed3e9d" stroke="#ed3e9d" stroke-width="0.6" points="289,153 286,116 297,116"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#fd1f8f" stroke="#fd1f8f" stroke-width="0.6" points="286,116 289,153 231,142"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#fa57aa" stroke="#fa57aa" stroke-width="0.6" points="286,116 231,142 255,86"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f86ab4" stroke="#f86ab4" stroke-width="0.6" points="286,116 255,86 297,116"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ff8bc5" stroke="#ff8bc5" stroke-width="0.6" points="297,116 255,86 245,70"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#da1a88" stroke="#da1a88" stroke-width="0.6" points="255,86 231,142 188,219"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#c50264" stroke="#c50264" stroke-width="0.6" points="289,153 266,231 231,142"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#810c4f" stroke="#810c4f" stroke-width="0.6" points="266,231 188,219 231,142"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ae217b" stroke="#ae217b" stroke-width="0.6" points="227,131 190,184 186,178"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#951c6a" stroke="#951c6a" stroke-width="0.6" points="227,131 188,219 190,184"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#db238d" stroke="#db238d" stroke-width="0.6" points="255,86 188,219 227,131"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f486c1" stroke="#f486c1" stroke-width="0.6" points="255,86 227,131 245,70"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#e775b7" stroke="#e775b7" stroke-width="0.6" points="227,131 191,117 245,70"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#c9429b" stroke="#c9429b" stroke-width="0.6" points="175,162 191,117 227,131"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#b84b9e" stroke="#b84b9e" stroke-width="0.6" points="175,162 165,134 191,117"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#a24096" stroke="#a24096" stroke-width="0.6" points="142,150 165,134 175,162"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#823982" stroke="#823982" stroke-width="0.6" points="132,187 142,150 175,162"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#802d74" stroke="#802d74" stroke-width="0.6" points="186,178 132,187 175,162"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#b62685" stroke="#b62685" stroke-width="0.6" points="186,178 175,162 227,131"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#c978b6" stroke="#c978b6" stroke-width="0.6" points="165,134 169,89 191,117"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#e397c8" stroke="#e397c8" stroke-width="0.6" points="191,117 169,89 245,70"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f0cbe4" stroke="#f0cbe4" stroke-width="0.6" points="169,89 173,40 245,70"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#fadeee" stroke="#fadeee" stroke-width="0.6" points="245,70 173,40 267,55"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#fdc5e2" stroke="#fdc5e2" stroke-width="0.6" points="264,72 245,70 267,55"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#fe94ca" stroke="#fe94ca" stroke-width="0.6" points="264,72 297,116 245,70"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#fca2d0" stroke="#fca2d0" stroke-width="0.6" points="267,55 297,116 264,72"/>
+  </g>
+</svg>
+
+  
+
+  <div class="masthead hatched">
+
+    
+      <svg class="behind-meta" width="532" height="302">
+        <use xlink:href="#color-block" />
+      </svg>
+
+      <svg class="left-meta" width="532" height="302">
+        <use xlink:href="#color-block" filter="url(#blur-6)" transform="translate(266 151) scale(-0.5 0.5) translate(-266 -151)" />
+      </svg>
+    
+
+    <div class="container">
+      <h2>Big Rig</h2>
+      <p>I'm a big fan of performance testing. But for many it's hard to get at extended data about what's going on during important parts of their app's lifecycle. I've build Big Rig to try and make a dent in that problem.</p>
+    </div>
+
+  </div>
+
+  <div class="container">
+    <div class="meta">
+
+      <ul>
+        <li class="last-updated">
+          <span class="name">Last updated:</span>
+          <span class="value">9 Nov 2015</span>
+        </li>
+
+        <li>
+          <span class="name">Est. Read Time:</span>
+          <span class="value">8 mins</span>
+        </li>
+
+        <li class="share">
+          <span class="name">Share this:</span>
+          <span class="value"><a href="http://www.twitter.com/share?url=https://aerotwist.com/blog/bigrig/&text=Big Rig">Twitter</a></span>
+          <span class="value"><a href="https://plus.google.com/share?url=https://aerotwist.com/blog/bigrig/">Google+</a></span>
+        </li>
+        <li class="tags">
+          <span class="name">Tagged:</span>
+          <span class="value">
+          
+            #perf, 
+          
+            #testing
+          
+          </span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="container"><div class="left column">
+
+<p>I gave a talk at <a href="http://2015.ffconf.org">FFConf</a> last week, which was really great (if you get chance to go in future years, do!) and, during my talk, I showed a new tool I’ve built: <strong>Big Rig</strong>. Here’s what it’s for, and how you can use it.</p>
+
+<figure>
+  <img src="https://cloud.githubusercontent.com/assets/617438/10881331/b83e9868-8159-11e5-9f0e-285549e89c76.png" />
+  <figcaption>Big Rig: the web app UI</figcaption>
+</figure>
+
+<p class="livedemo mid"><a href="https://github.com/GoogleChrome/big-rig">See the web app repo</a></p>
+
+<h2 id="elevator-pitch">Elevator Pitch</h2>
+
+<blockquote>
+  <p>Big Rig exists to try and give you extended information on what your page was doing during critical RAIL actions.</p>
+</blockquote>
+
+<p>Big Rig exists to try and give you extended information on what your page was doing during critical <a href="http://www.smashingmagazine.com/2015/10/rail-user-centric-model-performance/">RAIL actions</a>, in particular <strong>Loading</strong>, <strong>Responding</strong> and <strong>Animating</strong>. So, for example, it can help you answer questions like: <em>how much time did I spend in JavaScript during page load, and of the time in JavaScript, whose script in particular was the longest-running?</em> Or, <em>during a scroll of my site, what was the fps and how much time did I spend in styles, layout, paint, and composite during each frame?</em></p>
+
+<h2 id="big-rig-in-two-flavours">Big Rig in Two Flavours</h2>
+
+<p>You can get Big Rig in one of two flavours:</p>
+
+<ul>
+  <li><strong>A web-based UI</strong>. This is a Python-based app written for Google App Engine that will let you ingest performance data via an endpoint. It will let you do a little bit of management about projects, actions (the things you want to manage), and so on. It’s good if you have no performance workflow in place and just want to start tracking things without getting into much config. You can get the <a href="https://cloud.google.com/appengine/downloads?hl=en">Google App Engine SDK</a> and deploy it on your own machine quickly.</li>
+  <li><strong>A CLI / Node module</strong>. This is the alternative and, to be honest, the more flexible approach. You can make the module part of an existing workflow and have it pass data back to some other dashboard or endpoint.</li>
+</ul>
+
+<figure class="no-shadow">
+  <img src="https://cloud.githubusercontent.com/assets/617438/10954268/5c977f4c-8344-11e5-9460-dc00e86970f3.png" />
+  <figcaption>Big Rig: the CLI / Node module</figcaption>
+</figure>
+
+<p class="livedemo mid"><a href="">See the CLI / node module repo</a></p>
+
+<p>To give you the data you want, both flavours ingest <strong>traces</strong>, which I guess I should explain…</p>
+
+<h2 id="traces-all-the-way-down">Traces All the Way Down</h2>
+
+<p>A trace is the underpinning performance data format in Chrome (and Opera). As execution passes through various subsystems in Chrome they mark their entry and exit. This results in slices of data, and hierarchies of information. A “full fat” trace from Chrome looks something like this:</p>
+
+<figure class="no-shadow">
+  <img alt="Chrome's Trace Viewer showing a trace" src="/static/blog/big-rig/trace.png" />
+  <figcaption>Chrome's Trace Viewer showing a trace</figcaption>
+</figure>
+
+<blockquote>
+  <p>The net result: a DevTools Timeline is a trace, and a trace contains awesome-to-parse data.</p>
+</blockquote>
+
+<p>This amount of data is awesome, provided you want it all. Most of us don’t want or need it all, and that’s why the trace event data is categorized. You can enable a subset of categories, which is <em>exactly what Chrome DevTools does under the hood</em> for its timeline. The net result: <strong>a DevTools Timeline is a trace, and a trace contains awesome-to-parse data</strong>.</p>
+
+<figure class="no-shadow">
+  <img alt="A DevTools Timeline" src="/static/blog/big-rig/timeline.png" />
+  <figcaption>A DevTools Timeline</figcaption>
+</figure>
+
+<h2 id="getting-a-trace">Getting a Trace</h2>
+
+<p>There are a load of ways to get trace files, some being slightly easier than others. Here’s how I typically do it.</p>
+
+<h3 id="chrome-devtools">Chrome DevTools</h3>
+
+<p>Load a page, go to Timeline and hit <strong>Cmd+Shift+R</strong> (or Ctrl+Shift+R on Windows/Linux) and you’ll get a Timeline that you can save:</p>
+
+<figure>
+  <img alt="Saving a DevTools Timeline" src="/static/blog/big-rig/timeline-save.png" />
+  <figcaption>Saving a DevTools Timeline</figcaption>
+</figure>
+
+<h3 id="webpagetest">WebPagetest</h3>
+
+<p>Run a test, but make sure you do it with Chrome or Canary and, under the Chrome options, make sure to click “Capture Dev Tools Timeline”:</p>
+
+<figure>
+  <img alt="Enabling Dev Toole Timeline in WebPagetest's Options" src="/static/blog/big-rig/wpt-options.png" />
+  <figcaption>Enabling Dev Toole Timeline in WebPagetest's Options</figcaption>
+</figure>
+
+<p>When you get your results you can download the file.</p>
+
+<h3 id="big-rigs-test-runner-experimental">Big Rig’s Test Runner (Experimental)</h3>
+
+<p>Under the same repo as Big Rig’s web app (which I will break out eventually, mainly when I’ve written tests and it’s more mature) <a href="https://github.com/GoogleChrome/big-rig/tree/master/test-runner">you will find a test runner</a>. You can grab it, <code>npm install</code> it and <code>npm link</code> it. That will make it available to you as a command line tool. From there you can run it to do things like scroll tests, and you can even do so on Android devices (by adding the <code>-a</code> flag)!</p>
+
+</div></div>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">bigrigrunner -u &lt;url&gt; -s &lt;selector&gt; -o &lt;location&gt;</code></pre></div>
+
+<div class="container"><div class="left column">
+
+<p>The test runner is the least mature part of Big Rig and doesn’t have enough tests for my liking. Not yet, anyway. I’m working on that, though, and the way I look at it is that having a scroll test one command away is a big step forward for many of us!</p>
+
+<h2 id="parsing-traces">Parsing Traces</h2>
+
+<p>Okay, you have a trace file. Let’s assume you got it for a page load, either from DevTools or from WebPagetest. You can now give it to Big Rig to analyze. If you give it to the web app then you’ll get charting and what have you, but if you give it to the CLI / module you’ll get JSON back. (If you want it looking nicer just go add <code>--pretty-print</code>.)</p>
+
+<figure class="no-shadow">
+  <img alt="Scroll Test Results in Big Rig's CLI" src="/static/blog/big-rig/scrolltest.png" />
+</figure>
+
+<p>Or, in the web app:</p>
+
+<figure>
+  <img alt="Scroll Test Results in Big Rig's web app" src="/static/blog/big-rig/scrolltest-web-app.png" />
+</figure>
+
+<p>Big Rig is parsing the trace (via the mighty Chrome Telemetry and Chrome Trace Viewer code - standing on the shoulders of giants here, folks) into a model, and stepping through looking for records of a given type. When it finds them it puts them into buckets, along with additional information, like – say – the origin domain for JavaScript code.</p>
+
+<p>Based on the type of action (or actions) in the trace, you’ll see slightly different charting outputs. Animations, for example, have fps information, which aren’t present in responses or load actions (since it wouldn’t make much sense).</p>
+
+<h3 id="areas-of-interest">Areas of interest</h3>
+
+<p>If you only want Big Rig to analyze a part of a trace, you can give it timed ranges in your code:</p>
+
+</div></div>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">function</span> <span class="nx">onClick</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">time</span><span class="p">(</span><span class="s2">&quot;sideNavResponse&quot;</span><span class="p">);</span>
+
+  <span class="nx">toggleSideNav</span><span class="p">();</span>
+
+  <span class="c1">// Wait for the next frame so we know</span>
+  <span class="c1">// that we responded to the user.</span>
+  <span class="nx">requestAnimationFrame</span><span class="p">(</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">timeEnd</span><span class="p">(</span><span class="s2">&quot;sideNavResponse&quot;</span><span class="p">);</span>
+  <span class="p">});</span>
+<span class="p">}</span></code></pre></div>
+
+<div class="container"><div class="left column">
+
+<p>Big Rig will only analyze timed ranges (if there are any) and will present the data based on the type of action it thinks the range represents (you can override it if you know something is – say – an animation). If you don’t have any timed ranges, which is probably going to be the case for WebPagetest or DevTools when loading a page, then Big Rig will assume the whole range matters, and that it’s a Load.</p>
+
+<h2 id="video-walkthrough">Video Walkthrough</h2>
+
+<p>If you prefer watching than reading, this is how to import a trace file from WebPagetest into Big Rig.</p>
+
+<iframe width="100%" height="420" src="//www.youtube.com/embed/znfENnmx9Lk?vq=hd720" frameborder="0" allowfullscreen="allowfullscreen" style="margin-bottom: 20px; box-shadow: 0 2px 2px rgba(0,0,0,0.3)">
+</iframe>
+
+<h2 id="next-steps">Next Steps</h2>
+
+<p>Here are some of things I have on my mind:</p>
+
+<ul>
+  <li><strong>Cross-browser testing</strong>. Today all of this is Chrome only, which is great, but also I think it’s a bit of a shame. Folks like <a href="https://twitter.com/auchenberg">Kenneth Auchenberg</a> have been calling for some kind of standardized protocol for some time (and he made <a href="http://remotedebug.org/">RemoteDebug</a> as part of that effort). I don’t think we need to go <em>that far</em> personally, but something at least trace-<em>like</em> from Firefox, Edge, and Safari would be amazing for developers. Then we’d be talking like-for-like in our perf tests.</li>
+  <li><strong>More test-runner tests</strong>. So far I’ve only gotten scroll and load tests plumbed in. I’d like more, and I’d like to make it easy for others to make their own. That said, the whole thing sits atop <a href="https://sites.google.com/a/chromium.org/chromedriver/">ChromeDriver</a> (ohai, giant shoulders) so if you already have those kinds of tests, then you might be able to hack something together quickly.</li>
+</ul>
+
+<p>It’s early days for Big Rig (read: super experimental and in no way an official Google product!), so please have a play, file issues (<a href="https://github.com/GoogleChrome/big-rig/issues">web app</a>, <a href="https://github.com/GoogleChrome/node-big-rig/issues">node module</a>), and just generally <a href="https://twitter.com/aerotwist">let me know what you think on Twitter</a>.</p>
+
+</div></div>
+
+
+  <div class="footer-share container">
+    Share this on: <span class="value"><a href="http://www.twitter.com/share?url=https://aerotwist.com/blog/bigrig/&text=Big Rig">Twitter</a></span>
+    <span class="value"><a href="https://plus.google.com/share?url=https://aerotwist.com/blog/bigrig/">Google+</a></span>
+  </div>
+
+  <div class="clear"></div>
+
+  
+    <svg class="left-shape" style="margin-left: -286.9px" width="422.8" height="744.8">
+      <use xlink:href="#color-block" filter="url(#blur-4)" transform="scale(-1.4 1.4) rotate(90)"/>
+    </svg>
+
+    <svg class="right-shape" width="151.0" height="478.8">
+      <use xlink:href="#color-block" filter="url(#blur-8)" transform="scale(-0.9 0.9) rotate(90)"/>
+    </svg>
+  
+
+</div>
+
+
+    </section>
+
+    <footer>
+
+      <div class="container">
+        <div class="bio panel">
+          <h2>Hello!</h2>
+          <p>My name is Paul. I work at <a href="http://www.google.com/" title="Some cloud company in the USA, I think.">Google</a> on the Chrome Developer Relations team as an advocate. I help developers improve the performance of their sites and apps.</p>
+
+          <p>You can find me on <a href="http://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a></p>
+        </div>
+
+        <div class="get-in-touch panel">
+          <h2>Get in touch</h2>
+          <p>I don’t bite. Honestly. You can find me on <a href="https://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a>, and I like hearing from people (pretty handy given my job, really) so say hi.</p>
+        </div>
+
+        <div class="subscribe panel">
+          <h2>Subscribe</h2>
+          <p>You should totally get the <a href="/blog/feed/">RSS feed</a>, or whatever it is you kids are using these days (I miss Reader.)</p>
+        </div>
+
+        <p class="disclaimer">Except as otherwise noted, the content of this page is licensed under the Creative Commons Attribution 3.0 License, and code samples are licensed under the Apache 2.0 License.</p>
+      </div>
+    </footer>
+
+    <script async="true">
+
+    /**
+     * Snow effect, from: HTML5 Rocks
+     * https://github.com/html5rocks/www.html5rocks.com/blob/9318b5755c8c17a4bd1761bca6b1b491e7fd17b8/content/index.html
+     */
+    !function(){function j(){f=c.clientWidth,g=c.clientHeight,d.width=f,d.height=g,e.fillStyle="#FFF";var a=i;i=f>300,!a&&i&&requestAnimFrame(n)}function n(){if(e.clearRect(0,0,f,g),i){for(h=0;b>h;h++)m=l[h],m.y+=m.vy,m.x+=m.vx,e.globalAlpha=m.o,e.beginPath(),e.arc(m.x,m.y,m.r,0,2*Math.PI,!1),e.closePath(),e.fill(),m.y>g&&m.reset();requestAnimFrame(n)}}var a=(new Date).getMonth();if(11===a){var b=300,c=document.querySelector(".masthead");if(c){var d=document.createElement("canvas"),e=d.getContext("2d"),f=c.clientWidth,g=c.clientHeight,h=0,i=!1,k=function(){this.x=0,this.y=0,this.vy=0,this.vx=0,this.r=0,this.reset()};k.prototype.reset=function(){this.x=Math.random()*f,this.y=Math.random()*-g,this.vy=1+3*Math.random(),this.vx=.5-Math.random(),this.r=1+2*Math.random(),this.o=.5+.5*Math.random()},d.style.position="absolute",d.style.left=d.style.top="0";var m,l=[];for(h=0;b>h;h++)m=new k,m.reset(),l.push(m);window.requestAnimFrame=function(){return window.requestAnimationFrame||window.webkitRequestAnimationFrame||window.mozRequestAnimationFrame||function(a){window.setTimeout(a,1e3/60)}}(),j(),window.addEventListener("resize",j,!1),c.appendChild(d)}}}();
+    </script>
+
+    <script type="text/javascript" async="true">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-13024693-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+  </body>
+</html>
