@@ -4,10 +4,25 @@
 
     <title>Aerotwist</title>
     <description>Pretty much whatever comes into my head.</description>
-    <lastBuildDate>2015-11-10 13:40:16 +0000</lastBuildDate>
+    <lastBuildDate>2015-11-16 04:27:18 -0800</lastBuildDate>
     <language>en</language>
     <generator>Aerotwist</generator>
     <atom:link href="https://aerotwist.com/feed/" rel="self" type="application/rss+xml" />
+    
+      <item>
+        <title>The Cost of Frameworks</title>
+        <description>
+          <![CDATA[I recently delivered a talk at FFConf in Brighton, called "You should use &lt;insert library / framework here&gt;, it's the bestestest!". I wanted to do a write-up of the presentation's content here, hopefully so it can start a broader conversation that I think we need to have, mainly around the cost of modern frameworks on mobile devices.]]>
+        </description>
+        <pubDate>Mon, 16 Nov 2015 00:00:00 +0000</pubDate>
+        <link>https://aerotwist.com/blog/the-cost-of-frameworks</link>
+        <guid isPermaLink="true">/blog/the-cost-of-frameworks</guid>
+        
+        <category>frameworks</category>
+        
+        <category>perf</category>
+        
+      </item>
     
       <item>
         <title>Big Rig</title>
