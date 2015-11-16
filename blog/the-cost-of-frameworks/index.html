@@ -466,7 +466,7 @@
 <p>To make things super clear, here are a couple of notes:</p>
 
 <ul>
-  <li><strong>TodoMVC doesn’t JSX Transform React, so I did.</strong> The reason there are two entries for React is that the TodoMVC example doesn’t transform JSX, and instead includes the JSX Transformer library. To make things fairer (because the runtime JSX transformation is expensive!), I made a more ‘productionized’ version of the example, and tested that, too.</li>
+  <li><strong>TodoMVC doesn’t JSX Transform React, so I did.</strong> The reason there are three entries for React is that the TodoMVC example doesn’t transform JSX, and instead includes the JSX Transformer library. To make things fairer (because the runtime JSX transformation is expensive!), I made a more ‘productionized’ version of the example, and tested that, too. The downside is that it’s not the minified version of React, which is different again. So I also switched out the build of React for the production version, and that’s the third build in the table.</li>
   <li><strong>These times do <em>not</em> include transfer time.</strong> The only thing I was measuring was the time in JavaScript to bootstrap the framework and get the initial view built. In fact, <em>some of the frameworks in TodoMVC aren’t minified</em>. For a more discussion on framework transfer sizes, <a href="https://www.filamentgroup.com/lab/mv-initial-load-times.html">check out the Filament Group’s post from last year</a>.</li>
 </ul>
 
