@@ -352,7 +352,7 @@
   <figcaption>Time to interactive: measuring how long it takes for an app to get to a state where someone can interact with it.</figcaption>
 </figure>
 
-<p>I decided to measure the time it takes to evaluate and execute each framework’s initial payload of JavaScript, and the processing and setup of the initial data set into a model. I decided to ignore the cost of styles, layout, paint and so on since they shouldn’t vary all that much between the different TodoMVC implementations.</p>
+<p>I decided to measure the time it takes to <strong>evaluate and execute each framework’s initial payload of JavaScript</strong>, and the processing and setup of the initial data set into a model. I decided to ignore the cost of styles, layout, paint and so on since they shouldn’t vary all that much between the different TodoMVC implementations. I was also not testing transfer time.</p>
 
 <h3 id="methodology">Methodology</h3>
 
@@ -454,7 +454,14 @@
 
 <p>For me the results are pretty clear: <strong>there appears to be a pretty hefty tax to using Frameworks on mobile, especially compared to writing vanilla JavaScript</strong>.</p>
 
-<p>As a side note here, the reason there are two entries for React is that the TodoMVC example doesn’t transform JSX, and instead includes the JSX Transformer library. To make things fairer (because the runtime JSX transformation is expensive!), I made a more ‘productionized’ version of the example, and tested that, too.</p>
+<h3 id="some-important-notes">Some important notes</h3>
+
+<p>To make things super clear:</p>
+
+<ul>
+  <li><strong>TodoMVC doesn’t JSX Transform React, so I did.</strong> The reason there are two entries for React is that the TodoMVC example doesn’t transform JSX, and instead includes the JSX Transformer library. To make things fairer (because the runtime JSX transformation is expensive!), I made a more ‘productionized’ version of the example, and tested that, too.</li>
+  <li><strong>These times do <em>not</em> include transfer.</strong> The only thing I was measuring was the time in JavaScript.</li>
+</ul>
 
 <h3 id="possible-objections">Possible Objections</h3>
 
