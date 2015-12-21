@@ -244,7 +244,6 @@ limitations under the License.
           }
 
           function roll(heading, speed) {
-            console.log('Roll heading='+heading);
             if (busy) {
               // Return if another operation pending
               return Promise.resolve();
@@ -255,6 +254,8 @@ limitations under the License.
             // Roll command data: speed, heading (MSB), heading (LSB), state
             let rollSpeed = Math.round(speed / 10);
             let data = new Uint8Array([rollSpeed, heading >> 8, heading & 0xFF, 1]);
+
+            console.log('Roll heading='+heading+', speed=', rollSpeed);
 
             sendCommand(did, cid, data).then(() => {
               busy = false;
