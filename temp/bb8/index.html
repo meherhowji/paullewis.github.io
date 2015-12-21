@@ -243,7 +243,7 @@ limitations under the License.
             .catch(handleError);
           }
 
-          function roll(heading) {
+          function roll(heading, speed) {
             console.log('Roll heading='+heading);
             if (busy) {
               // Return if another operation pending
@@ -253,7 +253,8 @@ limitations under the License.
             let did = 0x02; // Virtual device ID
             let cid = 0x30; // Roll command
             // Roll command data: speed, heading (MSB), heading (LSB), state
-            let data = new Uint8Array([10, heading >> 8, heading & 0xFF, 1]);
+            let rollSpeed = Math.round(speed / 10);
+            let data = new Uint8Array([rollSpeed, heading >> 8, heading & 0xFF, 1]);
 
             sendCommand(did, cid, data).then(() => {
               busy = false;
@@ -350,7 +351,7 @@ limitations under the License.
             retroStickElement: document.querySelector('#retrostick')
           });
           joystick.subscribe('change', stick => {
-            roll(stick.angle);
+            roll(stick.angle, stick.distance);
           });
 
         }, 1000)
