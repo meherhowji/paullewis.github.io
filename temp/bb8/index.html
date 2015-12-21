@@ -252,10 +252,10 @@ limitations under the License.
             let did = 0x02; // Virtual device ID
             let cid = 0x30; // Roll command
             // Roll command data: speed, heading (MSB), heading (LSB), state
-            let rollSpeed = Math.round(speed / 10);
+            let rollSpeed = Math.round(speed / 100 * 255);
             let data = new Uint8Array([rollSpeed, heading >> 8, heading & 0xFF, 1]);
 
-            console.log('Roll heading='+heading+', speed=', rollSpeed);
+            console.log('Roll heading='+heading+', speed='+rollSpeed);
 
             sendCommand(did, cid, data).then(() => {
               busy = false;
