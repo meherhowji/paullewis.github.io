@@ -31,7 +31,7 @@ class MagneticSnow {
   }
 
   createSnow () {
-    for (var i = 0; i < this.width; i++) {
+    for (var i = 0; i < this.width * 0.5; i++) {
       this.snow.push(this.createSnowflake());
     }
   }
@@ -65,33 +65,26 @@ class MagneticSnow {
     inputKeys.forEach((inputKey) => {
 
       input = this.inputs[inputKeys[inputKey]];
+
+      if (!input)
+        return;
+
       input.strength += (input.targetStrength - input.strength) * 0.1;
 
       let fluctuation = Math.sin(((input.start + now) % 1570) * 0.001);
       let radius = Math.abs(fluctuation * 100);
 
-      this.ctx.globalAlpha = input.strength * Math.max(0.16,
-          (input.strength - fluctuation) * 0.5);
+      this.ctx.globalAlpha = Math.max(0, input.strength - fluctuation * 0.6);
 
-      this.ctx.globalCompositeOperation = 'source-over';
-      this.ctx.fillStyle = '#FFFFFF';
-      this.ctx.beginPath();
-      this.ctx.arc(input.x, input.y,
-          radius, 0, Math.PI * 2);
-      this.ctx.closePath();
-      this.ctx.fill();
-
-      this.ctx.globalCompositeOperation = 'destination-out';
-      this.ctx.globalAlpha = 1;
-
+      this.ctx.lineWidth = 4 - fluctuation * 3;
+      this.ctx.strokeStyle = '#FFFFFF';
       this.ctx.beginPath();
       this.ctx.arc(input.x, input.y,
           Math.max(0, radius - 4), 0, Math.PI * 2);
       this.ctx.closePath();
-      this.ctx.fill();
+      this.ctx.stroke();
 
-      this.ctx.globalCompositeOperation = 'source-over';
-
+      // Now the glow.
       this.ctx.globalAlpha = input.strength;
       let gradient =
           this.ctx.createRadialGradient(
@@ -129,6 +122,10 @@ class MagneticSnow {
       inputKeys.forEach((inputKey) => {
 
         input = this.inputs[inputKeys[inputKey]];
+
+        if (!input)
+          return;
+
         let fluctuation = Math.sin(((input.start + now) % 1570) * 0.001);
 
         dx = snowFlake.x - input.x;
@@ -218,7 +215,6 @@ class MagneticSnow {
     for (let t = 0; t < evt.changedTouches.length; t++) {
       touchEvent = evt.changedTouches[t];
       id = touchEvent.identifier || 0;
-
       delete this.inputs[id];
     }
   }
