@@ -1,0 +1,81 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="author" content="Paul Lewis" />
+  <meta name="viewport" content="width=device-width">
+  <link href="https://fonts.googleapis.com/css?family=Lato:900,300" rel="stylesheet" type="text/css">
+  <title>Merry Christmas!</title>
+  <style>
+  html, body {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  canvas {
+    width: 100%;
+    height: 100%;
+    background: #330522;
+    display: block;
+    cursor: pointer;
+  }
+
+  .cover {
+    pointer-events: none;
+    content '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background:
+        radial-gradient(circle farthest-corner at 50% 50%,
+            rgba(0,0,0,0), rgba(0,0,0,0.1), rgba(0,0,0,0.8));
+    z-index: 1;
+    font-family: 'Lato', Arial;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.95);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    line-height: 50%;
+  }
+
+  .cover h1 {
+    font-size: 8vw;
+    font-weight: 300;
+    letter-spacing: -0.02em;
+  }
+
+  .cover h2 {
+    font-size: 4vw;
+    font-weight: 900;
+    color: #DA0A7A;
+  }
+
+  @media (min-width: 600px) {
+    .cover h2 {
+      font-size: 2vw;
+    }
+  }
+  </style>
+</head>
+<!--
+Yeah, I dunno, either. It seemed like it might be a fun thing to code up on
+account of it being winter in the northern hemisphere. That said, it's floopin'
+warm right now, so it doesn't seem in keeping. Maybe this is my way of doing a
+little wishful thinking? Who knows.
+-->
+<body>
+  <canvas></canvas>
+  <div class="cover">
+    <h1>Merry Christmas!</h1>
+    <h2 class="h2">Who loves you? Paul loves you.</h2>
+  </div>
+  <script src="m-snow.js"></script>
+</body>
+</html>
