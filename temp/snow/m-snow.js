@@ -3,6 +3,8 @@
 class MagneticSnow {
   constructor () {
 
+    console.log('v1.0');
+
     this.time = 0;
     this.width = 0;
     this.height = 0;
