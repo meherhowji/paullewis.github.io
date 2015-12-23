@@ -449,4 +449,6 @@ class MagneticSnow {
   }
 }
 
-new MagneticSnow();
+window.addEventListener('load', function () {
+  new MagneticSnow();
+});

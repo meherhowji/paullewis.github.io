@@ -456,5 +456,7 @@ var MagneticSnow = (function () {
   return MagneticSnow;
 })();
 
-new MagneticSnow();
+window.addEventListener('load', function () {
+  new MagneticSnow();
+});
 
