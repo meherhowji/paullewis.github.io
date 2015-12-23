@@ -78,7 +78,7 @@ class MagneticSnow {
   }
 
   createSnow () {
-    for (var i = 0; i < 600; i++) {
+    for (var i = 0; i < this.width * 0.67; i++) {
       this.snow.push(this.createSnowflake());
     }
   }
