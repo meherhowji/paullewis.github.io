@@ -1,0 +1,15 @@
+{
+  "name": "snow",
+  "version": "1.0.0",
+  "description": "",
+  "main": "m-snow.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-preset-es2015": "^6.3.13"
+  }
+}
