@@ -19,7 +19,7 @@
 class MagneticSnow {
   constructor () {
 
-    console.log('v1.0.2');
+    console.log('v1.0.5');
     this.bestTime = window.localStorage.getItem('best');
 
     this.time = 0;
