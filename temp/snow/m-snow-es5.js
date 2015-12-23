@@ -24,7 +24,7 @@ var MagneticSnow = (function () {
   function MagneticSnow() {
     _classCallCheck(this, MagneticSnow);
 
-    console.log('v1.0.2');
+    console.log('v1.0.6');
     this.bestTime = window.localStorage.getItem('best');
 
     this.time = 0;
