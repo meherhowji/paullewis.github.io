@@ -1,16 +1,47 @@
+/**
+ * Copyright 2015 Google Inc. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
 'use strict';
 
 class MagneticSnow {
   constructor () {
 
-    console.log('v1.0');
+    console.log('v1.0.1');
+    this.bestTime = window.localStorage.getItem('best');
 
     this.time = 0;
     this.width = 0;
     this.height = 0;
     this.snow = [];
+    this.snowFlakeCanvas = document.createElement('canvas');
     this.inputs = {};
+    this.target = {
+      x: 0,
+      y: 0
+    };
+    this.hitCount = 0;
+    this.isPlaying = false;
+    this.startPlayTime = 0;
 
+    this.timeElement = document.querySelector('.time');
+    this.playTimeElement = document.querySelector('.playtime');
+    this.playButtonElement = document.querySelector('.play');
+    this.meterElement = document.querySelector('.meter-inner');
+    this.meterGlowElement = document.querySelector('.meter-inner-glow');
+    this.targetElement = document.querySelector('.target');
     this.element = document.querySelector('canvas');
     this.ctx = this.element.getContext('2d');
 
@@ -24,16 +55,30 @@ class MagneticSnow {
     this.addEventListeners();
     this.onResize();
     this.createSnow();
+    this.createSnowParticle();
+    this.writeBestTime();
 
     requestAnimationFrame(this.update);
+  }
+
+  get MAX_HIT_COUNT () {
+    return 100;
   }
 
   get MIN_DIST_SQ () {
     return 180000;
   }
 
+  writeBestTime () {
+
+    if (this.bestTime === null)
+      return;
+
+    this.timeElement.innerText = 'Best time: ' + this.bestTime + 's';
+  }
+
   createSnow () {
-    for (var i = 0; i < this.width * 0.5; i++) {
+    for (var i = 0; i < 600; i++) {
       this.snow.push(this.createSnowflake());
     }
   }
@@ -48,9 +93,21 @@ class MagneticSnow {
       vy: 0,
       ax: 0,
       ay: 0,
-      r: 1 + Math.random() * 2.5,
+      s: 1 + Math.random() * 3,
       a: 0.3 + Math.random() * 0.7
     };
+  }
+
+  createSnowParticle () {
+    let ctx = this.snowFlakeCanvas.getContext('2d');
+    this.snowFlakeCanvas.width = 256;
+    this.snowFlakeCanvas.height = 256;
+
+    ctx.fillStyle = '#FFFFFF';
+    ctx.beginPath();
+    ctx.arc(128, 128, 128, 0, Math.PI * 2);
+    ctx.closePath();
+    ctx.fill();
   }
 
   update (now) {
@@ -58,6 +115,7 @@ class MagneticSnow {
     let input;
     let inputKeys = Object.keys(this.inputs);
 
+    this.targetElement.classList.remove('hit');
     this.ctx.clearRect(0, 0, this.width, this.height);
 
     this.ctx.save();
@@ -66,19 +124,22 @@ class MagneticSnow {
     // Draw the ring around the inputs.
     inputKeys.forEach((inputKey) => {
 
-      input = this.inputs[inputKeys[inputKey]];
+      input = this.inputs[inputKey];
 
       if (!input)
         return;
 
+      if (!input.visible)
+        return;
+
       input.strength += (input.targetStrength - input.strength) * 0.1;
 
-      let fluctuation = Math.sin(((input.start + now) % 1570) * 0.001);
+      let fluctuation = Math.sin((now % 1570) * 0.001);
       let radius = Math.abs(fluctuation * 100);
 
-      this.ctx.globalAlpha = Math.max(0, input.strength - fluctuation * 0.6);
+      this.ctx.globalAlpha = Math.max(0, input.strength - fluctuation);
 
-      this.ctx.lineWidth = 4 - fluctuation * 3;
+      this.ctx.lineWidth = 6 - fluctuation * 6;
       this.ctx.strokeStyle = '#FFFFFF';
       this.ctx.beginPath();
       this.ctx.arc(input.x, input.y,
@@ -111,7 +172,7 @@ class MagneticSnow {
     let dx = 0;
     let dy = 0;
     let angle = 0;
-    let inputMass = 3000;
+    let inputMass = 2400;
     let snowFlakeMass = 1;
     let force = 1;
 
@@ -119,11 +180,11 @@ class MagneticSnow {
 
       // Start with gravity.
       snowFlake.ax = snowFlake.dvx;
-      snowFlake.ay = snowFlake.r * 0.02;
+      snowFlake.ay = snowFlake.s * 0.01;
 
       inputKeys.forEach((inputKey) => {
 
-        input = this.inputs[inputKeys[inputKey]];
+        input = this.inputs[inputKey];
 
         if (!input)
           return;
@@ -137,7 +198,7 @@ class MagneticSnow {
         angle = Math.atan2(dy, dx);
 
         // Use the radius as a proxy for the snowflake's mass.
-        snowFlakeMass = snowFlake.r;
+        snowFlakeMass = snowFlake.s;
 
         if (distanceSquared < this.MIN_DIST_SQ) {
 
@@ -170,20 +231,110 @@ class MagneticSnow {
       if (snowFlake.y > this.height)
         this.snow[index] = this.createSnowflake();
 
-      this.ctx.globalAlpha = snowFlake.a;
-      this.ctx.fillStyle = '#FFFFFF';
-      this.ctx.beginPath();
-      this.ctx.arc(snowFlake.x, snowFlake.y, snowFlake.r, 0, Math.PI * 2);
-      this.ctx.closePath();
-      this.ctx.fill();
+      // If it hits the target, increment the count and recycle the snow.
+      if (this.isPlaying && this.intersectsTarget(snowFlake.x, snowFlake.y)) {
 
+        if (this.hitCount >= this.MAX_HIT_COUNT) {
+          this.stopGame();
+        }
+
+        this.hitCount++;
+
+        let progress = Math.min(1, this.hitCount / this.MAX_HIT_COUNT);
+        let progressPercentage = progress * 100;
+
+        this.meterElement.style.height = progressPercentage + '%';
+
+        this.meterGlowElement.style.opacity = progress;
+        this.meterGlowElement.style.height = progressPercentage + '%';
+
+        this.targetElement.classList.add('hit');
+        this.snow[index] = this.createSnowflake();
+      }
+
+      // Blit the circle across rather than drawing an arc
+      // because it's significantly faster.
+      this.ctx.save();
+      this.ctx.globalAlpha = snowFlake.a;
+      this.ctx.drawImage(this.snowFlakeCanvas,
+        snowFlake.x, snowFlake.y,
+        snowFlake.s, snowFlake.s);
+
+      this.ctx.restore();
     });
 
     this.ctx.restore();
+
+    if (this.isPlaying) {
+      let playTime = (Date.now() - this.startPlayTime) / 1000;
+      this.playTimeElement.innerText = playTime.toFixed(2) + 's';
+    }
+
     requestAnimationFrame(this.update);
   }
 
+  intersectsTarget (x, y) {
+    return (x >= this.target.left &&
+            x <= this.target.right &&
+            y >= this.target.top &&
+            y <= this.target.bottom);
+  }
+
+  centerPushAway () {
+    this.inputs.pushAway = {
+      start: window.performance.now(),
+      targetStrength: 30,
+      strength: 30,
+      x: this.width * 0.5,
+      y: this.height * 0.5,
+      visible: false
+    };
+
+    setTimeout (() => {
+      delete this.inputs.pushAway;
+    }, 1000);
+  }
+
+  startGame () {
+    this.hitCount = 0;
+    this.isPlaying = true;
+    this.startPlayTime = Date.now();
+
+    this.playTimeElement.innerText = '';
+    this.meterElement.style.height = '0%';
+    this.meterGlowElement.style.opacity = '0';
+    this.meterGlowElement.style.height = '0%';
+
+    document.body.classList.add('playing');
+  }
+
+  stopGame () {
+    this.isPlaying = false;
+    this.centerPushAway();
+    this.playTimeElement.innerText = '';
+
+    let playTime = (Date.now() - this.startPlayTime) / 1000;
+    let bestTime = parseInt(this.bestTime);
+
+    if (isNaN(bestTime))
+      bestTime = Number.POSITIVE_INFINITY;
+
+    if (playTime < bestTime) {
+      this.bestTime = playTime;
+      window.localStorage.setItem('best', playTime.toFixed(2));
+    }
+
+    this.writeBestTime();
+
+    document.body.classList.remove('playing');
+  }
+
   onInteractStart (evt) {
+
+    if (evt.target === this.playButtonElement) {
+      this.startGame();
+      return;
+    }
 
     evt.preventDefault();
 
@@ -201,7 +352,8 @@ class MagneticSnow {
         targetStrength: touchEvent.force || 1,
         strength: 0,
         x: touchEvent.clientX,
-        y: touchEvent.clientY
+        y: touchEvent.clientY,
+        visible: true
       };
     }
   }
@@ -280,6 +432,20 @@ class MagneticSnow {
     this.element.style.height = `${this.height}px`;
 
     this.ctx.scale(dPR, dPR);
+
+    this.target = {
+      w: this.width * 0.1,
+      y: this.height * 0.9,
+      left: 0,
+      right: 0,
+      top: 0,
+      bottom: 0
+    };
+
+    this.target.left = (this.width - this.target.w) * 0.5;
+    this.target.right = this.target.left + this.target.w;
+    this.target.top = this.target.y;
+    this.target.bottom = this.target.y + 10;
   }
 }
 
