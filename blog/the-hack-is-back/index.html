@@ -288,7 +288,7 @@
 
 <h2 id="the-hack-is-back">The hack is back!</h2>
 
-<p>So, what if the browser did the nasty stuff like memory management and image decoding, but we got the main benefit of decoding off-thread? Cool, because that’s exactly what’s <code>createImageBitmap</code> is for. It’s available in Chrome Canary (with the <strong>“Enable experimental canvas features”</strong> flag enabled in about:flags), and it’s already available in Firefox 42 onwards (well played, Mozilla!).</p>
+<p>So, what if the browser did the nasty stuff like memory management and image decoding, but we got the main benefit of decoding on a worker? Cool, because that’s exactly what’s <code>createImageBitmap</code> is for. It’s available in Chrome Canary (with the <strong>“Enable experimental canvas features”</strong> flag enabled in about:flags), and it’s already available in Firefox 42 onwards (well played, Mozilla!).</p>
 
 <p>Want specs? I got <a href="https://html.spec.whatwg.org/multipage/webappapis.html#dom-createimagebitmap">specs</a>… I also wear specs, like, you know, spectacles, so that totally worked on at least two levels.</p>
 
@@ -311,7 +311,7 @@
 
 <div class="container"><div class="left column">
 
-<p>What’s great about this is that <code>createImageBitmap</code> can run on the main thread. Alternatively <em>it can run in a worker thread</em> and, instead of drawing immediately with <code>drawImage</code>, we can use <code>postMessage</code> with a transferable to send it back to the main thread:</p>
+<p>What’s great about this is that <code>createImageBitmap</code> can run on the main thread. Alternatively <em>it can run in a worker thread</em> and, instead of drawing immediately with <code>drawImage</code>, we can use <code>postMessage</code> with a transferable to send it back to the main thread for handling later:</p>
 
 </div></div>
 
