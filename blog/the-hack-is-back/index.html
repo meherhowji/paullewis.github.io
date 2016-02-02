@@ -383,7 +383,7 @@
 
 <div class="container"><div class="left column">
 
-<p>Weird thing about this, though, is that it doesn’t behave as I’d expected. I have to thank <a href="https://twitter.com/sundress">Alice Boxhall</a> for telling me about this, as I would have had no idea otherwise. Alice told me that if I did this I’d need to account for the case when the image is hidden. It turns out that if you hide an <code>&lt;img&gt;</code> element it is removed from the accessibility tree in Chrome. If, on the other hand, you hide a <code>&lt;canvas&gt;</code> element that has a role attribute it will <em>still be in the tree</em>! I have no idea why a <code>&lt;canvas&gt;</code> is treated differently to an <code>&lt;img&gt;</code>.</p>
+<p>Weird thing about this, though, is that it doesn’t behave as I’d expected. I have to thank <a href="https://twitter.com/sundress">Alice Boxhall</a> for telling me about this, as I would have had no idea otherwise. Alice told me that if I did this I’d need to account for the case when the image is hidden. It turns out that if you hide an <code>&lt;img&gt;</code> element it is removed from the accessibility tree in Chrome. If, on the other hand, you hide a <code>&lt;canvas&gt;</code> element that has a role attribute it will <em>still be in the tree</em>! I have no idea why a <code>&lt;canvas&gt;</code> is treated differently to an <code>&lt;img&gt;</code>, but there we go.</p>
 
 <figure>
   <img src="/static/blog/the-hack-is-back/accessibility-1.jpg" alt="An image element set to display: none." />
