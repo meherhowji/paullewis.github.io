@@ -1,0 +1,503 @@
+<!doctype html>
+<html itemscope itemtype="http://schema.org/Article">
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="author" content="Paul Lewis" />
+  <meta name="viewport" content="width=device-width">
+  <meta name="theme-color" content="#880043">
+
+  
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="//aerotwist.com/blog/feed/">
+  
+
+  
+  <meta name="twitter:site" content="@aerotwist">
+  <meta name="twitter:creator" content="@aerotwist">
+  <meta name="twitter:title" content="The Hack is Back!">
+  <meta name="twitter:description" content="Image decoding can be a source of jank. What if there was a way to work around it without resorting to a clusterbomb of horror hacks? Step right up and meet my new friend createImageBitmap!">
+
+  <meta itemprop="name" content="The Hack is Back!">
+  <meta itemprop="description" content="Image decoding can be a source of jank. What if there was a way to work around it without resorting to a clusterbomb of horror hacks? Step right up and meet my new friend createImageBitmap!">
+
+    
+    <meta itemprop="image" content="https://aerotwist.com">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://aerotwist.com">
+    
+
+  
+
+  <style>
+    
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 400;
+      src: local('Lato Regular'), local('Lato-Regular'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qIIYRU-oROkIk8vfvxw6QvesZW2xOQ-xsNqO47m55DA.woff) format('woff');
+    }
+    
+
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 700;
+      src: local('Lato Bold'), local('Lato-Bold'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qdgUG4U09HnJwhYI-uK18wLUuEpTyoUstqEm5AMlJo4.woff) format('woff');
+    }
+  </style>
+
+  <link rel="stylesheet" media="screen" href="/css/aerotwist.css" />
+  <title>Aerotwist - The Hack is Back!</title>
+  
+</head>
+
+
+<!--
+                              __          .__          __
+  _____    ___________  _____/  |___  _  _|__| _______/  |_
+  \__  \ _/ __ \_  __ \/  _ \   __\ \/ \/ /  |/  ___/\   __\
+   / __ \\  ___/|  | \(  <_> )  |  \     /|  |\___ \  |  |
+  (____  /\___  >__|   \____/|__|   \/\_/ |__/____  > |__|
+       \/     \/                                  \/
+
+  Giant ascii art embedded in every page of your site is how you
+  show other people that YOU CARE. Mainly I care about developers,
+  which is what I presume you are if you're all about viewing
+  the source. Clearly you're my kind of person.
+
+  This is v3, it's run through Jekyll, it's been fun to build,
+  there's always more to do, and you may notice that aside from
+  Google Analytics there is no JavaScript. None.
+
+  That's one way of many you keep your pages fast. I care about
+  keeping this site fast because your time is precious and I need
+  to get out of your way.
+
+  <3'z
+
+  Paul
+-->
+
+
+  <body class="blog">
+
+    <header>
+      <div class="container">
+        <div id="logo">
+  <a href="/">
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="100%" height="100%">
+    <g>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#6EBAD3" points="30.6,47.73 64.92,47.73 19.97,76.52"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ED95C0" points="48.198,0 53.008,14.06 39.31,24.76"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#880043" points="39.31,24.76 64.92,48 30.6,48"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#DA0A7A" points="39.31,24.76 64.92,48 53.008,14.06"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#0B7DAD" points="30.6,48 64.92,48 48,58.69"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#BDDEE8" points="47.76,58.69 64.92,47.73 75.14,76.73"></polygon>
+    </g>
+    </svg>
+  </a>
+</div>
+
+        <nav>
+  <ul>
+    
+      
+        <li><a href="/">Home</a></li>
+      
+    
+      
+        <li class="active"><a href="/blog/"> Blog</a></li>
+      
+    
+      
+        <li><a href="/tutorials/">Tutorials</a></li>
+      
+    
+      
+        <li><a href="/lab/">Lab</a></li>
+      
+    
+  </ul>
+
+  <svg id="left-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#AAAAAA" stroke-width="1" />
+    </svg>
+
+  <svg id="right-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#6EBAD3" stroke-opacity="0.3" stroke-width="1" />
+    </svg>
+</nav>
+
+      </div>
+    </header>
+    <section>
+
+      <div class="content">
+
+  
+  <svg version="1.1" class="shape-reference" xmlns="http://www.w3.org/2000/svg" width="514" height="311">
+  <defs>
+    <filter id="blur-8">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="8" />
+    </filter>
+    <filter id="blur-6">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="6" />
+    </filter>
+    <filter id="blur-4">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="4" />
+    </filter>
+  </defs>
+
+  <g id="color-block">
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#92a1c6" stroke="#92a1c6" stroke-width="0.6" points="92,161 40,91 93,88"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#8077af" stroke="#8077af" stroke-width="0.6" points="92,161 93,88 105,163"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#997bb4" stroke="#997bb4" stroke-width="0.6" points="147,134 105,163 93,88"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#8e4899" stroke="#8e4899" stroke-width="0.6" points="105,163 147,134 156,169"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#6b3c7a" stroke="#6b3c7a" stroke-width="0.6" points="123,206 105,163 156,169"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#712a68" stroke="#712a68" stroke-width="0.6" points="191,197 123,206 156,169"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#4d1d48" stroke="#4d1d48" stroke-width="0.6" points="191,197 148,244 123,206"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#3e1031" stroke="#3e1031" stroke-width="0.6" points="189,253 148,244 191,197"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#5f0f40" stroke="#5f0f40" stroke-width="0.6" points="189,253 191,197 231,201"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#4e0730" stroke="#4e0730" stroke-width="0.6" points="189,253 231,201 244,237"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#6e033a" stroke="#6e033a" stroke-width="0.6" points="244,237 231,201 264,219"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#3c0220" stroke="#3c0220" stroke-width="0.6" points="244,237 264,219 303,271"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#4d0830" stroke="#4d0830" stroke-width="0.6" points="303,271 264,219 317,201"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#34102c" stroke="#34102c" stroke-width="0.6" points="413,236 303,271 317,201"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#562757" stroke="#562757" stroke-width="0.6" points="413,236 317,201 384,175"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#3f3f67" stroke="#3f3f67" stroke-width="0.6" points="413,236 384,175 474,182"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#615592" stroke="#615592" stroke-width="0.6" points="384,175 387,141 474,182"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#994095" stroke="#994095" stroke-width="0.6" points="384,175 321,153 387,141"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#912977" stroke="#912977" stroke-width="0.6" points="317,201 321,153 384,175"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#b5207f" stroke="#b5207f" stroke-width="0.6" points="317,201 311,144 321,153"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#9c1162" stroke="#9c1162" stroke-width="0.6" points="264,219 311,144 317,201"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#cc066d" stroke="#cc066d" stroke-width="0.6" points="311,144 264,219 233,159"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f52692" stroke="#f52692" stroke-width="0.6" points="265,117 311,144 233,159"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#e348a1" stroke="#e348a1" stroke-width="0.6" points="311,144 265,117 309,131"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#d14fa3" stroke="#d14fa3" stroke-width="0.6" points="311,144 309,131 331,122"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#cb439c" stroke="#cb439c" stroke-width="0.6" points="321,153 311,144 331,122"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#b752a2" stroke="#b752a2" stroke-width="0.6" points="321,153 331,122 387,141"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ea75b8" stroke="#ea75b8" stroke-width="0.6" points="309,131 265,117 312,77"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f6a4d0" stroke="#f6a4d0" stroke-width="0.6" points="265,117 271,55 312,77"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#fea8d3" stroke="#fea8d3" stroke-width="0.6" points="265,117 246,67 271,55"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#fc79bb" stroke="#fc79bb" stroke-width="0.6" points="240,121 246,67 265,117"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f4a3d0" stroke="#f4a3d0" stroke-width="0.6" points="240,121 196,66 246,67"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#e682be" stroke="#e682be" stroke-width="0.6" points="187,124 196,66 240,121"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#dca1cc" stroke="#dca1cc" stroke-width="0.6" points="187,124 141,88 196,66"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#c37eb9" stroke="#c37eb9" stroke-width="0.6" points="147,134 141,88 187,124"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#bc9dc7" stroke="#bc9dc7" stroke-width="0.6" points="147,134 93,88 141,88"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#d2c9df" stroke="#d2c9df" stroke-width="0.6" points="93,88 95,55 141,88"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#c6cde1" stroke="#c6cde1" stroke-width="0.6" points="93,88 40,91 95,55"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#eadcec" stroke="#eadcec" stroke-width="0.6" points="141,88 95,55 178,40"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#eed4e8" stroke="#eed4e8" stroke-width="0.6" points="141,88 178,40 196,66"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f8e6f2" stroke="#f8e6f2" stroke-width="0.6" points="196,66 178,40 212,54"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f8d2e8" stroke="#f8d2e8" stroke-width="0.6" points="246,67 196,66 212,54"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#fdd7eb" stroke="#fdd7eb" stroke-width="0.6" points="246,67 212,54 271,55"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#b14e9f" stroke="#b14e9f" stroke-width="0.6" points="156,169 147,134 187,124"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#bc3493" stroke="#bc3493" stroke-width="0.6" points="156,169 187,124 205,159"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#9b2476" stroke="#9b2476" stroke-width="0.6" points="191,197 156,169 205,159"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#9d1566" stroke="#9d1566" stroke-width="0.6" points="191,197 205,159 231,201"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#be1172" stroke="#be1172" stroke-width="0.6" points="231,201 205,159 233,159"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#a20658" stroke="#a20658" stroke-width="0.6" points="231,201 233,159 264,219"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#e4248e" stroke="#e4248e" stroke-width="0.6" points="233,159 205,159 240,121"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f7379a" stroke="#f7379a" stroke-width="0.6" points="265,117 233,159 240,121"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#db459e" stroke="#db459e" stroke-width="0.6" points="205,159 187,124 240,121"/>
+  </g>
+</svg>
+
+  
+
+  <div class="masthead hatched">
+
+    
+      <svg class="behind-meta" width="514" height="311">
+        <use xlink:href="#color-block" />
+      </svg>
+
+      <svg class="left-meta" width="514" height="311">
+        <use xlink:href="#color-block" filter="url(#blur-6)" transform="translate(257 155) scale(-0.5 0.5) translate(-257 -156)" />
+      </svg>
+    
+
+    <div class="container">
+      <h2>The Hack is Back!</h2>
+      <p>Image decoding can be a source of jank. What if there was a way to work around it without resorting to a clusterbomb of horror hacks? Step right up and meet my new friend <code>createImageBitmap</code>!</p>
+    </div>
+
+  </div>
+
+  <div class="container">
+    <div class="meta">
+
+      <ul>
+        <li class="last-updated">
+          <span class="name">Last updated:</span>
+          <span class="value">25 Jan 2016</span>
+        </li>
+
+        <li>
+          <span class="name">Est. Read Time:</span>
+          <span class="value">8 mins</span>
+        </li>
+
+        <li class="share">
+          <span class="name">Share this:</span>
+          <span class="value"><a href="http://www.twitter.com/share?url=https://aerotwist.com/blog/the-hack-is-back/&text=The Hack is Back!">Twitter</a></span>
+          <span class="value"><a href="https://plus.google.com/share?url=https://aerotwist.com/blog/the-hack-is-back/">Google+</a></span>
+        </li>
+        <li class="tags">
+          <span class="name">Tagged:</span>
+          <span class="value">
+          
+            #images, 
+          
+            #perf
+          
+          </span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="container"><div class="left column">
+
+<p><strong>Heads up: this feature is experimental. It’s incoming, pretty great, and I’m excited about its, so I figured I’d just tell you about it now.</strong></p>
+
+<p>Let’s say I ask you to pick up 200 stones and place them in the back of a truck. Let’s say that each stone is the about size of a pebble, but stone number 154 is an enormous boulder. That boulder is going to take significantly more time to pick up than all the stones before or after it… That’s probably not a huge shocker. That’s also <em>exactly</em> what it can be like with image decoding on the web today.</p>
+
+<figure>
+  <img src="/static/blog/the-hack-is-back/image-decode.jpg" alt="An image taking 185ms to decode on a MacBook Pro." />
+  <figcaption>An image taking 185ms to decode on a MacBook Pro.</figcaption>
+</figure>
+
+<p>Compared to nearly all the other paint tasks (fill this thing red, draw text here) image decoding can be unwieldy, and it will stop any other paint tasks happening while it takes place. It doesn’t matter if everything else you need to have painted is lightweight, if there’s one heavy task in the middle (and image decoding <em>is</em> often heavy) then it’ll just have to wait. Decoding big masthead images, or a heap of smaller images can all induce checkerboarding or jank, and there’s nothing we developers can do about it.</p>
+
+<blockquote>
+  <p>Compared to nearly all the other paint tasks… image decoding can be unwieldy… and there’s nothing we developers can do about it.</p>
+</blockquote>
+
+<p><a href="../one-weird-trick/">I wrote a post about this problem</a> two and a bit years ago, and my solution then was to invite you to Hacksville (population: me… and you, I guess). The idea was to use a JavaScript-based image decoder in a worker. URLs would be shipped off to the worker, decoded by the JS-decoder, and the raw pixel data would get posted back to the main thread and drawn into a canvas.</p>
+
+<p>I then summarily booted you out of Hacksville because, and I want to be super clear on this, it’s <strong>a terrible idea</strong>. It’s terrible because you have to manage a) image decoding, b) memory usage, c) image quality, and d) way more code. The upside is that images are decoded “out of flow” to the rest of the draw calls, and this means less time blocking paint, which in turn can reduce the chance of checkerboarding and jank.</p>
+
+<p>Was the hack worth it? Not in my opinion. It’s why I tried booting you out, see; I was trying to help. Helpful. Me. Yes, that’s the one.</p>
+
+<h2 id="the-hack-is-back">The hack is back!</h2>
+
+<p>So, what if the browser did the nasty stuff like memory management and image decoding, but we got the main benefit of decoding off-thread? Cool, because that’s exactly what’s <code>createImageBitmap</code> is for. It’s available in Chrome Canary (with the <strong>“Enable experimental canvas features”</strong> flag enabled in about:flags), and it’s already available in Firefox 42 onwards (well played, Mozilla!).</p>
+
+<p>Want specs? I got <a href="https://html.spec.whatwg.org/multipage/webappapis.html#dom-createimagebitmap">specs</a>… I also wear specs, like, you know, spectacles, so that totally worked on at least two levels.</p>
+
+<p>Right, let’s just look at some code, because I don’t know about you, but I’ve read enough words from me:</p>
+
+</div></div>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">fetch</span><span class="p">(</span><span class="nx">imageURL</span><span class="p">)</span>
+
+  <span class="c1">// Get the image as a blob.</span>
+  <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">response</span> <span class="o">=&gt;</span> <span class="nx">response</span><span class="p">.</span><span class="nx">blob</span><span class="p">())</span>
+
+  <span class="c1">// Decode the image.</span>
+  <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">blobData</span> <span class="o">=&gt;</span> <span class="nx">createImageBitmap</span><span class="p">(</span><span class="nx">blobData</span><span class="p">))</span>
+
+  <span class="c1">// Draw it to screen.</span>
+  <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">imageBitmap</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">canvasContext</span><span class="p">.</span><span class="nx">drawImage</span><span class="p">(</span><span class="nx">imageBitmap</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+  <span class="p">});</span></code></pre></div>
+
+<div class="container"><div class="left column">
+
+<p>What’s great about this is that <code>createImageBitmap</code> can run on main thread, or <em>it can run in a web worker</em> and, instead of drawing immediately with <code>drawImage</code>, we could use <code>postMessage</code> with a transferable to send it back to the main thread:</p>
+
+</div></div>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="c1">// In the worker.</span>
+<span class="nx">fetch</span><span class="p">(</span><span class="nx">imageURL</span><span class="p">)</span>
+
+  <span class="c1">// ... Same as before</span>
+
+  <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">imageBitmap</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="c1">// Transfer the imageBitmap back to main thread.</span>
+    <span class="nx">self</span><span class="p">.</span><span class="nx">postMessage</span><span class="p">({</span> <span class="nx">imageBitmap</span> <span class="p">},</span> <span class="p">[</span><span class="nx">imageBitmap</span><span class="p">]);</span>
+  <span class="p">},</span> <span class="nx">err</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">self</span><span class="p">.</span><span class="nx">postMessage</span><span class="p">({</span> <span class="nx">err</span> <span class="p">});</span>
+  <span class="p">});</span>
+
+<span class="c1">// In the main thread.</span>
+<span class="nx">worker</span><span class="p">.</span><span class="nx">onmessage</span> <span class="o">=</span> <span class="p">(</span><span class="nx">evt</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">evt</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">err</span><span class="p">)</span>
+    <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="nx">evt</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">err</span><span class="p">);</span>
+
+  <span class="nx">canvasContext</span><span class="p">.</span><span class="nx">drawImage</span><span class="p">(</span><span class="nx">evt</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">imageBitmap</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+<span class="p">}</span></code></pre></div>
+
+<div class="container"><div class="left column">
+
+<h2 id="tell-me-more-about-drawing-the-image-immediately">Tell me more about drawing the image immediately</h2>
+
+<p>It’s great that we now have a way to decode images in a worker, but when that <code>ImageBitmap</code> arrives back into the main thread many of us would probably paint it into the canvas immediately. But what if the user is scrolling or there’s something else keeping the main thread busy? Kind of checkerjank-inducing, which is exactly what we wanted to avoid.</p>
+
+<figure>
+  <img src="/static/blog/the-hack-is-back/busy-main.jpg" alt="A busy main thread; not conducive to drawing big images to screen, even ones that are already decoded." />
+  <figcaption>A busy main thread; not conducive to drawing big images to screen, even ones that are already decoded.</figcaption>
+</figure>
+
+<p>This is a great time to plug <code>requestIdleCallback</code>, because it’s designed for such cases like this. Not familiar with <code>requestIdleCallback</code>? No worries, buddies, I have me an explainer over on <a href="https://developers.google.com/web/updates/2015/08/using-requestidlecallback?hl=en">Google Web Updates</a>. Long story short, it’s a good way to do the paint work without getting in the user’s way!</p>
+
+<p>If we assume that drawing the image will take, oh I dunno, 10 milliseconds, we can do something like this.</p>
+
+</div></div>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">function</span> <span class="nx">drawImageToScreen</span><span class="p">(</span><span class="nx">deadline</span><span class="p">)</span> <span class="p">{</span>
+
+  <span class="c1">// Make sure there&#39;s at least 10ms</span>
+  <span class="c1">// before committing to the work. If</span>
+  <span class="c1">// not then wait again.</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">deadline</span><span class="p">.</span><span class="nx">timeRemaining</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nx">requestIdleCallback</span><span class="p">(</span><span class="nx">drawImageToScreen</span><span class="p">);</span>
+
+  <span class="nx">canvasContext</span><span class="p">.</span><span class="nx">drawImage</span><span class="p">(</span><span class="nx">evt</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">imageBitmap</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// In the main thread.</span>
+<span class="nx">worker</span><span class="p">.</span><span class="nx">onmessage</span> <span class="o">=</span> <span class="p">(</span><span class="nx">evt</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">evt</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">err</span><span class="p">)</span>
+    <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="nx">evt</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">err</span><span class="p">);</span>
+
+  <span class="nx">requestIdleCallback</span><span class="p">(</span><span class="nx">drawImageToScreen</span><span class="p">);</span>
+<span class="p">}</span></code></pre></div>
+
+<div class="container"><div class="left column">
+
+<h2 id="accessible-much">Accessible, much?</h2>
+
+<p>Well now, here’s the rub. We’ve replaced the role traditionally held by good old <code>&lt;img&gt;</code> and replaced with a <code>&lt;canvas&gt;</code>, which changes how it behaves with screen readers. Going down this route requires adding additional attributes to account for that:</p>
+
+</div></div>
+
+<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;canvas</span> <span class="na">role=</span><span class="s">&quot;img&quot;</span> <span class="na">aria-label=</span><span class="s">&quot;This would be the alt text.&quot;</span><span class="nt">&gt;&lt;/canvas&gt;</span></code></pre></div>
+
+<div class="container"><div class="left column">
+
+<p>Weird thing about this, though, is that it doesn’t behave as I’d expected. I have to thank <a href="https://twitter.com/sundress">Alice Boxhall</a> for telling me about this, as I would have had no idea otherwise. Alice told me that if I did this I’d need to account for the case when the image is hidden. It turns out, and I have no idea why, that if you hide an <code>&lt;img&gt;</code> element it is removed from the accessibility tree in Chrome. If, on the other hand, you hide a <code>&lt;canvas&gt;</code> element that has a role attribute it will <em>still be in the tree</em>!</p>
+
+<figure>
+  <img src="/static/blog/the-hack-is-back/accessibility-1.jpg" alt="An image element set to display: none." />
+  <figcaption>An image element set to display: none.</figcaption>
+</figure>
+
+<p>The image isn’t the accessibility tree when it’s hidden. Not so the canvas with a role attribute:</p>
+
+<figure>
+  <img src="/static/blog/the-hack-is-back/accessibility-2.jpg" alt="A canvas element with a role attribute and display: none." />
+  <figcaption>A canvas element with a role attribute and display: none.</figcaption>
+</figure>
+
+<p>It’s still in the accessibility tree! Weird, huh? Right, so here’s another way to do the markup:</p>
+
+</div></div>
+
+<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;div</span> <span class="na">role=</span><span class="s">&quot;img&quot;</span> <span class="na">aria-label=</span><span class="s">&quot;This would be the alt text.&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;canvas</span> <span class="na">aria-hidden=</span><span class="s">&quot;true&quot;</span><span class="nt">&gt;&lt;/canvas&gt;</span>
+<span class="nt">&lt;/div&gt;</span></code></pre></div>
+
+<div class="container"><div class="left column">
+
+<p>This way you have something that acts as an image (it also has no children as far as the screen reader is concerned, which is important since a real <code>&lt;img&gt;</code> element wouldn’t either), and will also be added and removed from the accessibility tree when hidden and shown respectively. Canvas, role… bug? I dunno.</p>
+
+<h2 id="sounds-like-an-awfully-good-idea-to-make-a-library">Sounds like an awfully good idea to make a library</h2>
+
+<figure>
+  <a href="https://github.com/googlechrome/offthread-image"><img src="/static/blog/the-hack-is-back/offthread-image.jpg" alt="A library to help with using createImageBitmap." /></a>
+  <figcaption>A library to help with using createImageBitmap.</figcaption>
+</figure>
+
+<p>That’s what I thought, anyway, and so <a href="https://github.com/googlechrome/offthread-image">I’ve made one</a>, in case it’s useful to you. I’m not going to go into the details all that much, since there’s documentation and a breakdown of how to use it on the repo. Take a look, let me know what you think, get involved!</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<blockquote>
+  <p>we at least have a way to take our image-handling dune buggies offroad without careering off into a coding canyon.</p>
+</blockquote>
+
+<p>So there you have it, there’s now a standards-based way of achieving the effect I set out to do a couple of years ago. There’s also a library to help you out, too, and who doesn’t like a library?</p>
+
+<p>Ultimately I hope that the way that the <code>&lt;img&gt;</code> element itself (and <code>background-image</code>s, too, for that matter) get an upgrade at some point. I would still love to see something like <code>display: optional</code> or another way to say “this image is not essential, do not block other paint tasks on it”. Until then, we at least have a way to take our image-handling dune buggies offroad without careering off into a coding canyon. I dunno about you, but that’s at least one of my thirteen definitions of “winning”.</p>
+
+</div></div>
+
+
+  <div class="footer-share container">
+    Share this on: <span class="value"><a href="http://www.twitter.com/share?url=https://aerotwist.com/blog/the-hack-is-back/&text=The Hack is Back!">Twitter</a></span>
+    <span class="value"><a href="https://plus.google.com/share?url=https://aerotwist.com/blog/the-hack-is-back/">Google+</a></span>
+  </div>
+
+  <div class="clear"></div>
+
+  
+    <svg class="left-shape" style="margin-left: -295.45px" width="435.4" height="719.6">
+      <use xlink:href="#color-block" filter="url(#blur-4)" transform="scale(-1.4 1.4) rotate(90)"/>
+    </svg>
+
+    <svg class="right-shape" width="155.5" height="462.6">
+      <use xlink:href="#color-block" filter="url(#blur-8)" transform="scale(-0.9 0.9) rotate(90)"/>
+    </svg>
+  
+
+</div>
+
+
+    </section>
+
+    <footer>
+
+      <div class="container">
+        <div class="bio panel">
+          <h2>Hello!</h2>
+          <p>My name is Paul. I work at <a href="http://www.google.com/" title="Some cloud company in the USA, I think.">Google</a> on the Chrome Developer Relations team as an advocate. I help developers improve the performance of their sites and apps.</p>
+
+          <p>You can find me on <a href="http://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a></p>
+        </div>
+
+        <div class="get-in-touch panel">
+          <h2>Get in touch</h2>
+          <p>I don’t bite. Honestly. You can find me on <a href="https://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a>, and I like hearing from people (pretty handy given my job, really) so say hi.</p>
+        </div>
+
+        <div class="subscribe panel">
+          <h2>Subscribe</h2>
+          <p>You should totally get the <a href="/blog/feed/">RSS feed</a>, or whatever it is you kids are using these days (I miss Reader.)</p>
+        </div>
+
+        <p class="disclaimer">Except as otherwise noted, the content of this page is licensed under the Creative Commons Attribution 3.0 License, and code samples are licensed under the Apache 2.0 License.</p>
+      </div>
+    </footer>
+
+    <script async="true">
+
+    /**
+     * Snow effect, from: HTML5 Rocks
+     * https://github.com/html5rocks/www.html5rocks.com/blob/9318b5755c8c17a4bd1761bca6b1b491e7fd17b8/content/index.html
+     */
+    !function(){function j(){f=c.clientWidth,g=c.clientHeight,d.width=f,d.height=g,e.fillStyle="#FFF";var a=i;i=f>300,!a&&i&&requestAnimFrame(n)}function n(){if(e.clearRect(0,0,f,g),i){for(h=0;b>h;h++)m=l[h],m.y+=m.vy,m.x+=m.vx,e.globalAlpha=m.o,e.beginPath(),e.arc(m.x,m.y,m.r,0,2*Math.PI,!1),e.closePath(),e.fill(),m.y>g&&m.reset();requestAnimFrame(n)}}var a=(new Date).getMonth();if(11===a){var b=300,c=document.querySelector(".masthead");if(c){var d=document.createElement("canvas"),e=d.getContext("2d"),f=c.clientWidth,g=c.clientHeight,h=0,i=!1,k=function(){this.x=0,this.y=0,this.vy=0,this.vx=0,this.r=0,this.reset()};k.prototype.reset=function(){this.x=Math.random()*f,this.y=Math.random()*-g,this.vy=1+3*Math.random(),this.vx=.5-Math.random(),this.r=1+2*Math.random(),this.o=.5+.5*Math.random()},d.style.position="absolute",d.style.left=d.style.top="0";var m,l=[];for(h=0;b>h;h++)m=new k,m.reset(),l.push(m);window.requestAnimFrame=function(){return window.requestAnimationFrame||window.webkitRequestAnimationFrame||window.mozRequestAnimationFrame||function(a){window.setTimeout(a,1e3/60)}}(),j(),window.addEventListener("resize",j,!1),c.appendChild(d)}}}();
+    </script>
+
+    <script type="text/javascript" async="true">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-13024693-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+  </body>
+</html>
