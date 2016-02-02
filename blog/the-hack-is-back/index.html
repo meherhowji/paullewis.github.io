@@ -274,7 +274,7 @@
   <figcaption>An image taking 185ms to decode on a MacBook Pro.</figcaption>
 </figure>
 
-<p>Compared to nearly all the other paint tasks (fill this thing red, draw text here) image decoding can be unwieldy, and it will stop any other paint tasks happening while it takes place. It doesn’t matter if everything else you need to have painted is lightweight, if there’s one heavy task in the middle (and image decoding <em>is</em> often heavy) then it’ll just have to wait. Decoding big masthead images, or a heap of smaller images can all induce checkerboarding or jank, and there’s nothing we developers can do about it.</p>
+<p>Compared to nearly all the other paint tasks (fill this thing red, draw text here) image decoding can be unwieldy, and it will block any other paint tasks on the same thread. It doesn’t matter if everything else you need to have painted is lightweight, if there’s one heavy task like image decoding right in the middle, then they’ll just have to wait. Decoding big masthead images, or a heap of smaller images can all induce checkerboarding or jank, and there’s nothing we developers can do about it.</p>
 
 <blockquote>
   <p>Compared to nearly all the other paint tasks… image decoding can be unwieldy… and there’s nothing we developers can do about it.</p>
