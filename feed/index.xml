@@ -4,7 +4,7 @@
 
     <title>Aerotwist</title>
     <description>Pretty much whatever comes into my head.</description>
-    <lastBuildDate>2016-02-02 21:36:26 +0000</lastBuildDate>
+    <lastBuildDate>2016-02-02 21:37:32 +0000</lastBuildDate>
     <language>en</language>
     <generator>Aerotwist</generator>
     <atom:link href="https://aerotwist.com/feed/" rel="self" type="application/rss+xml" />
@@ -12,7 +12,7 @@
       <item>
         <title>The Hack is Back!</title>
         <description>
-          <![CDATA[Image decoding can be a source of jank. What if there was a way to work around it without resorting to a clusterbomb of horror hacks? Step right up and meet my new friend createImageBitmap!]]>
+          <![CDATA[Image decoding can be a source of checkboarding and jank. What if there was a way to work around it without resorting to a cluster of horror hacks? Step right up and meet my new friend createImageBitmap!]]>
         </description>
         <pubDate>Mon, 25 Jan 2016 00:00:00 +0000</pubDate>
         <link>https://aerotwist.com/blog/the-hack-is-back</link>
