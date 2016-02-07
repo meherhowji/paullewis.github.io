@@ -383,21 +383,23 @@
 
 <div class="container"><div class="left column">
 
-<p>Weird thing about this, though, is that it doesn’t behave as I’d expected. I have to thank <a href="https://twitter.com/sundress">Alice Boxhall</a> for telling me about this, as I would have had no idea otherwise. Alice told me that if I did this I’d need to account for the case when the image is hidden. It turns out that if you hide an <code>&lt;img&gt;</code> element it is removed from the accessibility tree in Chrome. If, on the other hand, you hide a <code>&lt;canvas&gt;</code> element that has a role attribute it will <em>still be in the tree</em>! I have no idea why a <code>&lt;canvas&gt;</code> is treated differently to an <code>&lt;img&gt;</code>, but there we go.</p>
+<p>Weird thing about this, though, is that it doesn’t behave as I’d expected. I have to thank <a href="https://twitter.com/sundress">Alice Boxhall</a> for telling me about this, as I would have had no idea otherwise. Alice told me that if I did this I’d need to account for the case when the image is hidden.</p>
+
+<p>It turns out that if you hide an <code>&lt;img&gt;</code> element it is removed from the accessibility tree in Chrome. If, on the other hand, you hide a <code>&lt;canvas&gt;</code> element that has a role attribute it will <em>still be in the accessibility tree</em>! I have no idea why a <code>&lt;canvas&gt;</code> is treated differently to an <code>&lt;img&gt;</code>, but there we go.</p>
 
 <figure>
   <img src="/static/blog/the-hack-is-back/accessibility-1.jpg" alt="An image element set to display: none." />
   <figcaption>An image element set to display: none.</figcaption>
 </figure>
 
-<p>The image isn’t the accessibility tree when it’s hidden. Not so the canvas with a role attribute:</p>
+<p>The picture above shows that an <code>&lt;img&gt;</code> isn’t the accessibility tree when it’s hidden. Not so the canvas with a role attribute:</p>
 
 <figure>
   <img src="/static/blog/the-hack-is-back/accessibility-2.jpg" alt="A canvas element with a role attribute and display: none." />
   <figcaption>A canvas element with a role attribute and display: none.</figcaption>
 </figure>
 
-<p>It’s still in the accessibility tree! Weird, huh? Right, so here’s another way to do the markup:</p>
+<p>It’s still in the accessibility tree! Weird, huh? Right, so with that in mind, here’s another way to do the markup:</p>
 
 </div></div>
 
@@ -426,7 +428,7 @@
 
 <p>So there you have it, there’s now a standards-based way of achieving something I set out to solve a couple of years ago! Hurray!</p>
 
-<p>Ultimately I hope that the way that image elements (and <code>background-image</code>s, too, for that matter) are handled get an upgrade at some point. I would still love to see something like <code>display: optional</code> or another way to say “this image is not essential, do not block other paint tasks on it”. Until then, we at least have a way to take our image-handling dune buggies offroad without careering off into a coding canyon. I dunno about you, but that’s at least one of my thirteen definitions of “winning”.</p>
+<p>Ultimately I hope the way image elements (and <code>background-image</code>s, too, for that matter) are handled gets an upgrade at some point. I would still love to see something like <code>display: optional</code> or another way to say “this image is not essential, do not block other paint tasks on it”. Until then, we at least have a way to take our image-handling dune buggies offroad without careering off into a coding canyon. I dunno about you, but that’s at least one of my thirteen definitions of “winning”.</p>
 
 </div></div>
 
