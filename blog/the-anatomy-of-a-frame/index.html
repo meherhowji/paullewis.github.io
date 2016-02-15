@@ -1,0 +1,415 @@
+<!doctype html>
+<html itemscope itemtype="http://schema.org/Article">
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="author" content="Paul Lewis" />
+  <meta name="viewport" content="width=device-width">
+  <meta name="theme-color" content="#880043">
+
+  
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="//aerotwist.com/blog/feed/">
+  
+
+  
+  <meta name="twitter:site" content="@aerotwist">
+  <meta name="twitter:creator" content="@aerotwist">
+  <meta name="twitter:title" content="The Anatomy of a Frame">
+  <meta name="twitter:description" content="I&#39;m often asked by other developers about parts of the pixel pipeline, and what fires when and why, so I figured it might be worth putting up a little reference for what&#39;s involved in shipping pixels to screen.">
+
+  <meta itemprop="name" content="The Anatomy of a Frame">
+  <meta itemprop="description" content="I&#39;m often asked by other developers about parts of the pixel pipeline, and what fires when and why, so I figured it might be worth putting up a little reference for what&#39;s involved in shipping pixels to screen.">
+
+    
+    <meta itemprop="image" content="https://aerotwist.com/static/blog/the-anatomy-of-a-frame/anatomy-of-a-frame.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://aerotwist.com/static/blog/the-anatomy-of-a-frame/anatomy-of-a-frame.jpg">
+    
+
+  
+
+  <style>
+    
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 400;
+      src: local('Lato Regular'), local('Lato-Regular'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qIIYRU-oROkIk8vfvxw6QvesZW2xOQ-xsNqO47m55DA.woff) format('woff');
+    }
+    
+
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 700;
+      src: local('Lato Bold'), local('Lato-Bold'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qdgUG4U09HnJwhYI-uK18wLUuEpTyoUstqEm5AMlJo4.woff) format('woff');
+    }
+  </style>
+
+  <link rel="stylesheet" media="screen" href="/css/aerotwist.css" />
+  <title>Aerotwist - The Anatomy of a Frame</title>
+  
+</head>
+
+
+<!--
+                              __          .__          __
+  _____    ___________  _____/  |___  _  _|__| _______/  |_
+  \__  \ _/ __ \_  __ \/  _ \   __\ \/ \/ /  |/  ___/\   __\
+   / __ \\  ___/|  | \(  <_> )  |  \     /|  |\___ \  |  |
+  (____  /\___  >__|   \____/|__|   \/\_/ |__/____  > |__|
+       \/     \/                                  \/
+
+  Giant ascii art embedded in every page of your site is how you
+  show other people that YOU CARE. Mainly I care about developers,
+  which is what I presume you are if you're all about viewing
+  the source. Clearly you're my kind of person.
+
+  This is v3, it's run through Jekyll, it's been fun to build,
+  there's always more to do, and you may notice that aside from
+  Google Analytics there is no JavaScript. None.
+
+  That's one way of many you keep your pages fast. I care about
+  keeping this site fast because your time is precious and I need
+  to get out of your way.
+
+  <3'z
+
+  Paul
+-->
+
+
+  <body class="blog">
+
+    <header>
+      <div class="container">
+        <div id="logo">
+  <a href="/">
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="100%" height="100%">
+    <g>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#6EBAD3" points="30.6,47.73 64.92,47.73 19.97,76.52"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ED95C0" points="48.198,0 53.008,14.06 39.31,24.76"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#880043" points="39.31,24.76 64.92,48 30.6,48"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#DA0A7A" points="39.31,24.76 64.92,48 53.008,14.06"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#0B7DAD" points="30.6,48 64.92,48 48,58.69"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#BDDEE8" points="47.76,58.69 64.92,47.73 75.14,76.73"></polygon>
+    </g>
+    </svg>
+  </a>
+</div>
+
+        <nav>
+  <ul>
+    
+      
+        <li><a href="/">Home</a></li>
+      
+    
+      
+        <li class="active"><a href="/blog/"> Blog</a></li>
+      
+    
+      
+        <li><a href="/tutorials/">Tutorials</a></li>
+      
+    
+      
+        <li><a href="/lab/">Lab</a></li>
+      
+    
+  </ul>
+
+  <svg id="left-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#AAAAAA" stroke-width="1" />
+    </svg>
+
+  <svg id="right-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#6EBAD3" stroke-opacity="0.3" stroke-width="1" />
+    </svg>
+</nav>
+
+      </div>
+    </header>
+    <section>
+
+      <div class="content">
+
+  
+  <svg version="1.1" class="shape-reference" xmlns="http://www.w3.org/2000/svg" width="780" height="293">
+  <defs>
+    <filter id="blur-8">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="8" />
+    </filter>
+    <filter id="blur-6">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="6" />
+    </filter>
+    <filter id="blur-4">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="4" />
+    </filter>
+  </defs>
+
+  <g id="color-block">
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#615c99" stroke="#615c99" stroke-width="0.6" points="40,133 161,127 179,197"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#9691be" stroke="#9691be" stroke-width="0.6" points="161,127 40,133 183,81"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#bb81b9" stroke="#bb81b9" stroke-width="0.6" points="293,124 161,127 183,81"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#934092" stroke="#934092" stroke-width="0.6" points="293,124 179,197 161,127"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#982879" stroke="#982879" stroke-width="0.6" points="179,197 293,124 309,168"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#5b1849" stroke="#5b1849" stroke-width="0.6" points="297,233 179,197 309,168"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#610839" stroke="#610839" stroke-width="0.6" points="417,221 297,233 309,168"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#a10455" stroke="#a10455" stroke-width="0.6" points="417,221 309,168 395,160"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#a50c60" stroke="#a50c60" stroke-width="0.6" points="417,221 395,160 494,148"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#7d1354" stroke="#7d1354" stroke-width="0.6" points="417,221 494,148 517,197"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#390926" stroke="#390926" stroke-width="0.6" points="491,253 417,221 517,197"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#360f2c" stroke="#360f2c" stroke-width="0.6" points="491,253 517,197 567,210"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#5b2153" stroke="#5b2153" stroke-width="0.6" points="517,197 564,173 567,210"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#86266e" stroke="#86266e" stroke-width="0.6" points="517,197 494,148 564,173"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#b43995" stroke="#b43995" stroke-width="0.6" points="494,148 516,107 564,173"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#d84da2" stroke="#d84da2" stroke-width="0.6" points="494,148 413,117 516,107"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#e61a8a" stroke="#e61a8a" stroke-width="0.6" points="494,148 395,160 413,117"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f42591" stroke="#f42591" stroke-width="0.6" points="395,160 293,124 413,117"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#d61482" stroke="#d61482" stroke-width="0.6" points="309,168 293,124 395,160"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f95eae" stroke="#f95eae" stroke-width="0.6" points="293,124 410,83 413,117"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f39acb" stroke="#f39acb" stroke-width="0.6" points="293,124 314,48 410,83"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#e0a8d0" stroke="#e0a8d0" stroke-width="0.6" points="293,124 183,81 314,48"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ec75b8" stroke="#ec75b8" stroke-width="0.6" points="413,117 410,83 516,107"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#efb2d7" stroke="#efb2d7" stroke-width="0.6" points="410,83 485,40 516,107"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#eacae2" stroke="#eacae2" stroke-width="0.6" points="516,107 485,40 589,55"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ca9bc8" stroke="#ca9bc8" stroke-width="0.6" points="516,107 589,55 589,124"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#a952a1" stroke="#a952a1" stroke-width="0.6" points="564,173 516,107 589,124"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#77498e" stroke="#77498e" stroke-width="0.6" points="564,173 589,124 663,170"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#4d3a69" stroke="#4d3a69" stroke-width="0.6" points="661,205 564,173 663,170"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#482852" stroke="#482852" stroke-width="0.6" points="567,210 564,173 661,205"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#3e4972" stroke="#3e4972" stroke-width="0.6" points="661,205 663,170 704,162"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#5672a8" stroke="#5672a8" stroke-width="0.6" points="663,170 699,99 704,162"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#7e86b7" stroke="#7e86b7" stroke-width="0.6" points="699,99 663,170 644,103"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#aeb4d2" stroke="#aeb4d2" stroke-width="0.6" points="699,99 644,103 677,76"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#b9c5db" stroke="#b9c5db" stroke-width="0.6" points="677,76 693,71 699,99"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#c1d1e2" stroke="#c1d1e2" stroke-width="0.6" points="699,99 693,71 740,57"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#a7c3d9" stroke="#a7c3d9" stroke-width="0.6" points="730,109 699,99 740,57"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#6d93bb" stroke="#6d93bb" stroke-width="0.6" points="704,162 699,99 730,109"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#c4c1da" stroke="#c4c1da" stroke-width="0.6" points="644,103 636,65 677,76"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#b6a3ca" stroke="#b6a3ca" stroke-width="0.6" points="589,124 636,65 644,103"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#cebad8" stroke="#cebad8" stroke-width="0.6" points="589,124 589,55 636,65"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#846eab" stroke="#846eab" stroke-width="0.6" points="589,124 644,103 663,170"/>
+  </g>
+</svg>
+
+  
+
+  <div class="masthead hatched">
+
+    
+      <svg class="behind-meta" width="780" height="293">
+        <use xlink:href="#color-block" />
+      </svg>
+
+      <svg class="left-meta" width="780" height="293">
+        <use xlink:href="#color-block" filter="url(#blur-6)" transform="translate(390 146) scale(-0.5 0.5) translate(-390 -147)" />
+      </svg>
+    
+
+    <div class="container">
+      <h2>The Anatomy of a Frame</h2>
+      <p>I'm often asked by other developers about parts of the pixel pipeline, and what fires when and why, so I figured it might be worth putting up a little reference for what's involved in shipping pixels to screen.</p>
+    </div>
+
+  </div>
+
+  <div class="container">
+    <div class="meta">
+
+      <ul>
+        <li class="last-updated">
+          <span class="name">Last updated:</span>
+          <span class="value">15 Feb 2016</span>
+        </li>
+
+        <li>
+          <span class="name">Est. Read Time:</span>
+          <span class="value">8 mins</span>
+        </li>
+
+        <li class="share">
+          <span class="name">Share this:</span>
+          <span class="value"><a href="http://www.twitter.com/share?url=https://aerotwist.com/blog/the-anatomy-of-a-frame/&text=The Anatomy of a Frame">Twitter</a></span>
+          <span class="value"><a href="https://plus.google.com/share?url=https://aerotwist.com/blog/the-anatomy-of-a-frame/">Google+</a></span>
+        </li>
+        <li class="tags">
+          <span class="name">Tagged:</span>
+          <span class="value">
+          
+            #pixels
+          
+          </span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="container"><div class="left column">
+
+<p><strong>Caveat: this is a Blink / Chrome view of the world. Most of the main thread tasks are “shared” in some form by all vendors, like layout or style calcs, but this overall architecture may not be.</strong></p>
+
+<h2 id="a-picture-speaks-a-thousand-words">A picture speaks a thousand words</h2>
+
+<p>It really does, so let’s start with one of those:</p>
+
+<figure>
+  <a href="/static/blog/the-anatomy-of-a-frame/anatomy-of-a-frame.zip"><img src="/static/blog/the-anatomy-of-a-frame/anatomy-of-a-frame.svg" alt="The process of getting pixels to screen." /></a>
+  <figcaption>The full-fat process of getting pixels to screen.</figcaption>
+</figure>
+
+<p class="livedemo mid"><a href="/static/blog/the-anatomy-of-a-frame/anatomy-of-a-frame.zip">Download the zip</a></p>
+
+<h2 id="processes">Processes</h2>
+
+<p>That’s a lot of content in a small space, so let’s define things a little more. It can be helpful to have the diagram above alongside these definitions, so maybe <a href="/static/blog/the-anatomy-of-a-frame/anatomy-of-a-frame.svg" target="_blank">fire that up image alongside this</a> or for retro-old-skool points you could, you know, print it out. Sorry. Forget I mentioned it… Sorry.</p>
+
+<p>Let’s start with the processes:</p>
+
+<ul>
+  <li><strong>Renderer Process</strong>. The surrounding container for a tab. It contains multiple threads that, together, are responsible for various aspects of getting your page on screen. These threads are the <em>Compositor</em>, <em>Tile Worker</em>, and <em>Main</em> threads.</li>
+  <li><strong>GPU Process</strong>. This is the single process that serves all tabs and the surrounding browser process. As frames are committed the GPU process will upload any tiles and other data (like quad vertices and matrices) to the GPU for actually pushing pixels to screen. The GPU Process contains a single thread, called the GPU Thread that actually does the work.</li>
+</ul>
+
+<h2 id="renderer-process-threads">Renderer Process Threads.</h2>
+
+<p>Now let’s look at the threads in the Renderer Process.</p>
+
+<blockquote>
+  <p>In many ways you should consider the Compositor Thread as the “big boss”. While it doesn’t run the JavaScript, layout, paint or any of that, it’s the thread that is wholly responsible for initiating main thread work, and then shipping frames to screen.</p>
+</blockquote>
+
+<ul>
+  <li><strong>Compositor Thread</strong>. This is the first thread to be informed about the vsync event (which is how the OS tells the browser to make a new frame). It will also receive any input events. The compositor thread will, if it can, avoid going to the main thread and will try and convert input (like – say – scroll flings) to movement on screen. It will do this by updating layer positions and committing frames via the GPU Thread to the GPU directly. If it can’t do that because of input event handlers, or other visual work, then the Main thread will be required.</li>
+  <li><strong>Main Thread</strong>. This is where the browser executes the tasks we all know and love: JavaScript, styles, layout and paint. (That will change in the future under <a href="https://surma.link/things/houdini-intro/">Houdini</a>.) This thread wins the award for “most likely to cause jank”, largely because of the fact that so much runs here.</li>
+  <li><strong>Compositor Tile Worker(s)</strong>. One or more workers that are spawned by the Compositor Thread to handle the Rasterization tasks. We’ll talk about that a bit more in a moment.</li>
+</ul>
+
+<p>In many ways you should consider the Compositor Thread as the “big boss”. While it doesn’t run the JavaScript, layout, paint or any of that, it’s the thread that is wholly responsible for initiating main thread work, and then shipping frames to screen.</p>
+
+<p>You can also imagine <strong>Service Workers</strong> and <strong>Web Workers</strong> living in this process, though I’m leaving them out to save space and avoid too much complexity.</p>
+
+<h2 id="the-flow-of-things">The flow of things.</h2>
+
+<figure>
+  <a href="/static/blog/the-anatomy-of-a-frame/anatomy-of-a-frame.zip"><img src="/static/blog/the-anatomy-of-a-frame/main-thread.svg" alt="The main thread in all its glory." /></a>
+  <figcaption>The main thread in all its glory.</figcaption>
+</figure>
+
+<p>Let’s step through the flow, from vsync to pixels, and talk about how things work out in the “full-fat” version of events. It’s worth remembering that a browser <em>need not execute all of these steps</em>, depending on what’s necessary. For example, if there’s no new HTML to parse, then Parse HTML won’t fire. In fact, oftentimes <a href="https://developers.google.com/web/fundamentals/performance/rendering/#the-pixel-pipeline">the best way to improve performance</a> is simply to remove the need for parts of the pipeline to be fired!</p>
+
+<blockquote>
+  <p>oftentimes the best way to improve performance is simply to remove the need for parts of the pipeline to be fired!</p>
+</blockquote>
+
+<ol>
+  <li><strong>Frame Start</strong>. Vsync is fired, a frame starts.</li>
+  <li><strong>Input event handlers</strong>. Input data is passed from the compositor thread to any input event handlers on the main thread. All input event handlers (<code>touchmove</code>, <code>scroll</code>, <code>click</code>) fire first, once per frame. There is some latency between the user interaction and the event making its way to the main thread to be handled.</li>
+  <li><strong><code>requestAnimationFrame</code></strong>. This is the ideal place to make visual updates to the screen, since you have fresh input data, and it’s as close to vsync as you’re going to get. Other visual tasks, like style calculations, are due to come <em>after</em> this task, so it’s ideally placed to mutate elements.</li>
+  <li><strong>Parse HTML</strong>. Any newly added HTML is processed, and DOM elements created. You’re likely to see a lot more of this page load or after operations like <code>appendChild</code>.</li>
+  <li><strong>Recalc Styles</strong>. Styles are computed for anything that’s newly added or mutated. This may be the whole tree, or it can be scoped down, depending on what changed. Changing classes on the body can be far-reaching, for example, but it’s worth noting that browsers are already very smart about automatically limiting the scope of style calculations.</li>
+  <li><strong>Layout</strong>. The calculation of geometric information (where and what size each element has) for every visible element. It’s normally done for the entire document, often making the computational cost proportional to the DOM size.</li>
+  <li><strong>Update Layer Tree</strong>. The process of creating the stacking contexts and depth sorting elements.</li>
+  <li><strong>Paint</strong>: This is the first of a two part process: painting is the recording of draw calls (fill a rectangle here, write text there) for any elements that are new or have changed visually. The second part is <em>Rasterization</em> (see below), where the draw calls are executed, and textures get filled in. This part is the recording of draw calls, and is typically far faster than rasterization.</li>
+  <li><strong>Composite</strong>: the layer and tile information is calculated and passed back to the compositor thread for it to deal with. This will account for, amongst other things, things like <code>will-change</code>, overlapping elements, and any hardware accelerated canvases.</li>
+  <li><strong>Raster Scheduled</strong> and <strong>Rasterize</strong>: The draw calls recorded in the Paint process are now executed. This is done on <em>Compositor Tile Workers</em>, the number of which depends on the platform and device capabilities. For example, on Android you typically find one worker, on desktop you can sometimes find four. The rasterization is done in terms of layers, each of which is made up of tiles.</li>
+  <li><strong>Frame End</strong>: With the tiles for the various layers all rasterized, any new tiles are committed, along with input data (which may have been changed in the event handlers), to the GPU Thread.</li>
+  <li><strong>Frame Ships</strong>: Last, but by no means least, the tiles are uploaded to the GPU by the GPU Thread. The GPU, using quads and matrices (all the usual GL goodness) will draw the tiles to the screen.</li>
+</ol>
+
+<h3 id="bonus-round">Bonus round</h3>
+
+<ul>
+  <li><strong>requestIdleCallback</strong>: if there’s any time Main Thread left at the end of a frame then <code>requestIdleCallback</code> can fire. This is a great opportunity to do non-essential work, like beaconing analytics data. If you’re new to <code>requestIdleCallback</code> have <a href="https://developers.google.com/web/updates/2015/08/using-requestidlecallback?hl=en">a primer for it on Google Developers</a> that gives a bit more of a breakdown.</li>
+</ul>
+
+<h2 id="other-resources">Other resources</h2>
+
+<p>There’s a ton of other stuff that you might want to dive into, like how to avoid work on the Main Thread, or how this stuff works at a deeper level. Hopefully these will help you out:</p>
+
+<ul>
+  <li><strong><a href="https://www.youtube.com/watch?v=Lpk1dYdo62o">Compositing in Blink &amp; WebKit</a></strong>. A little old now, but still worth a watch.</li>
+  <li><strong><a href="https://developers.google.com/web/fundamentals/performance/rendering/">Browser Rendering Performance</a></strong> - Google Developers</li>
+  <li><strong><a href="https://www.udacity.com/courses/ud860">Browser Rendering Performance</a></strong> - Udacity Course (totally free!).</li>
+  <li><strong><a href="https://surma.link/things/houdini-intro/">Houdini</a></strong> - The future, where you get to add more script to more parts of the pipeline.</li>
+</ul>
+
+</div></div>
+
+
+  <div class="footer-share container">
+    Share this on: <span class="value"><a href="http://www.twitter.com/share?url=https://aerotwist.com/blog/the-anatomy-of-a-frame/&text=The Anatomy of a Frame">Twitter</a></span>
+    <span class="value"><a href="https://plus.google.com/share?url=https://aerotwist.com/blog/the-anatomy-of-a-frame/">Google+</a></span>
+  </div>
+
+  <div class="clear"></div>
+
+  
+    <svg class="left-shape" style="margin-left: -278.35px" width="410.2" height="1092.0">
+      <use xlink:href="#color-block" filter="url(#blur-4)" transform="scale(-1.4 1.4) rotate(90)"/>
+    </svg>
+
+    <svg class="right-shape" width="146.5" height="702.0">
+      <use xlink:href="#color-block" filter="url(#blur-8)" transform="scale(-0.9 0.9) rotate(90)"/>
+    </svg>
+  
+
+</div>
+
+
+    </section>
+
+    <footer>
+
+      <div class="container">
+        <div class="bio panel">
+          <h2>Hello!</h2>
+          <p>My name is Paul. I work at <a href="http://www.google.com/" title="Some cloud company in the USA, I think.">Google</a> on the Chrome Developer Relations team as an advocate. I help developers improve the performance of their sites and apps.</p>
+
+          <p>You can find me on <a href="http://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a></p>
+        </div>
+
+        <div class="get-in-touch panel">
+          <h2>Get in touch</h2>
+          <p>I don’t bite. Honestly. You can find me on <a href="https://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a>, and I like hearing from people (pretty handy given my job, really) so say hi.</p>
+        </div>
+
+        <div class="subscribe panel">
+          <h2>Subscribe</h2>
+          <p>You should totally get the <a href="/blog/feed/">RSS feed</a>, or whatever it is you kids are using these days (I miss Reader.)</p>
+        </div>
+
+        <p class="disclaimer">Except as otherwise noted, the content of this page is licensed under the Creative Commons Attribution 3.0 License, and code samples are licensed under the Apache 2.0 License.</p>
+      </div>
+    </footer>
+
+    <script async="true">
+
+    /**
+     * Snow effect, from: HTML5 Rocks
+     * https://github.com/html5rocks/www.html5rocks.com/blob/9318b5755c8c17a4bd1761bca6b1b491e7fd17b8/content/index.html
+     */
+    !function(){function j(){f=c.clientWidth,g=c.clientHeight,d.width=f,d.height=g,e.fillStyle="#FFF";var a=i;i=f>300,!a&&i&&requestAnimFrame(n)}function n(){if(e.clearRect(0,0,f,g),i){for(h=0;b>h;h++)m=l[h],m.y+=m.vy,m.x+=m.vx,e.globalAlpha=m.o,e.beginPath(),e.arc(m.x,m.y,m.r,0,2*Math.PI,!1),e.closePath(),e.fill(),m.y>g&&m.reset();requestAnimFrame(n)}}var a=(new Date).getMonth();if(11===a){var b=300,c=document.querySelector(".masthead");if(c){var d=document.createElement("canvas"),e=d.getContext("2d"),f=c.clientWidth,g=c.clientHeight,h=0,i=!1,k=function(){this.x=0,this.y=0,this.vy=0,this.vx=0,this.r=0,this.reset()};k.prototype.reset=function(){this.x=Math.random()*f,this.y=Math.random()*-g,this.vy=1+3*Math.random(),this.vx=.5-Math.random(),this.r=1+2*Math.random(),this.o=.5+.5*Math.random()},d.style.position="absolute",d.style.left=d.style.top="0";var m,l=[];for(h=0;b>h;h++)m=new k,m.reset(),l.push(m);window.requestAnimFrame=function(){return window.requestAnimationFrame||window.webkitRequestAnimationFrame||window.mozRequestAnimationFrame||function(a){window.setTimeout(a,1e3/60)}}(),j(),window.addEventListener("resize",j,!1),c.appendChild(d)}}}();
+    </script>
+
+    <script type="text/javascript" async="true">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-13024693-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+  </body>
+</html>
