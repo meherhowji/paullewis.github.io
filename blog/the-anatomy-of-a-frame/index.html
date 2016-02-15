@@ -231,7 +231,7 @@
 
         <li>
           <span class="name">Est. Read Time:</span>
-          <span class="value">8 mins</span>
+          <span class="value">9 mins</span>
         </li>
 
         <li class="share">
@@ -291,7 +291,7 @@
   <li><strong>Compositor Tile Worker(s)</strong>. One or more workers that are spawned by the Compositor Thread to handle the Rasterization tasks. We’ll talk about that a bit more in a moment.</li>
 </ul>
 
-<p>In many ways you should consider the Compositor Thread as the “big boss”. While it doesn’t run the JavaScript, Layout, Paint or any of that, it’s the thread that is wholly responsible for initiating main thread work, and then shipping frames to screen.</p>
+<p>In many ways you should consider the Compositor Thread as the “big boss”. While it doesn’t run the JavaScript, Layout, Paint or any of that, it’s the thread that is wholly responsible for initiating main thread work, and then shipping frames to screen. If it doesn’t have to wait on input event handlers, it can ship frames while waiting for the Main thread to complete its work.</p>
 
 <p>You can also imagine <strong>Service Workers</strong> and <strong>Web Workers</strong> living in this process, though I’m leaving them out to because it makes things way more complicated.</p>
 
@@ -316,9 +316,9 @@
   <li><strong>Recalc Styles</strong>. Styles are computed for anything that’s newly added or mutated. This may be the whole tree, or it can be scoped down, depending on what changed. Changing classes on the body can be far-reaching, for example, but it’s worth noting that browsers are already very smart about automatically limiting the scope of style calculations.</li>
   <li><strong>Layout</strong>. The calculation of geometric information (where and what size each element has) for every visible element. It’s normally done for the entire document, often making the computational cost proportional to the DOM size.</li>
   <li><strong>Update Layer Tree</strong>. The process of creating the stacking contexts and depth sorting elements.</li>
-  <li><strong>Paint</strong>: This is the first of a two part process: painting is the recording of draw calls (fill a rectangle here, write text there) for any elements that are new or have changed visually. The second part is <em>Rasterization</em> (see below), where the draw calls are executed, and textures get filled in. This part is the recording of draw calls, and is typically far faster than rasterization.</li>
+  <li><strong>Paint</strong>: This is the first of a two part process: painting is the recording of draw calls (fill a rectangle here, write text there) for any elements that are new or have changed visually. The second part is <em>Rasterization</em> (see below), where the draw calls are executed, and textures get filled in. This part is the recording of draw calls, and is typically far faster than rasterization, but both parts are often collectively referred to as “painting”.</li>
   <li><strong>Composite</strong>: the layer and tile information is calculated and passed back to the compositor thread for it to deal with. This will account for, amongst other things, things like <code>will-change</code>, overlapping elements, and any hardware accelerated canvases.</li>
-  <li><strong>Raster Scheduled</strong> and <strong>Rasterize</strong>: The draw calls recorded in the Paint process are now executed. This is done on <em>Compositor Tile Workers</em>, the number of which depends on the platform and device capabilities. For example, on Android you typically find one worker, on desktop you can sometimes find four. The rasterization is done in terms of layers, each of which is made up of tiles.</li>
+  <li><strong>Raster Scheduled</strong> and <strong>Rasterize</strong>: The draw calls recorded in the Paint process are now executed. This is done in <em>Compositor Tile Workers</em>, the number of which depends on the platform and device capabilities. For example, on Android you typically find one worker, on desktop you can sometimes find four. The rasterization is done in terms of layers, each of which is made up of tiles.</li>
   <li><strong>Frame End</strong>: With the tiles for the various layers all rasterized, any new tiles are committed, along with input data (which may have been changed in the event handlers), to the GPU Thread.</li>
   <li><strong>Frame Ships</strong>: Last, but by no means least, the tiles are uploaded to the GPU by the GPU Thread. The GPU, using quads and matrices (all the usual GL goodness) will draw the tiles to the screen.</li>
 </ol>
@@ -328,6 +328,17 @@
 <ul>
   <li><strong>requestIdleCallback</strong>: if there’s any time Main Thread left at the end of a frame then <code>requestIdleCallback</code> can fire. This is a great opportunity to do non-essential work, like beaconing analytics data. If you’re new to <code>requestIdleCallback</code> have <a href="https://developers.google.com/web/updates/2015/08/using-requestidlecallback?hl=en">a primer for it on Google Developers</a> that gives a bit more of a breakdown.</li>
 </ul>
+
+<h2 id="riffing-on-a-theme">Riffing on a theme</h2>
+
+<p>Virtually all of the process is done on the CPU. Only the last part, where tiles are uploaded and moved, is done on the GPU. On Android, however, the pixel pipeline is a little different when it comes to Rasterization: the GPU is used far more. Instead of Compositor Tile Workers, the draw calls are executed as GL commands on the GPU in shaders. That makes the pipeline look like this:</p>
+
+<figure>
+  <a href="/static/blog/the-anatomy-of-a-frame/anatomy-of-a-frame.zip"><img src="/static/blog/the-anatomy-of-a-frame/gpu-raster.svg" alt="Using the GPU to do Rasterization." /></a>
+  <figcaption>Using the GPU to do Rasterization.</figcaption>
+</figure>
+
+<p>This is known as <strong>GPU Rasterization</strong>, and it’s one way to amortize the cost of paint.</p>
 
 <h2 id="other-resources">Other resources</h2>
 

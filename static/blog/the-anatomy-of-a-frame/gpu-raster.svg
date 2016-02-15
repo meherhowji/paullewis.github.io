@@ -1,0 +1,109 @@
+<svg width="969" height="555" viewBox="0 0 969 555" xmlns="http://www.w3.org/2000/svg">
+  <title>
+    gpu-raster
+  </title>
+  <defs>
+    <filter x="-50%" y="-50%" width="200%" height="200%" filterUnits="objectBoundingBox" id="a">
+      <feOffset dy="1" in="SourceAlpha" result="shadowOffsetOuter1"/>
+      <feGaussianBlur stdDeviation="1.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"/>
+      <feColorMatrix values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.180587636 0" in="shadowBlurOuter1" result="shadowMatrixOuter1"/>
+      <feMerge>
+        <feMergeNode in="shadowMatrixOuter1"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter x="-50%" y="-50%" width="200%" height="200%" filterUnits="objectBoundingBox" id="b">
+      <feOffset dy="1" in="SourceAlpha" result="shadowOffsetOuter1"/>
+      <feGaussianBlur stdDeviation="1.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"/>
+      <feColorMatrix values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.180587636 0" in="shadowBlurOuter1" result="shadowMatrixOuter1"/>
+      <feMerge>
+        <feMergeNode in="shadowMatrixOuter1"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <g fill="none" fill-rule="evenodd">
+    <path fill="#FFF" filter="url(#a)" d="M0 349h969v123H0z"/>
+    <path fill="#F3F3F3" d="M0 386h969v80H0z"/>
+    <path fill="#FFF" filter="url(#b)" d="M0 106h969v181H0z"/>
+    <path fill="#F3F3F3" d="M0 144h969v64H0zm0 73h969v64H0z"/>
+    <text font-family="Helvetica" font-size="13" fill="#606060">
+      <tspan x="10" y="129">Renderer Process</tspan>
+    </text>
+    <text font-family="Helvetica" font-size="10" font-weight="bold" fill="#5DA5F5">
+      <tspan x="10" y="173">Compositor Thread</tspan>
+    </text>
+    <text font-family="Helvetica" font-size="10" font-weight="bold" fill="#5DA5F5">
+      <tspan x="10" y="238">Main Thread</tspan>
+    </text>
+    <text font-family="Helvetica" font-size="10" font-weight="bold" fill="#5DA5F5">
+      <tspan x="10" y="407">GPU Thread</tspan>
+    </text>
+    <text font-family="Helvetica" font-size="13" fill="#606060">
+      <tspan x="10" y="372">GPU Process</tspan>
+    </text>
+    <path stroke="#84A859" fill="#A3C37D" d="M125 153h48v44h-48z"/>
+    <path stroke="#EAD46F" fill="#F8E799" d="M148 226h69v44h-69z"/>
+    <path d="M183.5 178.5v41.11m0 0l3-10.8h-6l3 10.8zm554 12.5V201.5m0 0l-3 10.8h6l-3-10.8zm77-18v211.334m0 0l3-10.8h-6l3 10.8z" stroke="#282828" stroke-linecap="square" fill="#282828"/>
+    <text font-family="Helvetica" font-size="10" fill="#5C3817">
+      <tspan x="158.259" y="244">Input event</tspan> <tspan x="163.82" y="257">handlers</tspan>
+    </text>
+    <path stroke="#EAD46F" fill="#F8E799" d="M219 226h69v44h-69z"/>
+    <text font-family="Helvetica" font-size="10" fill="#5C3817">
+      <tspan x="224.266" y="244">requestAnim-</tspan> <tspan x="228.712" y="257">ationFrame</tspan>
+    </text>
+    <path stroke="#69B1F5" fill="#8EC7F4" d="M290 226h69v44h-69z"/>
+    <text font-family="Helvetica" font-size="10" fill="#FFF">
+      <tspan x="311.938" y="244">Parse </tspan> <tspan x="311.389" y="257">HTML</tspan>
+    </text>
+    <path stroke="#9589C6" fill="#B1A7D6" d="M361 226h69v44h-69z"/>
+    <text font-family="Helvetica" font-size="10" fill="#FFF">
+      <tspan x="380.217" y="244">Recalc</tspan> <tspan x="381.884" y="257">Styles</tspan>
+    </text>
+    <path stroke="#9589C6" fill="#B1A7D6" d="M432 226h69v44h-69z"/>
+    <text font-family="Helvetica" font-size="10" fill="#FFF">
+      <tspan x="451.488" y="251">Layout</tspan>
+    </text>
+    <path stroke="#9589C6" fill="#B1A7D6" d="M503 226h69v44h-69z"/>
+    <text font-family="Helvetica" font-size="10" fill="#FFF">
+      <tspan x="521.377" y="244">Update</tspan> <tspan x="513.594" y="257">Layer Tree</tspan>
+    </text>
+    <path stroke="#84A859" fill="#A3C37D" d="M574 226h69v44h-69z"/>
+    <text font-family="Helvetica" font-size="10" fill="#FFF">
+      <tspan x="597.104" y="251">Paint</tspan>
+    </text>
+    <text font-family="Helvetica" font-size="10" fill="#FFF">
+      <tspan x="135.054" y="172">Frame</tspan> <tspan x="138.941" y="185">Start</tspan>
+    </text>
+    <path stroke="#84A859" fill="#A3C37D" d="M645 226h69v44h-69z"/>
+    <text font-family="Helvetica" font-size="10" fill="#FFF">
+      <tspan x="655.601" y="251">Composite</tspan>
+    </text>
+    <path stroke="#84A859" fill="#A3C37D" d="M755 403h111v44H755z"/>
+    <text font-family="Helvetica" font-size="10" fill="#FFF">
+      <tspan x="782.601" y="421">Rasterize via</tspan> <tspan x="770.831" y="434">GL &amp; shader calls.</tspan>
+    </text>
+    <path stroke="#84A859" fill="#A3C37D" d="M727 152h60v44h-60z"/>
+    <text font-family="Helvetica" font-size="10" fill="#FFF">
+      <tspan x="743.054" y="171">Frame</tspan> <tspan x="748.604" y="184">End</tspan>
+    </text>
+    <path stroke="#EAD46F" fill="#F8E799" d="M763 226h41v44h-41z"/>
+    <text font-family="Helvetica" font-size="10" fill="#5C3817">
+      <tspan x="776.335" y="249">rIC</tspan>
+    </text>
+    <path stroke="#69B1F5" fill="#8EC7F4" d="M868 403h79v44h-79z"/>
+    <text font-family="Helvetica" font-size="10" fill="#FFF">
+      <tspan x="884.104" y="421">GPU ships</tspan> <tspan x="895.219" y="434">frame</tspan>
+    </text>
+    <text font-family="Helvetica" font-size="9" fill="#606060">
+      <tspan x="108.222" y="67">vsync and input data</tspan>
+    </text>
+    <text font-family="Helvetica" font-size="9" fill="#606060">
+      <tspan x="724" y="249">commit</tspan>
+    </text>
+    <text font-family="Helvetica" font-size="9" fill="#606060">
+      <tspan x="800" y="178">commit</tspan>
+    </text>
+    <path d="M148.5 76.5v73.11m0 0l3-10.8h-6l3 10.8z" stroke="#282828" stroke-linecap="square" fill="#282828"/>
+  </g>
+</svg>
