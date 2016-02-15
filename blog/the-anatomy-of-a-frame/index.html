@@ -331,14 +331,21 @@
 
 <h2 id="riffing-on-a-theme">Riffing on a theme</h2>
 
-<p>Virtually all of the process is done on the CPU. Only the last part, where tiles are uploaded and moved, is done on the GPU. On Android, however, the pixel pipeline is a little different when it comes to Rasterization: the GPU is used far more. Instead of Compositor Tile Workers, the draw calls are executed as GL commands on the GPU in shaders. That makes the pipeline look like this:</p>
+<p>Virtually all of the process outlined above <em>is done on the CPU</em>. Only the last part, where tiles are uploaded and moved, is done on the GPU.</p>
+
+<p>On Android, however, the pixel pipeline is a little different when it comes to Rasterization: the GPU is used far more. Instead of Compositor Tile Workers, the draw calls are executed as GL commands on the GPU in shaders. That makes the pipeline look like this:</p>
 
 <figure>
   <a href="/static/blog/the-anatomy-of-a-frame/anatomy-of-a-frame.zip"><img src="/static/blog/the-anatomy-of-a-frame/gpu-raster.svg" alt="Using the GPU to do Rasterization." /></a>
   <figcaption>Using the GPU to do Rasterization.</figcaption>
 </figure>
 
-<p>This is known as <strong>GPU Rasterization</strong>, and it’s one way to amortize the cost of paint.</p>
+<p>This is known as <strong>GPU Rasterization</strong>, and it’s one way to reduce the cost of paint. You can find out if your page is GPU used for rasterization by enabling the FPS Meter in Chrome DevTools:</p>
+
+<figure>
+  <img src="/static/blog/the-anatomy-of-a-frame/fps-meter.jpg" alt="The FPS meter indicating GPU Rasterization is in use." />
+  <figcaption>The FPS meter indicating GPU Rasterization is in use.</figcaption>
+</figure>
 
 <h2 id="other-resources">Other resources</h2>
 
