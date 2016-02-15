@@ -282,18 +282,18 @@
 <p>Now let’s look at the threads in the Renderer Process.</p>
 
 <blockquote>
-  <p>In many ways you should consider the Compositor Thread as the “big boss”. While it doesn’t run the JavaScript, layout, paint or any of that, it’s the thread that is wholly responsible for initiating main thread work, and then shipping frames to screen.</p>
+  <p>In many ways you should consider the Compositor Thread as the “big boss”. While it doesn’t run the JavaScript, Layout, Paint or any of that, it’s the thread that is wholly responsible for initiating main thread work, and then shipping frames to screen.</p>
 </blockquote>
 
 <ul>
   <li><strong>Compositor Thread</strong>. This is the first thread to be informed about the vsync event (which is how the OS tells the browser to make a new frame). It will also receive any input events. The compositor thread will, if it can, avoid going to the main thread and will try and convert input (like – say – scroll flings) to movement on screen. It will do this by updating layer positions and committing frames via the GPU Thread to the GPU directly. If it can’t do that because of input event handlers, or other visual work, then the Main thread will be required.</li>
-  <li><strong>Main Thread</strong>. This is where the browser executes the tasks we all know and love: JavaScript, styles, layout and paint. (That will change in the future under <a href="https://surma.link/things/houdini-intro/">Houdini</a>.) This thread wins the award for “most likely to cause jank”, largely because of the fact that so much runs here.</li>
+  <li><strong>Main Thread</strong>. This is where the browser executes the tasks we all know and love: JavaScript, styles, layout and paint. (That will change in the future under <a href="https://surma.link/things/houdini-intro/">Houdini</a>, where we will be able to run some code in the Compositor Thread.) This thread wins the award for “most likely to cause jank”, largely because of the fact that so much runs here.</li>
   <li><strong>Compositor Tile Worker(s)</strong>. One or more workers that are spawned by the Compositor Thread to handle the Rasterization tasks. We’ll talk about that a bit more in a moment.</li>
 </ul>
 
-<p>In many ways you should consider the Compositor Thread as the “big boss”. While it doesn’t run the JavaScript, layout, paint or any of that, it’s the thread that is wholly responsible for initiating main thread work, and then shipping frames to screen.</p>
+<p>In many ways you should consider the Compositor Thread as the “big boss”. While it doesn’t run the JavaScript, Layout, Paint or any of that, it’s the thread that is wholly responsible for initiating main thread work, and then shipping frames to screen.</p>
 
-<p>You can also imagine <strong>Service Workers</strong> and <strong>Web Workers</strong> living in this process, though I’m leaving them out to save space and avoid too much complexity.</p>
+<p>You can also imagine <strong>Service Workers</strong> and <strong>Web Workers</strong> living in this process, though I’m leaving them out to because it makes things way more complicated.</p>
 
 <h2 id="the-flow-of-things">The flow of things.</h2>
 
