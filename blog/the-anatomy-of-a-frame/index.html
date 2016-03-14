@@ -231,7 +231,7 @@
 
         <li>
           <span class="name">Est. Read Time:</span>
-          <span class="value">10 mins</span>
+          <span class="value">11 mins</span>
         </li>
 
         <li class="share">
@@ -330,6 +330,14 @@
 <ul>
   <li><strong>requestIdleCallback</strong>: if there’s any time Main Thread left at the end of a frame then <code>requestIdleCallback</code> can fire. This is a great opportunity to do non-essential work, like beaconing analytics data. If you’re new to <code>requestIdleCallback</code> have <a href="https://developers.google.com/web/updates/2015/08/using-requestidlecallback?hl=en">a primer for it on Google Developers</a> that gives a bit more of a breakdown.</li>
 </ul>
+
+<h2 id="layers-and-layers">Layers and layers</h2>
+
+<p>There are two versions of depth sorting that crop up in the workflow.</p>
+
+<p>Firstly, there’s the Stacking Contexts, like if you have two absolutely positioned divs that overlap. <strong>Update Layer Tree</strong> is the part of the process that ensures that <code>z-index</code> and the like is heeded.</p>
+
+<p>Secondly, there’s the Compositor Layers, which is later in the process, and applies more to the idea of painted elements. An element can be promoted to a Compositor Layer with the null transform hack, or <code>will-change: transform</code>, which can then be transformed around the place cheaply (good for animation!). But the browser may also have to create additional Compositor Layers to preserve the depth order specified by z-index and the like if there are overlapping elements. Fun stuff!</p>
 
 <h2 id="riffing-on-a-theme">Riffing on a theme</h2>
 
