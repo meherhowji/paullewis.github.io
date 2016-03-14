@@ -231,7 +231,7 @@
 
         <li>
           <span class="name">Est. Read Time:</span>
-          <span class="value">11 mins</span>
+          <span class="value">10 mins</span>
         </li>
 
         <li class="share">
@@ -343,12 +343,7 @@
 
 <p>Virtually all of the process outlined above <em>is done on the CPU</em>. Only the last part, where tiles are uploaded and moved, is done on the GPU.</p>
 
-<p>On Android, however, the pixel flow is a little different when it comes to Rasterization: the GPU is used far more. Instead of Compositor Tile Workers, the draw calls are executed as GL commands on the GPU in shaders. That makes the flow look like this:</p>
-
-<figure>
-  <a href="/static/blog/the-anatomy-of-a-frame/anatomy-of-a-frame.zip"><img src="/static/blog/the-anatomy-of-a-frame/gpu-raster.svg" alt="Using the GPU to do Rasterization." /></a>
-  <figcaption>Using the GPU to do Rasterization.</figcaption>
-</figure>
+<p>On Android, however, the pixel flow is a little different when it comes to Rasterization: the GPU is used far more. Instead of Compositor Tile Workers doing the rasterization, the draw calls are executed as GL commands on the GPU in shaders.</p>
 
 <p>This is known as <strong>GPU Rasterization</strong>, and it’s one way to reduce the cost of paint. You can find out if your page is GPU rasterized by enabling the FPS Meter in Chrome DevTools:</p>
 
