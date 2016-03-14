@@ -16,10 +16,10 @@
   <meta name="twitter:site" content="@aerotwist">
   <meta name="twitter:creator" content="@aerotwist">
   <meta name="twitter:title" content="The Anatomy of a Frame">
-  <meta name="twitter:description" content="I&#39;m often asked by other developers about parts of the pixel pipeline, and what fires when and why, so I figured it might be worth putting up a little reference for what&#39;s involved in shipping pixels to screen.">
+  <meta name="twitter:description" content="I&#39;m often asked by other developers about parts of the pixel workflow, and what fires when and why, so I figured it might be worth putting up a little reference for what&#39;s involved in shipping pixels to screen.">
 
   <meta itemprop="name" content="The Anatomy of a Frame">
-  <meta itemprop="description" content="I&#39;m often asked by other developers about parts of the pixel pipeline, and what fires when and why, so I figured it might be worth putting up a little reference for what&#39;s involved in shipping pixels to screen.">
+  <meta itemprop="description" content="I&#39;m often asked by other developers about parts of the pixel workflow, and what fires when and why, so I figured it might be worth putting up a little reference for what&#39;s involved in shipping pixels to screen.">
 
     
     <meta itemprop="image" content="https://aerotwist.com/static/blog/the-anatomy-of-a-frame/anatomy-of-a-frame.jpg">
@@ -215,7 +215,7 @@
 
     <div class="container">
       <h2>The Anatomy of a Frame</h2>
-      <p>I'm often asked by other developers about parts of the pixel pipeline, and what fires when and why, so I figured it might be worth putting up a little reference for what's involved in shipping pixels to screen.</p>
+      <p>I'm often asked by other developers about parts of the pixel workflow, and what fires when and why, so I figured it might be worth putting up a little reference for what's involved in shipping pixels to screen.</p>
     </div>
 
   </div>
@@ -231,7 +231,7 @@
 
         <li>
           <span class="name">Est. Read Time:</span>
-          <span class="value">9 mins</span>
+          <span class="value">10 mins</span>
         </li>
 
         <li class="share">
@@ -302,15 +302,17 @@
   <figcaption>The main thread in all its glory.</figcaption>
 </figure>
 
-<p>Let’s step through the flow, from vsync to pixels, and talk about how things work out in the “full-fat” version of events. It’s worth remembering that a browser <em>need not execute all of these steps</em>, depending on what’s necessary. For example, if there’s no new HTML to parse, then Parse HTML won’t fire. In fact, oftentimes <a href="https://developers.google.com/web/fundamentals/performance/rendering/#the-pixel-pipeline">the best way to improve performance</a> is simply to remove the need for parts of the pipeline to be fired!</p>
+<p>Let’s step through the flow, from vsync to pixels, and talk about how things work out in the “full-fat” version of events. It’s worth remembering that a browser <em>need not execute all of these steps</em>, depending on what’s necessary. For example, if there’s no new HTML to parse, then Parse HTML won’t fire. In fact, oftentimes <a href="https://developers.google.com/web/fundamentals/performance/rendering/#the-pixel-pipeline">the best way to improve performance</a> is simply to remove the need for parts of the flow to be fired!</p>
+
+<p>It’s also worth noting those red arrows just under styles and layout that seem to point towards <code>requestAnimationFrame</code>. It’s perfectly possible to trigger both by accident in your code. This is called Forced Synchronous Layout (or Styles, depending), and it’s often bad for performance.</p>
 
 <blockquote>
-  <p>oftentimes the best way to improve performance is simply to remove the need for parts of the pipeline to be fired!</p>
+  <p>oftentimes the best way to improve performance is simply to remove the need for parts of the flow to be fired!</p>
 </blockquote>
 
 <ol>
   <li><strong>Frame Start</strong>. Vsync is fired, a frame starts.</li>
-  <li><strong>Input event handlers</strong>. Input data is passed from the compositor thread to any input event handlers on the main thread. All input event handlers (<code>touchmove</code>, <code>scroll</code>, <code>click</code>) fire first, once per frame. There is some latency between the user interaction and the event making its way to the main thread to be handled.</li>
+  <li><strong>Input event handlers</strong>. Input data is passed from the compositor thread to any input event handlers on the main thread. All input event handlers (<code>touchmove</code>, <code>scroll</code>, <code>click</code>) should fire first, once per frame, but that’s not necessarily the case; a scheduler makes best-effort attempts, which vary between Operating Systems. There’s also some latency between the user interaction and the event making its way to the main thread to be handled.</li>
   <li><strong><code>requestAnimationFrame</code></strong>. This is the ideal place to make visual updates to the screen, since you have fresh input data, and it’s as close to vsync as you’re going to get. Other visual tasks, like style calculations, are due to come <em>after</em> this task, so it’s ideally placed to mutate elements. If you mutate – say – 100 classes, this won’t result in 100 style calculations; they will be batched up and handled later. The only caveat is that you don’t query any computed styles or layout properties (like <code>el.style.backgroundImage</code> or <code>el.style.offsetWidth</code>). If you <em>do</em> you’ll bring recalc styles, layout, or both, forward, causing <a href="https://developers.google.com/web/fundamentals/performance/rendering/avoid-large-complex-layouts-and-layout-thrashing?hl=en#avoid-layout-thrashing">forced synchronous layouts or, worse, layout thrashing</a>.</li>
   <li><strong>Parse HTML</strong>. Any newly added HTML is processed, and DOM elements created. You’re likely to see a lot more of this during page load or after operations like <code>appendChild</code>.</li>
   <li><strong>Recalc Styles</strong>. Styles are computed for anything that’s newly added or mutated. This may be the whole tree, or it can be scoped down, depending on what changed. Changing classes on the body can be far-reaching, for example, but it’s worth noting that browsers are already very smart about automatically limiting the scope of style calculations.</li>
@@ -333,7 +335,7 @@
 
 <p>Virtually all of the process outlined above <em>is done on the CPU</em>. Only the last part, where tiles are uploaded and moved, is done on the GPU.</p>
 
-<p>On Android, however, the pixel pipeline is a little different when it comes to Rasterization: the GPU is used far more. Instead of Compositor Tile Workers, the draw calls are executed as GL commands on the GPU in shaders. That makes the pipeline look like this:</p>
+<p>On Android, however, the pixel flow is a little different when it comes to Rasterization: the GPU is used far more. Instead of Compositor Tile Workers, the draw calls are executed as GL commands on the GPU in shaders. That makes the flow look like this:</p>
 
 <figure>
   <a href="/static/blog/the-anatomy-of-a-frame/anatomy-of-a-frame.zip"><img src="/static/blog/the-anatomy-of-a-frame/gpu-raster.svg" alt="Using the GPU to do Rasterization." /></a>
@@ -355,7 +357,7 @@
   <li><strong><a href="https://www.youtube.com/watch?v=Lpk1dYdo62o">Compositing in Blink &amp; WebKit</a></strong>. A little old now, but still worth a watch.</li>
   <li><strong><a href="https://developers.google.com/web/fundamentals/performance/rendering/">Browser Rendering Performance</a></strong> - Google Developers</li>
   <li><strong><a href="https://www.udacity.com/courses/ud860">Browser Rendering Performance</a></strong> - Udacity Course (totally free!).</li>
-  <li><strong><a href="https://surma.link/things/houdini-intro/">Houdini</a></strong> - The future, where you get to add more script to more parts of the pipeline.</li>
+  <li><strong><a href="https://surma.link/things/houdini-intro/">Houdini</a></strong> - The future, where you get to add more script to more parts of the flow.</li>
 </ul>
 
 </div></div>

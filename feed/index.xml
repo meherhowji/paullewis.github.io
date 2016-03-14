@@ -4,7 +4,7 @@
 
     <title>Aerotwist</title>
     <description>Pretty much whatever comes into my head.</description>
-    <lastBuildDate>2016-02-16 09:54:56 +0000</lastBuildDate>
+    <lastBuildDate>2016-03-14 14:33:29 +0000</lastBuildDate>
     <language>en</language>
     <generator>Aerotwist</generator>
     <atom:link href="https://aerotwist.com/feed/" rel="self" type="application/rss+xml" />
@@ -12,7 +12,7 @@
       <item>
         <title>The Anatomy of a Frame</title>
         <description>
-          <![CDATA[I'm often asked by other developers about parts of the pixel pipeline, and what fires when and why, so I figured it might be worth putting up a little reference for what's involved in shipping pixels to screen.]]>
+          <![CDATA[I'm often asked by other developers about parts of the pixel workflow, and what fires when and why, so I figured it might be worth putting up a little reference for what's involved in shipping pixels to screen.]]>
         </description>
         <pubDate>Mon, 15 Feb 2016 00:00:00 +0000</pubDate>
         <link>https://aerotwist.com/blog/the-anatomy-of-a-frame</link>
