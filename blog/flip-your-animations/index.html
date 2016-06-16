@@ -305,7 +305,8 @@
 <span class="kd">var</span> <span class="nx">invert</span> <span class="o">=</span> <span class="nx">first</span><span class="p">.</span><span class="nx">top</span> <span class="o">-</span> <span class="nx">last</span><span class="p">.</span><span class="nx">top</span><span class="p">;</span>
 
 <span class="c1">// Invert.</span>
-<span class="nx">el</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">transform</span> <span class="o">=</span> <span class="err">`</span><span class="nx">translateY</span><span class="p">(</span><span class="nx">$</span><span class="p">{</span><span class="nx">invert</span><span class="p">}</span><span class="nx">px</span><span class="p">)</span><span class="err">`</span><span class="p">;</span>
+<span class="nx">el</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">transform</span> <span class="o">=</span>
+    <span class="err">`</span><span class="nx">translateY</span><span class="p">(</span><span class="nx">$</span><span class="p">{</span><span class="nx">invert</span><span class="p">}</span><span class="nx">px</span><span class="p">)</span><span class="err">`</span><span class="p">;</span>
 
 <span class="c1">// Wait for the next frame so we</span>
 <span class="c1">// know all the style changes have</span>
@@ -350,7 +351,8 @@
   <span class="nx">easing</span><span class="o">:</span> <span class="s1">&#39;cubic-bezier(0,0,0.32,1)&#39;</span><span class="p">,</span>
 <span class="p">});</span>
 
-<span class="c1">// Do any tidy up at the end of the animation.</span>
+<span class="c1">// Do any tidy up at the end</span>
+<span class="c1">// of the animation.</span>
 <span class="nx">player</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;finish&#39;</span><span class="p">,</span>
     <span class="nx">tidyUpAnimations</span><span class="p">);</span></code></pre></div>
 
