@@ -348,7 +348,7 @@
   <figcaption>A blurred box being clipped by SVG.</figcaption>
 </figure>
 
-<p>Yeahhhhhh, no. A look over the <a href="https://www.w3.org/TR/SVG/filters.html#FilterEffectsRegion">SVG Filter Effects spec</a> yields this little gem:</p>
+<p>Yeahhhhhh, no. A look over <a href="http://stackoverflow.com/a/6556655/4350637">Stack Overflow</a> (thx Tangui!) and the <a href="https://www.w3.org/TR/SVG/filters.html#FilterEffectsRegion">SVG Filter Effects spec</a> yields this little gem:</p>
 
 <blockquote class="quote">
   <p>The bounds of this rectangle act as a hard clipping region for each filter primitive included with a given ‘filter’ element; thus, if the effect of a given filter primitive would extend beyond the bounds of the rectangle (this sometimes happens when using a ‘feGaussianBlur’ filter primitive with a very large ‘stdDeviation’), parts of the effect will get clipped. - <a href="https://www.w3.org/TR/SVG/filters.html#FilterEffectsRegion">SVG Filter Effects Spec</a></p>
