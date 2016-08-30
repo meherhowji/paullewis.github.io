@@ -259,7 +259,7 @@
 <p>The solution we’re looking for is:</p>
 
 <ol>
-  <li><strong>Performance-friendly</strong>. The shadow may need to move around or fade, so we need a solution that we can animate with transforms &amp; opacity, since they can be handed off to the GPU.</li>
+  <li><strong>Performance-friendly</strong>. The shadow may need to move around or fade, so we need a solution that we can animate with transforms &amp; opacity, since they can be handed off to the GPU. It will need to be separate to the element it’s shadowing, since we will likely want to fade and move it without affecting the other element.</li>
   <li><strong>Edit-friendly</strong>. None of us wants to be creating a bunch of shadow graphics, and we want something that’s easily updated.</li>
 </ol>
 
@@ -450,7 +450,7 @@
 
 <h2 id="conclusion">Conclusion</h2>
 
-<p>So there you have it, using SVG + 9-slicing to achieve a dynamically-sized shadow that can be animated performantly, and indepently of its parent, and that can be easily edited. It meets the two criteria I set out at the start!</p>
+<p>So there you have it, using SVG + 9-slicing to achieve a dynamically-sized shadow that can be animated performantly, and indepently of the element it’s shadowing, and that can be easily edited. It meets the two criteria I set out at the start!</p>
 
 <ol>
   <li><strong>Performance-friendly</strong>. Check.</li>
