@@ -1,0 +1,533 @@
+<!doctype html>
+<html itemscope itemtype="http://schema.org/Article">
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="author" content="Paul Lewis" />
+  <meta name="viewport" content="width=device-width">
+  <meta name="theme-color" content="#880043">
+
+  
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="//aerotwist.com/blog/feed/">
+  
+
+  
+  <meta name="twitter:site" content="@aerotwist">
+  <meta name="twitter:creator" content="@aerotwist">
+  <meta name="twitter:title" content="Slicing SVG 9 Ways">
+  <meta name="twitter:description" content="I recently made a 3D Card Flip element as part of my Supercharged YouTube video series, and I ran into some challenges. I decided I should explain how I approached the solution.">
+
+  <meta itemprop="name" content="Slicing SVG 9 Ways">
+  <meta itemprop="description" content="I recently made a 3D Card Flip element as part of my Supercharged YouTube video series, and I ran into some challenges. I decided I should explain how I approached the solution.">
+
+    
+    <meta name="twitter:card" content="summary">
+    
+
+  
+
+  <style>
+    
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 400;
+      src: local('Lato Regular'), local('Lato-Regular'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qIIYRU-oROkIk8vfvxw6QvesZW2xOQ-xsNqO47m55DA.woff) format('woff');
+    }
+    
+
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 700;
+      src: local('Lato Bold'), local('Lato-Bold'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qdgUG4U09HnJwhYI-uK18wLUuEpTyoUstqEm5AMlJo4.woff) format('woff');
+    }
+  </style>
+
+  <link rel="stylesheet" media="screen" href="/css/aerotwist.css" />
+  <title>Aerotwist - Slicing SVG 9 Ways</title>
+  
+</head>
+
+
+<!--
+                              __          .__          __
+  _____    ___________  _____/  |___  _  _|__| _______/  |_
+  \__  \ _/ __ \_  __ \/  _ \   __\ \/ \/ /  |/  ___/\   __\
+   / __ \\  ___/|  | \(  <_> )  |  \     /|  |\___ \  |  |
+  (____  /\___  >__|   \____/|__|   \/\_/ |__/____  > |__|
+       \/     \/                                  \/
+
+  Giant ascii art embedded in every page of your site is how you
+  show other people that YOU CARE. Mainly I care about developers,
+  which is what I presume you are if you're all about viewing
+  the source. Clearly you're my kind of person.
+
+  This is v3, it's run through Jekyll, it's been fun to build,
+  there's always more to do, and you may notice that aside from
+  Google Analytics there is no JavaScript. None.
+
+  That's one way of many you keep your pages fast. I care about
+  keeping this site fast because your time is precious and I need
+  to get out of your way.
+
+  <3'z
+
+  Paul
+-->
+
+
+  <body class="blog">
+
+    <header>
+      <div class="container">
+        <div id="logo">
+  <a href="/">
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="100%" height="100%">
+    <g>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#6EBAD3" points="30.6,47.73 64.92,47.73 19.97,76.52"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ED95C0" points="48.198,0 53.008,14.06 39.31,24.76"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#880043" points="39.31,24.76 64.92,48 30.6,48"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#DA0A7A" points="39.31,24.76 64.92,48 53.008,14.06"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#0B7DAD" points="30.6,48 64.92,48 48,58.69"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#BDDEE8" points="47.76,58.69 64.92,47.73 75.14,76.73"></polygon>
+    </g>
+    </svg>
+  </a>
+</div>
+
+        <nav>
+  <ul>
+    
+      
+        <li><a href="/">Home</a></li>
+      
+    
+      
+        <li class="active"><a href="/blog/"> Blog</a></li>
+      
+    
+      
+        <li><a href="/tutorials/">Tutorials</a></li>
+      
+    
+      
+        <li><a href="/lab/">Lab</a></li>
+      
+    
+  </ul>
+
+  <svg id="left-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#AAAAAA" stroke-width="1" />
+    </svg>
+
+  <svg id="right-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#6EBAD3" stroke-opacity="0.3" stroke-width="1" />
+    </svg>
+</nav>
+
+      </div>
+    </header>
+    <section>
+
+      <div class="content">
+
+  
+  <svg version="1.1" class="shape-reference" xmlns="http://www.w3.org/2000/svg" width="629" height="242">
+  <defs>
+    <filter id="blur-8">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="8" />
+    </filter>
+    <filter id="blur-6">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="6" />
+    </filter>
+    <filter id="blur-4">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="4" />
+    </filter>
+  </defs>
+
+  <g id="color-block">
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#96a2c7" stroke="#96a2c7" stroke-width="0.6" points="100,115 40,65 122,90"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#9282b7" stroke="#9282b7" stroke-width="0.6" points="100,115 122,90 140,98"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#7c5ba0" stroke="#7c5ba0" stroke-width="0.6" points="156,142 100,115 140,98"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#9b59a2" stroke="#9b59a2" stroke-width="0.6" points="156,142 140,98 198,96"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#9f3990" stroke="#9f3990" stroke-width="0.6" points="156,142 198,96 215,131"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#5f2357" stroke="#5f2357" stroke-width="0.6" points="191,190 156,142 215,131"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#400f30" stroke="#400f30" stroke-width="0.6" points="261,202 191,190 215,131"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#630f42" stroke="#630f42" stroke-width="0.6" points="271,156 261,202 215,131"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#560632" stroke="#560632" stroke-width="0.6" points="261,202 271,156 304,157"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ac065d" stroke="#ac065d" stroke-width="0.6" points="304,157 271,156 318,120"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#9f0555" stroke="#9f0555" stroke-width="0.6" points="304,157 318,120 366,170"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#bd0f70" stroke="#bd0f70" stroke-width="0.6" points="366,170 318,120 376,114"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#8d1c66" stroke="#8d1c66" stroke-width="0.6" points="448,146 366,170 376,114"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#b13191" stroke="#b13191" stroke-width="0.6" points="448,146 376,114 435,100"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#85438f" stroke="#85438f" stroke-width="0.6" points="448,146 435,100 519,133"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#462f59" stroke="#462f59" stroke-width="0.6" points="508,191 448,146 519,133"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#1e2438" stroke="#1e2438" stroke-width="0.6" points="508,191 519,133 589,198"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f04da4" stroke="#f04da4" stroke-width="0.6" points="318,120 331,64 376,114"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#fd67b3" stroke="#fd67b3" stroke-width="0.6" points="318,120 278,82 331,64"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ed1085" stroke="#ed1085" stroke-width="0.6" points="271,156 278,82 318,120"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#cd1b85" stroke="#cd1b85" stroke-width="0.6" points="271,156 215,131 278,82"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ce55a5" stroke="#ce55a5" stroke-width="0.6" points="278,82 215,131 198,96"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#e99dcc" stroke="#e99dcc" stroke-width="0.6" points="278,82 198,96 260,48"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#fab5d9" stroke="#fab5d9" stroke-width="0.6" points="278,82 260,48 331,64"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#edc6e1" stroke="#edc6e1" stroke-width="0.6" points="260,48 198,96 212,40"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#e9cfe5" stroke="#e9cfe5" stroke-width="0.6" points="198,96 166,43 212,40"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#caa4cc" stroke="#caa4cc" stroke-width="0.6" points="198,96 140,98 166,43"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#c4aed1" stroke="#c4aed1" stroke-width="0.6" points="140,98 122,90 166,43"/>
+  </g>
+</svg>
+
+  
+
+  <div class="masthead hatched">
+
+    
+      <svg class="behind-meta" width="629" height="242">
+        <use xlink:href="#color-block" />
+      </svg>
+
+      <svg class="left-meta" width="629" height="242">
+        <use xlink:href="#color-block" filter="url(#blur-6)" transform="translate(314 121) scale(-0.5 0.5) translate(-315 -121)" />
+      </svg>
+    
+
+    <div class="container">
+      <h2>Slicing SVG 9 Ways</h2>
+      <p>I recently made a <a href="">3D Card Flip element</a> as part of my Supercharged YouTube video series, and I ran into some challenges. I decided I should explain how I approached the solution.</p>
+    </div>
+
+  </div>
+
+  <div class="container">
+    <div class="meta">
+
+      <ul>
+        <li class="last-updated">
+          <span class="name">Last updated:</span>
+          <span class="value">30 Aug 2016</span>
+        </li>
+
+        <li>
+          <span class="name">Est. Read Time:</span>
+          <span class="value">10 mins</span>
+        </li>
+
+        <li class="share">
+          <span class="name">Share this:</span>
+          <span class="value"><a href="http://www.twitter.com/share?url=https://aerotwist.com/blog/slicing-svg-9-ways/&text=Slicing SVG 9 Ways">Twitter</a></span>
+          <span class="value"><a href="https://plus.google.com/share?url=https://aerotwist.com/blog/slicing-svg-9-ways/">Google+</a></span>
+        </li>
+        <li class="tags">
+          <span class="name">Tagged:</span>
+          <span class="value">
+          
+            #svg, 
+          
+            #responsive, 
+          
+            #performance
+          
+          </span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="container"><div class="left column">
+
+<p>For the show I hard-coded the size of the shadows beneath the card being flipped, but in a Responsive Web Design world that’s rarely ideal: we need flexibly sized elements, and it would be nice to have a shadow for it that is always ‘magically’ the right size for the element it’s beneath.</p>
+
+<figure>
+  <img src="/static/blog/slicing-svg-9-ways/3d-card-flip.jpg" alt="Flipping a card in 3D: Supercharged YouTube video." />
+  <figcaption>Flipping a card in 3D.</figcaption>
+</figure>
+
+<blockquote>
+  <p>It would be nice to have a shadow for it that is always ‘magically’ the right size for the element it’s beneath.</p>
+</blockquote>
+
+<p>There are a bunch of ways you can approach a problem like this, but not all are equal from a flexibility and performance point-of-view.</p>
+
+<p>The solution we’re looking for is:</p>
+
+<ol>
+  <li><strong>Performance-friendly</strong>. The shadow may need to move around or fade, so we need a solution that we can animate with transforms &amp; opacity, since they can be handed off to the GPU.</li>
+  <li><strong>Edit-friendly</strong>. None of us wants to be creating a bunch of shadow graphics, and we want something that’s easily updated.</li>
+</ol>
+
+<h2 id="attempt-one-animating-box-shadow">Attempt one: animating box-shadow</h2>
+
+<p>The <code>box-shadow</code> property is probably one of the most useful additions to our CSS armory in the past decade or so: it meant we could easily add shadows to our elements on the fly. (It’s up there with <code>border-radius</code> for me.)</p>
+
+<p>But <code>box-shadow</code> is applied to the element directly, which means if you want to animate it you change things like its x &amp; y offset, or the blur value. That causes the browser to paint on every frame of an animation, since the shadow has been ‘invalidated’ by the change.</p>
+
+<p>We can’t separate the shadow from the element itself with <code>box-shadow</code>, making it impossible to animate performantly.</p>
+
+<h2 id="attempt-two-a-blur-filter">Attempt two: a blur filter</h2>
+
+<p>Next, let’s quickly talk about a works-but-dang-it-is-slow approach to doing shadows: <strong>CSS Filters</strong>. Seems like we could use something like <code>filter: blur(12px)</code> (or in the case of Chrome <code>-webkit-filter</code>, though I’m not totally sure why it’s still vendor prefixed).</p>
+
+<p>That will take an element that looks like this:</p>
+
+<figure>
+  <img src="/static/blog/slicing-svg-9-ways/before.jpg" alt="A black box." />
+</figure>
+
+<p>And turn it into one that looks like this:</p>
+
+<figure>
+  <img src="/static/blog/slicing-svg-9-ways/after.jpg" alt="A blurred black box." />
+</figure>
+
+<p>Terrific! It’s visually correct, and we can change the size of the element easily enough, but there’s a performance problem: the blur is applied <em>late on in the rendering pipeline</em>, as a post-processing step. This means that every time the pixels change <em>in any way</em>, the blur (or any CSS filter effect) has to be reapplied. For a cheap filter this is no big deal, but for <a href="https://en.wikipedia.org/wiki/Kernel_(image_processing)#Convolution">anything calculated by convolution</a>, like a blur, you’re going to be paying a penalty if the element moves in any way.</p>
+
+<blockquote>
+  <p>It’s animating and will need to be blurred on every frame. This is prohibitively expensive on mobile, where CPUs and GPUs are less powerful.</p>
+</blockquote>
+
+<p>A shadow moves as the card flips, and so it’s going to suffer from this problem: <strong>it’s animating and will need to be blurred on every frame</strong>. This is prohibitively expensive on mobile, where CPUs and GPUs are less powerful. For added pain points a bigger blur takes longer to calculate than a small one because it involves convolving more pixels. In any case, poor performance.</p>
+
+<h2 id="attempt-three-svg--filter">Attempt three: SVG + Filter</h2>
+
+<p>What we really want to do is <em>bake</em> that blur into the image itself, not create it on the fly. There are three ways we can get that done: a canvas (overkill), a PNG (fine, but if I want to change the blur value I have to make images again), or with SVG.</p>
+
+<p>SVG just has a huge surface area, and oftentimes I’ll think a visual effect is going to need some kind of gymnastics, only to discover that, yep, SVG has been able to do it forever. We can make a shadow with some SVG that looks like this:</p>
+
+</div></div>
+
+<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;svg</span>
+  <span class="na">version=</span><span class="s">&quot;1.1&quot;</span>
+  <span class="na">xmlns=</span><span class="s">&quot;http://www.w3.org/2000/svg&quot;</span>
+  <span class="na">width=</span><span class="s">&quot;112&quot;</span> <span class="na">height=</span><span class="s">&quot;112&quot;</span><span class="nt">&gt;</span>
+
+  <span class="c">&lt;!-- Define the blur --&gt;</span>
+  <span class="nt">&lt;defs&gt;</span>
+    <span class="nt">&lt;filter</span> <span class="na">id=</span><span class="s">&quot;blur-2px&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;feGaussianBlur</span>
+        <span class="na">in=</span><span class="s">&quot;SourceGraphic&quot;</span>
+        <span class="na">stdDeviation=</span><span class="s">&quot;2&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;/filter&gt;</span>
+  <span class="nt">&lt;/defs&gt;</span>
+
+  <span class="c">&lt;!-- Make a rect that uses it --&gt;</span>
+  <span class="nt">&lt;rect</span> <span class="na">filter=</span><span class="s">&quot;url(#blur-2px)&quot;</span>
+    <span class="na">stroke=</span><span class="s">&quot;none&quot;</span>
+    <span class="na">fill=</span><span class="s">&quot;#000000&quot;</span>
+    <span class="na">x=</span><span class="s">&quot;6&quot;</span> <span class="na">y=</span><span class="s">&quot;6&quot;</span>
+    <span class="na">width=</span><span class="s">&quot;100&quot;</span>
+    <span class="na">height=</span><span class="s">&quot;100&quot;</span><span class="nt">&gt;&lt;/rect&gt;</span>
+<span class="nt">&lt;/svg&gt;</span></code></pre></div>
+
+<div class="container"><div class="left column">
+
+<p>Which looks something like this:</p>
+
+<figure>
+  <img src="/static/blog/slicing-svg-9-ways/after.jpg" alt="A black box." />
+</figure>
+
+<p>Good news here is that we’ve maintained editability with using SVG, because we can up the blur value and that’s going to save us having to bake out a load of images. In my particular example I needed one box at 2px blur, and another at 12px blur.</p>
+
+<h3 id="too-much-blur-ohai-clipping">Too much blur? Ohai clipping.</h3>
+
+<p>When the <code>stdDeviation</code> is upped from 2 to a bigger value like 12, you’ll get some sharp edges:</p>
+
+<figure>
+  <img src="/static/blog/slicing-svg-9-ways/clipped.jpg" alt="A blurred box being clipped by SVG." />
+  <figcaption>A blurred box being clipped by SVG.</figcaption>
+</figure>
+
+<p>Yeahhhhhh, no. A look over the <a href="https://www.w3.org/TR/SVG/filters.html#FilterEffectsRegion">SVG Filter Effects spec</a> yields this little gem:</p>
+
+<blockquote class="quote">
+  <p>The bounds of this rectangle act as a hard clipping region for each filter primitive included with a given ‘filter’ element; thus, if the effect of a given filter primitive would extend beyond the bounds of the rectangle (this sometimes happens when using a ‘feGaussianBlur’ filter primitive with a very large ‘stdDeviation’), parts of the effect will get clipped. - <a href="https://www.w3.org/TR/SVG/filters.html#FilterEffectsRegion">SVG Filter Effects Spec</a></p>
+</blockquote>
+
+<p>What is the rectangle it talks about? It’s a clipping rectangle applied to the <code>&lt;filter&gt;</code> element, and by default it has <code>x</code> &amp; <code>y</code> values of <code>-10%</code> and <code>width</code> &amp; <code>height</code> of <code>120%</code>. So if your blur is going to be bigger than 120% of the rectangle’s dimensions, those <code>x</code> &amp; <code>y</code>, <code>width</code> &amp; <code>height</code> values will all need to be bumped up to account for it, otherwise it’s going to be clipped. It’s a memory-limitation step by the spec vendors, and by upping it we’re going to use more memory, but the alternative is rubbish blurs so, you know, let’s get it done.</p>
+
+<p>So for a larger blur the filter looks like this:
+</div></div></p>
+
+<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="c">&lt;!-- blur is big; increase canvas size --&gt;</span>
+<span class="nt">&lt;filter</span> <span class="na">id=</span><span class="s">&quot;blur-12px&quot;</span>
+    <span class="na">x=</span><span class="s">&quot;-35%&quot;</span>
+    <span class="na">y=</span><span class="s">&quot;-35%&quot;</span>
+    <span class="na">width=</span><span class="s">&quot;170%&quot;</span>
+    <span class="na">height=</span><span class="s">&quot;170%&quot;</span><span class="nt">&gt;</span>
+
+  <span class="nt">&lt;feGaussianBlur</span>
+    <span class="na">in=</span><span class="s">&quot;SourceGraphic&quot;</span>
+    <span class="na">stdDeviation=</span><span class="s">&quot;12&quot;</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/filter&gt;</span></code></pre></div>
+
+<div class="container"><div class="left column">
+
+<p>And that gives us the look we want:</p>
+
+<figure>
+  <img src="/static/blog/slicing-svg-9-ways/unclipped.jpg" alt="A blurred box no longer being clipped by SVG." />
+  <figcaption>A blurred box no longer being clipped by SVG.</figcaption>
+</figure>
+
+<p>Now we need to 9-slice it up.</p>
+
+<h2 id="what-is-9-slicing">What is 9-slicing?</h2>
+
+<p>9-slicing has been around for a good long while, and it happens to be super useful when you’re able to divide an image into 4 corners, 2 vertical slices (left and right), 2 horizontal slices (top and bottom), and a center piece… like this:</p>
+
+<figure>
+  <img src="/static/blog/slicing-svg-9-ways/9-slice.jpg" alt="An image split into 9 slices." />
+  <figcaption>The blurred box sliced into 9 ... slices.</figcaption>
+</figure>
+
+<p>When we’re able to do this, we can position the four corners in the right place and ensure they never change size. Then if the element gets wider we can stretch segments 2, 5, and 8.</p>
+
+<figure>
+  <img src="/static/blog/slicing-svg-9-ways/9-slice-stretch-x.jpg" alt="An image split into 9 slices and stretched in X." />
+  <figcaption>As the shadow gets wider we widen segments 2, 5, and 8.</figcaption>
+</figure>
+
+<p>For an element getting taller we’d stretch segments 4, 5, and 6.</p>
+
+<h2 id="svg-doesnt-support-9-slicing">SVG Doesn’t Support 9-slicing</h2>
+
+<p>Bad news: no 9-slice in SVG. I was slightly surprised that you can’t dance a dance with SVG’s <code>viewBox</code> property or anything like that, because SVG does way more than I expect it to, but in this case a big fat nope awaits. <a href="http://w3.eleqtriq.com/2014/03/the-holy-grail-of-image-scaling/">Dirk Weber has done it using <code>&lt;foreignObject&gt;</code></a> and I was a) impressed that he’d managed it, but b) determined I was not going to do the same thing.</p>
+
+<h2 id="border-image-is-essentially-9-slicing">Border Image is essentially 9-slicing</h2>
+
+<p>Border Image to the rescue! Despite its name, it’s effectively 9-slicing in CSS, and if you want the full breakdown of all its properties and whatnot then head over to <a href="https://css-tricks.com/almanac/properties/b/border-image/">CSS Tricks</a>, since it has a lot of options and it’s worth taking a little time to understand properly. In this case, however, I’ll just zone in on the particulars of what I needed.</p>
+
+<p>Here’s the CSS for the shadow element:</p>
+
+</div></div>
+
+<div class="highlight"><pre><code class="language-css" data-lang="css"><span class="nc">.shadow</span> <span class="p">{</span>
+  <span class="k">position</span><span class="o">:</span> <span class="k">absolute</span><span class="p">;</span>
+  <span class="k">width</span><span class="o">:</span> <span class="n">calc</span><span class="p">(</span><span class="m">100%</span> <span class="o">+</span> <span class="m">12px</span><span class="p">);</span>
+  <span class="k">height</span><span class="o">:</span> <span class="n">calc</span><span class="p">(</span><span class="m">100%</span> <span class="o">+</span> <span class="m">12px</span><span class="p">);</span>
+  <span class="k">left</span><span class="o">:</span> <span class="m">-6px</span><span class="p">;</span>
+  <span class="k">top</span><span class="o">:</span> <span class="m">-6px</span><span class="p">;</span>
+  <span class="k">opacity</span><span class="o">:</span> <span class="m">0</span><span class="o">.</span><span class="m">3</span><span class="p">;</span>
+  <span class="n">box</span><span class="o">-</span><span class="n">sizing</span><span class="o">:</span> <span class="k">border</span><span class="o">-</span><span class="n">box</span><span class="p">;</span>
+  <span class="k">border-style</span><span class="o">:</span> <span class="k">solid</span><span class="p">;</span>
+  <span class="k">border-width</span><span class="o">:</span> <span class="m">18px</span><span class="p">;</span>
+  <span class="k">border</span><span class="o">-</span><span class="n">image</span><span class="o">:</span> <span class="sx">url(images/shadow-2px.svg)</span> <span class="m">18</span> <span class="n">fill</span> <span class="n">stretch</span><span class="p">;</span>
+<span class="p">}</span></code></pre></div>
+
+<div class="container"><div class="left column">
+
+<p>Interesting bits:</p>
+
+<ul>
+  <li><strong>I assume that the shadow is 100% width &amp; height of the parent, plus some upsizing to account for the shadow peeking under the sides.</strong> It’s not quite clear to me how much upsizing you need for a given blur value. It seems to depend heavily on which particular implementation is used for the gaussian blur filter as to how big the convolution matrix is. But basically, give it enough room to account for the blur.</li>
+  <li><strong>Use <code>border-box</code>.</strong> In this case we probably want a border to encroach on the box size, not add to it. That said, it would mean not doing the <code>calc</code> … whatever works.</li>
+  <li><strong>Add an appropriately sized border to account for the edge blurring of the box.</strong> In my case I opted for an 18px border to give plenty of room.</li>
+</ul>
+
+<p>Finally, along comes the <code>border-image</code> to fill up those 18px borders:
+</div></div></p>
+
+<div class="highlight"><pre><code class="language-css" data-lang="css"><span class="nt">border-image</span><span class="o">:</span> <span class="nt">url</span><span class="o">(</span><span class="nt">images</span><span class="o">/</span><span class="nt">shadow-2px</span><span class="nc">.svg</span><span class="o">)</span> <span class="nt">18</span> <span class="nt">fill</span> <span class="nt">stretch</span><span class="o">;</span></code></pre></div>
+
+<div class="container"><div class="left column">
+
+<p>I use:</p>
+
+<ul>
+  <li><strong><code>url(images/shadow-2px.svg)</code></strong>: the URL of the SVG.</li>
+  <li><strong><code>18</code></strong>: the number of pixels from each edge I want to use as the slices. Since I made a 100px square box in the first place I can compress that down to a single value: 18 (no <code>px</code> apparently, go CSS!).</li>
+  <li><strong><code>fill</code></strong>. This means that I want the non-border bits of my box to be filled by the central slice of the blur box.</li>
+  <li><strong><code>stretch</code></strong>. This means stretch the slices to fill up the space. You can also <code>repeat</code>, which would work since the slices are uniform in my case.</li>
+</ul>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>So there you have it, using SVG + 9-slicing to achieve a dynamically-sized shadow that can be animated performantly, and indepently of its parent, and that can be easily edited. It meets the two criteria I set out at the start!</p>
+
+<ol>
+  <li><strong>Performance-friendly</strong>. Check.</li>
+  <li><strong>Edit-friendly</strong>. Check.</li>
+</ol>
+
+<p>I love the web, because there’s almost always a solution to every problem. The challenge is that it sometimes requires more insider knowledge than is comfortable, like the fact that <code>box-shadow</code> causes repaints, or that CSS filters are a post-processing effect.</p>
+
+<p>In any case you, too, can use a combination of <code>border-image</code> and SVG to make 9-sliced SVGs for any and every occasion.</p>
+
+</div></div>
+
+
+  <div class="footer-share container">
+    Share this on: <span class="value"><a href="http://www.twitter.com/share?url=https://aerotwist.com/blog/slicing-svg-9-ways/&text=Slicing SVG 9 Ways">Twitter</a></span>
+    <span class="value"><a href="https://plus.google.com/share?url=https://aerotwist.com/blog/slicing-svg-9-ways/">Google+</a></span>
+  </div>
+
+  <div class="clear"></div>
+
+  
+    <svg class="left-shape" style="margin-left: -229.9px" width="338.8" height="880.6">
+      <use xlink:href="#color-block" filter="url(#blur-4)" transform="scale(-1.4 1.4) rotate(90)"/>
+    </svg>
+
+    <svg class="right-shape" width="121.0" height="566.1">
+      <use xlink:href="#color-block" filter="url(#blur-8)" transform="scale(-0.9 0.9) rotate(90)"/>
+    </svg>
+  
+
+</div>
+
+
+    </section>
+
+    <footer>
+
+      <div class="container">
+        <div class="bio panel">
+          <h2>Hello!</h2>
+          <p>My name is Paul. I work at <a href="http://www.google.com/" title="Some cloud company in the USA, I think.">Google</a> on the Chrome Developer Relations team as an advocate. I help developers improve the performance of their sites and apps.</p>
+
+          <p>You can find me on <a href="http://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a></p>
+        </div>
+
+        <div class="get-in-touch panel">
+          <h2>Get in touch</h2>
+          <p>I don’t bite. Honestly. You can find me on <a href="https://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a>, and I like hearing from people (pretty handy given my job, really) so say hi.</p>
+        </div>
+
+        <div class="subscribe panel">
+          <h2>Subscribe</h2>
+          <p>You should totally get the <a href="/blog/feed/">RSS feed</a>, or whatever it is you kids are using these days (I miss Reader.)</p>
+        </div>
+
+        <p class="disclaimer">Except as otherwise noted, the content of this page is licensed under the Creative Commons Attribution 3.0 License, and code samples are licensed under the Apache 2.0 License.</p>
+      </div>
+    </footer>
+
+    <script async="true">
+
+    /**
+     * Snow effect, from: HTML5 Rocks
+     * https://github.com/html5rocks/www.html5rocks.com/blob/9318b5755c8c17a4bd1761bca6b1b491e7fd17b8/content/index.html
+     */
+    !function(){function j(){f=c.clientWidth,g=c.clientHeight,d.width=f,d.height=g,e.fillStyle="#FFF";var a=i;i=f>300,!a&&i&&requestAnimFrame(n)}function n(){if(e.clearRect(0,0,f,g),i){for(h=0;b>h;h++)m=l[h],m.y+=m.vy,m.x+=m.vx,e.globalAlpha=m.o,e.beginPath(),e.arc(m.x,m.y,m.r,0,2*Math.PI,!1),e.closePath(),e.fill(),m.y>g&&m.reset();requestAnimFrame(n)}}var a=(new Date).getMonth();if(11===a){var b=300,c=document.querySelector(".masthead");if(c){var d=document.createElement("canvas"),e=d.getContext("2d"),f=c.clientWidth,g=c.clientHeight,h=0,i=!1,k=function(){this.x=0,this.y=0,this.vy=0,this.vx=0,this.r=0,this.reset()};k.prototype.reset=function(){this.x=Math.random()*f,this.y=Math.random()*-g,this.vy=1+3*Math.random(),this.vx=.5-Math.random(),this.r=1+2*Math.random(),this.o=.5+.5*Math.random()},d.style.position="absolute",d.style.left=d.style.top="0";var m,l=[];for(h=0;b>h;h++)m=new k,m.reset(),l.push(m);window.requestAnimFrame=function(){return window.requestAnimationFrame||window.webkitRequestAnimationFrame||window.mozRequestAnimationFrame||function(a){window.setTimeout(a,1e3/60)}}(),j(),window.addEventListener("resize",j,!1),c.appendChild(d)}}}();
+    </script>
+
+    <script type="text/javascript" async="true">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-13024693-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+  </body>
+</html>

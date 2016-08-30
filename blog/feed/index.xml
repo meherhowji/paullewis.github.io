@@ -4,10 +4,29 @@
 
     <title>Aerotwist Blog</title>
     <description>Pretty much whatever comes into my head.</description>
-    <lastBuildDate>2016-07-18 22:06:08 +0100</lastBuildDate>
+    <lastBuildDate>2016-08-30 13:51:10 +0100</lastBuildDate>
     <language>en</language>
     <generator>Aerotwist Blog</generator>
     <atom:link href="https://aerotwist.com/feed/" rel="self" type="application/rss+xml" />
+    
+      
+      <item>
+        <title>Slicing SVG 9 Ways</title>
+        <description>
+          <![CDATA[I recently made a 3D Card Flip element as part of my Supercharged YouTube video series, and I ran into some challenges. I decided I should explain how I approached the solution.]]>
+        </description>
+        <pubDate>Tue, 30 Aug 2016 00:00:00 +0000</pubDate>
+        <link>https://aerotwist.com/blog/slicing-svg-9-ways</link>
+        <guid isPermaLink="true">/blog/slicing-svg-9-ways</guid>
+        
+        <category>svg</category>
+        
+        <category>responsive</category>
+        
+        <category>performance</category>
+        
+      </item>
+      
     
       
       <item>
