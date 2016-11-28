@@ -1,0 +1,49 @@
+<!--
+Copyright 2016 Google Inc. All rights reserved.
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<!doctype html>
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Paul Lewis" />
+  <meta name="viewport" content="width=device-width">
+  <title>A big adventure!</title>
+  <style>
+    html, body {
+      width: 100%;
+      height: 100%;
+      display: flex;
+    }
+
+    body {
+      align-items: center;
+      justify-content: center;
+      background: #0A6104;
+    }
+
+    .start-adventure {
+      padding: 18px 32px;
+      font-size: 18px;
+      font-weight: bold;
+      background: #1EA236;
+      border: 3px outset #1EA236;
+      font-family: Courier New, Courier, monospace;
+      color: #FFF;
+    }
+  </style>
+</head>
+<body>
+  <button class="start-adventure" disabled>Start your adventure!</button>
+
+  <script src="third_party/idb-keyval.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
