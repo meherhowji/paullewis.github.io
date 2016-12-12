@@ -1,0 +1,747 @@
+<!doctype html>
+<html itemscope itemtype="http://schema.org/Article">
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="author" content="Paul Lewis" />
+  <meta name="viewport" content="width=device-width">
+  <meta name="theme-color" content="#880043">
+
+  
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="//aerotwist.com/blog/feed/">
+  
+
+  
+  <meta name="twitter:site" content="@aerotwist">
+  <meta name="twitter:creator" content="@aerotwist">
+  <meta name="twitter:title" content="🌟 When everything&#39;s important, nothing is! 🌟">
+  <meta name="twitter:description" content="Do libraries and frameworks prioritize components on boot? If so, how, and if not what can we do? And, in exploring that question, I discovered that Server-Side Rendering isn&#39;t a silver bullet!">
+
+  <meta itemprop="name" content="🌟 When everything&#39;s important, nothing is! 🌟">
+  <meta itemprop="description" content="Do libraries and frameworks prioritize components on boot? If so, how, and if not what can we do? And, in exploring that question, I discovered that Server-Side Rendering isn&#39;t a silver bullet!">
+
+    
+    <meta name="twitter:card" content="summary">
+    
+
+  
+
+  <style>
+    
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 400;
+      src: local('Lato Regular'), local('Lato-Regular'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qIIYRU-oROkIk8vfvxw6QvesZW2xOQ-xsNqO47m55DA.woff) format('woff');
+    }
+    
+
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 700;
+      src: local('Lato Bold'), local('Lato-Bold'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qdgUG4U09HnJwhYI-uK18wLUuEpTyoUstqEm5AMlJo4.woff) format('woff');
+    }
+  </style>
+
+  <link rel="stylesheet" media="screen" href="/css/aerotwist.css" />
+  <title>Aerotwist - 🌟 When everything's important, nothing is! 🌟</title>
+  
+</head>
+
+
+<!--
+                              __          .__          __
+  _____    ___________  _____/  |___  _  _|__| _______/  |_
+  \__  \ _/ __ \_  __ \/  _ \   __\ \/ \/ /  |/  ___/\   __\
+   / __ \\  ___/|  | \(  <_> )  |  \     /|  |\___ \  |  |
+  (____  /\___  >__|   \____/|__|   \/\_/ |__/____  > |__|
+       \/     \/                                  \/
+
+  Giant ascii art embedded in every page of your site is how you
+  show other people that YOU CARE. Mainly I care about developers,
+  which is what I presume you are if you're all about viewing
+  the source. Clearly you're my kind of person.
+
+  This is v3, it's run through Jekyll, it's been fun to build,
+  there's always more to do, and you may notice that aside from
+  Google Analytics there is no JavaScript. None.
+
+  That's one way of many you keep your pages fast. I care about
+  keeping this site fast because your time is precious and I need
+  to get out of your way.
+
+  <3'z
+
+  Paul
+-->
+
+
+  <body class="blog">
+
+    <header>
+      <div class="container">
+        <div id="logo">
+  <a href="/">
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="100%" height="100%">
+    <g>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#6EBAD3" points="30.6,47.73 64.92,47.73 19.97,76.52"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ED95C0" points="48.198,0 53.008,14.06 39.31,24.76"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#880043" points="39.31,24.76 64.92,48 30.6,48"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#DA0A7A" points="39.31,24.76 64.92,48 53.008,14.06"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#0B7DAD" points="30.6,48 64.92,48 48,58.69"></polygon>
+      <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#BDDEE8" points="47.76,58.69 64.92,47.73 75.14,76.73"></polygon>
+    </g>
+    </svg>
+  </a>
+</div>
+
+        <nav>
+  <ul>
+    
+      
+        <li><a href="/">Home</a></li>
+      
+    
+      
+        <li class="active"><a href="/blog/"> Blog</a></li>
+      
+    
+      
+        <li><a href="/tutorials/">Tutorials</a></li>
+      
+    
+      
+        <li><a href="/lab/">Lab</a></li>
+      
+    
+  </ul>
+
+  <svg id="left-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#AAAAAA" stroke-width="1" />
+    </svg>
+
+  <svg id="right-line" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       width="380px" height="380px" viewBox="0 0 380 380">
+    <line x1="0" y1="380" x2="380" y2="0" stroke="#6EBAD3" stroke-opacity="0.3" stroke-width="1" />
+    </svg>
+</nav>
+
+      </div>
+    </header>
+    <section>
+
+      <div class="content">
+
+  
+  <svg version="1.1" class="shape-reference" xmlns="http://www.w3.org/2000/svg" width="666" height="333">
+  <defs>
+    <filter id="blur-8">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="8" />
+    </filter>
+    <filter id="blur-6">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="6" />
+    </filter>
+    <filter id="blur-4">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="4" />
+    </filter>
+  </defs>
+
+  <g id="color-block">
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#90a9c9" stroke="#90a9c9" stroke-width="0.6" points="40,99 78,117 96,135"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#bdcde0" stroke="#bdcde0" stroke-width="0.6" points="78,117 40,99 94,40"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#d3d5e6" stroke="#d3d5e6" stroke-width="0.6" points="78,117 94,40 132,65"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#bfb9d6" stroke="#bfb9d6" stroke-width="0.6" points="78,117 132,65 145,101"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#9ea0c6" stroke="#9ea0c6" stroke-width="0.6" points="96,135 78,117 145,101"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#a08cbc" stroke="#a08cbc" stroke-width="0.6" points="96,135 145,101 156,142"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#857bb2" stroke="#857bb2" stroke-width="0.6" points="103,154 96,135 156,142"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#656ba6" stroke="#656ba6" stroke-width="0.6" points="96,135 103,154 106,196"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#625694" stroke="#625694" stroke-width="0.6" points="106,196 103,154 149,181"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#524477" stroke="#524477" stroke-width="0.6" points="116,222 106,196 149,181"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#513667" stroke="#513667" stroke-width="0.6" points="116,222 149,181 168,228"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#342544" stroke="#342544" stroke-width="0.6" points="129,265 116,222 168,228"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#251227" stroke="#251227" stroke-width="0.6" points="129,265 168,228 218,287"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#35122f" stroke="#35122f" stroke-width="0.6" points="218,287 168,228 223,241"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#1e0616" stroke="#1e0616" stroke-width="0.6" points="218,287 223,241 289,293"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#4b0c33" stroke="#4b0c33" stroke-width="0.6" points="223,241 260,204 289,293"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#791d5e" stroke="#791d5e" stroke-width="0.6" points="223,241 214,186 260,204"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#612258" stroke="#612258" stroke-width="0.6" points="168,228 214,186 223,241"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#6e3371" stroke="#6e3371" stroke-width="0.6" points="168,228 149,181 214,186"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#8d4595" stroke="#8d4595" stroke-width="0.6" points="149,181 156,142 214,186"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#7e60a3" stroke="#7e60a3" stroke-width="0.6" points="149,181 103,154 156,142"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#a84d9e" stroke="#a84d9e" stroke-width="0.6" points="214,186 156,142 215,139"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#a92b84" stroke="#a92b84" stroke-width="0.6" points="214,186 215,139 260,204"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ce2e92" stroke="#ce2e92" stroke-width="0.6" points="260,204 215,139 299,131"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#e01081" stroke="#e01081" stroke-width="0.6" points="260,204 299,131 330,175"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#980855" stroke="#980855" stroke-width="0.6" points="320,254 260,204 330,175"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#4c062d" stroke="#4c062d" stroke-width="0.6" points="289,293 260,204 320,254"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#250013" stroke="#250013" stroke-width="0.6" points="289,293 320,254 399,275"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#3e0525" stroke="#3e0525" stroke-width="0.6" points="399,275 320,254 405,247"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#2c0a21" stroke="#2c0a21" stroke-width="0.6" points="399,275 405,247 493,269"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#3d1536" stroke="#3d1536" stroke-width="0.6" points="405,247 490,223 493,269"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#69184f" stroke="#69184f" stroke-width="0.6" points="405,247 397,197 490,223"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#6d0940" stroke="#6d0940" stroke-width="0.6" points="320,254 397,197 405,247"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#a40557" stroke="#a40557" stroke-width="0.6" points="320,254 330,175 397,197"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#e7097d" stroke="#e7097d" stroke-width="0.6" points="330,175 337,143 397,197"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f92692" stroke="#f92692" stroke-width="0.6" points="330,175 299,131 337,143"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f854a9" stroke="#f854a9" stroke-width="0.6" points="299,131 320,106 337,143"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ec7bbb" stroke="#ec7bbb" stroke-width="0.6" points="299,131 232,97 320,106"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#d870b4" stroke="#d870b4" stroke-width="0.6" points="215,139 232,97 299,131"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#ce84bc" stroke="#ce84bc" stroke-width="0.6" points="215,139 199,114 232,97"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#b774b2" stroke="#b774b2" stroke-width="0.6" points="156,142 199,114 215,139"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#b68cbf" stroke="#b68cbf" stroke-width="0.6" points="156,142 145,101 199,114"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#d9bbd9" stroke="#d9bbd9" stroke-width="0.6" points="199,114 145,101 205,40"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#e2b9d9" stroke="#e2b9d9" stroke-width="0.6" points="232,97 199,114 205,40"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f4dced" stroke="#f4dced" stroke-width="0.6" points="232,97 205,40 274,43"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#f2b1d7" stroke="#f2b1d7" stroke-width="0.6" points="232,97 274,43 320,106"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#e4d7e8" stroke="#e4d7e8" stroke-width="0.6" points="145,101 132,65 205,40"/>
+    <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#2f2541" stroke="#2f2541" stroke-width="0.6" points="493,269 490,223 626,231"/>
+  </g>
+</svg>
+
+  
+
+  <div class="masthead hatched">
+
+    
+      <svg class="behind-meta" width="666" height="333">
+        <use xlink:href="#color-block" />
+      </svg>
+
+      <svg class="left-meta" width="666" height="333">
+        <use xlink:href="#color-block" filter="url(#blur-6)" transform="translate(333 166) scale(-0.5 0.5) translate(-333 -167)" />
+      </svg>
+    
+
+    <div class="container">
+      <h2>🌟 When everything's important, nothing is! 🌟</h2>
+      <p>Do libraries and frameworks prioritize components on boot? If so, how, and if not what can we do? And, in exploring that question, I discovered that Server-Side Rendering isn't a silver bullet!</p>
+    </div>
+
+  </div>
+
+  <div class="container">
+    <div class="meta">
+
+      <ul>
+        <li class="last-updated">
+          <span class="name">Last updated:</span>
+          <span class="value">10 Dec 2016</span>
+        </li>
+
+        <li>
+          <span class="name">Est. Read Time:</span>
+          <span class="value">16 mins</span>
+        </li>
+
+        <li class="share">
+          <span class="name">Share this:</span>
+          <span class="value"><a href="http://www.twitter.com/share?url=https://aerotwist.com/blog/when-everything-is-important-nothing-is/&text=🌟 When everything&#39;s important, nothing is! 🌟">Twitter</a></span>
+          <span class="value"><a href="https://plus.google.com/share?url=https://aerotwist.com/blog/when-everything-is-important-nothing-is/">Google+</a></span>
+        </li>
+        <li class="tags">
+          <span class="name">Tagged:</span>
+          <span class="value">
+          
+            #performance, 
+          
+            #loading
+          
+          </span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="container"><div class="left column"><p>I dunno if you ever watched The Incredibles, but if you did you may recall the bad guy, Syndrome, declaring to Mr. Incredible that <a href="https://www.youtube.com/watch?v=fmSO2cz2ozQ">“when everyone’s super… no-one will be.”</a> That sentiment came back to me recently when I was working with <a href="https://preactjs.com/">Preact</a>.</p>
+
+<p>Firstly, let me say that I really like Preact. As with React (or any other VDOM-based library / framework), I totally get the functional approach, and I think the ergonomics are really nice! (JSX weirds me out a little, but nbd.) I wanted to be very clear on that fact because <a href="../the-cost-of-frameworks/">the last time I posted about frameworks</a> some folks felt I was unduly critical, and I also want to say that I know that the people who work on frameworks are trying to make the world better. Many dedicate chunks of their spare time so we don’t have to write as much code. Okay, not hating on anyone here. Okay? Cool.</p>
+
+<p>Anyway, what I wondered, as I looked at a DevTools Timeline recording, was <em>“what does Preact think is special?”</em></p>
+
+<blockquote>
+  <p>Browsers are super good at prioritizing, largely because they’ve had many years of doing it.</p>
+</blockquote>
+
+<p>Let me put this another way: <strong>browsers are super good at prioritizing</strong>, largely because they’ve had many years of doing it. And we, in turn, have learned to play the game: put <code>async</code> or <code>defer</code> on your scripts, put scripts at the end of your <code>&lt;body&gt;</code>, inline your critical CSS, lazy-load the rest, and on and on. We give the browsers a heap of hints (or work with the prioritization systems they have) to get the desired outcome.</p>
+
+<p>If you’re interested in how Chrome sees priority you can right click in the Network panel’s table of requests and add the Priority column. Behold! Priorities!</p>
+
+<figure>
+  <img src="/static/blog/framework-boot/priorities.jpg" alt="Chrome DevTools showing request priorities" />
+  <figcaption>Chrome DevTools showing request priorities.</figcaption>
+</figure>
+
+<p>Right, where was I? Yes, Preact… Actually this is not specific to Preact. Frameworks. Libraries. Performance.</p>
+
+<p>The question is this: <em>do modern libraries and frameworks prioritize components during boot?</em> Is everything “super”, making everything normalized to highest priority, or do we see nuance in the booting process? To answer that question I feel we should, by way of background, define a couple of pertinent metrics: <a href="https://developers.google.com/web/tools/lighthouse/audits/first-meaningful-paint">First Meaningful Paint</a> (‘FMP’) and <a href="https://developers.google.com/web/tools/lighthouse/audits/time-to-interactive">Time to Interactive</a> (‘TTI’).</p>
+
+<h3 id="first-meaningful-paint">First Meaningful Paint</h3>
+
+<p>FMP is when we get something useful on screen (which is the bit that people actually wanted to use, not just your app shell). Most people suggest using Server-Side Rendering (‘SSR’) to get that time down. After all, if you send down HTML in the initial response you’re going to get something rendered sooner than if you don’t. <a href="https://jakearchibald.com/2016/streams-ftw/#creating-one-stream-from-multiple-sources-to-supercharge-page-render-times">Jake has done a bunch of research</a> in this area, and that’s the TL;DR.</p>
+
+<h3 id="time-to-interactive">Time to Interactive</h3>
+<p>TTI generally translates to <em>“if someone tries to interact with this thing, will it be able to respond?”</em> If you look over a DevTools Timeline trace you can eyeball it yourself.</p>
+
+<figure>
+  <img src="/static/blog/framework-boot/fmp-and-tti.jpg" alt="First Meaningful Paint and Time to Interactive on a DevTools Timeline" />
+  <figcaption>First Meaningful Paint and Time to Interactive on a DevTools Timeline</figcaption>
+</figure>
+
+<p>I’ve marked where I think the FMP and TTI are in the timeline above. You can find your FMP if you have the Screenshots enabled, and you look for when the main content gets shown. TTI is typically a case of looking after FMP for that moment when everything in the main thread calms down post-JavaScript.</p>
+
+<p><a href="https://github.com/GoogleChrome/lighthouse/">Lighthouse is looking at ways to capture both measurements automatically</a>, so you should definitely check that out if you’re interested.</p>
+
+<p>Moving on…</p>
+
+<h2 id="word-to-the-wise-never-read-the-comments">Word to the wise: never read the comments</h2>
+
+<p>Let’s imagine I’m building a web app which allows someone to comment on a story. Like Hacker News, or maybe Reddit, and I’m going to use a framework. A quick survey of those types of sites shows that you can see posts with thousands of (sometimes nested) comments.</p>
+
+<p>What if we made a page like that with React, Preact, Vue, Custom Elements, and Vanilla? What… if…</p>
+
+<p>(In fact, Reddit mobile uses React, so I’m not far off the mark.)</p>
+
+<h2 id="sample-setup">Sample setup</h2>
+
+<figure>
+  <img src="/static/blog/framework-boot/demo.jpg" alt="My demo setup: a page which loads a lot of the same Comment component" />
+  <figcaption>My demo setup: a page which loads a lot of the same Comment component</figcaption>
+</figure>
+
+<p>Here’s my setup:</p>
+
+<ul>
+  <li>A story synopsis, title and link.</li>
+  <li>500 comments. (I think this is a relatively modest count, some posts easily get into the thousands.)</li>
+  <li>Each comment has up- and down-vote buttons, which need to at least adjust the score value. (No need to reorder comments based on score.)</li>
+</ul>
+
+<blockquote>
+  <p>My primary hypothesis is that frameworks typically have no concept of priority that can be surfaced to developers.</p>
+</blockquote>
+
+<p>My primary hypothesis is that frameworks typically have no concept of priority that can be surfaced to developers. If that’s true then <strong>we will see a single, solid task when the JavaScript payload is delivered that will lock up the main thread</strong>. For funsies I tried giving the various frameworks a Server-Side Rendered (<a href="https://medium.com/@AdityaPunjani/building-flipkart-lite-a-progressive-web-app-2c211e641883#.cc57btnml">pre-baked like FlipKart does</a>) and Client-Side Rendered versions of the page, to see if SSR changed the numbers at all.</p>
+
+<p>I also added Custom Elements 1.0 and Vanilla variants to the mix to see how they came out.</p>
+
+<p>Let’s see how the numbers came out on a Moto G running Chrome with a 3G connection.</p>
+
+<h3 id="server-side-rendered-ssr---fmp--tti">Server-Side rendered (‘SSR’) - FMP &amp; TTI</h3>
+
+<table class="left-highlight">
+  <thead>
+    <tr>
+      <th>Tech</th>
+      <th>FMP time</th>
+      <th>TTI time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Preact (7.1.0)</td>
+      <td>2,343ms</td>
+      <td>4,000ms</td>
+    </tr>
+    <tr>
+      <td>React (15.4.1)</td>
+      <td>2,746ms</td>
+      <td>4,850ms</td>
+    </tr>
+    <tr>
+      <td>Vue (2.1.4)</td>
+      <td>2,578ms</td>
+      <td>4,600ms</td>
+    </tr>
+    <tr>
+      <td>Ember (2.10.0)</td>
+      <td>N/A</td>
+      <td>N/A</td>
+    </tr>
+    <tr>
+      <td>Custom Elements (1.0)</td>
+      <td>2,456ms</td>
+      <td>2,700ms</td>
+    </tr>
+    <tr>
+      <td>Vanilla</td>
+      <td>2,610ms</td>
+      <td>2,610ms</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="client-side-rendered-csr---fmp--tti">Client-Side rendered (‘CSR’) - FMP &amp; TTI</h3>
+
+<table class="left-highlight">
+  <thead>
+    <tr>
+      <th>Tech</th>
+      <th>FMP time</th>
+      <th>TTI time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Preact (7.1.0)</td>
+      <td>3,042ms</td>
+      <td>3,200ms</td>
+    </tr>
+    <tr>
+      <td>React (15.4.1)</td>
+      <td>4,701ms</td>
+      <td>4,701ms</td>
+    </tr>
+    <tr>
+      <td>Vue (2.1.4)</td>
+      <td>3,948ms</td>
+      <td>3,950ms</td>
+    </tr>
+    <tr>
+      <td>Ember (2.10.0)</td>
+      <td>10,180ms</td>
+      <td>10,180ms</td>
+    </tr>
+    <tr>
+      <td>Custom Elements (1.0)</td>
+      <td>1,897ms</td>
+      <td>2,900ms</td>
+    </tr>
+    <tr>
+      <td>Vanilla</td>
+      <td>1,824ms</td>
+      <td>2,700ms</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="server-side-rendered---script-duration--component-mount-time">Server-Side rendered - Script Duration &amp; Component Mount Time</h3>
+
+<p>Let’s look at the time spent in scripting as well.</p>
+
+<ul>
+  <li><strong>Script duration:</strong> The time taken overall by script in the boot. Includes the framework boot time, parse, evalution, compilation and GC.</li>
+  <li><strong>Mount time:</strong> The time taken to bootstrap the 500 comment components along with their up- and down-vote buttons.</li>
+</ul>
+
+<table class="left-highlight">
+  <thead>
+    <tr>
+      <th>Tech</th>
+      <th>Script dur.</th>
+      <th>Mount time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Preact (7.1.0)</td>
+      <td>1,028ms</td>
+      <td>986.92ms</td>
+    </tr>
+    <tr>
+      <td>React (15.4.1)</td>
+      <td>1,272ms</td>
+      <td>1,219.10ms</td>
+    </tr>
+    <tr>
+      <td>Vue (2.1.4)</td>
+      <td>1,436ms</td>
+      <td>1,285.10ms</td>
+    </tr>
+    <tr>
+      <td>Ember (2.10.0)</td>
+      <td>N/A</td>
+      <td>N/A</td>
+    </tr>
+    <tr>
+      <td>Custom Elements (1.0)</td>
+      <td>204ms</td>
+      <td>197.99ms</td>
+    </tr>
+    <tr>
+      <td>Vanilla</td>
+      <td>168ms</td>
+      <td>156.83ms</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="client-side-rendered---script-duration--component-mount-time">Client-Side rendered - Script Duration &amp; Component Mount Time</h3>
+
+<table class="left-highlight">
+  <thead>
+    <tr>
+      <th>Tech</th>
+      <th>Script dur.</th>
+      <th>Mount time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Preact (7.1.0)</td>
+      <td>509ms</td>
+      <td>504.55ms</td>
+    </tr>
+    <tr>
+      <td>React (15.4.1)</td>
+      <td>1,183ms</td>
+      <td>1,139.70ms</td>
+    </tr>
+    <tr>
+      <td>Vue (2.1.4)</td>
+      <td>1,295ms</td>
+      <td>1,145.10ms</td>
+    </tr>
+    <tr>
+      <td>Ember (2.10.0)</td>
+      <td>5,565ms</td>
+      <td>3,986.70ms</td>
+    </tr>
+    <tr>
+      <td>Custom Elements (1.0)</td>
+      <td>564ms</td>
+      <td>516.78ms</td>
+    </tr>
+    <tr>
+      <td>Vanilla</td>
+      <td>395ms</td>
+      <td>362.10ms</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="notes-caveats-disclaimers-not-so-small-print-provisos">Notes, caveats, disclaimers, not-so-small print, provisos</h4>
+
+<p>And here are the things you need to bear in mind with these results.</p>
+
+<ul>
+  <li><strong>These results are interim results. I may have made errors (despite attempting to avoid that!)</strong>. You can check my code over on <a href="https://github.com/GoogleChrome/sample-framework-boot">the GitHub repo</a> if you like. Let’s chat on there if there are issues that need resolving.</li>
+  <li>All tests were done on a Moto G on a regular 3G connection.</li>
+  <li>TTI is eyeballed from the trace in WebPagetest, based on the main thread settling and First Meaningful Paint having happened.</li>
+  <li><a href="https://github.com/ember-fastboot/ember-cli-fastboot#ember-fastboot">Ember says fast-boot hydration is not ready for production</a>, so I thought it fairer not to include it for the SSR results.</li>
+  <li>Polymer 2.0 is a fairly thin wrapper around Custom Elements 1.0 so I figured it wasn’t worth adding it in for this test. If there’s a strong desire to see numbers I will consider reconsidering.</li>
+</ul>
+
+<h2 id="conclusions">Conclusions</h2>
+
+<p>What are we to make of the results? Here are my high-level conclusions.</p>
+
+<ul>
+  <li><strong>SSR typically gets you a faster First Meaningful Paint</strong>. That’s great for perceived performance, but for libraries / frameworks that recreate the DOM virtually, TTI seems to be pushed back, sometimes a long way. I guess the diffing of real DOM to make VDOM is more expensive than starting fresh? Kind of like inheriting someone’s legacy code!</li>
+  <li><strong>Hydration is unusually slow in Preact (~2x slower) when doing SSR</strong>. I’m not totally sure why that is, but I’ve <a href="">filed an issue</a> so hopefully they’ll be able to find out why!</li>
+  <li><strong>Chrome seems to be faster when there are multiple <code>innerHTML</code> calls</strong>. Breaking the work into multiple <code>appendChild</code> / <code>innerHTML</code> calls seems to be faster than one big dump of HTML from SSR. I found this surprising! I thought that the browser would flush more often, but it seems to not. So SSR, for the Custom Elements and Vanilla variants, seems to perform worse than the CSR equivalent when there’s a decent amount to boot.</li>
+  <li><strong>Even if CSR beats SSR, we should be cautious</strong>. Thinking more about the above point, if JavaScript fails for some reason, SSR will still give us content that someone can read. CSR will not. This is very much a per-case consideration, since some would say comments are non-essential content, which is probably true for a news article and not at all true for Hacker News or Reddit, where the comment is community-generated.</li>
+</ul>
+
+<h3 id="main-thread-locking">Main thread locking</h3>
+
+<p>Whether you agree or disagree with the high level conclusions, there’s one bit that’s really important and deserves more scrutiny: <strong>the component boot time</strong>.</p>
+
+<p>In all cases the JavaScript that mounts components runs synchronously and blocks the main thread with one big task. This is even true if you use Custom Elements, though as I’ll try to show in a little bit, there is an escape hatch or two.</p>
+
+<figure>
+  <img src="/static/blog/framework-boot/long-task.jpg" alt="A DevTools timeline showing a single long task" />
+  <figcaption>A DevTools timeline showing a single long task</figcaption>
+</figure>
+
+<p>Is locking the main thread like this bad? I can’t emphasize this enough: <strong>YES!</strong></p>
+
+<blockquote>
+  <p>Locking the main thread is unthinkable to native developers, because it negatively impacts the user experience so much.</p>
+</blockquote>
+
+<p>Locking the main thread is unthinkable to native developers, because it negatively impacts the user experience so much. When the main thread is pegged you typically see:</p>
+
+<ul>
+  <li><strong>Less CPU time for scrolling and tasks on other threads</strong>. Because the CPUs on mobiles are so heavily controlled, utilizing them for long periods means there’s simply no time left for anything else. <a href="https://www.youtube.com/watch?v=4bZvq3nodf4">Alex Russell has a fantastic talk about why your mobile hates you, which you should watch</a>. But this is A Big Deal for the User Experience because we’re locking up the phone.</li>
+  <li><strong>The CPU being pegged</strong>. When you peg the CPU you run down the user’s battery more quickly.</li>
+</ul>
+
+<h3 id="possible-objections">Possible Objections</h3>
+
+<p>I expect at this point there may be some who feel that this isn’t representative of their situation.</p>
+
+<ul>
+  <li><strong>“I’m not making Reddit / Hacker News.”</strong> Sure. You probably aren’t, but you may be booting a lot of components at once, which may well mean you’re locking up the main thread.</li>
+  <li><strong>“My users are all on [insert high-end phone here]”</strong> Cool! That’s not necessarily the case for everyone, and it may also be that folks with less powerful devices are excluded from the experience if it’s too heavy to load well.</li>
+  <li><strong>“You can work around this with [insert tactic here]”</strong> Quite possibly the case, but are they the defaults for the framework or library you’re using? If you have to be an expert (or tending in that direction) to not break the user experience then surely you’re a) better off using the underlying platform instead, and b) saying that the framework isn’t living up to its promise of making life easier?</li>
+</ul>
+
+<h2 id="three-booting-models">Three booting models</h2>
+
+<p>Last year I created some graphics explaining what I consider the three major booting patterns in the wild. People asked if there was a blog post to back it up. This would be it… a touch later than I would have liked.</p>
+
+<h4 id="client-side-rendering-aka-csr">Client-Side Rendering aka CSR</h4>
+
+<figure>
+  <img src="/static/blog/framework-boot/client.jpg" alt="Rendering your app client-side" />
+  <figcaption>Rendering your app client-side.</figcaption>
+</figure>
+
+<p>In a Client-Side, JavaScript-based render you are reliant on the script to be downloaded, parsed, and evaluated before you are able to render the page. This can end up with a lot of wasted time from when the HTML arrives to when you give the user something meaningful.</p>
+
+<p>If the JavaScript fails you can end up giving somebody <em>nothing at all</em>.</p>
+
+<hr />
+
+<h4 id="server-side-rendering-aka-ssr">Server-Side Rendering aka SSR</h4>
+
+<figure>
+  <img src="/static/blog/framework-boot/server.jpg" alt="Rendering your app server-side" />
+  <figcaption>Rendering your app server-side.</figcaption>
+</figure>
+
+<p>With Server-Side Rendering you send a view to the user, but you’re typically reliant on the JavaScript to boot entirely before the functionality is available. This can result in an “uncanny valley” where the app looks interactive, but isn’t.</p>
+
+<p>SSR is great for getting pixels on screen, but as the data implies, for some cases it makes it more computationally expensive to get booted, meaning that it takes longer to be interactive.</p>
+
+<p>I still prefer this to CSR because you’re showing the user <em>something</em>, but if the boot process blocks the main thread then it’s a pretty awful experience.</p>
+
+<hr />
+
+<h4 id="progressive-booting-aka-progressive-booting">Progressive Booting aka Progressive Booting</h4>
+
+<figure>
+  <img src="/static/blog/framework-boot/progressive.jpg" alt="Progressively booting your app" />
+  <figcaption>Rendering your app progressively.</figcaption>
+</figure>
+
+<p>Progressive Booting sits somewhere between CSR and SSR. You SSR a functionally viable (though minimal) view in the HTML, including minimal JavaScript and CSS. As more resources arrive the app progressively “unlocks” features.</p>
+
+<blockquote>
+  <p>Today, however, Progressive Booting is behavior we can’t easily access in most libraries and frameworks.</p>
+</blockquote>
+
+<p>This requires knowing what the person visiting your app is there to do, and an adequate strategy to determine boot order. You may also need a re-prioritization strategy if the user interacts with something you expected to be low priority.</p>
+
+<h3 id="which-to-use-progressive-booting">Which to use? Progressive Booting.</h3>
+
+<p>Looking at the data above, I’d say a Progressive Booting model is the best approach: <strong>it uses SSR to get a better FMP, but there’s minimal JavaScript included so we don’t peg the main thread, keeping TTI nearer FMP</strong>. We can then, either on demand, or as time allows, boot non-essential parts of the app.</p>
+
+<p>Today, however, Progressive Booting is behavior we can’t easily access in most libraries and frameworks. There’s no place to hook into component booting.</p>
+
+<p>In short: <strong>everything is special, so nothing is</strong>.</p>
+
+<h2 id="mitigation-platform-style">Mitigation, platform-style</h2>
+
+<p>We have a platform-level primitive that can help here: <a href="https://developers.google.com/web/updates/2015/08/using-requestidlecallback"><strong><code>requestIdleCallback</code></strong></a>.</p>
+
+<p>We can use <code>requestIdleCallback</code> to spread the load of booting out over several tasks, and the browser will prioritize handling user interactions above other main thread code, which is exactly what we want in a Progressive Booting world. If a browser doesn’t support <code>requestIdleCallback</code> we can still invoke component booting immediately, if that’s what we need. If we don’t need to, why not boot components later on?</p>
+
+<blockquote>
+  <p>We have a platform-level primitive that can help: <code>requestIdleCallback</code>.</p>
+</blockquote>
+
+<p>When it comes to Custom Elements or Vanilla, we already have control in order to wrap things in <code>requestIdleCallback</code> ourselves, or to even wait for user interaction before attempting to boot a given component (or set of components). But my goal isn’t actually to “convert” anyone over to using Custom Elements or Vanilla (though I’ve found it’s been a better long-term investment for me to learn the Web Platform than any particular library, framework or tool). What I’m more bothered about is that the people at the end of the chain, <em>the people we build for</em>, get the best possible experience.</p>
+
+<p>I’d love to see is libraries and frameworks adopting a Progressive Booting model, especially as we ship more code to our users. Not every component is special, and the developer should be given controls to decide how booting happens!</p>
+
+<p>To show the impact of taking this approach, I <a href="https://github.com/developit/preact/pull/409">made a straw man PR for Preact that uses requestIdleCallback</a>. It cut the TTI down by <strong>6x</strong>. I know Jason Miller, who made Preact, is very interested in this area, and I’d love others to join in.</p>
+
+<figure>
+  <img src="/static/blog/framework-boot/ric.jpg" alt="Using requestIdleCallback in Preact to boot progressively" />
+  <figcaption>Using requestIdleCallback in Preact to boot progressively.</figcaption>
+</figure>
+
+<h2 id="finishing-up">Finishing up</h2>
+
+<p>Prioritization is a big deal. As our apps get bigger and more complex we need mechanisms to handle that.</p>
+
+<blockquote>
+  <p>I suppose what I’m really saying is that we need to move on from an off-on component world to one with nuance and priorities.</p>
+</blockquote>
+
+<p>I suppose what I’m really saying is that we need to move on from an off-on component world to one with nuance and, in particular, priorities. The web can already support it, the browser already does it itself for many things, we need to enable it in our libraries and frameworks.</p>
+
+<h2 id="links">Links</h2>
+
+<p>The test results:</p>
+
+<h3 id="webpagetest">WebPagetest</h3>
+<ul>
+  <li>Preact: <a href="https://www.webpagetest.org/result/161206_9M_XKZ/">SSR</a>, <a href="https://www.webpagetest.org/result/161206_HT_XM9/">CSR</a></li>
+  <li>React: <a href="https://www.webpagetest.org/result/161206_W6_XMF/">SSR</a>, <a href="https://www.webpagetest.org/result/161206_TD_XMN/">CSR</a></li>
+  <li>Vue: <a href="https://www.webpagetest.org/result/161206_4S_XMW/">SSR</a>, <a href="https://www.webpagetest.org/result/161206_NC_XN5/">CSR</a></li>
+  <li>Ember: <a href="https://www.webpagetest.org/result/161206_3Z_XP6/">CSR</a></li>
+  <li>Custom Elements: <a href="https://www.webpagetest.org/result/161206_ES_XNF/">SSR</a>, <a href="https://www.webpagetest.org/result/161206_24_XNQ/">CSR</a></li>
+  <li>Vanilla: <a href="https://www.webpagetest.org/result/161206_KE_XNY/">SSR</a>, <a href="https://www.webpagetest.org/result/161206_3Z_XP6/">CSR</a></li>
+</ul>
+
+<h3 id="source-code">Source code</h3>
+
+<p><a href="https://github.com/GoogleChrome/sample-framework-boot">GitHub Repo</a></p>
+</div></div>
+
+  <div class="footer-share container">
+    Share this on: <span class="value"><a href="http://www.twitter.com/share?url=https://aerotwist.com/blog/when-everything-is-important-nothing-is/&text=🌟 When everything&#39;s important, nothing is! 🌟">Twitter</a></span>
+    <span class="value"><a href="https://plus.google.com/share?url=https://aerotwist.com/blog/when-everything-is-important-nothing-is/">Google+</a></span>
+  </div>
+
+  <div class="clear"></div>
+
+  
+    <svg class="left-shape" style="margin-left: -316.35px" width="466.2" height="932.4">
+      <use xlink:href="#color-block" filter="url(#blur-4)" transform="scale(-1.4 1.4) rotate(90)"/>
+    </svg>
+
+    <svg class="right-shape" width="166.5" height="599.4">
+      <use xlink:href="#color-block" filter="url(#blur-8)" transform="scale(-0.9 0.9) rotate(90)"/>
+    </svg>
+  
+
+</div>
+
+
+    </section>
+
+    <footer>
+
+      <div class="container">
+        <div class="bio panel">
+          <h2>Hello!</h2>
+          <p>My name is Paul. I work at <a href="http://www.google.com/" title="Some cloud company in the USA, I think.">Google</a> on the Chrome Developer Relations team as an advocate. I help developers improve the performance of their sites and apps.</p>
+
+          <p>You can find me on <a href="http://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a></p>
+        </div>
+
+        <div class="get-in-touch panel">
+          <h2>Get in touch</h2>
+          <p>I don’t bite. Honestly. You can find me on <a href="https://twitter.com/aerotwist">Twitter</a> and <a href="http://www.google.com/+aerotwist">G+</a>, and I like hearing from people (pretty handy given my job, really) so say hi.</p>
+        </div>
+
+        <div class="subscribe panel">
+          <h2>Subscribe</h2>
+          <p>You should totally get the <a href="/blog/feed/">RSS feed</a>, or whatever it is you kids are using these days (I miss Reader.)</p>
+        </div>
+
+        <p class="disclaimer">Except as otherwise noted, the content of this page is licensed under the Creative Commons Attribution 3.0 License, and code samples are licensed under the Apache 2.0 License.</p>
+      </div>
+    </footer>
+
+    <script async="true">
+
+    /**
+     * Snow effect, from: HTML5 Rocks
+     * https://github.com/html5rocks/www.html5rocks.com/blob/9318b5755c8c17a4bd1761bca6b1b491e7fd17b8/content/index.html
+     */
+    !function(){function j(){f=c.clientWidth,g=c.clientHeight,d.width=f,d.height=g,e.fillStyle="#FFF";var a=i;i=f>300,!a&&i&&requestAnimFrame(n)}function n(){if(e.clearRect(0,0,f,g),i){for(h=0;b>h;h++)m=l[h],m.y+=m.vy,m.x+=m.vx,e.globalAlpha=m.o,e.beginPath(),e.arc(m.x,m.y,m.r,0,2*Math.PI,!1),e.closePath(),e.fill(),m.y>g&&m.reset();requestAnimFrame(n)}}var a=(new Date).getMonth();if(11===a){var b=300,c=document.querySelector(".masthead");if(c){var d=document.createElement("canvas"),e=d.getContext("2d"),f=c.clientWidth,g=c.clientHeight,h=0,i=!1,k=function(){this.x=0,this.y=0,this.vy=0,this.vx=0,this.r=0,this.reset()};k.prototype.reset=function(){this.x=Math.random()*f,this.y=Math.random()*-g,this.vy=1+3*Math.random(),this.vx=.5-Math.random(),this.r=1+2*Math.random(),this.o=.5+.5*Math.random()},d.style.position="absolute",d.style.left=d.style.top="0";var m,l=[];for(h=0;b>h;h++)m=new k,m.reset(),l.push(m);window.requestAnimFrame=function(){return window.requestAnimationFrame||window.webkitRequestAnimationFrame||window.mozRequestAnimationFrame||function(a){window.setTimeout(a,1e3/60)}}(),j(),window.addEventListener("resize",j,!1),c.appendChild(d)}}}();
+    </script>
+
+    <script type="text/javascript" async="true">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-13024693-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+  </body>
+</html>

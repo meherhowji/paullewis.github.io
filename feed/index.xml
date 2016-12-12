@@ -4,10 +4,25 @@
 
     <title>Aerotwist</title>
     <description>Pretty much whatever comes into my head.</description>
-    <lastBuildDate>2016-11-28 16:12:07 +0000</lastBuildDate>
+    <lastBuildDate>2016-12-12 15:37:58 +0000</lastBuildDate>
     <language>en</language>
     <generator>Aerotwist</generator>
     <atom:link href="https://aerotwist.com/feed/" rel="self" type="application/rss+xml" />
+    
+      <item>
+        <title>🌟 When everything's important, nothing is! 🌟</title>
+        <description>
+          <![CDATA[Do libraries and frameworks prioritize components on boot? If so, how, and if not what can we do? And, in exploring that question, I discovered that Server-Side Rendering isn't a silver bullet!]]>
+        </description>
+        <pubDate>Sat, 10 Dec 2016 00:00:00 +0000</pubDate>
+        <link>https://aerotwist.com/blog/when-everything-is-important-nothing-is</link>
+        <guid isPermaLink="true">/blog/when-everything-is-important-nothing-is</guid>
+        
+        <category>performance</category>
+        
+        <category>loading</category>
+        
+      </item>
     
       <item>
         <title>Slicing SVG 9 Ways</title>
