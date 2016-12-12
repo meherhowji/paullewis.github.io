@@ -237,7 +237,7 @@
 
         <li>
           <span class="name">Est. Read Time:</span>
-          <span class="value">16 mins</span>
+          <span class="value">17 mins</span>
         </li>
 
         <li class="share">
@@ -259,7 +259,13 @@
     </div>
   </div>
 
-  <div class="container"><div class="left column"><p>I dunno if you ever watched The Incredibles, but if you did you may recall the bad guy, Syndrome, declaring to Mr. Incredible that <a href="https://www.youtube.com/watch?v=fmSO2cz2ozQ">“when everyone’s super… no-one will be.”</a> That sentiment came back to me recently when I was working with <a href="https://preactjs.com/">Preact</a>.</p>
+  <div class="container"><div class="left column"><p><strong>Update 2016-12-12</strong>: Some folks who aren’t happy with the SSR’d code in the test, because it wasn’t generated the idiomatic way. Firstly, <strong>I’m more than happy to <a href="https://github.com/GoogleChrome/sample-framework-boot">take PRs on the code</a> and update numbers appropriately</strong>; secondly, I went through guides and tutorials to try and get it right (lest anyone think I was lazy); thirdly, if getting it right involves becoming an expert I think learning the web platform is probably a better investment; and finally, the actual values of SSR vs CSR are, in the scheme of things, relatively minor: <strong>the issue at stake here is that libraries and frameworks do not yield the main thread</strong>, and whether that’s for 300ms, 3,000ms, or 30,000ms is simply degrees of bad.</p>
+
+<p>With that out of the way, let’s crack on!</p>
+
+<hr />
+
+<p>I dunno if you ever watched The Incredibles, but if you did you may recall the bad guy, Syndrome, declaring to Mr. Incredible that <a href="https://www.youtube.com/watch?v=fmSO2cz2ozQ">“when everyone’s super… no-one will be.”</a> That sentiment came back to me recently when I was working with <a href="https://preactjs.com/">Preact</a>.</p>
 
 <p>Firstly, let me say that I really like Preact. As with React (or any other VDOM-based library / framework), I totally get the functional approach, and I think the ergonomics are really nice! (JSX weirds me out a little, but nbd.) I wanted to be very clear on that fact because <a href="../the-cost-of-frameworks/">the last time I posted about frameworks</a> some folks felt I was unduly critical, and I also want to say that I know that the people who work on frameworks are trying to make the world better. Many dedicate chunks of their spare time so we don’t have to write as much code. Okay, not hating on anyone here. Okay? Cool.</p>
 
