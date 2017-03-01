@@ -407,7 +407,7 @@
 <p>Here are some of things I have on my mind:</p>
 
 <ul>
-  <li><strong>Cross-browser testing</strong>. Today all of this is Chrome only, which is on the one hand great, but also I think it’s a bit of a shame, since many of us want to test in multiple browsers. Folks like <a href="https://twitter.com/auchenberg">Kenneth Auchenberg</a> have been calling for some kind of standardized protocol for some time (and he made <a href="http://remotedebug.org/">RemoteDebug</a> as part of that effort). I don’t think we need to go <em>that far</em> personally, but getting something at least trace-<em>like</em> out of Firefox, Edge, and Safari would be amazing for developers. Then we’d be talking like-for-like in perf tests.</li>
+  <li><strong>Cross-browser testing</strong>. Today all of this is Chrome only, which is on the one hand great, but also I think it’s a bit of a shame, since many of us want to test in multiple browsers. Folks like <a href="https://twitter.com/auchenberg">Kenneth Auchenberg</a> have been calling for some kind of standardized protocol for some time (and he made <a href="http://remotedebug.org/">RemoteDebug</a> as part of that effort). I don’t think we need to go <em>that far</em> personally, but getting something at least trace-_like_ out of Firefox, Edge, and Safari would be amazing for developers. Then we’d be talking like-for-like in perf tests.</li>
   <li><strong>More test-runner tests</strong>. So far I’ve only gotten scroll and load tests plumbed in. I’d like more, and I’d like to make it easy for others to make their own. That said, the whole thing sits atop <a href="https://sites.google.com/a/chromium.org/chromedriver/">ChromeDriver</a> (ohai, shoulders of giants) so if you already have those kinds of tests, then you might be able to hack something together quickly.</li>
 </ul>
 
@@ -469,6 +469,10 @@
      * https://github.com/html5rocks/www.html5rocks.com/blob/9318b5755c8c17a4bd1761bca6b1b491e7fd17b8/content/index.html
      */
     !function(){function j(){f=c.clientWidth,g=c.clientHeight,d.width=f,d.height=g,e.fillStyle="#FFF";var a=i;i=f>600,!a&&i&&requestAnimFrame(n)}function n(){if(e.clearRect(0,0,f,g),i){for(h=0;b>h;h++)m=l[h],m.y+=m.vy,m.x+=m.vx,e.globalAlpha=m.o,e.beginPath(),e.arc(m.x,m.y,m.r,0,2*Math.PI,!1),e.closePath(),e.fill(),m.y>g&&m.reset();requestAnimFrame(n)}}var a=(new Date).getMonth();if(11===a){var b=100,c=document.querySelector(".masthead");if(c){var d=document.createElement("canvas"),e=d.getContext("2d"),f=c.clientWidth,g=c.clientHeight,h=0,i=!1,k=function(){this.x=0,this.y=0,this.vy=0,this.vx=0,this.r=0,this.reset()};k.prototype.reset=function(){this.x=Math.random()*f,this.y=Math.random()*-g,this.vy=1+3*Math.random(),this.vx=.5-Math.random(),this.r=1+2*Math.random(),this.o=.5+.5*Math.random()},d.style.position="absolute",d.style.left=d.style.top="0";var m,l=[];for(h=0;b>h;h++)m=new k,m.reset(),l.push(m);window.requestAnimFrame=function(){return window.requestAnimationFrame||window.webkitRequestAnimationFrame||window.mozRequestAnimationFrame||function(a){window.setTimeout(a,1e3/60)}}(),j(),window.addEventListener("resize",j,!1),c.appendChild(d)}}
+
+    if (new Date().getMonth() !== 11) {
+      return;
+    }
 
     if (!('IntersectionObserver' in window)) {
       return;

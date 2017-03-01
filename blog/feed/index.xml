@@ -4,7 +4,7 @@
 
     <title>Aerotwist Blog</title>
     <description>Pretty much whatever comes into my head.</description>
-    <lastBuildDate>2016-12-20 10:49:08 +0000</lastBuildDate>
+    <lastBuildDate>2017-03-01 10:01:09 +0000</lastBuildDate>
     <language>en</language>
     <generator>Aerotwist Blog</generator>
     <atom:link href="https://aerotwist.com/feed/" rel="self" type="application/rss+xml" />
@@ -342,13 +342,13 @@
     
       
       <item>
-        <title>Web Components and the Three Unsexy Pillars</title>
+        <title>Web Components and the Three Unattractive Pillars</title>
         <description>
-          <![CDATA[Web Components are the future, for better or worse! That was the summary provided byPeter Gasston at Edge Conference last Friday. I finally managed to figure out, off the back of his presentation, what my primary concern over Web Components are.]]>
+          <![CDATA[Web Components are the future, for better or worse! That was the summary provided by Peter Gasston at Edge Conference last Friday. I finally managed to figure out, off the back of his presentation, what my primary concern over Web Components are.]]>
         </description>
         <pubDate>Mon, 24 Mar 2014 00:00:00 +0000</pubDate>
-        <link>https://aerotwist.com/blog/web-components-and-three-unsexy-pillars</link>
-        <guid isPermaLink="true">/blog/web-components-and-three-unsexy-pillars</guid>
+        <link>https://aerotwist.com/blog/web-components-and-three-unattractive-pillars</link>
+        <guid isPermaLink="true">/blog/web-components-and-three-unattractive-pillars</guid>
         
         <category>accessibility</category>
         
