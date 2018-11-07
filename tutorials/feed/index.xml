@@ -4,10 +4,29 @@
 
     <title>Aerotwist Tutorials</title>
     <description>Stuff I tell you how to do.</description>
-    <lastBuildDate>2018-10-17 00:06:10 +0100</lastBuildDate>
+    <lastBuildDate>2018-11-07 07:57:25 +0000</lastBuildDate>
     <language>en</language>
     <generator>Aerotwist Tutorials</generator>
     <atom:link href="https://aerotwist.com/feed/" rel="self" type="application/rss+xml" />
+    
+      
+      <item>
+        <title>How to create a circular reveal!</title>
+        <description>
+          <![CDATA[]]>
+        </description>
+        <pubDate>Wed, 07 Nov 2018 00:00:00 +0000</pubDate>
+        <link>https://aerotwist.com/tutorials/creating-a-circular-reveal</link>
+        <guid isPermaLink="true">/tutorials/creating-a-circular-reveal</guid>
+        
+        <category>css</category>
+        
+        <category>tutorial</category>
+        
+        <category>animation</category>
+        
+      </item>
+      
     
       
       <item>
