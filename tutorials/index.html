@@ -57,7 +57,7 @@
 
   This is v3, it's run through Jekyll, it's been fun to build,
   there's always more to do, and you may notice that aside from
-  Google Analytics there is no JavaScript. None.
+  a little snow effect in December there is no JavaScript. None.
 
   That's one way of many you keep your pages fast. I care about
   keeping this site fast because your time is precious and I need
@@ -544,25 +544,6 @@
         <p class="disclaimer">Except as otherwise noted, the content of this page is licensed under the Creative Commons Attribution 3.0 License, and code samples are licensed under the Apache 2.0 License.</p>
       </div>
     </footer>
-
-    <script>
-      async function init() {
-        if (!('serviceWorker' in navigator)) {
-          return;
-        }
-
-        const registration = await navigator.serviceWorker.register("/sw.js");
-        registration.onupdatefound = () => {
-          console.log("Installing new service worker...");
-
-          registration.installing.onstatechange = function() {
-            console.log(this.state);
-          };
-        }
-      }
-
-      init();
-    </script>
 
     <script async="true">
 
