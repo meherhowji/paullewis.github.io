@@ -1,86 +1,50 @@
-/**
- * Copyright 2014 Google Inc. All rights reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+self.oninstall = evt => {
+  console.log("oninstall - aerotwist-3.0.4");
 
-importScripts('third_party/serviceworker-cache-polyfill.js');
-
-var CACHE_NAME = 'aerotwist';
-var CACHE_VERSION = 3;
-
-self.oninstall = function(event) {
-
-  event.waitUntil(
-    caches.open(CACHE_NAME + '-v' + CACHE_VERSION).then(function(cache) {
-
-      return cache.addAll([
-
-        '/',
-        '/blog/',
-        '/lab/',
-        '/tutorials/',
-        '/css/aerotwist.css',
-        '/images/me_2015.jpg',
-        '/images/pattern.svg',
-        '/favicon.ico'
-
-      ]);
-    })
+  evt.waitUntil(
+    caches.open("aerotwist-3.0.4")
+          .then((cache) => {
+            return cache.addAll([
+              "/css/aerotwist.css"
+            ]);
+          })
   );
+
+  self.skipWaiting();
 };
 
-self.onactivate = function(event) {
+self.onactivate = evt => {
+  evt.waitUntil(
+    caches.keys()
+          .then((cacheNames) => {
+            const deleteOldCaches = cacheNames.map((cacheName) => {
+              // Old cache - please remove.
+              if (cacheName !== "aerotwist-3.0.4") {
+                return caches.delete(cacheName);
+              }
 
-  var currentCacheName = CACHE_NAME + '-v' + CACHE_VERSION;
-  caches.keys().then(function(cacheNames) {
-    return Promise.all(
-      cacheNames.map(function(cacheName) {
-        if (cacheName.indexOf(CACHE_NAME) == -1) {
-          return;
-        }
+              // This is the current cache, leave alone.
+              return Promise.resolve();
+            });
+            return Promise.all(deleteOldCaches);
+          })
+  );
 
-        if (cacheName != currentCacheName) {
-          return caches.delete(cacheName);
-        }
-      })
-    );
-  });
-
+  self.clients.claim();
 };
 
-self.onfetch = function(event) {
-
-  var request = event.request;
-
-  event.respondWith(
-
-    // Check the cache for a hit.
-    caches.match(request).then(function(response) {
-
-      // If we have a response return it.
-      if (response)
-        return response;
-
-      // Otherwise fetch it and respond.
-      return fetch(request)
-        .then(function(response) {
+self.onfetch = evt => {
+  evt.waitUntil(
+    caches.match(evt.request)
+      .then((response) => {
+        // Match found: return.
+        if (response) {
+          console.log("match found for ", evt.request.url);
           return response;
-        })
-        .catch(function(err) {
-          console.log(err);
-        });
+        }
 
-    })
+        // Match not found: go to network.
+        return fetch(evt.request)
+      })
   );
 };

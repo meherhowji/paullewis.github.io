@@ -332,6 +332,25 @@
       </div>
     </footer>
 
+    <script>
+      async function init() {
+        if (!('serviceWorker' in navigator)) {
+          return;
+        }
+
+        const registration = await navigator.serviceWorker.register("/sw.js");
+        registration.onupdatefound = () => {
+          console.log("Installing new service worker...");
+
+          registration.installing.onstatechange = function() {
+            console.log(this.state);
+          };
+        }
+      }
+
+      init();
+    </script>
+
     <script async="true">
 
     /**
@@ -374,20 +393,6 @@
 
     observer.observe(masthead);
     }();
-    </script>
-
-    <script type="text/javascript" async="true">
-
-      var _gaq = _gaq || [];
-      _gaq.push(['_setAccount', 'UA-13024693-1']);
-      _gaq.push(['_trackPageview']);
-
-      (function() {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-      })();
-
     </script>
   </body>
 </html>
